@@ -31,6 +31,7 @@ jobs:
       - run: uv --no-config pip install --python .research-venv/bin/python -r research/recall-benchmark/requirements.txt
       - run: .research-venv/bin/python -m unittest discover -s research/recall-benchmark -p 'test_*.py' -v
       - run: .research-venv/bin/python -m unittest discover -s research/forge -p '*_test.py' -v
+      - run: .research-venv/bin/python -m unittest discover -s research/teaching-practice -p 'test_*.py' -v
       - run: uv --no-config venv .voicing-venv
       - run: uv --no-config pip install --python .voicing-venv/bin/python -r research/voicing-ranking/requirements.txt
       - run: .voicing-venv/bin/python -m unittest discover -s research/voicing-ranking -p 'test_*.py' -v

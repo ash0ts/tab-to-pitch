@@ -96,3 +96,7 @@ The recall predictor is an offline, consent-gated experiment with shadow-only ou
 ## Listening and recording sources
 
 [The listening contract](listening.md) owns catalog identities, the recording/synthesis boundary, playback coordination, IndexedDB version 4, and source-aware lessons. The same progression controller and alphaTab player serve listening handoff and manual arrangements.
+
+## Practice workspace capability
+
+The additive `teaching-practice-v1` lesson state and `teacher-v3` capability reuse the existing lesson store and single player. The [practice contract](practice-workspace.md) owns their persistence, exposure, masking, grading, and parallel-work integration details.

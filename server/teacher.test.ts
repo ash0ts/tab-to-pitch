@@ -365,3 +365,14 @@ it('keeps a voicing continuation inside the bounded request envelope', async () 
   expect(bodies.length).toBe(3);
   expect(bodies.every((body) => Buffer.byteLength(JSON.stringify(body)) <= 32768)).toBe(true);
 });
+
+
+it('negotiates integrated capabilities without changing legacy requests', () => {
+  const legacy = teacherFixture();
+  expect(teacherRequestSchema.safeParse(legacy).success).toBe(true);
+  const integrated = { ...legacy, schemaVersion: 'teacher-v5', capabilities: [] };
+  expect(teacherRequestSchema.safeParse(integrated).success).toBe(true);
+  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: undefined }).success).toBe(false);
+  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: ['listening-v1'] }).success).toBe(false);
+  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: ['practice-stage-v1', 'practice-stage-v1'] }).success).toBe(false);
+});

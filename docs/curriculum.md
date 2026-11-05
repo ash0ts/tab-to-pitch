@@ -65,3 +65,7 @@ For a subsequent matched-passage comparison, counterbalance conventional-tab and
 ## Listening progressions
 
 [The listening activity](listening.md) separates roots, qualities, and sequence errors, then returns the selected harmony to fretboard practice. Replays, assistance, familiarity, and screen answers are recorded separately. The teacher can choose the sequence; the catalog and deterministic engine own the grading facts.
+
+## Goals, feedback and broader musicianship
+
+The [practice-workspace contract](practice-workspace.md) defines persisted goals and accepted strategies, first-response episodes, graduated help, original rhythm/construction/expression activities, distinct evidence formats, and conservative exposure tracking. These activities add creating and responding; they do not provide microphone-based performance assessment.

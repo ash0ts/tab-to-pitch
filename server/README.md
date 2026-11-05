@@ -154,7 +154,7 @@ separate from the original strict-tool result and the regression replay.
 
 ## Music teacher
 
-`POST /api/teacher/next` accepts `teacher-v1` and listening-aware `teacher-v2` from `src/shared/teacher.ts`.
+`POST /api/teacher/next` accepts `teacher-v1`, `teacher-v2` listening clients, and the capability-negotiated `teacher-v3` practice context from `src/shared/teacher.ts`.
 `TEACHER_AGENT_ENABLED=true` is a separate operator flag. It defaults to false;
 invited experimental use can enable it before qualification. `TEACHER_QUALIFICATION`
 reports qualification separately and defaults to `unqualified`. `GET /api/health`
@@ -170,7 +170,7 @@ optional recorded-choice ranker. They do not call another language model. Tool
 arguments, musical claims, actions, and response freshness are checked by the
 shared engine. Generated questions do not send their grading key to inference.
 
-The `teacher-tools-v5-listening` prompt starts with verified selected-note, chord,
+The `teacher-tools-v5-practice` prompt starts with verified selected-note, chord,
 and instrument facts. It allows one format repair when a complete final object
 omits required arrays or has an empty message. That repair consumes another of
 the four actor calls; the rejected draft remains in the call receipts. The
@@ -263,3 +263,5 @@ in each research campaign's frozen source hashes. A model identifier is the
 requested catalog name, not a provider-guaranteed immutable model revision.
 
 Listening tools inspect curated passage facts and prepare replay, tonic reference, questions, synthesized bass, fretboard handoff, and related examples. The client applies these through the shared lesson/player controller. No playlist or recording bytes enter the endpoint. The [listening contract](../docs/listening.md) owns source identity and assistance semantics.
+
+The [practice capability](../docs/practice-workspace.md) adds bounded goals, strategies, reflections and distinct evidence. Qualification additionally binds `TEACHER_QUALIFIED_PROMPT`, `TEACHER_QUALIFIED_CRITIC`, `TEACHER_QUALIFIED_MODEL` and `TEACHER_QUALIFIED_CRITIC_MODEL` to the current configuration. The revised prompt is unqualified until a measured campaign passes; prior results do not carry over.

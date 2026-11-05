@@ -1,3 +1,5 @@
+import { buildPracticeScore } from './practice-study';
+import type { TimedStudy } from '../engine/musicianship';
 import { playback } from './PlaybackCoordinator';
 import { catalogScore } from './catalog-score';
 import type { Passage } from '../songs/catalog';
@@ -65,6 +67,9 @@ export class PlayerController {
   private noteEvents = new Map<string, NoteEvent>();
   private disposed = false;
   private viewportReady = false;
+  private rendering = false;
+  private renderPending = false;
+  private renderedTrack = -1;
   private generation = 0;
   private mixer = new Map<number, { mute?: boolean; solo?: boolean; volume?: number }>();
   private cleanups: Array<() => void> = [];
@@ -106,7 +111,7 @@ export class PlayerController {
         ? alphaTab.LayoutMode.Horizontal
         : alphaTab.LayoutMode.Page;
       this.api.updateSettings();
-      if (this.score && this.viewportReady) this.api.render();
+      if (this.score && this.viewportReady) this.requestRender();
     };
     compact.addEventListener('change', resizeLayout);
     this.cleanups.push(() => compact.removeEventListener('change', resizeLayout));
@@ -120,33 +125,43 @@ export class PlayerController {
       event.on(guarded);
       this.cleanups.push(() => event.off(guarded));
     };
-    listen(this.api.error, (error) => callbacks.onError?.(error.message));
-    listen(this.api.playerReady, () => this.update({ ready: this.api.isReadyForPlayback }));
-    listen(this.api.soundFontLoaded, () => this.update({ ready: this.api.isReadyForPlayback }));
+    listen(this.api.error, (error) => {
+      this.rendering = false;
+      this.renderPending = false;
+      this.pendingReplay = false;
+      callbacks.onError?.(error.message);
+    });
+    listen(this.api.playerReady, () => this.playWhenReady());
+    listen(this.api.soundFontLoaded, () => this.playWhenReady());
     listen(this.api.midiLoaded, () => {
+      if (this.api.score !== this.score) return;
       for (const [index, settings] of this.mixer) {
+        if (this.studyIdentity) break;
         const track = this.score?.tracks[index];
         if (!track) continue;
         if (settings.mute !== undefined) this.api.changeTrackMute([track], settings.mute);
         if (settings.solo !== undefined) this.api.changeTrackSolo([track], settings.solo);
         if (settings.volume !== undefined) this.api.changeTrackVolume([track], settings.volume);
       }
+      if (this.studyIdentity && this.score)
+        for (const track of this.score.tracks) {
+          this.api.changeTrackMute([track], false);
+          this.api.changeTrackSolo([track], false);
+          this.api.changeTrackVolume([track], track.index === 0 ? 1 : 0.5);
+        }
       if (this.pendingSeek !== null) {
         this.api.tickPosition = this.pendingSeek;
         this.pendingSeek = null;
         this.api.playbackRange = this.state.loop;
         this.api.isLooping = Boolean(this.state.loop);
       }
-      this.update({ ready: this.api.isReadyForPlayback });
-      if (this.pendingReplay && this.api.isReadyForPlayback) {
-        this.pendingReplay = false;
-        this.playPause();
-      }
+      this.playWhenReady();
     });
     listen(this.api.playerStateChanged, (event) => {
       const playing = event.state === alphaTab.synth.PlayerState.Playing;
       this.update({ playing });
-      if (playing && this.document) playback.started('score', this.document.hash);
+      if (playing && this.document)
+        playback.started('score', this.studyIdentity ?? this.document.hash);
     });
     listen(this.api.playerPositionChanged, (event) =>
       this.update({
@@ -157,7 +172,16 @@ export class PlayerController {
         ready: this.api.isReadyForPlayback,
       }),
     );
+    listen(this.api.renderStarted, () => {
+      this.rendering = true;
+    });
     listen(this.api.postRenderFinished, () => {
+      this.rendering = false;
+      if (this.renderPending) {
+        this.renderPending = false;
+        this.requestRender();
+        return;
+      }
       this.update({ rendered: true, ready: this.api.isReadyForPlayback });
       callbacks.onRendered?.();
     });
@@ -180,9 +204,32 @@ export class PlayerController {
     const initializationFrame = window.requestAnimationFrame(() => {
       if (this.disposed) return;
       this.viewportReady = true;
-      if (this.score) this.api.renderScore(this.score, [this.state.activeTrack]);
+      if (this.score) this.requestRender();
     });
     this.cleanups.push(() => window.cancelAnimationFrame(initializationFrame));
+  }
+
+  private requestRender(): void {
+    if (!this.score || !this.viewportReady || this.disposed) return;
+    if (this.rendering) {
+      this.renderPending = true;
+      return;
+    }
+    this.rendering = true;
+    const sameTrack = this.renderedTrack === this.state.activeTrack;
+    this.renderedTrack = this.state.activeTrack;
+    if (this.api.score !== this.score) this.api.renderScore(this.score, [this.state.activeTrack]);
+    else if (!sameTrack) this.api.renderTracks([this.score.tracks[this.state.activeTrack]!]);
+    else this.api.render();
+  }
+
+  private playWhenReady(): void {
+    const ready = this.api.score === this.score && this.api.isReadyForPlayback;
+    this.update({ ready });
+    if (ready && this.pendingReplay) {
+      this.pendingReplay = false;
+      this.playPause();
+    }
   }
 
   private update(update: Partial<PlayerState>): void {
@@ -245,6 +292,7 @@ export class PlayerController {
   }
 
   private pendingReplay = false;
+  private studyIdentity: string | null = null;
   replaySource(): void {
     this.pause();
     this.previewVariation(null);
@@ -267,6 +315,7 @@ export class PlayerController {
     this.mask.clear();
     this.score = score;
     this.sourceScore = score;
+    this.studyIdentity = null;
     this.mixer.clear();
     this.pendingSeek = null;
     this.previewTrack = null;
@@ -293,7 +342,7 @@ export class PlayerController {
       showOctaves: this.showOctaves,
     });
     this.callbacks.onDocument?.(this.document);
-    if (this.viewportReady) this.api.renderScore(score, [activeTrack]);
+    if (this.viewportReady) this.requestRender();
     return this.document;
   }
 
@@ -309,7 +358,7 @@ export class PlayerController {
       fretHint: this.fretHint,
       showOctaves: this.showOctaves,
     });
-    if (this.viewportReady) this.api.renderTracks([this.score.tracks[index]]);
+    if (this.viewportReady) this.requestRender();
   }
 
   private setStaveProfile(index: number): void {
@@ -334,7 +383,7 @@ export class PlayerController {
     this.notationWithStaff = enabled;
     this.api.pause();
     this.setStaveProfile(this.state.activeTrack);
-    if (this.score && this.viewportReady) this.api.render();
+    if (this.score && this.viewportReady) this.requestRender();
   }
 
   /** Switch the rendered/synthesized score without replacing the imported document or its identity. */
@@ -343,10 +392,12 @@ export class PlayerController {
     trackIndex = this.state.activeTrack,
   ): void {
     if (!this.sourceScore || !this.document || this.disposed) return;
+    this.pendingReplay = false;
     if (!variation && this.previewTrack === null && trackIndex === this.state.activeTrack) return;
     const score = variation
       ? buildVariationScore(this.sourceScore, trackIndex, variation)
       : this.sourceScore;
+    this.studyIdentity = null;
     const derived = variation ? adaptScore(score, this.document.hash) : this.document;
     this.api.pause();
     this.pendingSeek = this.state.currentTick;
@@ -372,7 +423,30 @@ export class PlayerController {
     });
     this.setStaveProfile(trackIndex);
     this.update({ ready: false, rendered: false, playing: false, activeTrack: trackIndex });
-    if (this.viewportReady) this.api.renderScore(score, [trackIndex]);
+    if (this.viewportReady) this.requestRender();
+  }
+
+  previewPracticeStudy(study: TimedStudy): void {
+    if (!this.sourceScore || this.disposed || this.pendingReplay) return;
+    const score = buildPracticeScore(study);
+    this.studyIdentity = study.id;
+    playback.stopAll();
+    this.api.pause();
+    this.api.playbackRange = null;
+    this.api.isLooping = false;
+    this.pendingSeek = 0;
+    this.pendingReplay = true;
+    this.score = score;
+    this.previewTrack = 0;
+    this.noteEvents.clear();
+    applyPitchLabels(score, {
+      mode: this.mode,
+      fretHint: this.fretHint,
+      showOctaves: this.showOctaves,
+    });
+    this.setStaveProfile(0);
+    this.update({ ready: false, rendered: false, playing: false, activeTrack: 0, loop: null });
+    if (this.viewportReady) this.requestRender();
   }
 
   setLabels(mode: LabelMode, fretHint = false): void {
@@ -427,7 +501,7 @@ export class PlayerController {
       maskedNoteIds: this.mask,
     });
     this.update({ rendered: false });
-    if (this.viewportReady) this.api.render();
+    if (this.viewportReady) this.requestRender();
   }
 
   playPause(): void {
@@ -475,7 +549,7 @@ export class PlayerController {
     this.api.updateSettings();
     if (this.score) {
       this.update({ rendered: false });
-      if (this.viewportReady) this.api.render();
+      if (this.viewportReady) this.requestRender();
     }
   }
   setMasterVolume(volume: number): void {

@@ -16,6 +16,14 @@ const mocks = vi.hoisted(() => {
     playerStateChanged = event();
     playerPositionChanged = event();
     postRenderFinished = event();
+    renderStarted = event();
+    score: unknown = null;
+    deferRender = false;
+    finishRender = () => this.postRenderFinished.on.mock.calls.forEach(([callback]) => callback());
+    startRender = () => {
+      this.renderStarted.on.mock.calls.forEach(([callback]) => callback());
+      if (!this.deferRender) this.finishRender();
+    };
     noteMouseDown = event();
     playedBeatChanged = event();
     changeTrackMute = vi.fn();
@@ -24,10 +32,14 @@ const mocks = vi.hoisted(() => {
     pause = vi.fn();
     stop = vi.fn();
     updateSettings = vi.fn();
-    render = vi.fn();
-    renderScore = vi.fn();
-    renderTracks = vi.fn();
+    render = vi.fn(() => this.startRender());
+    renderScore = vi.fn((score: unknown, _tracks?: number[]) => {
+      this.score = score;
+      this.startRender();
+    });
+    renderTracks = vi.fn((_tracks: unknown[]) => this.startRender());
     destroy = vi.fn();
+    playPause = vi.fn();
     isReadyForPlayback = true;
     playbackRange: { startTick: number; endTick: number } | null = null;
     isLooping = false;
@@ -122,6 +134,23 @@ describe('player ownership and presentation', () => {
   afterEach(() => {
     players.splice(0).forEach((player) => player.destroy());
     vi.unstubAllGlobals();
+  });
+
+  it('serializes worker renders and installs only the latest queued score', () => {
+    const player = create();
+    const api = mocks.instances[0]!;
+    api.deferRender = true;
+    player.loadDemo();
+    const first = api.score;
+    player.loadDemo();
+    player.loadDemo();
+    expect(api.renderScore).toHaveBeenCalledTimes(1);
+    expect(api.score).toBe(first);
+    api.finishRender();
+    expect(api.renderScore).toHaveBeenCalledTimes(2);
+    expect(api.score === first).toBe(false);
+    api.finishRender();
+    expect(player.state.rendered).toBe(true);
   });
 
   it('changes hints and masking atomically, and leaves an identical policy playing', () => {

@@ -9,6 +9,42 @@ export interface TeachingReference {
 }
 export const TEACHING_REFERENCES: readonly TeachingReference[] = [
   {
+    id: 'practice-strategies-2025',
+    title: 'Lubert & Gröpel: psychological practice interventions',
+    url: 'https://doi.org/10.1177/10298649241290448',
+    guidance:
+      'Offer goals, attention strategies, imagery, feedback and self-evaluation as choices. Persist what the learner chose and whether it helped.',
+    limitation:
+      'The review includes studies through 2022 with mixed findings and variable methods. It does not establish one effective guitar routine.',
+  },
+  {
+    id: 'learner-autonomy',
+    title: 'Bonneville-Roussy & Evans: autonomy and practice',
+    url: 'https://doi.org/10.1177/03057356241296109',
+    guidance:
+      'Support meaningful choices, changed goals and rejected strategies. Explanation, demonstration and exploration are legitimate choices alongside assessment.',
+    limitation:
+      'Cross-sectional university-musician associations do not establish causal effects of this interface.',
+  },
+  {
+    id: 'ai-feedback-2026',
+    title: 'Lin & Zheng: human-teacher-mediated AI feedback',
+    url: 'https://link.springer.com/article/10.1007/s44163-026-02689-9',
+    guidance:
+      'Make feedback actionable: a supported discrepancy, a practical response, and a subsequent check.',
+    limitation:
+      'Existing-group confounding and continued human support do not establish autonomous AI teaching or retention after support withdrawal.',
+  },
+  {
+    id: 'creating-performing-responding',
+    title: 'NAfME: harmonizing-instrument standards',
+    url: 'https://nafme.org/publications-resources/standards/',
+    guidance:
+      'Include creating and interpreting musical ideas alongside identification. Grade explicit constraints separately from artistic preferences and self-reported performance.',
+    limitation:
+      'A curriculum coverage framework, not evidence that this application improves learning.',
+  },
+  {
     id: 'gordon-context',
     title: 'Gordon: sound, context, and symbols',
     url: 'https://giml.org/mlt/methodology/',

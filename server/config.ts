@@ -1,3 +1,5 @@
+import { TEACHER_PROMPT_VERSION } from '../src/shared/teacher.js';
+import { TEACHER_CRITIC_PROMPT_VERSION } from './teacher-review.js';
 export interface ServerConfig {
   production: boolean;
   publicOrigin: string;
@@ -57,7 +59,15 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
       !!(publicOrigin && databaseUrl && sessionSecret && forgeApiKey && forgeProject),
     arrangementEnabled: env.ARRANGEMENT_AGENT_ENABLED === 'true',
     teacherEnabled: env.TEACHER_AGENT_ENABLED === 'true',
-    teacherQualification: env.TEACHER_QUALIFICATION === 'qualified' ? 'qualified' : 'unqualified',
+    teacherQualification:
+      env.TEACHER_QUALIFICATION === 'qualified' &&
+      env.TEACHER_QUALIFIED_PROMPT === TEACHER_PROMPT_VERSION &&
+      env.TEACHER_QUALIFIED_CRITIC === TEACHER_CRITIC_PROMPT_VERSION &&
+      env.TEACHER_QUALIFIED_MODEL === (env.FORGE_MODEL ?? 'openai/gpt-oss-20b') &&
+      env.TEACHER_QUALIFIED_CRITIC_MODEL ===
+        (env.TEACHER_CRITIC_MODEL ?? env.FORGE_MODEL ?? 'openai/gpt-oss-20b')
+        ? 'qualified'
+        : 'unqualified',
     teacherCriticModel: env.TEACHER_CRITIC_MODEL ?? env.FORGE_MODEL ?? 'openai/gpt-oss-20b',
     tracingEnabled: env.FORGE_TRACING_ENABLED === 'true',
     port: positiveInteger(env.PORT, 3000),

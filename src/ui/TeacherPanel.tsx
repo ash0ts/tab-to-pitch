@@ -1,3 +1,6 @@
+import type { PracticeSession } from '../hooks/usePracticeSession';
+import { PRACTICE_VERSION } from '../shared/practice';
+import { PRACTICE_TEACHER_VERSION } from '../shared/teacher';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Eye, MessageCircle, Volume2 } from 'lucide-react';
 import {
@@ -36,6 +39,7 @@ import './teacher.css';
 
 export interface TeacherPanelProps {
   learning: LearningSession;
+  practice?: PracticeSession;
   listening?: ListeningSession;
   onReplay(bassOnly?: boolean): void;
   onTransfer(): void;
@@ -165,7 +169,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
   }, [lesson?.messages.length, expanded, questionId]);
 
   useEffect(() => {
-    if (!lesson || listening?.masked) return;
+    if (!lesson || listening?.masked || props.practice?.masked) return;
     const request = requestFor('Index source positions made available in the score.');
     if (!request) return;
     const positions = track.notes.flatMap((note) => (note.position ? [note.position] : []));
@@ -188,7 +192,14 @@ export function TeacherPanel(props: TeacherPanelProps) {
   }, [lesson?.id, track, progression.contextVersion]);
 
   useEffect(() => {
-    if (!lesson || !props.exploring || activeQuestion || listening?.masked || document.hidden)
+    if (
+      !lesson ||
+      !props.exploring ||
+      activeQuestion ||
+      listening?.masked ||
+      props.practice?.masked ||
+      document.hidden
+    )
       return;
     const request = requestFor('Inspect the displayed progression.');
     if (!request) return;
@@ -295,7 +306,11 @@ export function TeacherPanel(props: TeacherPanelProps) {
       }
     }
     const request = {
-      schemaVersion: listening ? LISTENING_TEACHER_VERSION : TEACHER_VERSION,
+      schemaVersion: props.practice
+        ? PRACTICE_TEACHER_VERSION
+        : listening
+          ? LISTENING_TEACHER_VERSION
+          : TEACHER_VERSION,
       requestId: crypto.randomUUID(),
       lessonId: lesson.id,
       turnId: crypto.randomUUID(),
@@ -303,6 +318,28 @@ export function TeacherPanel(props: TeacherPanelProps) {
       request: text,
       context: {
         objective: lesson.objective,
+        ...(props.practice
+          ? {
+              practice: {
+                capability: PRACTICE_VERSION,
+                goal: props.practice.state.goal,
+                strategy: props.practice.state.strategy,
+                reflection: props.practice.state.reflection,
+                review: props.practice.state.review,
+                studyId: props.practice.task?.id,
+                active: props.practice.active
+                  ? {
+                      id: props.practice.state.episode!.id,
+                      kind: props.practice.state.episode!.kind,
+                      assisted: props.practice.state.episode!.support.length > 0,
+                      responseCount: props.practice.state.episode!.responseCount,
+                    }
+                  : null,
+                evidence: props.practice.evidence.slice(-12),
+                reserved: props.practice.reserved,
+              },
+            }
+          : {}),
         ...(listening?.passage
           ? {
               listening: {
@@ -415,6 +452,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       busy ||
       activeQuestion ||
       listening?.masked ||
+      props.practice?.masked ||
       !lesson ||
       learning.externalRevision
     )
@@ -516,6 +554,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       busy ||
       activeQuestion ||
       listening?.masked ||
+      props.practice?.masked ||
       proposal.validContextVersion !== contextRef.current ||
       learning.externalRevision
     )
@@ -536,6 +575,15 @@ export function TeacherPanel(props: TeacherPanelProps) {
           ? 'Earlier exposure is unknown. Ask to practice this question; it cannot be counted as reserved.'
           : 'This action no longer matches the selected music or its exposure history. Ask for an updated step.',
       );
+      return;
+    }
+    if (
+      window.matchMedia('(max-width: 900px)').matches &&
+      (action.type === 'preview' || action.type === 'practice')
+    )
+      setExpanded(false);
+    if (action.type === 'practice') {
+      props.practice?.apply(action);
       return;
     }
     if (action.type === 'listening') {
@@ -617,7 +665,10 @@ export function TeacherPanel(props: TeacherPanelProps) {
 
   if (!lesson) return null;
   return (
-    <section className="teacher-panel" aria-label="Music teacher">
+    <section
+      className={`teacher-panel ${expanded ? 'conversation-open' : ''}`}
+      aria-label="Music teacher"
+    >
       <div className="teacher-heading">
         <div>
           <span className="eyebrow">
@@ -635,47 +686,94 @@ export function TeacherPanel(props: TeacherPanelProps) {
       </div>
       {expanded && (
         <>
-          <div className="teacher-objectives" aria-label="Lesson focus">
-            {objectives.map((objective) => (
-              <button
-                key={objective.id}
-                disabled={!!activeQuestion || !!listening?.masked || busy}
-                aria-pressed={lesson.objective === objective.id}
-                onClick={() => {
-                  learning.changeObjective(objective.id);
-                  setDraft(objective.prompt);
-                }}
-              >
-                {objective.title}
-              </button>
-            ))}
-          </div>
-          {activeQuestion || listening?.masked ? (
+          {!activeQuestion && !listening?.masked && !props.practice?.active && (
+            <>
+              <div className="teacher-intents" aria-label="How should the teacher help?">
+                {['Explain', 'Demonstrate', 'Let me try', 'Change approach', 'Just explore'].map(
+                  (intent) => (
+                    <button
+                      key={intent}
+                      className="text-button"
+                      onClick={() =>
+                        setDraft(
+                          intent === 'Just explore'
+                            ? 'Just explore with me. Do not quiz me.'
+                            : intent,
+                        )
+                      }
+                    >
+                      {intent}
+                    </button>
+                  ),
+                )}
+              </div>
+              <div className="teacher-objectives" aria-label="Lesson focus">
+                {objectives.map((objective) => (
+                  <button
+                    key={objective.id}
+                    disabled={
+                      !!activeQuestion || !!listening?.masked || !!props.practice?.masked || busy
+                    }
+                    aria-pressed={lesson.objective === objective.id}
+                    onClick={() => {
+                      learning.changeObjective(objective.id);
+                      setDraft(objective.prompt);
+                    }}
+                  >
+                    {objective.title}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {activeQuestion || listening?.masked || props.practice?.active ? (
             <div className="teacher-recall" role="status">
               <strong>Your question is active.</strong>
               <p>
-                Conversation, diagrams and earlier explanations are hidden while you answer. Asking
-                for help records a reveal before showing them.
+                {props.practice?.active
+                  ? 'Earlier conversation stays hidden while this question is active. Choose focused help on the task, request its full explanation, or stop the question to talk.'
+                  : 'Conversation, diagrams and earlier explanations are hidden while you answer. Asking for help records a reveal before showing them.'}
               </p>
               <button
                 className="secondary-button"
-                onClick={() => (listening?.masked ? listening.assist() : props.onHelp())}
+                onClick={() => {
+                  if (props.practice?.active) props.practice.help('answer');
+                  else if (listening?.masked) listening.reveal();
+                  else props.onHelp();
+                }}
               >
-                <Eye size={16} /> Ask for help and show the conversation
+                <Eye size={16} />{' '}
+                {props.practice?.active
+                  ? 'Explain this question'
+                  : 'Ask for help and show the conversation'}
               </button>
+              {props.practice?.active && (
+                <button
+                  className="text-button"
+                  onClick={() =>
+                    props.practice?.interrupt('The learner stopped the question to talk.')
+                  }
+                >
+                  Stop question and talk
+                </button>
+              )}
             </div>
           ) : (
             <>
               <div className="teacher-context">
                 <span>
-                  {workspaceView === 'preview'
-                    ? 'Variation in the player'
-                    : workspaceView === 'proposal'
-                      ? 'Variation proposal'
-                      : 'Selected passage'}
+                  {props.practice?.task
+                    ? 'Original activity · synthesized study'
+                    : workspaceView === 'preview'
+                      ? 'Variation in the player'
+                      : workspaceView === 'proposal'
+                        ? 'Variation proposal'
+                        : 'Selected passage'}
                 </span>
                 <strong>
-                  {progression.spans.map((span) => span.chord?.symbol ?? '?').join(' → ')}
+                  {props.practice?.task
+                    ? 'G7 → Cmaj7'
+                    : progression.spans.map((span) => span.chord?.symbol ?? '?').join(' → ')}
                 </strong>
                 <span>
                   Frets {progression.options.minFret}–{progression.options.maxFret}
@@ -738,7 +836,15 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       disabled={busy || !!learning.externalRevision}
                       onClick={() => useAction(action)}
                     >
-                      {action.type === 'listening' ? (
+                      {action.type === 'practice' ? (
+                        action.operation === 'strategy' ? (
+                          'Consider this approach'
+                        ) : action.operation === 'reflection' ? (
+                          'Reflect on this attempt'
+                        ) : (
+                          `Try ${action.activity}`
+                        )
+                      ) : action.type === 'listening' ? (
                         {
                           question: 'Try a listening question',
                           replay: 'Replay selected passage',
@@ -869,11 +975,12 @@ export function TeacherPanel(props: TeacherPanelProps) {
                   review remain active.
                 </p>
                 <p className="caption">
-                  Cloud teaching sends your question, recent conversation, selected normalized music
-                  and recent answer summaries to the application server and Forge. Your file, song
-                  metadata and full practice history stay local. Configured traces record approved
-                  lifecycle metadata. Use your invitation in Practice guide. Data contribution for
-                  training is separate and is not enabled.
+                  Cloud teaching sends your question, recent conversation, selected normalized
+                  music, chosen goal and strategy, optional reflection, and recent answer summaries
+                  to the application server and Forge. Your file, song metadata and full practice
+                  history stay local. Configured traces record approved lifecycle metadata. Use your
+                  invitation in Practice guide. Data contribution for training is separate and is
+                  not enabled.
                 </p>
               </details>
             </>

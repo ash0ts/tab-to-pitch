@@ -1,0 +1,262 @@
+.practice-workspace {
+  padding: 24px;
+  border: 1px solid var(--border, #dcd8cd);
+  border-radius: 18px;
+  background: var(--surface, #fffef9);
+  margin: 18px 0;
+}
+.practice-intention,
+.task-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.practice-intention h2 {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  margin: 8px 0;
+}
+.practice-intents,
+.practice-activities,
+.task-transport,
+.support-options > div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.practice-workspace button,
+.practice-workspace select {
+  min-height: 44px;
+}
+.practice-workspace details {
+  margin: 14px 0;
+}
+.practice-workspace summary {
+  cursor: pointer;
+  padding: 10px 0;
+  font-weight: 600;
+}
+.practice-workspace label {
+  display: block;
+}
+.practice-strategy {
+  max-width: 460px;
+  margin: 18px 0;
+}
+.musicianship-task {
+  border-top: 1px solid var(--border, #dedbd2);
+  padding-top: 20px;
+}
+.musicianship-task h3 {
+  font-size: 1.3rem;
+  margin: 8px 0;
+}
+.beat-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px;
+  margin: 20px 0 10px;
+}
+.beat-grid label span {
+  display: block;
+  font-size: 12px;
+  min-height: 32px;
+}
+.beat-grid select {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #c9c5bc;
+  border-radius: 6px;
+  background: white;
+  color: #243e36;
+}
+.expression-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+  border: 0;
+  padding: 0;
+}
+.expression-options label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-height: 44px;
+  text-transform: capitalize;
+}
+.practice-feedback {
+  padding: 14px;
+  background: #edf2e8;
+  border-radius: 8px;
+}
+.learning-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  gap: 20px;
+  align-items: start;
+}
+.learning-task-column {
+  min-width: 0;
+}
+.learning-teacher-column {
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+}
+.learning-teacher-column .teacher-panel {
+  margin-top: 18px;
+}
+.learning-teacher-column .teacher-objectives {
+  grid-template-columns: 1fr;
+}
+.teacher-sheet-trigger {
+  position: fixed;
+  bottom: 85px;
+  right: 16px;
+  z-index: 25;
+  box-shadow: 0 4px 18px #0002;
+}
+.teacher-sheet {
+  position: fixed;
+  z-index: 80;
+  inset: 15vh 0 0;
+  background: #fffef9;
+  border-radius: 20px 20px 0 0;
+  padding: 18px;
+  overflow: auto;
+}
+.teacher-sheet .teacher-panel {
+  margin: 0;
+}
+.teacher-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 79;
+  background: #132a2666;
+}
+.practice-workspace :focus-visible {
+  outline: 3px solid #315e4c;
+  outline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .learning-layout {
+    display: block;
+  }
+  .practice-workspace {
+    padding: 16px;
+  }
+  .beat-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .practice-intention {
+    display: block;
+  }
+  .practice-intents button {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .practice-workspace *,
+  .teacher-sheet * {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}
+.workspace > .learning-layout {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 0 40px 20px;
+}
+.learning-task-column .progression-studio,
+.learning-task-column .listening-panel {
+  margin: 18px 0;
+}
+.learning-teacher-column .teacher-panel {
+  margin: 18px 0;
+  padding: 18px;
+}
+.learning-teacher-column .teacher-heading {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.learning-teacher-column .teacher-heading h2 {
+  font-size: 24px;
+}
+.practice-intents button {
+  flex: 1 1 170px;
+  text-align: left;
+}
+@media (max-width: 900px) {
+  .workspace > .learning-layout {
+    margin: 0 16px 20px;
+  }
+}
+@media (max-width: 900px) {
+  .learning-teacher-mobile .teacher-panel {
+    margin: 12px 0;
+  }
+  .learning-teacher-mobile .teacher-panel.conversation-open {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 100px;
+    height: min(42vh, 440px);
+    overflow: auto;
+    z-index: 35;
+    box-shadow: 0 -8px 28px #182b2226;
+    border-radius: 18px;
+  }
+  .learning-teacher-mobile .teacher-panel.conversation-open .teacher-heading {
+    position: sticky;
+    top: -20px;
+    background: var(--paper);
+    z-index: 2;
+    padding: 12px 0;
+  }
+  .learning-teacher-mobile .teacher-heading h2 {
+    font-size: 21px;
+  }
+}
+
+/* Keep a measurable engraving host for the one audio player while excluding answers from sight, focus and the accessibility tree. */
+.music-workspace.assessment-masked {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .learning-teacher-mobile .teacher-panel:not(.conversation-open) {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .learning-teacher-mobile .teacher-panel:not(.conversation-open) .teacher-heading > div {
+    display: none;
+  }
+  .learning-teacher-mobile .teacher-panel:not(.conversation-open) .teacher-heading > button {
+    position: fixed;
+    right: 16px;
+    bottom: 110px;
+    z-index: 36;
+    padding: 12px 16px;
+    box-shadow: 0 4px 18px #0002;
+  }
+}
+
+.teacher-intents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 14px 0;
+}
+.teacher-intents button {
+  min-height: 44px;
+  padding: 8px 2px;
+}

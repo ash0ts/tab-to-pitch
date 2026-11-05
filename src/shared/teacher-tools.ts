@@ -1,9 +1,11 @@
+import { practiceActionSchema } from './practice.js';
 import { z } from 'zod';
 import { arrangementIntentSchema } from './arrangements.js';
-import { teacherActionSchema, teacherTaskRecipeSchema, type TeacherToolCall } from './teacher.js';
+import { teacherHighlightActionSchema, teacherAuditionActionSchema, teacherTaskRecipeSchema, type TeacherToolCall } from './teacher.js';
 
 const emptyArgs = z.object({}).strict();
 export const teacherToolArgumentSchemas = {
+  practice_activity: z.object({ action: practiceActionSchema }).strict(),
   inspect_music: emptyArgs,
   inspect_passage: emptyArgs,
   listening_activity: z
@@ -18,8 +20,8 @@ export const teacherToolArgumentSchemas = {
   demonstrate: z
     .object({
       action: z.discriminatedUnion('type', [
-        teacherActionSchema.options[1],
-        teacherActionSchema.options[4],
+        teacherHighlightActionSchema,
+        teacherAuditionActionSchema,
       ]),
     })
     .strict(),

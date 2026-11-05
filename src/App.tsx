@@ -1,3 +1,4 @@
+import type { SupportKind } from './shared/practice';
 import { SongLibrary } from './ui/SongLibrary';
 import { PASSAGES, type Passage } from './songs/catalog';
 import { playback } from './player/PlaybackCoordinator';
@@ -131,7 +132,15 @@ export default function App() {
   const workspace = useWorkspace();
   const { mode, labelMode, speed, trackIndex, selectedNoteId, loopStart, loopEnd, looping } =
     workspace;
-  const currentAttempt = useRef({ startedAt: Date.now(), completed: true });
+  const currentAttempt = useRef({
+    startedAt: Date.now(),
+    completed: true,
+    episodeId: crypto.randomUUID(),
+    responseIndex: 0,
+    hints: [] as string[],
+  });
+  const recordSupport = useRef<(kind: SupportKind, episodeId: string) => boolean>(() => false);
+  const [supportLevel, setSupportLevel] = useState<SupportKind | null>(null);
   const latest = useRef({ selection, mode });
   latest.current = { selection, mode };
   const track = score?.tracks.find((t) => t.index === trackIndex);
@@ -173,6 +182,9 @@ export default function App() {
           answeredAt: Date.now(),
           mode: current.selection.mode,
           outcome: 'interrupted',
+          hintsUsed: currentAttempt.current.hints,
+          episodeId: currentAttempt.current.episodeId,
+          responseIndex: currentAttempt.current.responseIndex,
         }),
       );
     }
@@ -274,7 +286,11 @@ export default function App() {
   useEffect(() => {
     if (!controller.current || !score) return;
     const hidden =
-      mode === 'practice' && selection && !result && !revealed && selection.support === 'hidden';
+      mode === 'practice' &&
+      selection &&
+      !result?.correct &&
+      !revealed &&
+      selection.support === 'hidden';
     controller.current.setStaffNotation(staffNotation && !hidden);
     controller.current.setPresentation({
       mode: hidden || labelMode !== 'fret' ? 'pitch' : 'fret',
@@ -316,7 +332,14 @@ export default function App() {
     setAnswerText('');
     setResult(null);
     setRevealed(false);
-    currentAttempt.current = { startedAt: Date.now(), completed: !next };
+    currentAttempt.current = {
+      startedAt: Date.now(),
+      completed: !next,
+      episodeId: crypto.randomUUID(),
+      responseIndex: 0,
+      hints: [],
+    };
+    setSupportLevel(null);
     if (next) {
       const target = next.exercise.mask.noteIds[0] ?? next.exercise.noteIds[0];
       useWorkspace.getState().selectNote(target ?? null);
@@ -525,26 +548,53 @@ export default function App() {
       startedAt: currentAttempt.current.startedAt,
       answeredAt: Date.now(),
       mode: selection.mode,
-      assisted: selection.support === 'guided',
-      hintsUsed: selection.support === 'guided' ? ['teaching-cue'] : [],
+      assisted:
+        selection.support === 'guided' ||
+        currentAttempt.current.hints.length > 0 ||
+        currentAttempt.current.responseIndex > 0,
+      hintsUsed: [
+        ...(selection.support === 'guided' ? ['teaching-cue'] : []),
+        ...currentAttempt.current.hints,
+        ...(currentAttempt.current.responseIndex > 0 ? ['retry-after-feedback'] : []),
+      ],
+      episodeId: currentAttempt.current.episodeId,
+      responseIndex: currentAttempt.current.responseIndex++,
     });
     persist(attempt);
     setResult(gradeExercise(selection.exercise, response));
   }
+  function support(kind: SupportKind) {
+    if (!selection || !recordSupport.current(kind, currentAttempt.current.episodeId)) return;
+    currentAttempt.current.hints = [...new Set([...currentAttempt.current.hints, kind])];
+    setSupportLevel(kind);
+    if (kind === 'answer') {
+      if (!currentAttempt.current.completed) {
+        currentAttempt.current.completed = true;
+        persist(
+          recordAttempt(selection.exercise, '', {
+            id: crypto.randomUUID(),
+            startedAt: currentAttempt.current.startedAt,
+            answeredAt: Date.now(),
+            mode: selection.mode,
+            outcome: 'revealed',
+            hintsUsed: currentAttempt.current.hints,
+            episodeId: currentAttempt.current.episodeId,
+            responseIndex: currentAttempt.current.responseIndex++,
+          }),
+        );
+      }
+      setRevealed(true);
+    }
+  }
   function reveal() {
-    if (!selection || currentAttempt.current.completed) return;
-    currentAttempt.current.completed = true;
-    persist(
-      recordAttempt(selection.exercise, '', {
-        id: crypto.randomUUID(),
-        startedAt: currentAttempt.current.startedAt,
-        answeredAt: Date.now(),
-        mode: selection.mode,
-        outcome: 'revealed',
-        hintsUsed: ['answer'],
-      }),
-    );
-    setRevealed(true);
+    support('answer');
+  }
+  function retryAnswer() {
+    if (!selection || !result || result.correct) return;
+    currentAttempt.current.completed = false;
+    currentAttempt.current.startedAt = Date.now();
+    setResult(null);
+    setAnswerText('');
   }
   function askTeacherForHelp() {
     reveal();
@@ -844,6 +894,9 @@ export default function App() {
           teacherQuestion={selection?.exercise.id === teacherTask?.id}
           onTeacherHelp={askTeacherForHelp}
           onReveal={reveal}
+          supportLevel={supportLevel}
+          onSupport={support}
+          onRetry={retryAnswer}
           onNext={nextQuestion}
           onSelfReport={selfReport}
           octaveRequired={octaveRequired}
@@ -1065,8 +1118,17 @@ export default function App() {
               )
             }
             onListeningMask={setListeningMasked}
+            supportRecorder={recordSupport}
             onReplay={replayCatalog}
             audioReady={player.ready}
+            onStudy={(study) => {
+              stopAudition();
+              controller.current?.previewPracticeStudy(study);
+            }}
+            onStopStudy={() => {
+              controller.current?.pause();
+              controller.current?.previewVariation(null, track.index);
+            }}
             score={score}
             track={track}
             firstBar={loopStart}
@@ -1088,7 +1150,9 @@ export default function App() {
               attempts,
               selectedNote: selectedNote ?? null,
               activeQuestion:
-                mode === 'practice' && selection && !result && !revealed ? selection : null,
+                mode === 'practice' && selection && !result?.correct && !revealed
+                  ? selection
+                  : null,
               onExercise: startTeacherExercise,
               onHelp: askTeacherForHelp,
               onUnderstand: () => {
@@ -1100,7 +1164,11 @@ export default function App() {
             }}
           />
         )}
-        <section className="music-workspace" hidden={listeningMasked}>
+        <section
+          className={`music-workspace ${listeningMasked ? 'assessment-masked' : ''}`}
+          aria-hidden={listeningMasked || undefined}
+          inert={listeningMasked}
+        >
           <div className="score-card">
             <div className="score-toolbar">
               <label className="track-select">
@@ -1124,7 +1192,7 @@ export default function App() {
                   <button
                     key={value}
                     aria-pressed={labelMode === value}
-                    disabled={mode === 'practice' && !result && !revealed}
+                    disabled={mode === 'practice' && !result?.correct && !revealed}
                     onClick={() => workspace.setLabels(value)}
                   >
                     {value === 'hybrid' ? 'Notes + hints' : value === 'pitch' ? 'Notes' : 'Frets'}
@@ -1135,7 +1203,7 @@ export default function App() {
                 <input
                   type="checkbox"
                   checked={showOctaves}
-                  disabled={!hydrated || (mode === 'practice' && !result && !revealed)}
+                  disabled={!hydrated || (mode === 'practice' && !result?.correct && !revealed)}
                   onChange={(event) => setShowOctaves(event.target.checked)}
                 />
                 Octaves
@@ -1144,7 +1212,7 @@ export default function App() {
                 <input
                   type="checkbox"
                   checked={staffNotation}
-                  disabled={mode === 'practice' && !result && !revealed}
+                  disabled={mode === 'practice' && !result?.correct && !revealed}
                   onChange={(event) => {
                     setStaffNotation(event.target.checked);
                     controller.current?.setStaffNotation(event.target.checked);
@@ -1188,19 +1256,22 @@ export default function App() {
                 {mode === 'practice' &&
                 selection?.support === 'hidden' &&
                 kind === 'note-name' &&
-                !result &&
+                !result?.correct &&
                 !revealed
                   ? 'Tuning names hidden for recall'
                   : track?.tuningMidi.map((n) => formatPitch(n, showOctaves)).join(' · ') ||
                     'Pitched notation'}
               </strong>
               <span>Capo {track?.capo ?? 0}</span>
-              {mode === 'practice' && selection?.support === 'hidden' && !result && !revealed && (
-                <span className="masked-badge">
-                  <EyeIcon />
-                  Answer clues hidden
-                </span>
-              )}
+              {mode === 'practice' &&
+                selection?.support === 'hidden' &&
+                !result?.correct &&
+                !revealed && (
+                  <span className="masked-badge">
+                    <EyeIcon />
+                    Answer clues hidden
+                  </span>
+                )}
             </div>
             <div
               className={`score-viewport ${mode === 'practice' ? 'practice-score' : ''}`}

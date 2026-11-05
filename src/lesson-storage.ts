@@ -1,3 +1,4 @@
+import { practiceStateSchema, practiceObservationSchema } from './shared/practice';
 import { listeningExerciseSchema, listeningAttemptSchema } from './songs/listening';
 import { z } from 'zod';
 import type { ExerciseDefinition } from './engine/types';
@@ -57,6 +58,7 @@ export const lessonSessionSchema = z
     status: z.enum(['active', 'paused', 'completed']),
     messages: z.array(lessonMessageSchema).max(200),
     pendingTaskId: text.nullable(),
+    practice: practiceStateSchema.optional(),
   })
   .strict()
   .refine((value) => value.updatedAt >= value.createdAt, 'Lesson timestamps are inconsistent.');
@@ -82,12 +84,19 @@ export const lessonEventSchema = z
       'listening-replay',
       'listening-assistance',
       'source-changed',
+      'practice-goal',
+      'practice-strategy',
+      'practice-support',
+      'practice-response',
+      'practice-reflection',
+      'practice-bookmark',
     ]),
     messageId: z.string().uuid().optional(),
     attemptId: text.optional(),
     exerciseId: text.optional(),
     exposureKeys: z.array(text).max(512),
     detail: text.optional(),
+    practice: practiceObservationSchema.optional(),
   })
   .strict();
 export type LessonEvent = z.infer<typeof lessonEventSchema>;

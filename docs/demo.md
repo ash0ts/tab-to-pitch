@@ -50,3 +50,16 @@ Show only verified W&B run, artifact, and Registry identities from the publicati
 6. Reload and inspect the retained conversation and progress backup. An interrupted question does not resume as a new untouched first attempt. Disable the backend or network and verify the local guide remains available.
 
 The [teacher study](../research/teacher-agent/README.md) records actor, reviewer, and evaluator failures separately. Use the original study for captures. Show the response source and review status; do not present local fallback or a recorded replay as a live model success.
+
+## Practice a musical intention
+
+The `scripts/capture-practice.ts` walkthrough uses the original G7 → Cmaj7 studies and the on-device guide. It records real application screenshots, a silent browser video, and the resulting lesson evidence. Set `TABTOPITCH_DEMO_URL` and `TABTOPITCH_CAPTURE_DIR` to use another local server or output directory. It does not make Forge calls.
+
+1. Choose **Play this passage more musically** and a concrete goal. Select **Compare two versions**, then **Rhythm & timing**. Hear the study; place attacks and rests, or submit an empty pattern to demonstrate discrepancy feedback.
+2. Choose **Attention cue**. Check that the study's answer is still hidden and the assistance event already exists. A worked example is available without forcing the learner through every help level.
+3. Choose **Build a phrase** and **Make and revise**. A valid example is G on bar 1 beat 1, F on bar 1 beat 2, and E on bar 2 beat 1, with the other slots left as rests. Audition it; compare the voiced F → E connection to the earlier exact-position question. Other constructions meeting the stated constraints must also pass.
+4. Save an optional reflection and bookmark. Show that a successful retry did not replace the first error. Reload to resume the goal.
+5. Ask the on-device guide for another approach or stop a question to talk. The learner can reject its strategy. During a new musicianship question, even a full explanation does not reopen unrelated conversation history.
+6. Return to Understand and find F4 → E4 at `2:6 → 2:5`, or use the existing voicing controls to explore another location. The separate original studies have not changed the imported score.
+
+The capture labels the on-device guide. The new live Forge comparison is not yet executed. To demonstrate a retained agent failure, use a historical campaign's actual failure receipt and trace; do not manufacture a new success or trace for this walkthrough. Current preparation and budget-adoption requirements are in the [teaching-practice protocol](../research/teaching-practice/README.md).
