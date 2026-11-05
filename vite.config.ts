@@ -22,7 +22,7 @@ export default defineConfig({
         icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
       },
       workbox: {
-        globPatterns: ['**/*.{js,mjs,css,html,svg,woff,woff2,ttf,sf2,json}'],
+        globPatterns: ['**/*.{js,mjs,css,html,svg,woff,woff2,ttf,sf2,json,webp,jpg,png,md}'],
         maximumFileSizeToCacheInBytes: 25 * 1024 * 1024,
         navigateFallbackDenylist: [/^\/api/, /^\/healthz/],
         cleanupOutdatedCaches: true,

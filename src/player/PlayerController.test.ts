@@ -84,7 +84,10 @@ describe('player ownership and presentation', () => {
     callbacks: ConstructorParameters<typeof PlayerController>[1] = {},
     initializeViewport = true,
   ) => {
-    const player = new PlayerController({ parentElement: null } as HTMLElement, callbacks);
+    const player = new PlayerController(
+      { parentElement: null, getBoundingClientRect: () => ({ width: 900 }) } as HTMLElement,
+      callbacks,
+    );
     players.push(player);
     if (initializeViewport) flushFrames();
     return player;
@@ -150,6 +153,29 @@ describe('player ownership and presentation', () => {
     expect(api.renderScore).toHaveBeenCalledTimes(2);
     expect(api.score === first).toBe(false);
     api.finishRender();
+    expect(player.state.rendered).toBe(true);
+  });
+
+  it('does not wait for a completion event when alphaTab skips a hidden render', () => {
+    let width = 0;
+    const player = new PlayerController({
+      parentElement: null,
+      getBoundingClientRect: () => ({ width }),
+    } as HTMLElement);
+    players.push(player);
+    flushFrames();
+    const api = mocks.instances[0]!;
+    api.renderScore.mockImplementation((score) => {
+      api.score = score;
+    });
+    player.loadDemo();
+    const first = api.score;
+    player.loadHomeworkDemo();
+    expect(api.renderScore).toHaveBeenCalledTimes(2);
+    expect(api.score).not.toBe(first);
+    width = 900;
+    player.refreshLayout();
+    expect(api.render).toHaveBeenCalledTimes(1);
     expect(player.state.rendered).toBe(true);
   });
 

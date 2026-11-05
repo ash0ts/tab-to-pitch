@@ -22,10 +22,8 @@ test('waits for alphaTab viewport initialization when the first animation frame 
       },
     });
   });
-  await page.goto('/');
-  await expect(
-    page.getByRole('heading', { name: 'A shape, two meanings', exact: true }),
-  ).toBeAttached();
+  await page.goto('/#/stage/notation');
+  await expect(page.getByText('A shape, two meanings', { exact: true })).toBeAttached();
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(500);
   await page
@@ -45,7 +43,7 @@ test('waits for alphaTab viewport initialization when the first animation frame 
 test('switching from pitch hints to frets replaces the previous engraving', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/#/stage/notation');
   const labels = page
     .locator('.alphatab-host svg text')
     .filter({ hasText: /^[A-G][#b]?(?:\d)?(?:·\d+)?$/ });

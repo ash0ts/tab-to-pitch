@@ -5,10 +5,8 @@ test('song list to listening feedback to the shared fretboard, with masked first
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
-  await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
-    timeout: 30000,
-  });
+  await page.goto('/#/library');
+  await page.evaluate(() => { location.hash = '/library'; });
   await page.getByRole('button', { name: 'Choose a song' }).click();
   await expect(page.getByRole('region', { name: 'Learn from my songs' })).toContainText(
     'Needs song/version confirmation',
@@ -28,9 +26,10 @@ test('song list to listening feedback to the shared fretboard, with masked first
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
   const mobileTeacher = page.getByRole('button', { name: 'Open music teacher', exact: true });
   if (await mobileTeacher.isVisible()) await mobileTeacher.click();
-  await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
+  const conversation = teacher.getByRole('button', {name:'Open teacher',exact:true});
+  if (await conversation.isVisible()) await conversation.click();
   await expect(teacher.getByRole('log')).toHaveCount(0);
-  const back = page.getByRole('button', { name: 'Return to my task', exact: true });
+  const back = page.getByRole('button', { name: 'Back to my task', exact: true });
   if (await back.isVisible()) await back.click();
   for (const [i, value] of ['D', 'G7', 'Cmaj7', 'Am7'].entries())
     await lesson.getByLabel(`Chord at change ${i + 1}`).selectOption(value);
@@ -69,10 +68,8 @@ test('song list to listening feedback to the shared fretboard, with masked first
 test('teacher help is recorded before revealing answers; reload preserves evidence', async ({
   page,
 }) => {
-  await page.goto('/');
-  await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
-    timeout: 30000,
-  });
+  await page.goto('/#/library');
+  await page.evaluate(() => { location.hash = '/library'; });
   await page.getByRole('button', { name: 'Choose a song' }).click();
   await page.getByRole('button', { name: 'Four chords, one key' }).click();
   const lesson = page.getByRole('region', { name: 'Listening lesson' });
@@ -114,6 +111,8 @@ test('teacher help is recorded before revealing answers; reload preserves eviden
     )
     .toBe(1);
   await page.reload();
+  await page.getByRole('link', { name: 'Songs & exercises', exact: true }).click();
+  await page.evaluate(() => { location.hash = '/library'; });
   await page.getByRole('button', { name: 'Choose a song' }).click();
   await page.getByRole('button', { name: 'Four chords, one key' }).click();
   await expect(lesson).toBeVisible();
@@ -128,10 +127,11 @@ test('teacher help is recorded before revealing answers; reload preserves eviden
 });
 
 test('counts actual synthesized playback and transfers to another key', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#/stage/listening');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
+  await page.evaluate(() => { location.hash = '/library'; });
   await page.getByRole('button', { name: 'Choose a song' }).click();
   await page.getByRole('button', { name: 'Four chords, one key' }).click();
   const lesson = page.getByRole('region', { name: 'Listening lesson' });
@@ -170,16 +170,18 @@ test('visible recording preview coordinates ownership and reports unavailable vi
       },
     };
   });
-  await page.goto('/');
+  await page.goto('/#/stage/listening');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
   await page.getByRole('button', { name: 'Play score', exact: true }).click();
+  await page.evaluate(() => { location.hash = '/library'; });
   await page.getByRole('button', { name: 'Choose a song' }).click();
   await page.getByText('What is available?', { exact: true }).first().click();
   await page.getByRole('button', { name: 'Preview recording · quiz pending' }).first().click();
   await page.evaluate(() => (window as any).testRecording.playVideo());
-  await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeVisible();
+  await expect(page.locator('button[aria-label="Pause playback"]')).toHaveCount(0);
+  await expect(page.getByRole('button', {name:'Pause recording',exact:true})).toBeVisible();
   const preview = page.getByRole('region', { name: 'Recording preview' });
   await expect(preview.getByRole('button', { name: 'Replay recording excerpt' })).toBeDisabled();
   await page.evaluate(() => (window as any).testRecording.options.events.onError({ data: 150 }));

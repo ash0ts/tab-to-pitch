@@ -1,4 +1,10 @@
 import {
+  practiceSetSchema,
+  stageRunSchema,
+  type PracticeSet,
+  type StageRun,
+} from './studio/contracts';
+import {
   listeningExerciseSchema,
   listeningAttemptSchema,
   type ListeningExercise,
@@ -447,6 +453,8 @@ export const backupSchema = z.union([
       exerciseDefinitions: z.array(frozenExerciseSchema).max(10_000),
       listeningExercises: z.array(listeningExerciseSchema).max(10000).default([]),
       listeningAttempts: z.array(listeningAttemptSchema).max(100000).default([]),
+      studio: practiceSetSchema.optional(),
+      stageRuns: z.array(stageRunSchema).max(200).optional(),
     })
     .strict(),
 ]);
@@ -463,6 +471,7 @@ async function appendAttempts(
   attempts: AttemptRecord[],
   variations: SavedVariation[] = [],
   lessons: LessonData = emptyLessonData(),
+  presentation?: { studio?: PracticeSet; stageRuns?: StageRun[] },
 ) {
   const tx = (await db()).transaction(
     [
@@ -473,6 +482,7 @@ async function appendAttempts(
       'exerciseDefinitions',
       'listeningExercises',
       'listeningAttempts',
+      'settings',
     ],
     'readwrite',
   );
@@ -507,6 +517,10 @@ async function appendAttempts(
     await writeImmutable(tx.objectStore('exerciseDefinitions'), lessons.exerciseDefinitions);
     await writeImmutable(tx.objectStore('listeningExercises'), lessons.listeningExercises);
     await writeImmutable(tx.objectStore('listeningAttempts'), lessons.listeningAttempts);
+    if (presentation?.studio)
+      await tx.objectStore('settings').put(presentation.studio, 'studio-v1');
+    if (presentation?.stageRuns)
+      await tx.objectStore('settings').put(presentation.stageRuns, 'stage-runs-v1');
     await tx.done;
   } catch (error) {
     try {
@@ -556,11 +570,16 @@ export async function importProgress(text: string, inMemory: readonly AttemptRec
     attempts,
     backup.schemaVersion !== 1 ? backup.variations : [],
     lessonData,
+    'studio' in backup ? { studio: backup.studio, stageRuns: backup.stageRuns } : undefined,
   );
   rememberLessonData(lessonData);
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event('studio-restored'));
   return added;
 }
-export async function exportProgress(attempts: AttemptRecord[]) {
+export async function exportProgress(
+  attempts: AttemptRecord[],
+  presentation?: { studio: PracticeSet; stageRuns: StageRun[] },
+) {
   let variations: SavedVariation[] = [];
   let complete = true;
   try {
@@ -574,7 +593,25 @@ export async function exportProgress(attempts: AttemptRecord[]) {
   } catch {
     complete = false;
   }
-  downloadBackup(attempts, variations, lessons);
+  let studio: PracticeSet | undefined, stageRuns: StageRun[] | undefined;
+  try {
+    const s = practiceSetSchema.safeParse(await readSetting('studio-v1', null));
+    if (s.success) studio = s.data;
+    const r = stageRunSchema
+      .array()
+      .max(200)
+      .safeParse(await readSetting('stage-runs-v1', []));
+    if (r.success) stageRuns = r.data;
+  } catch {
+    complete = false;
+  }
+  downloadBackup(
+    attempts,
+    variations,
+    lessons,
+    presentation?.studio ?? studio,
+    presentation?.stageRuns ?? stageRuns,
+  );
   return complete;
 }
 export function exportVariations(variations: SavedVariation[]) {
@@ -587,6 +624,8 @@ function downloadBackup(
   attempts: AttemptRecord[],
   variations: SavedVariation[],
   lessons: LessonData = emptyLessonData(),
+  studio?: PracticeSet,
+  stageRuns?: StageRun[],
 ) {
   const blob = new Blob(
     [
@@ -597,6 +636,8 @@ function downloadBackup(
           attempts,
           variations,
           ...lessons,
+          ...(studio ? { studio } : {}),
+          ...(stageRuns ? { stageRuns } : {}),
         },
         null,
         2,

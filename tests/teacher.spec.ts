@@ -12,11 +12,11 @@ async function showTeacher(page: Page) {
   if (await open.isVisible()) await open.click();
 }
 async function showTask(page: Page) {
-  const close = page.getByRole('button', { name: 'Return to my task', exact: true });
+  const close = page.getByRole('button', { name: 'Back to my task', exact: true });
   if (await close.isVisible()) await close.click();
 }
 async function study(page: Page) {
-  await page.goto('/');
+  await page.goto('/#/stage/progression');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
@@ -29,7 +29,7 @@ async function study(page: Page) {
   await studio.getByRole('button', { name: 'Frets 5–9', exact: true }).click();
   await expect(studio.locator('.shape-navigation')).toContainText('variation 1');
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
-  await showTeacher(page);
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
   return { teacher, studio };
 }
 
@@ -117,9 +117,7 @@ test('hides conversation and diagrams during recall; help records assistance bef
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
   await expect(teacher.getByRole('textbox')).toHaveCount(0);
   await expect(page.locator('.progression-studio')).toHaveCount(0);
-  expect((await page.locator('.teacher-panel').allTextContents()).join(' ')).not.toContain(
-    'minor third',
-  );
+  await expect(page.locator('.teacher-panel')).toHaveCount(0);
   expect(await page.locator('body').ariaSnapshot()).not.toContain('minor third');
   await showTask(page);
   await page
@@ -141,10 +139,11 @@ test('hides conversation and diagrams during recall; help records assistance bef
       expect.objectContaining({ generatorVersion: 'teacher-curriculum-v1' }),
     ]),
   });
+  await page.goto('/#/stage/progression');
   await page.reload();
   await page.getByRole('tab', { name: 'Understand', exact: true }).click();
   await page.getByRole('button', { name: 'Open ii–V–I study' }).click();
-  await showTeacher(page);
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
   await expect(teacher.locator('.teacher-message.user')).toContainText(
     'Help me name the chord roles.',
   );
@@ -202,6 +201,7 @@ test('validated teacher preview uses the same controls, player, save and undo as
   await studio.getByRole('button', { name: 'Apply & save', exact: true }).click();
   await expect(studio).toContainText('Variation saved on this device');
   await studio.getByRole('button', { name: 'Original score', exact: true }).click();
+  await page.goto('/#/stage/notation');
   await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
   await expect(
     page.locator('.alphatab-host svg text').filter({ hasText: /^F·1$/ }).first(),
@@ -329,17 +329,16 @@ test('ignores a pending cloud response when the neck constraints change', async 
     .fill('Give me a question here.');
   await teacher.getByRole('button', { name: 'Ask teacher', exact: true }).click();
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toBeVisible();
-  await showTask(page);
+  await page.getByRole('button', { name: 'Back to my task', exact: true }).click();
   await studio.getByRole('button', { name: 'Frets 9–12', exact: true }).click();
-  await showTeacher(page);
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
   release();
   await finished;
   await showTeacher(page);
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toHaveCount(0);
   await expect(teacher.locator('.teacher-message.assistant')).toHaveCount(0);
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
-  if ((await teacher.locator('.teacher-settings').getAttribute('open')) === null)
-    await teacher.locator('.teacher-settings summary').click();
+  await teacher.locator('.teacher-settings summary').click();
   await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).uncheck();
   await ask(page, 'Help me understand this position.');
   await expect(teacher.locator('.teacher-message.assistant')).toBeVisible();
@@ -351,7 +350,7 @@ test('invalidates a proposal when another tab updates the lesson', async ({ page
   await ask(page, 'Help me name the chord roles.');
   await page.evaluate(async () => {
     const modulePath = '/src/storage.ts';
-    const data = (await import(modulePath)).getMemoryLessonData();
+    const data = await (await import(modulePath)).getLessonData();
     const lesson = data.lessons.find((item: { messages: unknown[] }) => item.messages.length >= 2);
     const channel = new BroadcastChannel('tabtopitch-lessons');
     channel.postMessage({
@@ -377,7 +376,7 @@ test('grounds explanations in the current derived harmony and clears stale sourc
     await route.fulfill({ json: localTeacher(request) });
   });
   const { teacher, studio } = await study(page);
-  await showTask(page);
+  await page.getByRole('button', { name: 'Back to my task', exact: true }).click();
   await studio.getByRole('button', { name: 'Add color', exact: true }).click();
   await studio.getByRole('combobox', { name: 'Chord color', exact: true }).selectOption('m9');
   await showTeacher(page);
@@ -391,9 +390,9 @@ test('grounds explanations in the current derived harmony and clears stale sourc
     sourceSymbols: ['Dm7', 'G7', 'Cmaj7', 'Am7'],
   });
   expect(seen.at(-1)?.context.selectedNotes?.[0]?.id).toBe('n0');
-  await showTask(page);
+  await page.getByRole('button', { name: 'Back to my task', exact: true }).click();
   await studio.getByRole('button', { name: 'Preview variation', exact: true }).click();
-  await showTeacher(page);
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
   if (test.info().project.name === 'mobile') {
     await teacher.locator('.teacher-settings summary').click();

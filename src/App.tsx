@@ -1,7 +1,25 @@
 import type { EarStudy } from './ear/model';
+import {
+  StudioHeader,
+  StudioHome,
+  ActivityLibrary,
+  ResearchPage,
+  ProgressPage,
+} from './studio/StudioPages';
+import { useStudio } from './studio/useStudio';
+import { activity, type ActivityId } from './studio/catalog';
+import { Timeline } from './studio/Timeline';
+import {
+  scoreRun,
+  personalBestKey,
+  stageRunSchema,
+  STAGE_POLICY,
+  type StageRun,
+} from './studio/contracts';
+import './studio/studio.css';
 import type { SupportKind } from './shared/practice';
 import { SongLibrary } from './ui/SongLibrary';
-import { PASSAGES, type Passage } from './songs/catalog';
+import { PASSAGES, passageForSource, type Passage } from './songs/catalog';
 import { playback } from './player/PlaybackCoordinator';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
@@ -16,13 +34,11 @@ import {
   GraduationCap,
   Headphones,
   HelpCircle,
-  Library,
   LoaderCircle,
   Music2,
   Pause,
   Play,
   Repeat2,
-  Settings2,
   ShieldCheck,
   SlidersHorizontal,
   Square,
@@ -52,7 +68,7 @@ import {
 import { selectNextExercise } from './engine/scheduler';
 import { displayNoteLabel, formatPitch } from './engine/exploration';
 import { coachContextSchema, type CoachContext } from './shared/coach';
-import { exportProgress, type LibraryEntry } from './storage';
+import { readSetting, writeSetting, exportProgress, type LibraryEntry } from './storage';
 import { useLocalData } from './useLocalData';
 import { useDesktopLayout } from './useMediaQuery';
 import { Inspector } from './ui/Inspector';
@@ -78,6 +94,17 @@ const time = (milliseconds: number) =>
   `${Math.floor(milliseconds / 60000)}:${String(Math.floor(milliseconds / 1000) % 60).padStart(2, '0')}`;
 
 export default function App() {
+  const studio = useStudio();
+  const stageActive = studio.route.page === 'stage';
+  const activeActivity = studio.route.activity;
+  const teachingTransition = useRef(false);
+  const [teacherOpen, setTeacherOpen] = useState(false);
+  const [run, setRun] = useState<StageRun | null>(null);
+  const [savedRuns, setSavedRuns] = useState<StageRun[]>([]);
+  const [recap, setRecap] = useState(false);
+  const [reflection, setReflection] = useState('');
+  const [stageSurface, setStageSurface] = useState<'timeline' | 'notation'>('timeline');
+
   const host = useRef<HTMLDivElement>(null),
     controller = useRef<PlayerController | null>(null),
     fileInput = useRef<HTMLInputElement>(null),
@@ -103,12 +130,10 @@ export default function App() {
     exactLocation,
     setExactLocation,
     persist,
-    storageStatus,
   } = local;
   const desktop = useDesktopLayout();
   const [modal, setModal] = useState<'library' | 'settings' | 'mixer' | null>(null);
   const [foreground, setForeground] = useState(!document.hidden);
-  const [teacherFocusRequest, setTeacherFocusRequest] = useState(0);
   const [mobilePanel, setMobilePanel] = useState(false),
     [dragging, setDragging] = useState(false),
     [loading, setLoading] = useState(false);
@@ -174,11 +199,19 @@ export default function App() {
     setNotice(message);
   };
 
+  function persistEvidence(attempt: Parameters<typeof persist>[0]) {
+    persist(attempt);
+    setRun((previous) =>
+      previous && !previous.endedAt
+        ? { ...previous, attemptIds: [...previous.attemptIds, attempt.id] }
+        : previous,
+    );
+  }
   function finishInterrupted() {
     const current = latest.current;
     if (current.mode === 'practice' && current.selection && !currentAttempt.current.completed) {
       currentAttempt.current.completed = true;
-      persist(
+      persistEvidence(
         recordAttempt(current.selection.exercise, '', {
           id: crypto.randomUUID(),
           startedAt: currentAttempt.current.startedAt,
@@ -245,6 +278,7 @@ export default function App() {
     }
     const keyboard = (event: KeyboardEvent) => {
       if (
+        !location.hash.startsWith('#/stage') ||
         (event.target as HTMLElement)?.closest('input,select,textarea,button,[role="dialog"]') ||
         event.metaKey ||
         event.ctrlKey
@@ -352,6 +386,8 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (
+      stageActive &&
+      activeActivity === 'knowledge' &&
       mode === 'practice' &&
       (!desktop || panelTab === 'note') &&
       !selection &&
@@ -406,6 +442,7 @@ export default function App() {
     passage: Passage,
     difficulty: 'guided' | 'recall' | 'transfer' = 'guided',
   ) {
+    studio.go('stage', 'listening');
     setListeningDifficulty(difficulty);
     finishInterrupted();
     playback.stopAll();
@@ -431,6 +468,7 @@ export default function App() {
     api.replaySource();
   }
   function openProgressionStudy(tonic = 'C') {
+    studio.go('stage', 'progression');
     finishInterrupted();
     stopAudition();
     loadGeneration.current++;
@@ -451,6 +489,8 @@ export default function App() {
       );
       return;
     }
+    teachingTransition.current = true;
+    studio.go('stage', 'knowledge');
     finishInterrupted();
     stopAudition();
     controller.current?.previewVariation(null);
@@ -458,7 +498,7 @@ export default function App() {
     setPanelTab('note');
     setKind(nextKind);
     begin(next);
-    setMobilePanel(!desktop);
+    setMobilePanel(false);
   }
   function changePanel(next: 'note' | 'coach') {
     if (next === panelTab) return;
@@ -499,6 +539,8 @@ export default function App() {
       );
       return;
     }
+    teachingTransition.current = true;
+    studio.go('stage', 'knowledge');
     setNotice('');
     finishInterrupted();
     stopAudition();
@@ -513,22 +555,48 @@ export default function App() {
       support: 'guided',
       reason: 'Start with the note you explored. Then check it with the clues hidden.',
     });
-    setMobilePanel(!desktop);
+    setMobilePanel(false);
   }
   function nextQuestion() {
     finishInterrupted();
+    if (run?.mode === 'challenge' && !run.endedAt) {
+      const recorded = new Set(
+        run.attemptIds.map((id) => attemptsRef.current.find((a) => a.id === id)?.exerciseId),
+      );
+      const next = run.targetExerciseIds
+        .map((id) => bank.find((e) => e.id === id))
+        .find((e) => e && !recorded.has(e.id));
+      if (!next) {
+        saveBookmark(true);
+        return;
+      }
+      begin({
+        exercise: next,
+        support: 'hidden',
+        mode: 'recall',
+        reason: 'A screen-answer challenge. No playing or timing is assessed.',
+      });
+      return;
+    }
     if (teacherTask && selection?.exercise.id === teacherTask.id) {
-      setTeacherFocusRequest((value) => value + 1);
       setSelection(null);
       setTeacherTask(null);
       workspace.setMode('understand');
       setPanelTab('note');
       setMobilePanel(false);
+      studio.go('stage', 'progression');
+      setTeacherOpen(true);
       return;
     }
-    begin(selectNextExercise(bank, attemptsRef.current, Date.now(), kind));
+    const next = selectNextExercise(bank, attemptsRef.current, Date.now(), kind);
+    begin(
+      run?.mode === 'challenge' && next ? { ...next, support: 'hidden', mode: 'recall' } : next,
+    );
   }
   function startTeacherExercise(exercise: ExerciseDefinition) {
+    teachingTransition.current = true;
+    studio.go('stage', 'knowledge');
+    setTeacherOpen(false);
     finishInterrupted();
     stopAudition();
     controller.current?.previewVariation(null);
@@ -542,7 +610,7 @@ export default function App() {
       support: 'hidden',
       reason: 'A question about the selected musical idea. Answers are checked on this device.',
     });
-    setMobilePanel(!desktop);
+    setMobilePanel(false);
   }
   function answer(response: string) {
     if (!selection || currentAttempt.current.completed) return;
@@ -564,17 +632,18 @@ export default function App() {
       episodeId: currentAttempt.current.episodeId,
       responseIndex: currentAttempt.current.responseIndex++,
     });
-    persist(attempt);
+    persistEvidence(attempt);
     setResult(gradeExercise(selection.exercise, response));
   }
   function support(kind: SupportKind) {
     if (!selection || !recordSupport.current(kind, currentAttempt.current.episodeId)) return;
+    setRun((previous) => (previous ? { ...previous, assisted: true } : previous));
     currentAttempt.current.hints = [...new Set([...currentAttempt.current.hints, kind])];
     setSupportLevel(kind);
     if (kind === 'answer') {
       if (!currentAttempt.current.completed) {
         currentAttempt.current.completed = true;
-        persist(
+        persistEvidence(
           recordAttempt(selection.exercise, '', {
             id: crypto.randomUUID(),
             startedAt: currentAttempt.current.startedAt,
@@ -595,6 +664,7 @@ export default function App() {
   }
   function retryAnswer() {
     if (!selection || !result || result.correct) return;
+    setRun((previous) => (previous ? { ...previous, assisted: true } : previous));
     currentAttempt.current.completed = false;
     currentAttempt.current.startedAt = Date.now();
     setResult(null);
@@ -602,7 +672,7 @@ export default function App() {
   }
   function askTeacherForHelp() {
     reveal();
-    setTeacherFocusRequest((value) => value + 1);
+    setTeacherOpen(true);
     setMobilePanel(false);
     requestAnimationFrame(() =>
       document.querySelector('.teacher-panel')?.scrollIntoView({ block: 'start' }),
@@ -612,7 +682,7 @@ export default function App() {
     const exercise = selection?.exercise ?? bank[0];
     if (!exercise) return;
     const now = Date.now();
-    persist(
+    persistEvidence(
       recordAttempt(exercise, 'tried', {
         id: crypto.randomUUID(),
         startedAt: now,
@@ -641,6 +711,7 @@ export default function App() {
       return;
     }
     await openScore(() => file.arrayBuffer(), file.name, true);
+    studio.go('stage', 'notation');
   }
   async function openScore(readBytes: () => Promise<ArrayBuffer>, name: string, remember: boolean) {
     if (!hydrated || dataOperation.current) return;
@@ -681,6 +752,7 @@ export default function App() {
     }
   }
   function openSavedFile(entry: LibraryEntry) {
+    studio.go('stage', 'notation');
     return openScore(() => Promise.resolve(entry.bytes), entry.name, false);
   }
   const coachContext = useMemo<CoachContext | null>(() => {
@@ -734,6 +806,8 @@ export default function App() {
       return;
     }
     finishInterrupted();
+    teachingTransition.current = true;
+    studio.go('stage', 'knowledge');
     setKind(exercise.kind);
     workspace.setMode('practice');
     setPanelTab('note');
@@ -751,7 +825,7 @@ export default function App() {
       support: next.support,
       reason: 'A focused exercise selected from your practice evidence.',
     });
-    setMobilePanel(!desktop);
+    setMobilePanel(false);
   }
 
   function stepNote(direction: number) {
@@ -766,6 +840,203 @@ export default function App() {
     controller.current?.seekNote(next.id);
   }
 
+  const readPlayer = useCallback(() => controller.current?.state ?? initialPlayer, []);
+  const masked =
+    listeningMasked || (mode === 'practice' && !!selection && !result?.correct && !revealed);
+  const runScore = run ? scoreRun(run, attempts) : null;
+  const best = run
+    ? Math.max(
+        0,
+        ...savedRuns
+          .filter((r) => personalBestKey(r) === personalBestKey(run))
+          .map((r) => scoreRun(r, attempts))
+          .filter((s) => s.ranked)
+          .map((s) => s.points),
+      )
+    : 0;
+  useEffect(() => {
+    const restore = () => {
+      void readSetting('stage-runs-v1', [])
+        .then((data) => {
+          const result = stageRunSchema.array().max(200).safeParse(data);
+          if (result.success) setSavedRuns(result.data);
+        })
+        .catch(() => {});
+    };
+    restore();
+    window.addEventListener('studio-restored', restore);
+    return () => window.removeEventListener('studio-restored', restore);
+  }, []);
+  useEffect(() => {
+    if (!run?.endedAt) return;
+    setSavedRuns((old) => {
+      if (old.some((r) => r.id === run.id)) return old;
+      const next = [...old, run].slice(-200);
+      void writeSetting('stage-runs-v1', next).catch(() =>
+        setError('Challenge references are kept in memory. Export progress before closing.'),
+      );
+      return next;
+    });
+  }, [run]);
+
+  function startActivity(id: ActivityId) {
+    finishInterrupted();
+    playback.stopAll();
+    setRecap(false);
+    setRun(null);
+    setMobilePanel(false);
+    if (id === 'listening' && !passageForSource(score?.hash ?? '')) {
+      const original = PASSAGES.find((p) => p.id === 'original-c');
+      if (original) openCatalogPassage(original);
+    }
+    if (id === 'homework' && score?.hash === 'tabtopitch-original-study-v1')
+      controller.current?.loadHomeworkDemo();
+    if (id === 'progression' && score?.hash === 'tabtopitch-original-study-v1')
+      openProgressionStudy();
+    studio.go('stage', id);
+    studio.visit(id, studio.set.bookmark?.activity === id ? 'resumed' : 'started');
+  }
+  function saveBookmark(completed = false) {
+    if (!score) return;
+    studio.change({
+      reflection,
+      bookmark: {
+        activity: activeActivity,
+        sourceHash: score.hash,
+        track: trackIndex,
+        firstBar: loopStart,
+        lastBar: loopEnd,
+        speed,
+        at: Date.now(),
+        next: activity(activeActivity).title,
+      },
+      visits: [
+        ...studio.set.visits,
+        {
+          at: Date.now(),
+          activity: activeActivity,
+          kind: completed ? ('completed' as const) : ('saved' as const),
+        },
+      ].slice(-1000),
+    });
+    finishInterrupted();
+    playback.stopAll();
+    setRun((previous) => (previous ? { ...previous, endedAt: Date.now() } : previous));
+    setRecap(true);
+  }
+  function startChallenge() {
+    const target = bank.find((e) => e.kind === kind && e.partition === 'practice');
+    const next = target
+      ? {
+          exercise: target,
+          support: 'hidden' as const,
+          mode: 'recall' as const,
+          reason: 'Five screen questions, with first responses preserved.',
+        }
+      : null;
+    if (!next || !score) return;
+    finishInterrupted();
+    playback.stopAll();
+    setRun({
+      id: crypto.randomUUID(),
+      mode: 'challenge',
+      policy: STAGE_POLICY,
+      sourceId: score.id,
+      taskVersion: `${kind}:v1:${octaveRequired}:${exactLocation}`,
+      input: 'screen',
+      tempo: speed,
+      support: 'hidden',
+      startedAt: Date.now(),
+      capability: { qualified: true, timingQualified: false },
+      targetExerciseIds: bank
+        .filter((e) => e.kind === kind && e.partition === 'practice')
+        .slice(0, 5)
+        .map((e) => e.id),
+      attemptIds: [],
+      assisted: false,
+    });
+    workspace.setMode('practice');
+    begin({ ...next, support: 'hidden', mode: 'recall' });
+  }
+  useEffect(() => {
+    setRun((previous) =>
+      previous &&
+      !previous.endedAt &&
+      (previous.sourceId !== score?.id ||
+        previous.tempo !== speed ||
+        previous.taskVersion !== `${kind}:v1:${octaveRequired}:${exactLocation}`)
+        ? { ...previous, assisted: true, endedAt: Date.now() }
+        : previous,
+    );
+  }, [score?.id, speed, kind, octaveRequired, exactLocation]);
+  const restoredBookmark = useRef(false);
+  useEffect(() => {
+    if (!studio.ready || !hydrated || !controller.current || restoredBookmark.current) return;
+    restoredBookmark.current = true;
+    const b = studio.set.bookmark;
+    if (!b) return;
+    const saved = library.find((x) => x.id === b.sourceHash);
+    if (saved)
+      void openScore(() => Promise.resolve(saved.bytes), saved.name, false).then(() => {
+        controller.current?.selectTrack(b.track);
+        workspace.setTrack(b.track);
+        workspace.setLoop(b.firstBar, b.lastBar, true);
+        workspace.setSpeed(b.speed);
+      });
+    else if (b.sourceHash.startsWith('tabtopitch-progression-study-v1'))
+      controller.current.loadProgressionDemo(
+        b.sourceHash.split(':').at(-1)?.length === 1 ? b.sourceHash.split(':').at(-1) : 'C',
+      );
+    else if (b.sourceHash.startsWith('tabtopitch-homework')) controller.current.loadHomeworkDemo();
+    else {
+      const passage = passageForSource(b.sourceHash);
+      if (passage) controller.current.loadCatalogPassage(passage);
+    }
+    workspace.setLoop(b.firstBar, b.lastBar, true);
+    workspace.setSpeed(b.speed);
+  }, [studio.ready, hydrated]);
+  const priorRoute = useRef('');
+  useEffect(() => {
+    const key = `${studio.route.page}:${activeActivity}`;
+    if (priorRoute.current === key) return;
+    priorRoute.current = key;
+    if (teachingTransition.current && stageActive && activeActivity === 'knowledge') {
+      teachingTransition.current = false;
+      return;
+    }
+    finishInterrupted();
+    playback.stopAll();
+    setRun((previous) => (previous ? { ...previous, endedAt: Date.now() } : previous));
+    setSelection(null);
+    setResult(null);
+    setRevealed(false);
+    setRecap(false);
+    setMobilePanel(false);
+    if (stageActive && activeActivity === 'listening' && score && !passageForSource(score.hash)) {
+      const original = PASSAGES.find((p) => p.id === 'original-c');
+      if (original) controller.current?.loadCatalogPassage(original);
+    }
+    if (stageActive)
+      workspace.setMode(
+        activeActivity === 'knowledge'
+          ? 'practice'
+          : activeActivity === 'timeline'
+            ? 'play'
+            : 'understand',
+      );
+  }, [studio.route.page, activeActivity]);
+  useEffect(() => {
+    if (stageActive) {
+      const frame = requestAnimationFrame(() => controller.current?.refreshLayout());
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [stageActive, stageSurface, activeActivity]);
+  useEffect(() => {
+    if (stageActive && activeActivity === 'listening' && score && !passageForSource(score.hash)) {
+      const p = PASSAGES.find((p) => p.id === 'original-c');
+      if (p) controller.current?.loadCatalogPassage(p);
+    }
+  }, [stageActive, activeActivity, score?.hash]);
   const playGuide = (
     <>
       <div className="panel-heading">
@@ -949,7 +1220,7 @@ export default function App() {
 
   return (
     <div
-      className="app-shell"
+      className={`app-shell studio-shell ${stageActive ? 'on-stage' : ''}`}
       onDragOver={(e) => {
         e.preventDefault();
         setDragging(true);
@@ -964,56 +1235,45 @@ export default function App() {
         if (file) void importFile(file);
       }}
     >
-      <header className="app-header">
-        <a className="brand" href="/" aria-label="TabToPitch home">
-          <img src="/icon.svg" alt="" />
-          <span>
-            Tab<span className="brand-to">to</span>Pitch<span className="brand-period">.</span>
-          </span>
-        </a>
-        <span className="header-tagline">The notes behind the music.</span>
-        <div className="header-actions">
-          <span
-            className={`local-status ${storageStatus === 'unavailable' ? 'unsaved' : ''}`}
-            role="status"
-          >
-            <span />
-            {
-              {
-                loading: 'Opening local storage…',
-                saving: 'Saving on this device…',
-                saved: 'Local storage ready',
-                unavailable: 'Local storage needs attention',
-              }[storageStatus]
-            }
-          </span>
-          <button
-            className="icon-button"
-            aria-label="Open your library"
-            disabled={!hydrated || dataOperation.current}
-            onClick={() => setModal('library')}
-          >
-            <Library size={19} />
-          </button>
-          <button
-            className="icon-button"
-            aria-label="Settings and progress"
-            disabled={!hydrated || loading}
-            onClick={() => setModal('settings')}
-          >
-            <Settings2 size={19} />
-          </button>
-          <button
-            className="import-button"
-            aria-label="Import a tab"
-            disabled={!hydrated || dataOperation.current}
-            onClick={() => fileInput.current?.click()}
-          >
-            <Upload size={16} />
-            <span>Import a tab</span>
-          </button>
-        </div>
-      </header>
+      <StudioHeader
+        studio={studio}
+        onSettings={() => setModal('settings')}
+        onImport={() => fileInput.current?.click()}
+      />
+      <p className="local-status" role="status">
+        {local.storageStatus === 'unavailable'
+          ? 'Local storage needs attention'
+          : local.storageStatus === 'loading'
+            ? 'Opening local progress…'
+            : local.storageStatus === 'saving'
+              ? 'Saving on this device…'
+              : 'Local storage ready'}
+      </p>
+      {studio.error && (
+        <p className="alert error" role="status">
+          {studio.error}
+        </p>
+      )}
+      {studio.route.page === 'studio' && (
+        <StudioHome
+          attempts={attempts}
+          studio={studio}
+          onStart={startActivity}
+          source={score?.title ?? 'Original study'}
+          ready={hydrated && !!score}
+        />
+      )}
+      {studio.route.page === 'library' && (
+        <ActivityLibrary
+          studio={studio}
+          onStart={startActivity}
+          onFiles={() => setModal('library')}
+        >
+          <SongLibrary onOpen={openCatalogPassage} />
+        </ActivityLibrary>
+      )}
+      {studio.route.page === 'research' && <ResearchPage studio={studio} onStart={startActivity} />}
+      {studio.route.page === 'progress' && <ProgressPage studio={studio} attempts={attempts} />}
       <input
         ref={fileInput}
         className="sr-only"
@@ -1044,6 +1304,7 @@ export default function App() {
           setRevealed(false);
           setLoading(true);
           try {
+            await studio.flush();
             const count = await local.restoreProgress(await file.text());
             notify(`Imported ${count} practice records.`);
           } catch {
@@ -1055,16 +1316,38 @@ export default function App() {
         }}
       />
       {!modal && (desktop || !mobilePanel) && feedback}
-      <main className={`workspace ${mode === 'understand' ? 'explore-workspace' : ''}`}>
+      <main
+        hidden={!stageActive}
+        className={`workspace studio-stage activity-${activeActivity} ${mode === 'understand' ? 'explore-workspace' : ''}`}
+      >
         <div className="song-header">
           <div>
             <div className="eyebrow">
               <span className="status-dot" />
-              YOUR SONG, UNDERSTOOD
+              PRACTICE STAGE · {activity(activeActivity).category}
             </div>
-            <h1>{score?.title || 'Opening your practice room…'}</h1>
+            <h1>{activity(activeActivity).title}</h1>
+            <details className="stage-goal">
+              <summary>{studio.set.goal}</summary>
+              <label>
+                My practice goal
+                <input
+                  className="field-input"
+                  maxLength={500}
+                  value={studio.set.goal}
+                  onChange={(e) => {
+                    finishInterrupted();
+                    playback.stopAll();
+                    setRun((previous) =>
+                      previous ? { ...previous, endedAt: Date.now(), assisted: true } : previous,
+                    );
+                    studio.change({ goal: e.target.value });
+                  }}
+                />
+              </label>
+            </details>
             <div className="song-meta">
-              <span>{score?.artist || 'Artist not specified'}</span>
+              <span>{score?.title || 'Opening study…'}</span>
               <span className="meta-dot">·</span>
               <span>{score?.measures.length ?? 0} bars</span>
               <span className="meta-dot">·</span>
@@ -1084,7 +1367,15 @@ export default function App() {
         </div>
         <Tabs.Root
           value={mode}
-          onValueChange={(value) => switchMode(value as AppMode)}
+          onValueChange={(value) => {
+            if (activeActivity === 'notation' && value !== 'practice') {
+              switchMode(value as AppMode);
+              return;
+            }
+            if (value === 'practice') startActivity('knowledge');
+            else if (value === 'play') startActivity('timeline');
+            else startActivity('progression');
+          }}
           className="mode-tabs"
         >
           <Tabs.List aria-label="Workspace mode">
@@ -1109,17 +1400,130 @@ export default function App() {
                 : 'One small step toward knowing the neck.'}
           </span>
         </Tabs.Root>
-        <SongLibrary onOpen={openCatalogPassage} />
+        <div className="stage-actions">
+          <a href={`#/research/${activeActivity}`}>Why this exercise?</a>
+          <button className="text-button" onClick={() => saveBookmark()}>
+            Save for next time
+          </button>
+          <button
+            className="text-button"
+            onClick={() => {
+              finishInterrupted();
+              playback.stopAll();
+              studio.go('studio');
+            }}
+          >
+            Exit to studio
+          </button>
+        </div>
+        {activeActivity === 'timeline' && (
+          <div className="stage-view-controls">
+            <button
+              className="secondary-button"
+              aria-pressed={stageSurface === 'timeline'}
+              onClick={() => setStageSurface('timeline')}
+            >
+              Timeline
+            </button>
+            <button
+              className="secondary-button"
+              aria-pressed={stageSurface === 'notation'}
+              onClick={() => setStageSurface('notation')}
+            >
+              Original notation
+            </button>
+            <label>
+              <input
+                type="checkbox"
+                checked={studio.set.staticStage}
+                onChange={(e) => studio.change({ staticStage: e.target.checked })}
+              />
+              Static stage
+            </label>
+          </div>
+        )}
+        {stageActive &&
+          activeActivity === 'timeline' &&
+          stageSurface === 'timeline' &&
+          score &&
+          track &&
+          !masked &&
+          !previewActive && (
+            <Timeline
+              score={score}
+              track={track}
+              readPlayer={readPlayer}
+              staticView={studio.set.staticStage}
+              octaves={showOctaves}
+            />
+          )}
+        {previewActive && activeActivity === 'timeline' && (
+          <p className="alert notice">
+            A variation is playing. Open the progression view for its verified notes; the source
+            timeline is hidden.
+          </p>
+        )}
+        {activeActivity === 'knowledge' && (
+          <div className="challenge-bar">
+            <span>
+              {run && !run.endedAt ? 'Knowledge challenge' : 'Rehearsal · screen answers'}
+            </span>
+            {runScore && (
+              <span>
+                {runScore.points} points · {runScore.combo} consecutive ·{' '}
+                {runScore.assisted
+                  ? 'Assisted practice'
+                  : runScore.unassessed
+                    ? 'Unassessed · no ranked result'
+                    : 'No timing score'}
+              </span>
+            )}
+            {best > 0 && <span>Comparable personal best: {best}</span>}
+            <button className="secondary-button" disabled={!bank.length} onClick={startChallenge}>
+              {run ? 'New challenge' : 'Try a knowledge challenge'}
+            </button>
+            <p>
+              Up to five questions. 100 points per correct first answer. Help makes this assisted
+              practice. Playing is not assessed.
+            </p>
+          </div>
+        )}
+        {stageActive && activeActivity === 'knowledge' && (
+          <section className="stage-question" aria-label="Knowledge task">
+            {panel}
+          </section>
+        )}
         {score && track && (
           <ProgressionWorkspace
             key={`${score.hash}:${track.id}:${localRevision}`}
-            listOutputs={async()=>controller.current?.api.enumerateOutputDevices()??[]}
-            selectOutput={async(id)=>{const c=controller.current;if(!c)return;const device=(await c.api.enumerateOutputDevices()).find(d=>d.deviceId===id);if(id && !device)throw new Error('This output is no longer available.');await c.api.setOutputDevice(device??null);c.clock.reset('Output changed; recalibration required.');}}
+            teacherOpen={teacherOpen}
+            onTeacherOpenChange={setTeacherOpen}
+            workload={studio.set.workload}
+            activity={activeActivity}
+            stageVisible={stageActive}
+            bandmate={studio.set.bandmate}
+            playing={player.playing}
+            goalRevision={studio.set.goal}
+            stageMode={run && !run.endedAt && !run.assisted ? 'challenge' : 'rehearsal'}
+            onActivity={startActivity}
+            listOutputs={async () => controller.current?.api.enumerateOutputDevices() ?? []}
+            selectOutput={async (id) => {
+              const c = controller.current;
+              if (!c) return;
+              const device = (await c.api.enumerateOutputDevices()).find((d) => d.deviceId === id);
+              if (id && !device) throw new Error('This output is no longer available.');
+              await c.api.setOutputDevice(device ?? null);
+              c.clock.reset('Output changed; recalibration required.');
+            }}
             earSeed={score.hash.startsWith('ear-study:') ? earStudy?.seed : undefined}
             onEarStudy={(study) => {
-              finishInterrupted(); playback.stopAll(); setEarStudy(study);
+              finishInterrupted();
+              playback.stopAll();
+              setEarStudy(study);
               controller.current?.loadEarStudy(study);
-              workspace.setMode('understand'); workspace.setLoop(0, study.symbols.length - 1, true);
+              workspace.setMode('understand');
+              workspace.setLoop(0, study.symbols.length - 1, true);
+              studio.go('stage', 'progression');
             }}
             initialListeningDifficulty={listeningDifficulty}
             onTransfer={() =>
@@ -1147,9 +1551,7 @@ export default function App() {
             track={track}
             firstBar={loopStart}
             lastBar={loopEnd}
-            active={mode === 'understand'}
-            visible={mode !== 'play'}
-            teacherFocusRequest={teacherFocusRequest}
+            active={stageActive && mode === 'understand'}
             compact={!desktop}
             showOctaves={showOctaves}
             currentTick={player.currentTick}
@@ -1184,6 +1586,7 @@ export default function App() {
               onExercise: startTeacherExercise,
               onHelp: askTeacherForHelp,
               onUnderstand: () => {
+                studio.go('stage', 'progression');
                 finishInterrupted();
                 workspace.setMode('understand');
                 setSelection(null);
@@ -1193,9 +1596,18 @@ export default function App() {
           />
         )}
         <section
-          className={`music-workspace ${listeningMasked ? 'assessment-masked' : ''}`}
-          aria-hidden={listeningMasked || undefined}
-          inert={listeningMasked}
+          className={`music-workspace ${listeningMasked || (activeActivity !== 'notation' && !(activeActivity === 'timeline' && stageSurface === 'notation')) ? 'assessment-masked' : ''}`}
+          aria-hidden={
+            listeningMasked ||
+            (activeActivity !== 'notation' &&
+              !(activeActivity === 'timeline' && stageSurface === 'notation')) ||
+            undefined
+          }
+          inert={
+            listeningMasked ||
+            (activeActivity !== 'notation' &&
+              !(activeActivity === 'timeline' && stageSurface === 'notation'))
+          }
         >
           <div className="score-card">
             <div className="score-toolbar">
@@ -1415,9 +1827,6 @@ export default function App() {
               </button>
             </div>
           </div>
-          {!desktop && !mobilePanel && mode === 'practice' && (
-            <div className="inline-practice">{panel}</div>
-          )}
           <div className="workspace-footnote">
             <Headphones size={15} />
             <span>Make room for one idea. You can always slow the song down.</span>
@@ -1427,33 +1836,33 @@ export default function App() {
             </button>
           </div>
         </section>
-        {desktop && (
-          <aside className="learning-panel">
-            <div className="panel-tabs">
-              <button
-                className={panelTab === 'note' ? 'active' : ''}
-                aria-pressed={panelTab === 'note'}
-                onClick={() => changePanel('note')}
-              >
-                {mode === 'play'
-                  ? 'Start here'
-                  : mode === 'practice'
-                    ? 'Your exercise'
-                    : 'Explore the neck'}
-              </button>
-              <button
-                className={panelTab === 'coach' ? 'active' : ''}
-                aria-pressed={panelTab === 'coach'}
-                onClick={() => changePanel('coach')}
-              >
-                Practice guide
-              </button>
-            </div>
-            <div className="panel-body">{panel}</div>
-          </aside>
-        )}
+        {desktop &&
+          stageActive &&
+          activeActivity === 'notation' &&
+          mode === 'understand' &&
+          !masked && (
+            <aside className="learning-panel">
+              <div className="panel-tabs">
+                <button
+                  className={panelTab === 'note' ? 'active' : ''}
+                  aria-pressed={panelTab === 'note'}
+                  onClick={() => changePanel('note')}
+                >
+                  Explore the neck
+                </button>
+                <button
+                  className={panelTab === 'coach' ? 'active' : ''}
+                  aria-pressed={panelTab === 'coach'}
+                  onClick={() => changePanel('coach')}
+                >
+                  Practice guide
+                </button>
+              </div>
+              <div className="panel-body">{panel}</div>
+            </aside>
+          )}
       </main>
-      <footer className="transport">
+      <footer className="transport" hidden={!stageActive}>
         <div className="transport-main">
           <button
             className="stop-button"
@@ -1498,6 +1907,15 @@ export default function App() {
           <span>{time(player.endTime)}</span>
         </div>
         <div className="transport-tools">
+          <button
+            className="tool-button stage-loop-button"
+            aria-label="Loop selected passage"
+            aria-pressed={looping}
+            onClick={() => workspace.setLoop(loopStart, loopEnd, !looping)}
+          >
+            <Repeat2 size={18} />
+            <span>Loop</span>
+          </button>
           <label className="speed-control">
             <span>Speed</span>
             <select
@@ -1544,8 +1962,59 @@ export default function App() {
         </div>
       </footer>
       <Modal
+        open={recap}
+        onOpenChange={setRecap}
+        title="Keep the idea going."
+        description="A bookmark is a place to return, not a deadline."
+      >
+        <p>{activity(activeActivity).title}</p>
+        {runScore && (
+          <p>
+            {runScore.correct}/{runScore.correct + runScore.incorrect} supported correct first
+            answers · {runScore.assisted ? 'assisted' : 'without help'} · {runScore.unassessed}{' '}
+            unassessed. Knowledge, not playing.
+          </p>
+        )}
+        <label>
+          What would you like to try next? (optional)
+          <textarea
+            className="field-input"
+            maxLength={1000}
+            value={reflection}
+            onChange={(e) => setReflection(e.target.value)}
+          />
+        </label>
+        <div className="recap-actions">
+          <button
+            className="primary-button"
+            onClick={() => {
+              setRecap(false);
+              if (activeActivity === 'knowledge') nextQuestion();
+            }}
+          >
+            Try again
+          </button>
+          <button
+            className="secondary-button"
+            onClick={() => startActivity(activity(activeActivity).next)}
+          >
+            Try elsewhere
+          </button>
+          <button
+            className="secondary-button"
+            onClick={() => {
+              studio.change({ reflection });
+              setRecap(false);
+              studio.go('studio');
+            }}
+          >
+            Save for next time
+          </button>
+        </div>
+      </Modal>
+      <Modal
         feedback={feedback}
-        open={!desktop && mobilePanel}
+        open={!desktop && mobilePanel && activeActivity === 'notation'}
         onOpenChange={setMobilePanel}
         title={
           mode === 'practice'
@@ -1664,7 +2133,12 @@ export default function App() {
           <button
             className="secondary-button"
             onClick={() =>
-              void exportProgress(attempts)
+              void exportProgress(attempts, {
+                studio: studio.set,
+                stageRuns: [
+                  ...new Map([...savedRuns, ...(run ? [run] : [])].map((r) => [r.id, r])).values(),
+                ].slice(-200),
+              })
                 .then((complete) => {
                   if (!complete)
                     notify(
@@ -1685,9 +2159,9 @@ export default function App() {
         <section className="inspector-section">
           <h3>What is measured?</h3>
           <p className="small-muted">
-            First-answer recall, hints, and delayed questions. Playing along is self-reported unless
-            a future listening feature explicitly assesses it. There is no microphone or camera
-            recording.
+            First-answer recall, assistance, and delayed questions stay separate from playing. Live
+            guitar input is optional and experimental; it reports sounding-pitch evidence, not
+            verified fingering or technique. Audio stays local and transient by default.
           </p>
         </section>
         <button
@@ -1709,7 +2183,11 @@ export default function App() {
             setRevealed(false);
             setLoading(true);
             try {
+              await studio.flush();
               await local.clear();
+              setRun(null);
+              setSavedRuns([]);
+              window.dispatchEvent(new Event('studio-restored'));
               setLocalRevision((value) => value + 1);
               controller.current?.previewVariation(null);
               setError('');

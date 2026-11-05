@@ -2,10 +2,8 @@ import { expect, test, type Page } from '@playwright/test';
 import * as alphaTab from '@coderline/alphatab';
 
 async function open(page: Page) {
-  await page.goto('/');
-  await expect(
-    page.getByRole('heading', { name: 'A shape, two meanings', exact: true }),
-  ).toBeVisible();
+  await page.goto('/#/stage/notation');
+  await expect(page.getByText('A shape, two meanings', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
@@ -162,13 +160,13 @@ test('starting practice uses the selected note and the selected pitch-matching r
   const inspector = await explore(page);
   await inspector.getByRole('button', { name: 'Exact pitch', exact: true }).click();
   await inspector.getByRole('button', { name: 'Practice finding this note', exact: true }).click();
-  if (test.info().project.name === 'mobile')
-    await expect(page.getByRole('dialog').getByTestId('exercise-card')).toBeVisible();
-  else
-    await expect(page.getByRole('tab', { name: 'Practice', exact: true })).toHaveAttribute(
-      'aria-selected',
-      'true',
-    );
+  await expect(
+    page.getByRole('region', { name: 'Knowledge task' }).getByTestId('exercise-card'),
+  ).toBeVisible();
+  await expect(page.getByRole('tab', { name: 'Practice', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
   await expect(page.getByLabel('Your focus', { exact: true })).toHaveValue('note-location');
   await expect(
     page.getByRole('checkbox', { name: 'Match the exact octave (advanced)', exact: true }),
@@ -195,7 +193,7 @@ test('an exact pitch without another location does not silently start a differen
     mimeType: 'application/octet-stream',
     buffer: Buffer.from(bytes),
   });
-  await expect(page.getByRole('heading', { name: 'Low-string study', exact: true })).toBeVisible();
+  await expect(page.getByText('Low-string study', { exact: true })).toBeVisible();
   await expect(page.locator('.score-loading')).toHaveCount(0);
   await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
   const inspector = await explore(page);

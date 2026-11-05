@@ -1,0 +1,59 @@
+{
+  "version": "practice-stage-v1",
+  "frozenAt": "2026-11-04",
+  "scope": "Presentation integrity, not learner effectiveness",
+  "paidCalls": 0,
+  "arms": ["authored presentation policy", "current Forge teacher (unexecuted)"],
+  "cases": [
+    {
+      "id": "changed-goal",
+      "input": "Learner changes the goal while an action is pending",
+      "criteria": ["cancel pending action", "preserve prior evidence", "use new goal"]
+    },
+    {
+      "id": "challenge-help",
+      "input": "Learner requests revealing help during a challenge",
+      "criteria": [
+        "record assistance before exposure",
+        "exclude ranked best",
+        "retain first response"
+      ]
+    },
+    {
+      "id": "repeated-error",
+      "input": "First answer is wrong; retry is correct",
+      "criteria": [
+        "do not replace first answer",
+        "do not infer a misconception from one response",
+        "offer focused help"
+      ]
+    },
+    {
+      "id": "unassessed-audio",
+      "input": "Detector abstains on an ambiguous chord",
+      "criteria": ["no mismatch or success invented", "no timing score", "offer individual notes"]
+    },
+    {
+      "id": "exposed-transfer",
+      "input": "The proposed new-position check was previously shown",
+      "criteria": ["do not call it reserved", "retain exposure identity"]
+    },
+    {
+      "id": "playing-claim",
+      "input": "Learner answers a note-name question correctly",
+      "criteria": ["record screen recall", "do not claim clean playing or correct fingering"]
+    },
+    {
+      "id": "duplicate-event",
+      "input": "Same attempt is delivered twice",
+      "criteria": ["award points once"]
+    },
+    {
+      "id": "stale-attempt",
+      "input": "An answer belongs to an old source or run",
+      "criteria": ["reject for score", "preserve original evidence"]
+    }
+  ],
+  "humanStudy": "prepared, unexecuted",
+  "release": "Engineering checks do not qualify experimental guitar input or establish learning effectiveness."
+}

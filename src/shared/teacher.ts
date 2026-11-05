@@ -20,7 +20,15 @@ import {
 
 export const TEACHER_VERSION = 'teacher-v1';
 export const INTEGRATED_TEACHER_VERSION = 'teacher-v5';
-export const teacherCapabilitySchema = z.enum(['listening-v1', 'teaching-practice-v1', 'homework-caged-v1', 'teacher-live-v1', 'ear-lab-v1', 'practice-stage-v1', 'homework-playing-v1']);
+export const teacherCapabilitySchema = z.enum([
+  'listening-v1',
+  'teaching-practice-v1',
+  'homework-caged-v1',
+  'teacher-live-v1',
+  'ear-lab-v1',
+  'practice-stage-v1',
+  'homework-playing-v1',
+]);
 export const TEACHER_PROMPT_VERSION = 'teacher-tools-v8-integrated';
 export const HOMEWORK_TEACHER_VERSION = 'teacher-v4';
 export const PRACTICE_TEACHER_VERSION = 'teacher-v3';
@@ -49,7 +57,14 @@ const position = z
   .strict();
 export const teacherRequestSchema = z
   .object({
-    schemaVersion: z.enum([TEACHER_VERSION, LISTENING_TEACHER_VERSION, PRACTICE_TEACHER_VERSION, HOMEWORK_TEACHER_VERSION, LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION]),
+    schemaVersion: z.enum([
+      TEACHER_VERSION,
+      LISTENING_TEACHER_VERSION,
+      PRACTICE_TEACHER_VERSION,
+      HOMEWORK_TEACHER_VERSION,
+      LIVE_TEACHER_VERSION,
+      INTEGRATED_TEACHER_VERSION,
+    ]),
     capabilities: z.array(teacherCapabilitySchema).max(7).optional(),
     requestId: z.string().uuid(),
     lessonId: z.string().uuid(),
@@ -62,6 +77,16 @@ export const teacherRequestSchema = z
         objective: teacherObjectiveSchema,
         practice: practiceContextSchema.optional(),
         homework: homeworkContextSchema.optional(),
+        presentation: z
+          .object({
+            goal: z.string().max(500).optional(),
+            activity: z.string().max(40),
+            mode: z.enum(['rehearsal', 'challenge']),
+            playing: z.boolean(),
+            feedbackVisible: z.boolean(),
+          })
+          .strict()
+          .optional(),
         live: liveContextSchema.optional(),
         ear: earContextSchema.optional(),
         listening: z
@@ -171,33 +196,81 @@ export const teacherRequestSchema = z
     if (request.schemaVersion === INTEGRATED_TEACHER_VERSION) {
       const capabilities = request.capabilities;
       if (!capabilities || new Set(capabilities).size !== capabilities.length)
-        ctx.addIssue({ code: 'custom', path: ['capabilities'], message: 'V5 requires unique, explicit capabilities.' });
-      for (const [field, capability] of [['practice', 'teaching-practice-v1'], ['listening', 'listening-v1'], ['homework', 'homework-caged-v1'], ['live', 'teacher-live-v1'], ['ear', 'ear-lab-v1']] as const) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['capabilities'],
+          message: 'V5 requires unique, explicit capabilities.',
+        });
+      for (const [field, capability] of [
+        ['practice', 'teaching-practice-v1'],
+        ['listening', 'listening-v1'],
+        ['homework', 'homework-caged-v1'],
+        ['live', 'teacher-live-v1'],
+        ['ear', 'ear-lab-v1'],
+        ['presentation', 'practice-stage-v1'],
+      ] as const) {
         if (Boolean(request.context[field]) !== Boolean(capabilities?.includes(capability)))
-          ctx.addIssue({ code: 'custom', path: ['capabilities'], message: `Capability ${capability} must match its context.` });
+          ctx.addIssue({
+            code: 'custom',
+            path: ['capabilities'],
+            message: `Capability ${capability} must match its context.`,
+          });
       }
     }
 
-    if (request.context.practice && ![PRACTICE_TEACHER_VERSION, HOMEWORK_TEACHER_VERSION, LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))
+    if (
+      request.context.practice &&
+      ![
+        PRACTICE_TEACHER_VERSION,
+        HOMEWORK_TEACHER_VERSION,
+        LIVE_TEACHER_VERSION,
+        INTEGRATED_TEACHER_VERSION,
+      ].includes(request.schemaVersion)
+    )
       ctx.addIssue({
         code: 'custom',
         path: ['context', 'practice'],
         message: 'Practice requires the v3 capability contract.',
       });
-    if (request.context.homework && ![HOMEWORK_TEACHER_VERSION, LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))
+    if (
+      request.context.homework &&
+      ![HOMEWORK_TEACHER_VERSION, LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(
+        request.schemaVersion,
+      )
+    )
       ctx.addIssue({
         code: 'custom',
         path: ['context', 'homework'],
         message: 'Homework requires the v4 capability contract.',
       });
-    if(request.context.live && ![LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))ctx.addIssue({code:'custom',path:['context','live'],message:'Live input requires the live capability contract.'});
-    if (request.context.ear && ![EAR_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))
+    if (
+      request.context.live &&
+      ![LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion)
+    )
+      ctx.addIssue({
+        code: 'custom',
+        path: ['context', 'live'],
+        message: 'Live input requires the live capability contract.',
+      });
+    if (
+      request.context.ear &&
+      ![EAR_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion)
+    )
       ctx.addIssue({
         code: 'custom',
         path: ['context', 'ear'],
         message: 'Ear capabilities require teacher-v3.',
       });
-    if(request.schemaVersion === EAR_TEACHER_VERSION && request.context.ear && request.context.practice) ctx.addIssue({code:'custom',path:['schemaVersion'],message:'Ambiguous legacy teacher-v3 capabilities; use teacher-v5.'});
+    if (
+      request.schemaVersion === EAR_TEACHER_VERSION &&
+      request.context.ear &&
+      request.context.practice
+    )
+      ctx.addIssue({
+        code: 'custom',
+        path: ['schemaVersion'],
+        message: 'Ambiguous legacy teacher-v3 capabilities; use teacher-v5.',
+      });
     if (request.context.listening) {
       const p = curatedHarmony.getPassage(request.context.listening.passageId);
       if (request.schemaVersion === TEACHER_VERSION || !p || !passageReady(p))
@@ -318,20 +391,20 @@ export const teacherTaskRecipeSchema = z
   .strict();
 export type TeacherTaskRecipe = z.infer<typeof teacherTaskRecipeSchema>;
 export const teacherHighlightActionSchema = z
-    .object({
-      type: z.literal('highlight'),
-      spanIndex: z.number().int().min(0).max(7),
-      degree: z.string().max(4),
-    })
-    .strict();
+  .object({
+    type: z.literal('highlight'),
+    spanIndex: z.number().int().min(0).max(7),
+    degree: z.string().max(4),
+  })
+  .strict();
 export const teacherAuditionActionSchema = z
-    .object({
-      type: z.literal('audition'),
-      spanIndex: z.number().int().min(0).max(7),
-      includeBass: z.boolean(),
-      omitRoot: z.boolean().optional(),
-    })
-    .strict();
+  .object({
+    type: z.literal('audition'),
+    spanIndex: z.number().int().min(0).max(7),
+    includeBass: z.boolean(),
+    omitRoot: z.boolean().optional(),
+  })
+  .strict();
 export const teacherActionSchema = z.discriminatedUnion('type', [
   practiceActionSchema,
   homeworkActionSchema,
@@ -385,7 +458,11 @@ const finalFields = {
   claims: z.array(teacherClaimSchema).max(16),
 };
 export const teacherToolNames = [
-  'inspect_live_input', 'live_activity', 'homework_map', 'homework_activity', 'practice_activity',
+  'inspect_live_input',
+  'live_activity',
+  'homework_map',
+  'homework_activity',
+  'practice_activity',
   'inspect_audio',
   'ear_activity',
   'inspect_passage',
@@ -412,7 +489,14 @@ export const teacherActorStepSchema = z.discriminatedUnion('kind', [
 export type TeacherActorStep = z.infer<typeof teacherActorStepSchema>;
 export const teacherTurnSchema = z
   .object({
-    schemaVersion: z.enum([TEACHER_VERSION, LISTENING_TEACHER_VERSION, PRACTICE_TEACHER_VERSION, HOMEWORK_TEACHER_VERSION, LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION]),
+    schemaVersion: z.enum([
+      TEACHER_VERSION,
+      LISTENING_TEACHER_VERSION,
+      PRACTICE_TEACHER_VERSION,
+      HOMEWORK_TEACHER_VERSION,
+      LIVE_TEACHER_VERSION,
+      INTEGRATED_TEACHER_VERSION,
+    ]),
     lessonId: z.string().uuid(),
     turnId: z.string().uuid(),
     contextVersion: id,

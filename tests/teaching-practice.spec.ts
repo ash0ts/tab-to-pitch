@@ -11,8 +11,7 @@ test('a learner can revise a phrase, choose help, and resume a goal without read
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
-  await page.getByRole('tab', {name:'Understand',exact:true}).click();
+  await page.goto('/#/stage/musicianship');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
@@ -57,7 +56,6 @@ test('a learner can revise a phrase, choose help, and resume a goal without read
     .fill('Leaving space helped me hear the arrival.');
   await workspace.getByRole('button', { name: 'Save reflection & bookmark', exact: true }).click();
   await page.reload();
-  await page.getByRole('tab', {name:'Understand',exact:true}).click();
   await expect(
     workspace.getByRole('heading', { name: 'Make a two-bar response', exact: true, level: 2 }),
   ).toBeVisible();
@@ -68,8 +66,7 @@ test('a learner can revise a phrase, choose help, and resume a goal without read
 test('rhythm and expression keep wrong answers masked and factual differences separate from preference', async ({
   page,
 }) => {
-  await page.goto('/');
-  await page.getByRole('tab', {name:'Understand',exact:true}).click();
+  await page.goto('/#/stage/musicianship');
   const workspace = page.getByRole('region', { name: 'Practice workspace', exact: true });
   await workspace
     .getByRole('button', { name: 'Play this passage more musically', exact: true })
@@ -108,14 +105,10 @@ test('rhythm and expression keep wrong answers masked and factual differences se
 test('focused help does not reopen unrelated history, and stopping a question restores conversation', async ({
   page,
 }) => {
-  await page.goto('/');
-  await page.getByRole('tab', {name:'Understand',exact:true}).click();
+  await page.goto('/#/stage/musicianship');
   await page.getByRole('button', { name: 'Make something with this idea', exact: true }).click();
   await page.getByRole('button', { name: 'Build a phrase', exact: true }).click();
-  const mobileTeacher = page.getByRole('button', {name:'Open music teacher',exact:true});
-  if (await mobileTeacher.isVisible()) await mobileTeacher.click();
-  const openTeacher = page.getByRole('button', { name: 'Open teacher', exact: true });
-  if (await openTeacher.isVisible()) await openTeacher.click();
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
   const help = teacher.getByRole('button', { name: 'Explain this question', exact: true });
   await help.focus();
