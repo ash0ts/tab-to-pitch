@@ -6,6 +6,7 @@ import {
   homeworkTaskSchema,
 } from './shared/homework';
 import { practiceStateSchema, practiceObservationSchema } from './shared/practice';
+import { earStateSchema } from './ear/model';
 import { listeningExerciseSchema, listeningAttemptSchema } from './songs/listening';
 import { z } from 'zod';
 import type { ExerciseDefinition } from './engine/types';
@@ -41,8 +42,10 @@ export const lessonSessionSchema = z
   .object({
     id: z.string().uuid(),
     schemaVersion: z.union([z.literal(1), z.literal(2)]),
+    ear: earStateSchema.optional(),
     source: z
       .discriminatedUnion('kind', [
+        z.object({ kind: z.literal('audio-excerpt'), assetId: text, revision: text }).strict(),
         z.object({ kind: z.literal('score'), hash: text, trackId: text }).strict(),
         z
           .object({
@@ -89,6 +92,11 @@ export const lessonEventSchema = z
     at: timestamp,
     contextVersion: text.min(1),
     kind: z.enum([
+      'audio-change',
+      'audio-response',
+      'audio-assistance',
+      'audio-replay',
+      'audio-review',
       'message',
       'exposure',
       'task-started',
@@ -111,6 +119,22 @@ export const lessonEventSchema = z
       'practice-bookmark',
       'live-started', 'live-response', 'live-support',
     ]),
+    audioEvidence: z
+      .object({
+        assetId: z.string().regex(/^[a-f0-9]{64}$/),
+        start: z.number().nonnegative(),
+        end: z.number().positive(),
+        referenceVersion: z.string().max(80).nullable(),
+        proposal: z.array(z.string().max(24)).max(8),
+        assisted: z.boolean(),
+        replayCount: z.number().int().nonnegative(),
+        grade: z
+          .array(z.object({ root: z.boolean(), quality: z.boolean() }).strict())
+          .max(8)
+          .nullable(),
+      })
+      .strict()
+      .optional(),
     messageId: z.string().uuid().optional(),
     attemptId: text.optional(),
     exerciseId: text.optional(),

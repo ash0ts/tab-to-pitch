@@ -1,0 +1,912 @@
+{
+  "status": "verified",
+  "inputHashes": {
+    "manifest": "7dd10619189637ec9751dd7e4d3dd4adecf0ca1792e2dc4d469ef55e15be682f",
+    "cases": "87f7622128157c13be048fc582df7044b3d20c5e56e1fcc2c7ece9af0ef17312",
+    "campaign": "36b889ebc2a24e2a42d472eb36b154e2a09827296d124e5fcbef7e18fe1ffa8e"
+  },
+  "publisherSources": [
+    {
+      "path": "research/ear-lab/publish.mjs",
+      "sha256": "19269bdffdfa4c87676ab5c2454c94fb957d8306b3d3da2379e2859377481bc2"
+    },
+    {
+      "path": "research/ear-lab/contract.ts",
+      "sha256": "be952124793defc34d7f0478b125c9cb3d641a19a1fb48d19d84d5dc9d66b9e7"
+    },
+    {
+      "path": "research/teacher-agent/judge.ts",
+      "sha256": "9a161dd0a77360448165300a18ef471970024cb6ad68fd6cf71422b1670f88f5"
+    },
+    {
+      "path": "src/engine/teacher.ts",
+      "sha256": "0d1a2d6011d22e2b418d2fdca79ca6cb8645821692ffd804e0d4d9a65368b24e"
+    },
+    {
+      "path": "src/shared/teacher.ts",
+      "sha256": "1d245cf8375fb1ab1e3a0e1883a2f6a237d7ac77e96010c55ced75fdaac93f48"
+    }
+  ],
+  "createdAt": "2026-11-04T23:50:58.049Z",
+  "inferenceCallsDuringReplay": 0,
+  "groups": [
+    {
+      "name": "authored-local::development::0",
+      "datasetRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-actor-58d0f8b4d177:jcnXJXTit0gyTCDZmpYz9gmIAprW9KzQsdxroC6FxJM",
+      "scorerRef": "weave:///wandb/tab-to-pitch-public-data-research/op/ear-actor-evidence-v1:lIEOA9YqOl2mYtub2MFLEFT3XeM1TwLnwq75Z8ebW4M",
+      "evaluationRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-authored-local-development-0:Y0BmKOHwaQ92h6YRvrg5IK88XpGu2ZRm8Qw16Ycb850",
+      "modelRef": "weave:///wandb/tab-to-pitch-public-data-research/op/teacher-recorded-8f9bfbefa69f:XXPA6hn72yjdvD7kS3vzyLvZG3l2m0aP4qQpzH4N8wE",
+      "callId": "01a1a8f9-349a-7a56-aebb-f6a9f9a01150",
+      "traceId": "01a1a8f9-349b-74a2-aa67-cbd06d15eb1b",
+      "summary": {
+        "model_success": {
+          "true_count": 24,
+          "true_fraction": 1
+        },
+        "model_output": {
+          "request": {
+            "context": {
+              "ear": {
+                "duration": {
+                  "mean": 8
+                },
+                "draftVisible": {
+                  "true_count": 18,
+                  "true_fraction": 0.75
+                },
+                "activeQuestion": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "assisted": {
+                  "true_count": 18,
+                  "true_fraction": 0.75
+                },
+                "referenceAvailable": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              },
+              "music": {
+                "capo": {
+                  "mean": 0
+                },
+                "selectedSpan": {
+                  "mean": 0
+                }
+              },
+              "constraints": {
+                "minFret": {
+                  "mean": 0
+                },
+                "maxFret": {
+                  "mean": 12
+                },
+                "voiceCount": {
+                  "mean": 4
+                },
+                "maxSpan": {
+                  "mean": 4
+                },
+                "allowOpenStrings": {
+                  "true_count": 24,
+                  "true_fraction": 1
+                },
+                "omitFifth": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "rootless": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "preserveMelody": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              }
+            }
+          },
+          "execution": {
+            "elapsedMs": {
+              "mean": 0.5602445833333434
+            },
+            "providerSucceeded": {
+              "true_count": 0,
+              "true_fraction": 0
+            }
+          },
+          "structural": {
+            "schemaValid": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "contextMatches": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "musicalActionsValid": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "sourceUnchanged": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "boundedCalls": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "noGradeMutation": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "maskedActions": {
+              "true_count": 24,
+              "true_fraction": 1
+            },
+            "providerSuccess": {
+              "true_count": 0,
+              "true_fraction": 0
+            },
+            "fallback": {
+              "true_count": 24,
+              "true_fraction": 1
+            }
+          }
+        },
+        "ear-actor-evidence-v1": {
+          "schemaValid": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "contextMatches": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "musicalActionsValid": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "sourceUnchanged": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "boundedCalls": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "noGradeMutation": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "maskedActions": {
+            "true_count": 24,
+            "true_fraction": 1
+          },
+          "providerSuccess": {
+            "true_count": 0,
+            "true_fraction": 0
+          },
+          "fallback": {
+            "true_count": 24,
+            "true_fraction": 1
+          }
+        },
+        "model_latency": {
+          "mean": 0.000125
+        }
+      }
+    },
+    {
+      "name": "openai/gpt-oss-20b::qualification::0",
+      "datasetRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-actor-3e8ad00caeb6:hOy02as78Vok3OXLWlYvMunjVmY0V4xtzvVBoGXkCng",
+      "scorerRef": "weave:///wandb/tab-to-pitch-public-data-research/op/ear-actor-evidence-v1:lIEOA9YqOl2mYtub2MFLEFT3XeM1TwLnwq75Z8ebW4M",
+      "evaluationRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-openai-gpt-oss-20b-qualification-0:W6ozY9ULHVBYCPiyqR7xaVj0TX8m6XRgf6xlKbmUvrs",
+      "modelRef": "weave:///wandb/tab-to-pitch-public-data-research/op/teacher-recorded-2cc2eeeadb01:XXPA6hn72yjdvD7kS3vzyLvZG3l2m0aP4qQpzH4N8wE",
+      "callId": "01a1a8f9-4e34-7a4b-ae72-f6a48f9af8a0",
+      "traceId": "01a1a8f9-4e34-7a4b-ae72-f6a52e95ee5b",
+      "summary": {
+        "model_success": {
+          "true_count": 1,
+          "true_fraction": 1
+        },
+        "model_output": {
+          "request": {
+            "context": {
+              "ear": {
+                "duration": {
+                  "mean": 8
+                },
+                "draftVisible": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "activeQuestion": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "assisted": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "referenceAvailable": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              },
+              "music": {
+                "capo": {
+                  "mean": 0
+                },
+                "selectedSpan": {
+                  "mean": 0
+                }
+              },
+              "constraints": {
+                "minFret": {
+                  "mean": 0
+                },
+                "maxFret": {
+                  "mean": 12
+                },
+                "voiceCount": {
+                  "mean": 4
+                },
+                "maxSpan": {
+                  "mean": 4
+                },
+                "allowOpenStrings": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "omitFifth": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "rootless": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "preserveMelody": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              }
+            }
+          },
+          "execution": {
+            "elapsedMs": {
+              "mean": 18008.944165999997
+            },
+            "providerSucceeded": {
+              "true_count": 0,
+              "true_fraction": 0
+            }
+          },
+          "structural": {
+            "schemaValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "contextMatches": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "musicalActionsValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "sourceUnchanged": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "boundedCalls": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "noGradeMutation": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "maskedActions": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "providerSuccess": {
+              "true_count": 0,
+              "true_fraction": 0
+            },
+            "fallback": {
+              "true_count": 1,
+              "true_fraction": 1
+            }
+          }
+        },
+        "ear-actor-evidence-v1": {
+          "schemaValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "contextMatches": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "musicalActionsValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "sourceUnchanged": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "boundedCalls": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "noGradeMutation": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "maskedActions": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "providerSuccess": {
+            "true_count": 0,
+            "true_fraction": 0
+          },
+          "fallback": {
+            "true_count": 1,
+            "true_fraction": 1
+          }
+        },
+        "model_latency": {
+          "mean": 0.001
+        }
+      }
+    },
+    {
+      "name": "openai/gpt-oss-20b::qualification::1",
+      "datasetRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-actor-cff01423405f:btJI1qKICMlrsLWOF6L3RXXBrJV1tKcLMcBqwSElYfU",
+      "scorerRef": "weave:///wandb/tab-to-pitch-public-data-research/op/ear-actor-evidence-v1:lIEOA9YqOl2mYtub2MFLEFT3XeM1TwLnwq75Z8ebW4M",
+      "evaluationRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-openai-gpt-oss-20b-qualification-1:PvkXcGkNzZtj7zfi9JYSjEQf0kA5H2D88zfgeNJ4hsk",
+      "modelRef": "weave:///wandb/tab-to-pitch-public-data-research/op/teacher-recorded-c4fcdcca8e02:XXPA6hn72yjdvD7kS3vzyLvZG3l2m0aP4qQpzH4N8wE",
+      "callId": "01a1a8f9-6ba3-7f6a-aeed-e779ac93dcdb",
+      "traceId": "01a1a8f9-6ba3-7f6a-aeed-e77a1285fd8a",
+      "summary": {
+        "model_success": {
+          "true_count": 1,
+          "true_fraction": 1
+        },
+        "model_output": {
+          "request": {
+            "context": {
+              "ear": {
+                "duration": {
+                  "mean": 8
+                },
+                "draftVisible": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "activeQuestion": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "assisted": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "referenceAvailable": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              },
+              "music": {
+                "capo": {
+                  "mean": 0
+                },
+                "selectedSpan": {
+                  "mean": 0
+                }
+              },
+              "constraints": {
+                "minFret": {
+                  "mean": 0
+                },
+                "maxFret": {
+                  "mean": 12
+                },
+                "voiceCount": {
+                  "mean": 4
+                },
+                "maxSpan": {
+                  "mean": 4
+                },
+                "allowOpenStrings": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "omitFifth": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "rootless": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "preserveMelody": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              }
+            }
+          },
+          "execution": {
+            "elapsedMs": {
+              "mean": 6081.233207999998
+            },
+            "providerSucceeded": {
+              "true_count": 0,
+              "true_fraction": 0
+            }
+          },
+          "structural": {
+            "schemaValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "contextMatches": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "musicalActionsValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "sourceUnchanged": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "boundedCalls": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "noGradeMutation": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "maskedActions": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "providerSuccess": {
+              "true_count": 0,
+              "true_fraction": 0
+            },
+            "fallback": {
+              "true_count": 1,
+              "true_fraction": 1
+            }
+          }
+        },
+        "ear-actor-evidence-v1": {
+          "schemaValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "contextMatches": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "musicalActionsValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "sourceUnchanged": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "boundedCalls": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "noGradeMutation": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "maskedActions": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "providerSuccess": {
+            "true_count": 0,
+            "true_fraction": 0
+          },
+          "fallback": {
+            "true_count": 1,
+            "true_fraction": 1
+          }
+        },
+        "model_latency": {
+          "mean": 0.001
+        }
+      }
+    },
+    {
+      "name": "openai/gpt-oss-120b::qualification::0",
+      "datasetRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-actor-3e8ad00caeb6:hOy02as78Vok3OXLWlYvMunjVmY0V4xtzvVBoGXkCng",
+      "scorerRef": "weave:///wandb/tab-to-pitch-public-data-research/op/ear-actor-evidence-v1:lIEOA9YqOl2mYtub2MFLEFT3XeM1TwLnwq75Z8ebW4M",
+      "evaluationRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-openai-gpt-oss-120b-qualification-0:23XNXJtR2LfbMY2SffXLvMAk7uyoO0nfDKv5XsNSPAE",
+      "modelRef": "weave:///wandb/tab-to-pitch-public-data-research/op/teacher-recorded-459725309aa3:XXPA6hn72yjdvD7kS3vzyLvZG3l2m0aP4qQpzH4N8wE",
+      "callId": "01a1a8f9-8370-7f0f-aac4-5af0793f51ac",
+      "traceId": "01a1a8f9-8370-7f0f-aac4-5af13cb9b7e1",
+      "summary": {
+        "model_success": {
+          "true_count": 1,
+          "true_fraction": 1
+        },
+        "model_output": {
+          "request": {
+            "context": {
+              "ear": {
+                "duration": {
+                  "mean": 8
+                },
+                "draftVisible": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "activeQuestion": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "assisted": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "referenceAvailable": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              },
+              "music": {
+                "capo": {
+                  "mean": 0
+                },
+                "selectedSpan": {
+                  "mean": 0
+                }
+              },
+              "constraints": {
+                "minFret": {
+                  "mean": 0
+                },
+                "maxFret": {
+                  "mean": 12
+                },
+                "voiceCount": {
+                  "mean": 4
+                },
+                "maxSpan": {
+                  "mean": 4
+                },
+                "allowOpenStrings": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "omitFifth": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "rootless": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "preserveMelody": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              }
+            }
+          },
+          "execution": {
+            "elapsedMs": {
+              "mean": 1153.305124999999
+            },
+            "providerSucceeded": {
+              "true_count": 0,
+              "true_fraction": 0
+            }
+          },
+          "structural": {
+            "schemaValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "contextMatches": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "musicalActionsValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "sourceUnchanged": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "boundedCalls": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "noGradeMutation": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "maskedActions": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "providerSuccess": {
+              "true_count": 0,
+              "true_fraction": 0
+            },
+            "fallback": {
+              "true_count": 1,
+              "true_fraction": 1
+            }
+          }
+        },
+        "ear-actor-evidence-v1": {
+          "schemaValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "contextMatches": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "musicalActionsValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "sourceUnchanged": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "boundedCalls": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "noGradeMutation": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "maskedActions": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "providerSuccess": {
+            "true_count": 0,
+            "true_fraction": 0
+          },
+          "fallback": {
+            "true_count": 1,
+            "true_fraction": 1
+          }
+        },
+        "model_latency": {
+          "mean": 0
+        }
+      }
+    },
+    {
+      "name": "openai/gpt-oss-120b::qualification::1",
+      "datasetRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-actor-cff01423405f:btJI1qKICMlrsLWOF6L3RXXBrJV1tKcLMcBqwSElYfU",
+      "scorerRef": "weave:///wandb/tab-to-pitch-public-data-research/op/ear-actor-evidence-v1:lIEOA9YqOl2mYtub2MFLEFT3XeM1TwLnwq75Z8ebW4M",
+      "evaluationRef": "weave:///wandb/tab-to-pitch-public-data-research/object/ear-lab-v1-qualification-001-openai-gpt-oss-120b-qualification-1:3XBsWXpkqcDZyMKRg2l1ldSBXCtyXTALoFIz4uWIHYg",
+      "modelRef": "weave:///wandb/tab-to-pitch-public-data-research/op/teacher-recorded-5ce4b62a4dac:XXPA6hn72yjdvD7kS3vzyLvZG3l2m0aP4qQpzH4N8wE",
+      "callId": "01a1a8f9-9834-73a4-baf5-a8fbc2519805",
+      "traceId": "01a1a8f9-9834-73a4-baf5-a8fcfbae8f13",
+      "summary": {
+        "model_success": {
+          "true_count": 1,
+          "true_fraction": 1
+        },
+        "model_output": {
+          "request": {
+            "context": {
+              "ear": {
+                "duration": {
+                  "mean": 8
+                },
+                "draftVisible": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "activeQuestion": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "assisted": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "referenceAvailable": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              },
+              "music": {
+                "capo": {
+                  "mean": 0
+                },
+                "selectedSpan": {
+                  "mean": 0
+                }
+              },
+              "constraints": {
+                "minFret": {
+                  "mean": 0
+                },
+                "maxFret": {
+                  "mean": 12
+                },
+                "voiceCount": {
+                  "mean": 4
+                },
+                "maxSpan": {
+                  "mean": 4
+                },
+                "allowOpenStrings": {
+                  "true_count": 1,
+                  "true_fraction": 1
+                },
+                "omitFifth": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "rootless": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                },
+                "preserveMelody": {
+                  "true_count": 0,
+                  "true_fraction": 0
+                }
+              }
+            }
+          },
+          "execution": {
+            "elapsedMs": {
+              "mean": 861.4930000000022
+            },
+            "providerSucceeded": {
+              "true_count": 0,
+              "true_fraction": 0
+            }
+          },
+          "structural": {
+            "schemaValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "contextMatches": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "musicalActionsValid": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "sourceUnchanged": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "boundedCalls": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "noGradeMutation": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "maskedActions": {
+              "true_count": 1,
+              "true_fraction": 1
+            },
+            "providerSuccess": {
+              "true_count": 0,
+              "true_fraction": 0
+            },
+            "fallback": {
+              "true_count": 1,
+              "true_fraction": 1
+            }
+          }
+        },
+        "ear-actor-evidence-v1": {
+          "schemaValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "contextMatches": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "musicalActionsValid": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "sourceUnchanged": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "boundedCalls": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "noGradeMutation": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "maskedActions": {
+            "true_count": 1,
+            "true_fraction": 1
+          },
+          "providerSuccess": {
+            "true_count": 0,
+            "true_fraction": 0
+          },
+          "fallback": {
+            "true_count": 1,
+            "true_fraction": 1
+          }
+        },
+        "model_latency": {
+          "mean": 0
+        }
+      }
+    }
+  ],
+  "verification": [
+    {
+      "group": "authored-local::development::0",
+      "rows": 24,
+      "calls": 73,
+      "verified": true,
+      "callId": "01a1a8f9-349a-7a56-aebb-f6a9f9a01150"
+    },
+    {
+      "group": "openai/gpt-oss-20b::qualification::0",
+      "rows": 1,
+      "calls": 4,
+      "verified": true,
+      "callId": "01a1a8f9-4e34-7a4b-ae72-f6a48f9af8a0"
+    },
+    {
+      "group": "openai/gpt-oss-20b::qualification::1",
+      "rows": 1,
+      "calls": 4,
+      "verified": true,
+      "callId": "01a1a8f9-6ba3-7f6a-aeed-e779ac93dcdb"
+    },
+    {
+      "group": "openai/gpt-oss-120b::qualification::0",
+      "rows": 1,
+      "calls": 4,
+      "verified": true,
+      "callId": "01a1a8f9-8370-7f0f-aac4-5af0793f51ac"
+    },
+    {
+      "group": "openai/gpt-oss-120b::qualification::1",
+      "rows": 1,
+      "calls": 4,
+      "verified": true,
+      "callId": "01a1a8f9-9834-73a4-baf5-a8fbc2519805"
+    }
+  ],
+  "checkedAt": "2026-11-04T23:51:38.686Z"
+}

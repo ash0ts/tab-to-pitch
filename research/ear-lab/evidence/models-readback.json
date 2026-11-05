@@ -1,0 +1,120 @@
+{
+  "status": "verified",
+  "project": "wandb/tab-to-pitch-public-data-research",
+  "artifacts": [
+    {
+      "collection": "tabtopitch-ear-dataset-v1",
+      "type": "dataset",
+      "id": "QXJ0aWZhY3Q6NDM5MzI3ODMwMQ==",
+      "digest": "5faf9a630ae6a0a652b59b6dc053d016",
+      "sha256": {
+        "manifest.json": "46f6ec74e602f17d6a09f5e3433985cb7ba2d0478202339bdcb627e9e9731dbd",
+        "features.json": "c543ee9c05468894b0e6be4592970bcee77f76ddbf559d860e5e4071e6cf4d9f",
+        "analysis.json": "44df1e988594a1db670a199df327a37d4bbdb26e7b513f0079ce72fb97652c69",
+        "dataset-cards.md": "312cf14960eee2635ee254da6a1d5e2c564590fe85b09533af030b080441d0a4"
+      },
+      "status": "download-verified",
+      "version": 0,
+      "qualifiedName": "wandb/tab-to-pitch-public-data-research/tabtopitch-ear-dataset-v1:v0",
+      "downloadReceiptSha256": "731f105a1adc9c184d32c97af87142ab870f3b41ddbc3e6316c65f7e8b827351",
+      "freshDownload": false
+    },
+    {
+      "collection": "tabtopitch-ear-reliability-v1",
+      "type": "model",
+      "id": "QXJ0aWZhY3Q6NDM5MzMwOTk0Nw==",
+      "digest": "94ca85ce154e64a9a772a3cd99855d02",
+      "sha256": {
+        "model.json": "84d73c7fc285c0c5ab8b361a134c80840ea41dcf5571eedd44f9da7ee21ecd29",
+        "report.json": "fa37ff151c1cc9770ebe85ffefeed1bdd2e9d616cea1e374a7357ca940744e0e",
+        "predictions.json": "27bc96a2eae2521fcea3fe73a64cbc7d54eb253f3fd3cf285499f15e0407ca36",
+        "bundle.json": "61d67c8e30c2c0e55db47b491a36f04bac96ccc9b5164166999ceebcf27ac1c2",
+        "source/fit.py": "1eb1ee5676b95fd18657ca2b7e9b63ec2f144dbf1fdb891f087df64cda9db126",
+        "source/analysis.py": "9ec440405411834fe398fef49479add18f1e3d46ead980bd004ea9aa28a161e3",
+        "source/protocol.json": "f130d9e8a50d26e9f2aa890396e1d5bf6135bb1165ea57c6a303cff9cecd853d"
+      },
+      "status": "download-verified",
+      "version": 0,
+      "qualifiedName": "wandb/tab-to-pitch-public-data-research/tabtopitch-ear-reliability-v1:v0",
+      "downloadReceiptSha256": "731f105a1adc9c184d32c97af87142ab870f3b41ddbc3e6316c65f7e8b827351",
+      "freshDownload": false
+    },
+    {
+      "collection": "tabtopitch-ear-comparisons-v1",
+      "type": "run_table",
+      "id": "QXJ0aWZhY3Q6NDM5MzM1NjQxOQ==",
+      "digest": "d85b3049e7b9416f3f8474adc8c9e611",
+      "sha256": {
+        "audio.table.json": "9452e7d7e6e751d76c0ecdea9b70b5393d13e54372abdb414ced631e4246fbaa",
+        "teacher.table.json": "528c3f3ba95d151880231db62fc0cf1946dbc6fd914bdd0fbc87dc86c537dd29",
+        "teacher-evidence.json": "926abd761315de1f4f1efa80cdfaff5885eb6074b5a3fb62f5eb7afa0e3cbf21"
+      },
+      "status": "download-verified",
+      "version": 0,
+      "qualifiedName": "wandb/tab-to-pitch-public-data-research/tabtopitch-ear-comparisons-v1:v0",
+      "downloadReceiptSha256": "731f105a1adc9c184d32c97af87142ab870f3b41ddbc3e6316c65f7e8b827351",
+      "freshDownload": false
+    }
+  ],
+  "createdAt": "2026-11-05T00:15:20.257Z",
+  "inferenceCalls": 0,
+  "recovery": {
+    "priorStatus": "failed",
+    "priorReceiptSha256": "731f105a1adc9c184d32c97af87142ab870f3b41ddbc3e6316c65f7e8b827351",
+    "policy": "Read back previously created identities; only resume incomplete stages, preserving prior receipts"
+  },
+  "projectReadback": {
+    "entity": "wandb",
+    "project": "tab-to-pitch-public-data-research",
+    "projectId": "wandb/tab-to-pitch-public-data-research",
+    "access": "PRIVATE",
+    "authenticatedUser": "ashah1",
+    "verifiedAt": "2026-11-05T00:15:20.446Z"
+  },
+  "dataRun": {
+    "name": "ear-lab-v1-003-data",
+    "url": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/ear-lab-v1-003-data",
+    "state": "finished",
+    "summaryMatches": true
+  },
+  "trainingRun": {
+    "name": "ear-lab-v1-003-reliability",
+    "url": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/ear-lab-v1-003-reliability",
+    "state": "finished",
+    "summaryMatches": true
+  },
+  "predictionReadback": {
+    "matchedPredictions": 758,
+    "maxAbsoluteError": 2.220446049250313e-16
+  },
+  "verificationRun": {
+    "name": "ear-lab-v1-003-verify",
+    "url": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/ear-lab-v1-003-verify",
+    "state": "finished",
+    "summaryMatches": true
+  },
+  "registry": {
+    "entity": "wandb32",
+    "project": "wandb-registry-TabToPitch Research",
+    "access": "PRIVATE",
+    "artifactID": "QXJ0aWZhY3Q6NDM5MzMwOTk0Nw==",
+    "artifactCollectionID": "QXJ0aWZhY3RDb2xsZWN0aW9uOjE3MDY4OTczNTY=",
+    "versionIndex": 0,
+    "aliases": [
+      {
+        "alias": "research-candidate"
+      },
+      {
+        "alias": "latest"
+      }
+    ],
+    "aliasVerified": true
+  },
+  "comparisonRun": {
+    "name": "ear-lab-v1-003-comparisons",
+    "url": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/ear-lab-v1-003-comparisons",
+    "state": "finished",
+    "summaryMatches": true
+  },
+  "finishedAt": "2026-11-05T00:15:30.660Z"
+}

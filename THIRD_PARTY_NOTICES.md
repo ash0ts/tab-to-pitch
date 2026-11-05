@@ -11,3 +11,10 @@ The original TabToPitch study in `src/player/demo.ts` and original score fixture
 Other dependencies retain the licenses distributed in their packages. No ownership or license for third-party arrangements is implied by support for their file formats.
 
 Pitchy 4.1.0 (Ian Prime and contributors) is licensed under 0BSD. fft.js 4.0.4 (Fedor Indutny and contributors) is licensed under MIT. Their license texts are preserved under `public/vendor/live-input/` and ship with the built application. Live DSP does not bundle a Jam Origin product or transcription-model weights.
+
+## Local audio research
+
+
+The [port ledger](audio_worker/PROVENANCE.md) records the Toraneko source revision and changed components. MuScriptor source is MIT; its weights are CC BY-NC 4.0 and remain restricted to permitted research use. Demucs 4.0.1 and Beat This 1.1.0 retain their MIT source terms. Model permissions and training-data limitations remain upstream.
+
+The adapted Basic Pitch decoder is Copyright 2022 Spotify AB, licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). It derives from Spotify commit `fa5997af0a8210982619003269994a1be25eddf3`, through Toraneko, with application dependencies removed. It is provided without warranties under that license. The ONNX checkpoint retains the upstream project terms. FFmpeg is supplied by the host and its license depends on its build configuration.

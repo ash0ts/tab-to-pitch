@@ -1,3 +1,6 @@
+import { EarPanel } from '../ear/EarPanel';
+import { useEarSession } from '../ear/useEarSession';
+import type { EarState, EarStudy } from '../ear/model';
 import { HOMEWORK_SOURCE_ID } from '../player/demo';
 import { useLiveGuitar } from '../hooks/useLiveGuitar';
 import { LiveGuitarPanel } from './LiveGuitarPanel';
@@ -76,6 +79,8 @@ const colorFamilies: ChordQuality[][] = [
 
 export function ProgressionWorkspace(
   props: ProgressionSessionInput & {
+    earSeed?: EarState;
+    onEarStudy(study: EarStudy): void;
     visible: boolean;
     teacherFocusRequest: number;
     onListeningMask(masked: boolean): void;
@@ -94,7 +99,7 @@ export function ProgressionWorkspace(
     >;
   },
 ) {
-  const session = useProgressionSession(props);
+  const session = useProgressionSession({ ...props, derivedSymbols: props.earSeed?.proposal });
   const desktop = useDesktopLayout();
 
   const passage = passageForSource(props.score.hash);
@@ -149,18 +154,21 @@ export function ProgressionWorkspace(
     },
   );
   const practice = usePracticeSession(learning, session.contextVersion, props.onStopStudy);
+  const [earOpen,setEarOpen]=useState(false);
+  const ear = useEarSession(learning, () => {}, props.onEarStudy, props.earSeed, props.onAudition);
   const [liveOpen,setLiveOpen]=useState(false);
-  const liveBlocked=listening.active || practice.active || homework.active || !!props.teacher.activeQuestion;
+  const liveBlocked=!!ear.state?.activeQuestion || listening.active || practice.active || homework.active || !!props.teacher.activeQuestion;
   const liveRevision=`${session.contextVersion}:${props.teacher.selectedNote?.soundingMidi??60}:${homework.task?.id??'none'}:${practice.state.episode?.responseCount??0}`;
   const guitar=useLiveGuitar(learning,liveRevision,liveTasks(liveRevision,session.spans.every(s=>s.confirmation==='confirmed'&&s.chord)?session.spans.map(s=>s.chord!.symbol):[],props.teacher.selectedNote?.soundingMidi??60,homework.active?undefined:homework.task,practice.state.episode?.kind==='phrase'?(practice.state.episode.firstResponse?.cells??[]).filter((n):n is number=>n!==null):[]),liveBlocked);
   useLayoutEffect(() => {
-    props.onListeningMask(listening.masked || practice.masked || homework.masked || guitar.active);
+    props.onListeningMask(listening.masked || practice.masked || homework.masked || guitar.active || ear.masked);
     return () => props.onListeningMask(false);
-  }, [listening.masked, practice.masked, homework.masked, guitar.active, props.onListeningMask]);
+  }, [listening.masked, practice.masked, homework.masked, guitar.active, ear.masked, props.onListeningMask]);
   useEffect(() => {
-    if (homework.active || practice.active || listening.active || props.teacher.activeQuestion)
+    if (ear.state?.activeQuestion || homework.active || practice.active || listening.active || props.teacher.activeQuestion)
       setTeacherSheetOpen(false);
   }, [
+    ear.state?.activeQuestion,
     homework.active,
     practice.active,
     listening.active,
@@ -172,12 +180,14 @@ export function ProgressionWorkspace(
   useEffect(() => {
     if (!props.visible) {
       guitar.stop();
+      if (ear.state?.activeQuestion) ear.revise({ activeQuestion: false }, 'audio-change', 'Returned to the player.');
       homework.pause();
       practice.interrupt('The learner returned to the player.');
     }
   }, [props.visible]);
   const teacher = (
     <TeacherPanel
+      ear={earOpen ? ear : undefined}
       live={liveOpen ? guitar : undefined}
       focusRequest={props.teacherFocusRequest}
       presentation={{
@@ -196,7 +206,7 @@ export function ProgressionWorkspace(
       track={props.track}
       progression={session}
       {...props.teacher}
-      exploring={props.active && !practice.masked && !homework.masked && !guitar.active}
+      exploring={props.active && !practice.masked && !homework.masked && !guitar.active && !ear.masked}
       onOpenStudy={props.onOpenStudy}
       onListen={props.onAudition}
     />
@@ -208,9 +218,9 @@ export function ProgressionWorkspace(
         <nav className="homework-entry" aria-label="Learning activity">
           <button
             className="secondary-button"
-            aria-pressed={!liveOpen && !homeworkOpen && !liveOpen}
+            aria-pressed={!earOpen && !liveOpen && !homeworkOpen && !liveOpen && !earOpen}
             onClick={() => {
-              guitar.stop();setLiveOpen(false);homework.pause();
+              ear.close();setEarOpen(false);guitar.stop();setLiveOpen(false);homework.pause();
               setHomeworkOpen(false);
             }}
           >
@@ -221,15 +231,16 @@ export function ProgressionWorkspace(
             aria-pressed={homeworkOpen}
             disabled={listening.active || !!props.teacher.activeQuestion}
             onClick={() => {
-              guitar.stop();setLiveOpen(false);practice.interrupt('The learner selected fretboard homework.');
+              ear.close();setEarOpen(false);guitar.stop();setLiveOpen(false);practice.interrupt('The learner selected fretboard homework.');
               setHomeworkOpen(true);
             }}
           >
             Fretboard homework
           </button>
-        <button className="secondary-button" aria-pressed={liveOpen} disabled={listening.active || !!props.teacher.activeQuestion} onClick={()=>{homework.pause();practice.interrupt("The learner selected live guitar practice.");setLiveOpen(true);setHomeworkOpen(false);}}>Play with my guitar</button>
+        <button className="secondary-button" aria-pressed={liveOpen} disabled={listening.active || !!props.teacher.activeQuestion} onClick={()=>{ear.close();setEarOpen(false);homework.pause();practice.interrupt("The learner selected live guitar practice.");setLiveOpen(true);setHomeworkOpen(false);}}>Play with my guitar</button>
+        <button className="secondary-button" aria-pressed={earOpen} disabled={listening.active || !!props.teacher.activeQuestion} onClick={()=>{guitar.stop();homework.pause();practice.interrupt("Selected ear learning.");setLiveOpen(false);setHomeworkOpen(false);setEarOpen(true);}}>Work it out by ear</button>
         </nav>
-        {liveOpen ? <LiveGuitarPanel session={guitar} blocked={liveBlocked} onReplay={props.onReplay} listOutputs={props.listOutputs} selectOutput={props.selectOutput} /> : homeworkOpen ? (
+        {earOpen ? <EarPanel session={ear} onAudition={props.onAudition} showOctaves={props.showOctaves} /> : liveOpen ? <LiveGuitarPanel session={guitar} blocked={liveBlocked} onReplay={props.onReplay} listOutputs={props.listOutputs} selectOutput={props.selectOutput} /> : homeworkOpen ? (
           <HomeworkWorkspace
             homework={homework}
             progression={session}
@@ -262,7 +273,7 @@ export function ProgressionWorkspace(
             onStop={props.onStopStudy}
           />
         )}
-        {!liveOpen && !homeworkOpen && !practice.active && passage && (
+        {!earOpen && !liveOpen && !homeworkOpen && !practice.active && passage && (
           <ListeningPanel
             onTransfer={props.onTransfer}
             session={listening}
@@ -278,7 +289,7 @@ export function ProgressionWorkspace(
             }}
           />
         )}
-        {!liveOpen && !homeworkOpen && !listening.masked && !practice.masked && (
+        {!earOpen && !liveOpen && !homeworkOpen && !listening.masked && !practice.masked && (
           <ProgressionStudio {...props} session={session} />
         )}
       </div>

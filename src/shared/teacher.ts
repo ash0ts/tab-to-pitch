@@ -1,6 +1,12 @@
 import { liveContextSchema, liveActionSchema, LIVE_TEACHER_VERSION } from './live-guitar.js';
 import { homeworkActionSchema, homeworkContextSchema } from './homework.js';
 import { practiceActionSchema, practiceContextSchema } from './practice.js';
+import {
+  earContextSchema,
+  earActionSchema,
+  audioJobRequestSchema,
+  audioJobReceiptSchema,
+} from './audio.js';
 import { difficultySchema } from '../songs/listening.js';
 import { CATALOG_VERSION, curatedHarmony, passageReady } from '../songs/catalog.js';
 import { z } from 'zod';
@@ -15,9 +21,10 @@ import {
 export const TEACHER_VERSION = 'teacher-v1';
 export const INTEGRATED_TEACHER_VERSION = 'teacher-v5';
 export const teacherCapabilitySchema = z.enum(['listening-v1', 'teaching-practice-v1', 'homework-caged-v1', 'teacher-live-v1', 'ear-lab-v1', 'practice-stage-v1', 'homework-playing-v1']);
-export const TEACHER_PROMPT_VERSION = 'teacher-tools-v7-integrated';
+export const TEACHER_PROMPT_VERSION = 'teacher-tools-v8-integrated';
 export const HOMEWORK_TEACHER_VERSION = 'teacher-v4';
 export const PRACTICE_TEACHER_VERSION = 'teacher-v3';
+export const EAR_TEACHER_VERSION = 'teacher-v3';
 export const LISTENING_TEACHER_VERSION = 'teacher-v2';
 export const CURRICULUM_VERSION = 'teacher-curriculum-v1';
 export const teacherObjectiveSchema = z.enum([
@@ -49,12 +56,14 @@ export const teacherRequestSchema = z
     turnId: z.string().uuid(),
     contextVersion: id,
     request: z.string().min(1).max(2000),
+    localAudio: audioJobRequestSchema.optional(),
     context: z
       .object({
         objective: teacherObjectiveSchema,
         practice: practiceContextSchema.optional(),
         homework: homeworkContextSchema.optional(),
         live: liveContextSchema.optional(),
+        ear: earContextSchema.optional(),
         listening: z
           .object({
             passageId: z.string().max(100),
@@ -163,7 +172,7 @@ export const teacherRequestSchema = z
       const capabilities = request.capabilities;
       if (!capabilities || new Set(capabilities).size !== capabilities.length)
         ctx.addIssue({ code: 'custom', path: ['capabilities'], message: 'V5 requires unique, explicit capabilities.' });
-      for (const [field, capability] of [['practice', 'teaching-practice-v1'], ['listening', 'listening-v1'], ['homework', 'homework-caged-v1'], ['live', 'teacher-live-v1']] as const) {
+      for (const [field, capability] of [['practice', 'teaching-practice-v1'], ['listening', 'listening-v1'], ['homework', 'homework-caged-v1'], ['live', 'teacher-live-v1'], ['ear', 'ear-lab-v1']] as const) {
         if (Boolean(request.context[field]) !== Boolean(capabilities?.includes(capability)))
           ctx.addIssue({ code: 'custom', path: ['capabilities'], message: `Capability ${capability} must match its context.` });
       }
@@ -182,6 +191,13 @@ export const teacherRequestSchema = z
         message: 'Homework requires the v4 capability contract.',
       });
     if(request.context.live && ![LIVE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))ctx.addIssue({code:'custom',path:['context','live'],message:'Live input requires the live capability contract.'});
+    if (request.context.ear && ![EAR_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))
+      ctx.addIssue({
+        code: 'custom',
+        path: ['context', 'ear'],
+        message: 'Ear capabilities require teacher-v3.',
+      });
+    if(request.schemaVersion === EAR_TEACHER_VERSION && request.context.ear && request.context.practice) ctx.addIssue({code:'custom',path:['schemaVersion'],message:'Ambiguous legacy teacher-v3 capabilities; use teacher-v5.'});
     if (request.context.listening) {
       const p = curatedHarmony.getPassage(request.context.listening.passageId);
       if (request.schemaVersion === TEACHER_VERSION || !p || !passageReady(p))
@@ -218,6 +234,16 @@ export const teacherRequestSchema = z
         code: 'custom',
         path: ['context', 'workspace', 'sourceSymbols'],
         message: 'Source and current harmonic spans must align.',
+      });
+    if (
+      request.localAudio &&
+      (![EAR_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion) ||
+        request.localAudio.contextRevision !== request.context.ear?.revision)
+    )
+      ctx.addIssue({
+        code: 'custom',
+        path: ['localAudio'],
+        message: 'Local audio binding requires the current ear revision.',
       });
     const spans = new Set<number>();
     request.context.bass.forEach((bass, index) => {
@@ -310,6 +336,7 @@ export const teacherActionSchema = z.discriminatedUnion('type', [
   practiceActionSchema,
   homeworkActionSchema,
   liveActionSchema,
+  earActionSchema,
   z
     .object({
       type: z.literal('listening'),
@@ -359,6 +386,8 @@ const finalFields = {
 };
 export const teacherToolNames = [
   'inspect_live_input', 'live_activity', 'homework_map', 'homework_activity', 'practice_activity',
+  'inspect_audio',
+  'ear_activity',
   'inspect_passage',
   'listening_activity',
   'inspect_music',
@@ -403,6 +432,7 @@ export const teacherTurnSchema = z
         reasons: z.array(z.string().max(400)).max(12),
       })
       .strict(),
+    audioJobs: z.array(audioJobReceiptSchema).max(8).optional(),
     fallbackReason: z.string().max(240).optional(),
     traceId: z.string().max(160).optional(),
   })

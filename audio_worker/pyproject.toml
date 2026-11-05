@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling==1.29.0"]
+build-backend = "hatchling.build"
+[project]
+name = "tabtopitch-audio"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+[project.optional-dependencies]
+analysis = [
+  "muscriptor @ git+https://github.com/muscriptor/muscriptor.git@302343e8992bdfc619f77f1988168374ed5d675d",
+  "beat-this==1.1.0", "demucs==4.0.1", "onnxruntime==1.27.0",
+  "librosa==0.11.0", "scipy==1.16.3", "torchaudio==2.2.2",
+]
+research = ["scikit-learn==1.9.0", "joblib==1.5.3"]
+[tool.hatch.metadata]
+allow-direct-references = true
+[tool.hatch.build.targets.wheel]
+packages = ["tabtopitch_audio"]

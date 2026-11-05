@@ -1,7 +1,16 @@
+import { audioJobReceiptSchema } from '../src/shared/audio.js';
 import { tracing } from '@coreweave/forge-sdk/agentlens';
 import { COACH_POLICY_VERSION, COACH_PROMPT_VERSION } from '../src/shared/coach.js';
 import type { ServerConfig } from './config.js';
 
+export function audioTraceProjection(name: string, result: unknown): Record<string, string> {
+  if (name !== 'audio_job_receipt' || !result || typeof result !== 'object' || !('data' in result))
+    return {};
+  const data = result.data;
+  if (!data || typeof data !== 'object' || !('job' in data)) return {};
+  const parsed = audioJobReceiptSchema.safeParse(data.job);
+  return parsed.success ? { audioJobId: parsed.data.id, audioJobStatus: parsed.data.status } : {};
+}
 export interface AgentTrace {
   id?: string;
   /** Fixed failure category only; never pass learner or model content. */
@@ -117,7 +126,13 @@ export function createTraceRunner(
                   : undefined;
               if (status === 'invalid')
                 tool.end({ error: new Error('Tool validation failed'), errorType: 'validation' });
-              else tool.end({ result: { validated: status !== 'unavailable' } });
+              else
+                tool.end({
+                  result: {
+                    validated: status !== 'unavailable',
+                    ...audioTraceProjection(name, result),
+                  },
+                });
               return result;
             } catch (error) {
               tool.end({ error: new Error('Tool validation failed'), errorType: 'validation' });

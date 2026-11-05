@@ -1,0 +1,966 @@
+{
+  "version": "ear-lab-v1",
+  "datasetManifestSha256": "46f6ec74e602f17d6a09f5e3433985cb7ba2d0478202339bdcb627e9e9731dbd",
+  "modelSha256": "84d73c7fc285c0c5ab8b361a134c80840ea41dcf5571eedd44f9da7ee21ecd29",
+  "analysis": {
+    "test": {
+      "full": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 0.6984593837535015
+      },
+      "separated": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 0.4043287082274771
+      },
+      "reconciled": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 0.6885515496521188
+      },
+      "reference-ceiling": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 1.0
+      },
+      "pairedReconciledMinusFull": {
+        "n": 4,
+        "mean": -0.00990783410138249,
+        "bootstrap95": [
+          -0.02258064516129027,
+          0.0
+        ]
+      }
+    },
+    "regression": {
+      "full": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 0.4313205888815645
+      },
+      "separated": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 0.4465563400861622
+      },
+      "reconciled": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 0.4388372093023255
+      },
+      "reference-ceiling": {
+        "available": 4,
+        "planned": 4,
+        "macroF1": 1.0
+      },
+      "pairedReconciledMinusFull": {
+        "n": 4,
+        "mean": 0.007516620420761039,
+        "bootstrap95": [
+          -0.019524408129059395,
+          0.03414634146341455
+        ]
+      }
+    }
+  },
+  "reliability": {
+    "train": {
+      "recordings": 4,
+      "notes": 133,
+      "macro": {
+        "model": {
+          "Brier": 0.14156671427275844,
+          "logLoss": 0.43303158404629866,
+          "precisionAt0.8": 0.9880952380952381,
+          "coverageAt0.8": 0.443669604167681
+        },
+        "fixed": {
+          "Brier": 0.18027578630897317,
+          "logLoss": 0.5448131209032334,
+          "precisionAt0.8": null,
+          "coverageAt0.8": 0.0
+        }
+      }
+    },
+    "calibration": {
+      "recordings": 4,
+      "notes": 278,
+      "macro": {
+        "model": {
+          "Brier": 0.2349428515610158,
+          "logLoss": 0.7950690934081194,
+          "precisionAt0.8": 0.8333333333333334,
+          "coverageAt0.8": 0.20557978363759294
+        },
+        "fixed": {
+          "Brier": 0.21088002873563216,
+          "logLoss": 0.6109173943541673,
+          "precisionAt0.8": null,
+          "coverageAt0.8": 0.0
+        }
+      }
+    },
+    "test": {
+      "recordings": 4,
+      "notes": 185,
+      "macro": {
+        "model": {
+          "Brier": 0.20711848688348977,
+          "logLoss": 0.6928731388618412,
+          "precisionAt0.8": 0.75,
+          "coverageAt0.8": 0.461968085106383
+        },
+        "fixed": {
+          "Brier": 0.1646317441239316,
+          "logLoss": 0.5104605328313891,
+          "precisionAt0.8": null,
+          "coverageAt0.8": 0.0
+        }
+      }
+    },
+    "regression": {
+      "recordings": 4,
+      "notes": 162,
+      "macro": {
+        "model": {
+          "Brier": 0.24049471437513997,
+          "logLoss": 1.1210078203518,
+          "precisionAt0.8": 0.5337301587301587,
+          "coverageAt0.8": 0.3728129509379509
+        },
+        "fixed": {
+          "Brier": 0.22303531971500723,
+          "logLoss": 0.6389508394127177,
+          "precisionAt0.8": null,
+          "coverageAt0.8": 0.0
+        }
+      }
+    }
+  },
+  "recordings": [
+    {
+      "id": "guitarset:03_Funk1-114-Ab_comp_mic",
+      "group": "guitarset-performer:03",
+      "split": "calibration",
+      "model": {
+        "n": 68,
+        "Brier": 0.18529658960366746,
+        "logLoss": 0.5660690704203587,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.25
+      },
+      "fixed": {
+        "n": 68,
+        "Brier": 0.20220588235294118,
+        "logLoss": 0.5915816236302811,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.4,
+            0,
+            1,
+            1,
+            4
+          ],
+          "p": 0.8335692300242948
+        },
+        {
+          "x": [
+            0.4,
+            0,
+            1,
+            1,
+            4
+          ],
+          "p": 0.8335692300242948
+        },
+        {
+          "x": [
+            0.4,
+            0,
+            1,
+            1,
+            4
+          ],
+          "p": 0.8335692300242948
+        }
+      ]
+    },
+    {
+      "id": "gaps:133_ZD1wc",
+      "group": "gaps-performer:78539d1cfc8d",
+      "split": "calibration",
+      "model": {
+        "n": 102,
+        "Brier": 0.24087236804577858,
+        "logLoss": 0.7195437401087316,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.0392156862745098
+      },
+      "fixed": {
+        "n": 102,
+        "Brier": 0.18321078431372548,
+        "logLoss": 0.550930877393335,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.17,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.5593537806749695
+        },
+        {
+          "x": [
+            0.11000000000000004,
+            0,
+            1,
+            1,
+            6
+          ],
+          "p": 0.12403492147941822
+        },
+        {
+          "x": [
+            0.33,
+            0,
+            1,
+            0,
+            5
+          ],
+          "p": 0.3026133155916458
+        }
+      ]
+    },
+    {
+      "id": "guitarset:00_BN1-129-Eb_comp_mic",
+      "group": "guitarset-performer:00",
+      "split": "train",
+      "model": {
+        "n": 38,
+        "Brier": 0.10560368012258854,
+        "logLoss": 0.3399562022353567,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.5263157894736842
+      },
+      "fixed": {
+        "n": 38,
+        "Brier": 0.125,
+        "logLoss": 0.42329426639256396,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.24000000000000002,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.8757935810053472
+        },
+        {
+          "x": [
+            0.23999999999999994,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.8757935810053472
+        },
+        {
+          "x": [
+            0.4800000000000001,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.9451699282237931
+        }
+      ]
+    },
+    {
+      "id": "gaps:096_bf1wc",
+      "group": "gaps-performer:b223da1f42fe",
+      "split": "train",
+      "model": {
+        "n": 25,
+        "Brier": 0.23434036647141407,
+        "logLoss": 0.6542817344867358,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.08
+      },
+      "fixed": {
+        "n": 25,
+        "Brier": 0.2625,
+        "logLoss": 0.7250423478734643,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.18000000000000016,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.5384531767551022
+        },
+        {
+          "x": [
+            0.17999999999999972,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.5384531767551012
+        },
+        {
+          "x": [
+            0.08999999999999986,
+            0,
+            1,
+            0,
+            2
+          ],
+          "p": 0.23757523094558014
+        }
+      ]
+    },
+    {
+      "id": "guitar-techs:micamp_01",
+      "group": "guitar-techs:music-01",
+      "split": "regression",
+      "model": {
+        "n": 22,
+        "Brier": 0.39509959951488816,
+        "logLoss": 1.8018662085656667,
+        "precisionAt0.8": 0.5238095238095238,
+        "coverageAt0.8": 0.9545454545454546
+      },
+      "fixed": {
+        "n": 22,
+        "Brier": 0.2585227272727273,
+        "logLoss": 0.716315231032045,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.4,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.8813599183323557
+        },
+        {
+          "x": [
+            0.41000000000000003,
+            0,
+            1,
+            0,
+            3
+          ],
+          "p": 0.7239038593675112
+        },
+        {
+          "x": [
+            0.41000000000000003,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.9053461118558968
+        }
+      ]
+    },
+    {
+      "id": "guitarset:04_Funk1-114-Ab_comp_mic",
+      "group": "guitarset-performer:04",
+      "split": "test",
+      "model": {
+        "n": 117,
+        "Brier": 0.18130964147951095,
+        "logLoss": 0.5474200368475788,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "fixed": {
+        "n": 117,
+        "Brier": 0.1639957264957265,
+        "logLoss": 0.510134182318822,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.13,
+            0,
+            1,
+            0,
+            3
+          ],
+          "p": 0.19905153625037977
+        },
+        {
+          "x": [
+            0.13,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.4755066377175612
+        },
+        {
+          "x": [
+            0.13,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.4755066377175612
+        }
+      ]
+    },
+    {
+      "id": "guitarset:01_BN1-147-Gb_comp_mic",
+      "group": "guitarset-performer:01",
+      "split": "train",
+      "model": {
+        "n": 47,
+        "Brier": 0.1611771568142789,
+        "logLoss": 0.48895855062348204,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.2553191489361702
+      },
+      "fixed": {
+        "n": 47,
+        "Brier": 0.21675531914893617,
+        "logLoss": 0.6249523742385694,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.2,
+            0,
+            1,
+            0,
+            3
+          ],
+          "p": 0.3093420085576532
+        },
+        {
+          "x": [
+            0.2,
+            0,
+            1,
+            0,
+            3
+          ],
+          "p": 0.3093420085576532
+        },
+        {
+          "x": [
+            0.2,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.620338125713847
+        }
+      ]
+    },
+    {
+      "id": "gaps:130_JD1wc",
+      "group": "gaps-performer:d437d60d6cb4",
+      "split": "calibration",
+      "model": {
+        "n": 50,
+        "Brier": 0.33356721332650713,
+        "logLoss": 1.3817354176777463,
+        "precisionAt0.8": 0.3333333333333333,
+        "coverageAt0.8": 0.24
+      },
+      "fixed": {
+        "n": 50,
+        "Brier": 0.25875,
+        "logLoss": 0.716933045711301,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.13,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.736442237127215
+        },
+        {
+          "x": [
+            0.13,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.4337364140556436
+        },
+        {
+          "x": [
+            0.13,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.4337364140556436
+        }
+      ]
+    },
+    {
+      "id": "guitarset:05_BN2-131-B_comp_mic",
+      "group": "guitarset-performer:05",
+      "split": "test",
+      "model": {
+        "n": 47,
+        "Brier": 0.12658793971858318,
+        "logLoss": 0.40643864635450927,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.2978723404255319
+      },
+      "fixed": {
+        "n": 47,
+        "Brier": 0.125,
+        "logLoss": 0.4232067255171903,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.23,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.6777448918225789
+        },
+        {
+          "x": [
+            0.23,
+            0,
+            1,
+            1,
+            3
+          ],
+          "p": 0.6777448918225789
+        },
+        {
+          "x": [
+            0.23,
+            0,
+            1,
+            0,
+            3
+          ],
+          "p": 0.36568962083038026
+        }
+      ]
+    },
+    {
+      "id": "gaps:188_Rk1wc",
+      "group": "gaps-performer:b5d4d028e6a4",
+      "split": "test",
+      "model": {
+        "n": 5,
+        "Brier": 0.04911483066667231,
+        "logLoss": 0.13691069056359656,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.8
+      },
+      "fixed": {
+        "n": 5,
+        "Brier": 0.1,
+        "logLoss": 0.3687750940734138,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            1.1700000000000002,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.9999433716335119
+        },
+        {
+          "x": [
+            1.1599999999999997,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.9999384005463056
+        },
+        {
+          "x": [
+            1.12,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.9999137525829864
+        }
+      ]
+    },
+    {
+      "id": "gaps:158_qM1wc",
+      "group": "gaps-performer:b764cdc0eab7",
+      "split": "test",
+      "model": {
+        "n": 16,
+        "Brier": 0.4714615356691926,
+        "logLoss": 1.6807231816816803,
+        "precisionAt0.8": 0.25,
+        "coverageAt0.8": 0.75
+      },
+      "fixed": {
+        "n": 16,
+        "Brier": 0.26953125,
+        "logLoss": 0.7397261294161301,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.20999999999999996,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.6002629493866064
+        },
+        {
+          "x": [
+            0.6200000000000001,
+            0,
+            1,
+            1,
+            2
+          ],
+          "p": 0.9899292885930775
+        },
+        {
+          "x": [
+            0.41999999999999993,
+            0,
+            1,
+            1,
+            2
+          ],
+          "p": 0.9480951871274195
+        }
+      ]
+    },
+    {
+      "id": "slakh2100:Track00002",
+      "group": "slakh2100:Track00002",
+      "split": "regression",
+      "model": {
+        "n": 48,
+        "Brier": 0.23408701694152959,
+        "logLoss": 1.1467940910521994,
+        "precisionAt0.8": 0.0,
+        "coverageAt0.8": 0.1875
+      },
+      "fixed": {
+        "n": 48,
+        "Brier": 0.29296875,
+        "logLoss": 0.7925807679771096,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.009999999999999787,
+            0,
+            1,
+            0,
+            6
+          ],
+          "p": 0.016456790700210302
+        },
+        {
+          "x": [
+            0.009999999999999787,
+            0,
+            1,
+            0,
+            6
+          ],
+          "p": 0.016456790700210302
+        },
+        {
+          "x": [
+            0.25,
+            0,
+            1,
+            1,
+            6
+          ],
+          "p": 0.31503328848468337
+        }
+      ]
+    },
+    {
+      "id": "guitar-techs:micamp_02",
+      "group": "guitar-techs:music-02",
+      "split": "regression",
+      "model": {
+        "n": 36,
+        "Brier": 0.13835837067358475,
+        "logLoss": 0.44806994538712464,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.027777777777777776
+      },
+      "fixed": {
+        "n": 36,
+        "Brier": 0.14756944444444445,
+        "logLoss": 0.4740558715535875,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.16999999999999998,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.796433353916398
+        },
+        {
+          "x": [
+            0.16999999999999998,
+            0,
+            1,
+            1,
+            1
+          ],
+          "p": 0.796433353916398
+        },
+        {
+          "x": [
+            0.17000000000000004,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.5174851408785728
+        }
+      ]
+    },
+    {
+      "id": "slakh2100:Track00001",
+      "group": "slakh2100:Track00001",
+      "split": "regression",
+      "model": {
+        "n": 56,
+        "Brier": 0.19443387037055743,
+        "logLoss": 1.0873010364022095,
+        "precisionAt0.8": 0.6111111111111112,
+        "coverageAt0.8": 0.32142857142857145
+      },
+      "fixed": {
+        "n": 56,
+        "Brier": 0.19308035714285715,
+        "logLoss": 0.5728514870881283,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.5,
+            0,
+            1,
+            1,
+            2
+          ],
+          "p": 0.9728334615934466
+        },
+        {
+          "x": [
+            0.25,
+            0,
+            1,
+            0,
+            1
+          ],
+          "p": 0.6776848594217206
+        },
+        {
+          "x": [
+            0.010000000000000009,
+            0,
+            1,
+            0,
+            6
+          ],
+          "p": 0.016456790700210333
+        }
+      ]
+    },
+    {
+      "id": "guitarset:02_BN2-131-B_comp_mic",
+      "group": "guitarset-performer:02",
+      "split": "calibration",
+      "model": {
+        "n": 58,
+        "Brier": 0.18003523526811002,
+        "logLoss": 0.5129281454256409,
+        "precisionAt0.8": 1.0,
+        "coverageAt0.8": 0.29310344827586204
+      },
+      "fixed": {
+        "n": 58,
+        "Brier": 0.19935344827586207,
+        "logLoss": 0.5842240306817518,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.23000000000000004,
+            0,
+            1,
+            0,
+            2
+          ],
+          "p": 0.5030128735288882
+        },
+        {
+          "x": [
+            0.23000000000000004,
+            0,
+            1,
+            0,
+            2
+          ],
+          "p": 0.5030128735288882
+        },
+        {
+          "x": [
+            0.42999999999999994,
+            0,
+            1,
+            1,
+            4
+          ],
+          "p": 0.8657138142033856
+        }
+      ]
+    },
+    {
+      "id": "gaps:093_qf1wc",
+      "group": "gaps-performer:ca61d73f63c7",
+      "split": "train",
+      "model": {
+        "n": 23,
+        "Brier": 0.06514565368275223,
+        "logLoss": 0.24892984883962013,
+        "precisionAt0.8": 0.9523809523809523,
+        "coverageAt0.8": 0.9130434782608695
+      },
+      "fixed": {
+        "n": 23,
+        "Brier": 0.11684782608695653,
+        "logLoss": 0.40596349510833607,
+        "precisionAt0.8": null,
+        "coverageAt0.8": 0.0
+      },
+      "probes": [
+        {
+          "x": [
+            0.47,
+            0,
+            1,
+            1,
+            4
+          ],
+          "p": 0.9002650366042599
+        },
+        {
+          "x": [
+            0.45999999999999996,
+            0,
+            1,
+            0,
+            4
+          ],
+          "p": 0.694627642164276
+        },
+        {
+          "x": [
+            1.47,
+            0,
+            1,
+            1,
+            4
+          ],
+          "p": 0.9999754547287911
+        }
+      ]
+    }
+  ],
+  "promotion": false,
+  "limitations": [
+    "Small grouped local study; no learner outcomes.",
+    "No calibrated model in production.",
+    "Slakh and Guitar-TECHS are previously inspected regression material.",
+    "Instrument and technique classification not scored; physical metric is single-note only."
+  ]
+}

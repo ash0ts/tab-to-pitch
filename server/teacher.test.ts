@@ -423,3 +423,71 @@ it('withholds invented fingering claims when the independent reviewer rejects th
   expect(result.response.review.status).toBe('withheld');
   expect(result.response.message).not.toContain('every string sounded clean');
 });
+
+it('queues local analysis inside the tool loop, returns its receipt, and keeps the asset binding out of inference', async () => {
+  const request = teacherFixture(),
+    bodies: unknown[] = [];
+  request.schemaVersion = 'teacher-v3';
+  request.context.ear = {
+    revision: randomUUID(),
+    duration: 8,
+    analysis: 'none',
+    origin: 'upload',
+    draftVisible: false,
+    activeQuestion: false,
+    assisted: false,
+    hypotheses: [],
+    proposal: ['', ''],
+    referenceAvailable: false,
+  };
+  request.localAudio = {
+    assetId: 'e'.repeat(64),
+    start: 0,
+    end: 8,
+    stages: ['transcribe'],
+    contextRevision: request.context.ear!.revision,
+  };
+  const job = {
+    id: randomUUID(),
+    contextRevision: request.localAudio.contextRevision,
+    status: 'queued' as const,
+  };
+  const submit = vi.fn(async () => job);
+  const agent = new ForgeTeacherAgent(
+    config,
+    modelFetcher(
+      [
+        {
+          kind: 'tools',
+          calls: [
+            { name: 'ear_activity', args: { action: { type: 'ear', operation: 'analyze' } } },
+          ],
+        },
+        final,
+        accepted,
+      ],
+      bodies,
+    ),
+  );
+  const result = await agent.run(request, AbortSignal.timeout(2000), {
+    requestAudioAnalysis: submit,
+  });
+  expect(submit).toHaveBeenCalledOnce();
+  expect(result.response.audioJobs).toEqual([job]);
+  expect(result.toolResults[0]?.result.data).toEqual({ status: 'queued', job });
+  expect(JSON.stringify(bodies)).not.toContain(request.localAudio.assetId);
+  expect(JSON.stringify(bodies)).not.toContain('localAudio');
+  expect(result.calls.map((c) => c.role)).toEqual(['actor', 'actor', 'critic']);
+  await agent.close();
+});
+it('rejects a stale local analysis binding before any model or worker call', () => {
+  const request = teacherFixture();
+  request.localAudio = {
+    assetId: 'f'.repeat(64),
+    start: 0,
+    end: 6,
+    stages: ['transcribe'],
+    contextRevision: 'stale',
+  };
+  expect(teacherRequestSchema.safeParse(request).success).toBe(false);
+});

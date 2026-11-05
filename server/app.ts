@@ -1,3 +1,4 @@
+import { registerAudio } from './audio.js';
 import Fastify from 'fastify';
 import cookie from '@fastify/cookie';
 import fastifyStatic from '@fastify/static';
@@ -109,6 +110,7 @@ export async function buildApp(options: AppOptions = {}) {
       .code(status)
       .send({ error: status === 500 ? 'request-failed' : 'invalid-request' });
   });
+  const audioService = await registerAudio(app, config);
   app.get('/api/health', async () => ({
     ok: true,
     cloudEnabled: config.cloudEnabled,
@@ -345,6 +347,7 @@ export async function buildApp(options: AppOptions = {}) {
       let charged = TEACHER_TOKEN_RESERVATION;
       try {
         const result = await teacherAgent.run(context, abort.signal, {
+          requestAudioAnalysis: audioService?.requestAnalysis,
           conversationId: teacherConversationId(
             config.sessionSecret,
             session.invitationId,

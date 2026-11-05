@@ -1,0 +1,1899 @@
+{
+  "files": [
+    {
+      "path": ".dockerignore",
+      "sha256": "ade284cbbb58171b692ceb7f05dd7ff0ed99126ef96da01f99583800d22fd9a6",
+      "bytes": 176
+    },
+    {
+      "path": ".env.example",
+      "sha256": "7681b0e2cd06a8c6c6a0db989a0a092a110d50e38d76301c56315770f2520186",
+      "bytes": 1188
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "sha256": "c6c0dc41a1d61479f96978eff22b17ac3a03bbc59f0905937f3328823c760e79",
+      "bytes": 776
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "5dac51e48969abb2b69b99898ec5dfa70f39cd81463931fbab5740e4ddd67ad4",
+      "bytes": 3657
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "3163c8cc59785a5dfaf205decf238c918228cdb1ba8845ae30cbb052b404ffbf",
+      "bytes": 256
+    },
+    {
+      "path": ".prettierignore",
+      "sha256": "f9f0daee56ce8747bb173b3f73f7011504b782ae6cc05992935ddf46c9a5c9dd",
+      "bytes": 239
+    },
+    {
+      "path": ".prettierrc.json",
+      "sha256": "c6bc6fc6b031c97774bea2caa5e77ae85d2d02d4ea80962ffafc7a2b1f50d734",
+      "bytes": 67
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "d37c2221b6d46060a1874397d7f7b4067bb67f84e228112c84b2585297bf16a7",
+      "bytes": 1542
+    },
+    {
+      "path": "Dockerfile",
+      "sha256": "51a6493ddb23b612b3b3065833aaae8f2a50aca331e3db502ce2db1240d38d60",
+      "bytes": 1039
+    },
+    {
+      "path": "README.md",
+      "sha256": "d6e5c7206d9a6eae664ce6e26428696bb90ba2a53eb1d7756409e66d1042cc54",
+      "bytes": 6454
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "5c932e83c881b76f7c10c6a600fc9bcee46f8ecc5410b094679f60904ff0ba34",
+      "bytes": 2131
+    },
+    {
+      "path": "audio_worker/PROVENANCE.md",
+      "sha256": "fae8275b7564ba27c8f9a44c120241981d018f0fb1276e9ecef4f7d1903b352c",
+      "bytes": 2371
+    },
+    {
+      "path": "audio_worker/README.md",
+      "sha256": "e16326300465e0008689088d7768f24a9f2dd392c628fb871b42654e6bef9e4d",
+      "bytes": 3684
+    },
+    {
+      "path": "audio_worker/licenses/basic-pitch-APACHE-2.0.txt",
+      "sha256": "929c910bae2152fa87199a5d0660e09263419b7eee6d4b301d05ee2aaf211c37",
+      "bytes": 11384
+    },
+    {
+      "path": "audio_worker/pyproject.toml",
+      "sha256": "dd5427a176b755b3e9614ce297ced615888b2601e02b507b5b6fc4c1fcf2f4f5",
+      "bytes": 627
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/__init__.py",
+      "sha256": "e5bf70c638c48e5c35ba2e737bffbd79483e994dd7c8f54123d5c9a7ae8d7c2c",
+      "bytes": 65
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/adapters.py",
+      "sha256": "3e5bb0394100474c73a5db52a492b133f1eb713f440baaf4e43943b93a3a128b",
+      "bytes": 3790
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/basic_pitch.py",
+      "sha256": "04c78d734bd14547bcb62933feddf60f5b5e630a9c219c050c49647b63eac3ab",
+      "bytes": 5808
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/legacy.py",
+      "sha256": "8a54574aa94daf714a3ebf82aff75fce0e9fe13bc232c67c405ffef1913e2f44",
+      "bytes": 1470
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/media.py",
+      "sha256": "2c2ab2778ee4310d29c5d7c3a5e40705ffa57da752b944e68e4a6afe6379fd7f",
+      "bytes": 3535
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/processes.py",
+      "sha256": "0a5774c2b40eca42832bc2873c9c645993a515180a365fd8d8095b1555f3ca4b",
+      "bytes": 3790
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/store.py",
+      "sha256": "81e789f4e71ce4dfb0e59e244618df44d9a6d9436919c1971dc4ebdb0f63dde0",
+      "bytes": 8217
+    },
+    {
+      "path": "audio_worker/tabtopitch_audio/worker.py",
+      "sha256": "d0b012ce4ee5f59a03eb942eb33316b71f0d4d22fc934e7cf05da7f6c594c642",
+      "bytes": 8255
+    },
+    {
+      "path": "audio_worker/tests/test_worker.py",
+      "sha256": "dd074cb907d578043538669130e9fcbfe75fdb5f45d366eaed73cf69b7b667f2",
+      "bytes": 4822
+    },
+    {
+      "path": "audio_worker/uv.lock",
+      "sha256": "56c1b0db24886f47fa5f085e57a5cf977d0f5c0293a66ed580d1d60b4f8eb3c7",
+      "bytes": 427125
+    },
+    {
+      "path": "docs/architecture.md",
+      "sha256": "f476b5385ee8dbb30c7258d5bdf6dc64fb8f4569f5a85270a5e784f9b56d8beb",
+      "bytes": 15297
+    },
+    {
+      "path": "docs/curriculum.md",
+      "sha256": "3013d15033529d9515cde036f7a7c15c20f90ff1911f4520f0853bf04b1e3f01",
+      "bytes": 9943
+    },
+    {
+      "path": "docs/demo.md",
+      "sha256": "d900b630194b71fa14a5674ee7907e697597cf8de908d61564b325022ac0976d",
+      "bytes": 8347
+    },
+    {
+      "path": "docs/deployment.md",
+      "sha256": "7a9208dd01ad30b38441eab1f68be5cc6492147734006817951f4232d6368fa8",
+      "bytes": 8722
+    },
+    {
+      "path": "docs/ear-lab-demo.md",
+      "sha256": "5ace652932cb62dad3ba3e33a41767568417eae4133c0ac61e7a86d60dbf71d4",
+      "bytes": 2508
+    },
+    {
+      "path": "docs/fixtures.md",
+      "sha256": "ebbd1a9627762380f2c5ca69df89fc3af429a2a964f64b1ad3cdbcf8659faa3f",
+      "bytes": 9612
+    },
+    {
+      "path": "docs/implementation-plan.md",
+      "sha256": "746495fbc8f727441c80191f41c2c05511a6aaac3c99618a09ec93eb0f90ed52",
+      "bytes": 27740
+    },
+    {
+      "path": "docs/media/ear-lab/02-quality-feedback.png",
+      "sha256": "3075683f60ebbcc62f2d8102061e72ef32e1815edb62c7da0993bde41ad343b5",
+      "bytes": 87151
+    },
+    {
+      "path": "docs/media/ear-lab/03-real-draft.png",
+      "sha256": "8e88d1a9bf95c8c437aee36eb8741e47655127497f91a3ee2ae2a20bcf828923",
+      "bytes": 87076
+    },
+    {
+      "path": "docs/media/ear-lab/04-correction.png",
+      "sha256": "b6fd38cd5e57a2d58de9ef9f49ec7049a139c19bb9cc1fe86c2ca5fe494a2afe",
+      "bytes": 98308
+    },
+    {
+      "path": "docs/media/ear-lab/05-derived-workspace.png",
+      "sha256": "b2276afd60f1ff180b85318055d16ef0bea5b3bc3549a903d0dda7cf9a1ca57b",
+      "bytes": 99441
+    },
+    {
+      "path": "docs/media/ear-lab/06-mobile.png",
+      "sha256": "fd366ad2ffc3a7925fe8e48c7e993f85a02406ac10f1ff5289e9a11e4020d997",
+      "bytes": 51180
+    },
+    {
+      "path": "docs/media/ear-lab/07-forge-failure.png",
+      "sha256": "0f0feb1a62650c9d14832c11e2c6134f756c6f2f00b351068f12b58e4f236778",
+      "bytes": 149249
+    },
+    {
+      "path": "docs/media/ear-lab/capture.json",
+      "sha256": "5d03501be248f8f8ca06a39adbbb25a63cf3dc60bd25e3591a67023def9ffb2d",
+      "bytes": 648
+    },
+    {
+      "path": "docs/media/ear-lab/ear-workflow.gif",
+      "sha256": "3a5180906deda6a91fcb0c29ed678183ec08c20bd9d2a34a2ce5c2a62419ec80",
+      "bytes": 2686157
+    },
+    {
+      "path": "docs/media/ear-lab/ear-workflow.webm",
+      "sha256": "1c08f76a97cbfd258d7ed34064685e7e63f4d2b9300d089cad089e1654ec1d6b",
+      "bytes": 2326186
+    },
+    {
+      "path": "docs/media/ear-lab/forge-failure.html",
+      "sha256": "252fa69638d3b2a7e89caa15e5a220b5114337a37af861b259bc6d1ce7609ea5",
+      "bytes": 2370
+    },
+    {
+      "path": "docs/release-gates.md",
+      "sha256": "c1ea01db6b67b0ee3c095cec6f97130e9e58dca39a01b3eb6f186ecceb8ff8c4",
+      "bytes": 4817
+    },
+    {
+      "path": "docs/teacher-agent-plan.md",
+      "sha256": "693be049b837d1bfbc689602192afe50fc82bfa5759696fb4b75000811e3752c",
+      "bytes": 8659
+    },
+    {
+      "path": "docs/verification.md",
+      "sha256": "641f7500e0ab31fef7d643b2e7e925bc1318e5a83234c4da51038e39239b17df",
+      "bytes": 16722
+    },
+    {
+      "path": "evals/README.md",
+      "sha256": "468f3bdbf311f21af2a3484e023d567e3c7bd900028a8b1a64f705eec8344c2b",
+      "bytes": 1989
+    },
+    {
+      "path": "evals/fixtures.ts",
+      "sha256": "b63adf93a889cfd513ff903d0726e87c148ff1f36836b15b353aeb1fa3c63e18",
+      "bytes": 2271
+    },
+    {
+      "path": "evals/replay.ts",
+      "sha256": "f39ebfc06f0297f2f8638e24abe06be39533e25037c7a9d163658439c4f99df7",
+      "bytes": 4558
+    },
+    {
+      "path": "evals/scorers.ts",
+      "sha256": "0a83e46c101d8f3a7c1b99d8f6435cb5d628ba2d5399021a55ece1ed87a1b3d0",
+      "bytes": 1281
+    },
+    {
+      "path": "index.html",
+      "sha256": "d41a536d4dbabf66f998c4cf1aabc87d4ab4902a5f331474983d0cd559e96107",
+      "bytes": 576
+    },
+    {
+      "path": "migrations/001_coach.sql",
+      "sha256": "c536f54e3ec9408bb891b6272a74bb766a97daf8d2df871829f586c7b64e7302",
+      "bytes": 1368
+    },
+    {
+      "path": "ml/.gitignore",
+      "sha256": "c0fd8a00dfee665e4c4de10d0d7c13c113e8c8c22abd9b72a897b4be7eab5c3e",
+      "bytes": 56
+    },
+    {
+      "path": "ml/README.md",
+      "sha256": "cc386cf5d8e747d7da4ca29fe6825e4015214a050ccf3bd45a3517ecf8146a7b",
+      "bytes": 7812
+    },
+    {
+      "path": "ml/prospective-protocol.md",
+      "sha256": "f35949d4dc0d21874bc49316910b67935d982ac1e725568a4aa530a959c9f023",
+      "bytes": 5241
+    },
+    {
+      "path": "ml/pyproject.toml",
+      "sha256": "ed6122aeb48c92bbf5ccec207cdf8f6119cf4684b11753e10bdec160110a6280",
+      "bytes": 481
+    },
+    {
+      "path": "ml/src/recall_research/__init__.py",
+      "sha256": "1d1e6ceab720a58069e35c4a99b008b2abe09833d1e364ed6279b37d51cedd2d",
+      "bytes": 108
+    },
+    {
+      "path": "ml/src/recall_research/cli.py",
+      "sha256": "b4f70f6a98d18db48843addcb89e714f4f2eb00300f7d3c8d87af5228aa0c74f",
+      "bytes": 8255
+    },
+    {
+      "path": "ml/src/recall_research/data.py",
+      "sha256": "8751074de4a2c8a1386377670a1cddff6301e5dcbcb2e79fd7b561419cb124d5",
+      "bytes": 6409
+    },
+    {
+      "path": "ml/src/recall_research/evaluate.py",
+      "sha256": "f2d06b8ea55ea58331f163f042a21736e46d76a1f5ec662e849a5d42f3ab6579",
+      "bytes": 5647
+    },
+    {
+      "path": "ml/src/recall_research/features.py",
+      "sha256": "730b346cb77e2cfcfa3ca458af710808539abaeb2a3dca8d7832452673401845",
+      "bytes": 3137
+    },
+    {
+      "path": "ml/src/recall_research/model.py",
+      "sha256": "5cce985e33c7fde3d2bf12e86255810b0a955f7313922f9c4035ea228128156c",
+      "bytes": 3723
+    },
+    {
+      "path": "ml/tests/test_pipeline.py",
+      "sha256": "0fed776c39d26482c0a59935aad6d58c638ae22ab078b53e74124b71ca5d9243",
+      "bytes": 13081
+    },
+    {
+      "path": "ml/uv.lock",
+      "sha256": "f1250d5e13c075719b362d832db53a2fb9b8f6211f47384301451275cff6de89",
+      "bytes": 288666
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "c69c7b7aab8a667118d0c1c241677e0dc608252de01c717e90480d7d75839722",
+      "bytes": 344256
+    },
+    {
+      "path": "package.json",
+      "sha256": "f5075abf28d8985ff6be81685f67a72d668efa8c192c1aad0108f3a45287f5a1",
+      "bytes": 2199
+    },
+    {
+      "path": "patches/README.md",
+      "sha256": "8d874f5740efe86673c614c84d40c5220b39873262b457fb99ff2ad9799b60d6",
+      "bytes": 3200
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "afd3154220214d435b14115f1e1d0dad8b33ca0f0a1484d1edcacdad4b547559",
+      "bytes": 772
+    },
+    {
+      "path": "public/fonts/dm-sans-400.ttf",
+      "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
+      "bytes": 48280
+    },
+    {
+      "path": "public/fonts/dm-sans-500.ttf",
+      "sha256": "376427b5322148d8de1e03f263bcca4935a2d60ba71d9f94f4947ab664c711ae",
+      "bytes": 48308
+    },
+    {
+      "path": "public/fonts/dm-sans-600.ttf",
+      "sha256": "b79a2ea7a38f33fd96a282fadb9ce97626bb0724a44d21075859f0e50239993a",
+      "bytes": 48280
+    },
+    {
+      "path": "public/fonts/dm-sans-700.ttf",
+      "sha256": "2a8e7f713ee79fbccdef3cef5c787aff47580299f7da60144961e7db2ec08211",
+      "bytes": 48200
+    },
+    {
+      "path": "public/fonts/dm-sans-OFL.txt",
+      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+      "bytes": 4482
+    },
+    {
+      "path": "public/fonts/libre-caslon-400.ttf",
+      "sha256": "199b2a7deefd8d7d9bae05d34902c4c6486bd11b8e5d1a22c0cea8862943a5a1",
+      "bytes": 91588
+    },
+    {
+      "path": "public/fonts/libre-caslon-OFL.txt",
+      "sha256": "9cc8cef15f5e8bcbe99a13ee8d268f6f6f6a5811cd1ed05056ef4608c9b16fd1",
+      "bytes": 4403
+    },
+    {
+      "path": "public/icon.svg",
+      "sha256": "f148b0c4e6f344d8092ab398d513586b4d0099b887825a3e2ddd03ff9b6ed476",
+      "bytes": 408
+    },
+    {
+      "path": "public/research/voicing-ranker-v1.json",
+      "sha256": "64e24a350e4cb9c6b5c759523f7f8b8766821d09df778f78d7736bf7947cf46b",
+      "bytes": 1942
+    },
+    {
+      "path": "render.yaml",
+      "sha256": "fce43075e96006e647ff27016bc2404bdbf2361fd693bd3465991f84b7a9feac",
+      "bytes": 1243
+    },
+    {
+      "path": "research/README.md",
+      "sha256": "5105423fd8d56005bd18c05c5ecf3998a529621a6fc638cc5e05cd2a62a8ce97",
+      "bytes": 2351
+    },
+    {
+      "path": "research/arrangement-agent/README.md",
+      "sha256": "eac51f42eb503c37375ba8cb510593a9a3332f42e5aab3ddc6d21f40b21a657d",
+      "bytes": 3106
+    },
+    {
+      "path": "research/arrangement-agent/cases.ts",
+      "sha256": "74b2ea1f4706d9099455190975f03b68cf84bab978b13bde2b45aadabf2525c9",
+      "bytes": 7515
+    },
+    {
+      "path": "research/arrangement-agent/contract.test.ts",
+      "sha256": "44ceb063a70b426a9b29a4770e19acb0abb3a13feec4e0cf69917ac913e0006d",
+      "bytes": 1740
+    },
+    {
+      "path": "research/arrangement-agent/contract.ts",
+      "sha256": "11594cab7803633079580fb0d18c601d8ea91bd15288b52ade8e825014bfb45f",
+      "bytes": 4106
+    },
+    {
+      "path": "research/arrangement-agent/dataset-card-v2.md",
+      "sha256": "8cd27318f208b52a525a6544620f80521f27f9ff35adae5c296798bc05f7e20f",
+      "bytes": 2858
+    },
+    {
+      "path": "research/arrangement-agent/dataset-card.md",
+      "sha256": "0335496efeaecad3c92d338bfd78b9292b3713f50adb8b57f174b6e6b3ebcf8f",
+      "bytes": 1938
+    },
+    {
+      "path": "research/arrangement-agent/fresh-cases-v2.ts",
+      "sha256": "572c74fa7326718cc009bea737ae1e61457ba3ee85cfb6b79ea39b82ffa45734",
+      "bytes": 4517
+    },
+    {
+      "path": "research/arrangement-agent/inference-pool.ts",
+      "sha256": "b9df42ca7bec55cee16fc20ff46817e76167e0afb6c50a9fc1beffea7e89049b",
+      "bytes": 4360
+    },
+    {
+      "path": "research/arrangement-agent/protocol-v2.md",
+      "sha256": "9d4f4ebfe29a52a46792d2163d6be21eec5d70c8cbf4fbf67920445e0976d4cb",
+      "bytes": 3272
+    },
+    {
+      "path": "research/arrangement-agent/protocol.md",
+      "sha256": "3eb715389004038836e2bda11b6527eb2f90a29f513de91d590be1d2b1e27a4b",
+      "bytes": 3584
+    },
+    {
+      "path": "research/arrangement-agent/publish.mjs",
+      "sha256": "b8a458c2f2c078d1dc1f33170b24d96981b714190ac97cbc2122a5ec9b4f2fbb",
+      "bytes": 15799
+    },
+    {
+      "path": "research/arrangement-agent/reconcile-v2.mjs",
+      "sha256": "f97ae094bf479ea1bd8bd18168df99b84e96d4197c2e8d7a0793e6cb01029556",
+      "bytes": 3114
+    },
+    {
+      "path": "research/arrangement-agent/results.json",
+      "sha256": "ca93daea73f42886b2ca8d29a7477015c2f8824945d38adbce5325b5ab2a7a9e",
+      "bytes": 20843
+    },
+    {
+      "path": "research/arrangement-agent/results.md",
+      "sha256": "b96761fada89e7476913f66bd785d0144d38e8e8812499dd3dd9bd4a6098d246",
+      "bytes": 7282
+    },
+    {
+      "path": "research/arrangement-agent/run-v2.ts",
+      "sha256": "cee2cdfa3ba8e8a481d455d0e0c0e17c60286879c303b2ec846d401706048f3c",
+      "bytes": 22633
+    },
+    {
+      "path": "research/arrangement-agent/run.ts",
+      "sha256": "f86d74051fdfa39b1ac50244b49b873bb4d05c2d1c8d1de086546dd8f2c24336",
+      "bytes": 19417
+    },
+    {
+      "path": "research/coach-benchmark/README.md",
+      "sha256": "ad283c75ff875808b4bc5ea9c857fcf1557798dfe4cf121bc09889f40a37b583",
+      "bytes": 4879
+    },
+    {
+      "path": "research/coach-benchmark/contracts.test.ts",
+      "sha256": "ffc655a8a41308ed11ad5e2bb43c727678e109bab3d8a8527ba0b8b1c53f7d1f",
+      "bytes": 2048
+    },
+    {
+      "path": "research/coach-benchmark/contracts.ts",
+      "sha256": "042915463bc6e4553ff5993f432d2db895f8c25ecc43bf0ddc85cbd339b67ff8",
+      "bytes": 3141
+    },
+    {
+      "path": "research/coach-benchmark/https-fetch.ts",
+      "sha256": "74ce690d1fb32d250180e49cdb182da5d809d8ff21320b771ee61596e87ed7f4",
+      "bytes": 3594
+    },
+    {
+      "path": "research/coach-benchmark/lens-capture.test.ts",
+      "sha256": "440e762326356576ff4370f8133f46b18e45d563118a93fd929a7378e89a9cfe",
+      "bytes": 5299
+    },
+    {
+      "path": "research/coach-benchmark/lens-capture.ts",
+      "sha256": "3533db19af77554c303b4f2fe45391a218d1a913e715ec311834780af1a7b46c",
+      "bytes": 5633
+    },
+    {
+      "path": "research/coach-benchmark/native-fetch.ts",
+      "sha256": "5427e7de0e4bacfa63342e5897cfc7f72e80d7598d254a19cc611fd133afcf0a",
+      "bytes": 2549
+    },
+    {
+      "path": "research/coach-benchmark/recovery-contract.md",
+      "sha256": "0287856b2f6e637b30d6e47d8a1c087320695e3af300e3a876de6a89275abba2",
+      "bytes": 1874
+    },
+    {
+      "path": "research/coach-benchmark/run.ts",
+      "sha256": "2462b5150fc36a6956a156a06f3e598d412ef041b6a8aaa050635fa021c49d48",
+      "bytes": 18862
+    },
+    {
+      "path": "research/coach-benchmark/summarize.ts",
+      "sha256": "2b8d8605c0e785e39cece20ed7bb81133fd74d021eda0dfd698c194c8d2c4b4a",
+      "bytes": 14980
+    },
+    {
+      "path": "research/ear-lab/README.md",
+      "sha256": "6a845e21fc9c559a31bb76f554353d6a0cee175f7bcba59310744ebc25054185",
+      "bytes": 5397
+    },
+    {
+      "path": "research/ear-lab/analysis.py",
+      "sha256": "9ec440405411834fe398fef49479add18f1e3d46ead980bd004ea9aa28a161e3",
+      "bytes": 12308
+    },
+    {
+      "path": "research/ear-lab/budget.test.ts",
+      "sha256": "1291e4f82e1c1e4109fb6c65db4ab6c1211e59c89c74c9085c99b0a6dcca7e97",
+      "bytes": 1547
+    },
+    {
+      "path": "research/ear-lab/budget.ts",
+      "sha256": "df02b6f9c9dd16ebdb257c60fa254e9b1cb48f73e558073d49be343693395664",
+      "bytes": 1542
+    },
+    {
+      "path": "research/ear-lab/bundle.py",
+      "sha256": "3c550537ff7a0f951da77d9805002bd3a0d5ba5c1d934a28c3f5d5b39b866915",
+      "bytes": 4499
+    },
+    {
+      "path": "research/ear-lab/cases.test.ts",
+      "sha256": "5069b2ddae67bd267cc97fa8486d9fb4aa2ff435415236a5d324f67fe5740033",
+      "bytes": 1095
+    },
+    {
+      "path": "research/ear-lab/cases.ts",
+      "sha256": "11a9fb06bcfd7a67516c67a7bb16c6105233261199dab92545fd05597d6debd9",
+      "bytes": 5583
+    },
+    {
+      "path": "research/ear-lab/contract.ts",
+      "sha256": "96e3c885672fed6268fa9d0b3bb54241b79857ba68477a03c500dc02685f7f31",
+      "bytes": 1232
+    },
+    {
+      "path": "research/ear-lab/dataset-cards.md",
+      "sha256": "4470223056ee1329f0e5102e4375a5259c5826b98210cf026e07fabb3d76dddf",
+      "bytes": 4529
+    },
+    {
+      "path": "research/ear-lab/evidence/audio.table.json",
+      "sha256": "9452e7d7e6e751d76c0ecdea9b70b5393d13e54372abdb414ced631e4246fbaa",
+      "bytes": 15808
+    },
+    {
+      "path": "research/ear-lab/evidence/bundle.json",
+      "sha256": "61d67c8e30c2c0e55db47b491a36f04bac96ccc9b5164166999ceebcf27ac1c2",
+      "bytes": 1533
+    },
+    {
+      "path": "research/ear-lab/evidence/current-budget.json",
+      "sha256": "a1e19189d78b0e2b1e3abcfa5d8b65567287781ca12351928aefb27eb8a128dc",
+      "bytes": 281
+    },
+    {
+      "path": "research/ear-lab/evidence/features.json",
+      "sha256": "c543ee9c05468894b0e6be4592970bcee77f76ddbf559d860e5e4071e6cf4d9f",
+      "bytes": 168949
+    },
+    {
+      "path": "research/ear-lab/evidence/lens-readback.json",
+      "sha256": "5f1f3a58045b13e04724e7d3d42aec902832686b076577cc8da46230b4ef26a9",
+      "bytes": 623
+    },
+    {
+      "path": "research/ear-lab/evidence/manifest.json",
+      "sha256": "46f6ec74e602f17d6a09f5e3433985cb7ba2d0478202339bdcb627e9e9731dbd",
+      "bytes": 74728
+    },
+    {
+      "path": "research/ear-lab/evidence/model.json",
+      "sha256": "84d73c7fc285c0c5ab8b361a134c80840ea41dcf5571eedd44f9da7ee21ecd29",
+      "bytes": 760
+    },
+    {
+      "path": "research/ear-lab/evidence/models-readback.json",
+      "sha256": "f826b7eedc0c5b366c6e392a089b947488c217c3c181b2e62ef25cadae2dce92",
+      "bytes": 5005
+    },
+    {
+      "path": "research/ear-lab/evidence/predictions.json",
+      "sha256": "27bc96a2eae2521fcea3fe73a64cbc7d54eb253f3fd3cf285499f15e0407ca36",
+      "bytes": 132704
+    },
+    {
+      "path": "research/ear-lab/evidence/qualification-summary.json",
+      "sha256": "1df0260f444cf3692c4d12d5033420c611a77ad0481caa8687f9750c84fe4b69",
+      "bytes": 1376
+    },
+    {
+      "path": "research/ear-lab/evidence/report.json",
+      "sha256": "fa37ff151c1cc9770ebe85ffefeed1bdd2e9d616cea1e374a7357ca940744e0e",
+      "bytes": 20136
+    },
+    {
+      "path": "research/ear-lab/evidence/response-1.json",
+      "sha256": "2d3e9c06759b25fd3a603a7f77b0ff437d66874f633331c8bbe2652c10994046",
+      "bytes": 3818
+    },
+    {
+      "path": "research/ear-lab/evidence/response-2.json",
+      "sha256": "72319d509d829c0bf2e423938c548fca24e97da30c493400eb4e5a290611cf53",
+      "bytes": 6653
+    },
+    {
+      "path": "research/ear-lab/evidence/response-3.json",
+      "sha256": "324c9fe397f2932feccebae16900db49d57f6c399b04e957509bab0cfd86671f",
+      "bytes": 5812
+    },
+    {
+      "path": "research/ear-lab/evidence/response-4.json",
+      "sha256": "1e75b55095444bf013ce6023745bb9b2fc37a12f2a17938af6af2bf5662293da",
+      "bytes": 580
+    },
+    {
+      "path": "research/ear-lab/evidence/response-5.json",
+      "sha256": "60610483ce702b17b9a02ba087dfb9e2f7f17450108e70a87b0ca19e9b7a72c4",
+      "bytes": 580
+    },
+    {
+      "path": "research/ear-lab/evidence/teacher-execution-gate.json",
+      "sha256": "923ff3f4b009a784f8b96de4c42ebdb31afb51191da726ba99bcf0c02a23db9c",
+      "bytes": 374
+    },
+    {
+      "path": "research/ear-lab/evidence/teacher-membership.json",
+      "sha256": "ee097637aed35361b2c9e2051f94f071133fbcd93e2d2717dd81723522914d2f",
+      "bytes": 936819
+    },
+    {
+      "path": "research/ear-lab/evidence/teacher.table.json",
+      "sha256": "528c3f3ba95d151880231db62fc0cf1946dbc6fd914bdd0fbc87dc86c537dd29",
+      "bytes": 98113
+    },
+    {
+      "path": "research/ear-lab/evidence/weave-readback.json",
+      "sha256": "fa220374f60f833f9bb5cc010a76222469efd054c9a9f9fd103c64c24b1fc321",
+      "bytes": 27227
+    },
+    {
+      "path": "research/ear-lab/fit.py",
+      "sha256": "1eb1ee5676b95fd18657ca2b7e9b63ec2f144dbf1fdb891f087df64cda9db126",
+      "bytes": 4986
+    },
+    {
+      "path": "research/ear-lab/protocol.json",
+      "sha256": "07a0a252b45aedb5402760f6cf2f551dfab03b54333de606d16a0f89b7799d0f",
+      "bytes": 3369
+    },
+    {
+      "path": "research/ear-lab/publish-models.mjs",
+      "sha256": "cb9a714c9f437f05033bd1767d921a8d30ef25b516741f9903e031f76ae630f6",
+      "bytes": 20448
+    },
+    {
+      "path": "research/ear-lab/publish.mjs",
+      "sha256": "c79e9679620d6103e2fd727e9157eb0afdc19f905f6cbb29ecb9ef0444597359",
+      "bytes": 13303
+    },
+    {
+      "path": "research/ear-lab/results.md",
+      "sha256": "7b3c4a261e3d3f254f90bd52ec0c368952ff0b7973fa220bc5eede329ef22cad",
+      "bytes": 8595
+    },
+    {
+      "path": "research/ear-lab/run.ts",
+      "sha256": "583cafa1c3cdde125cee4f0688f6e8d39c42d5e0d4ac39b39066bf32bf702cb8",
+      "bytes": 16454
+    },
+    {
+      "path": "research/ear-lab/test_analysis.py",
+      "sha256": "1f83bb119a8545f9c9e1c623294513e7e3ff5b29121606d400a4ff93d295cb02",
+      "bytes": 804
+    },
+    {
+      "path": "research/experiment-review.md",
+      "sha256": "d2dd3035ecbeff58be7d4084e37fe9d6913f4ccefee7e6919d67b6c3d9148c9e",
+      "bytes": 10413
+    },
+    {
+      "path": "research/forge/README.md",
+      "sha256": "a66fcef40cfd9700f7add434440461d36b8ad0363f6e1550c87c2774eb7e2653",
+      "bytes": 6759
+    },
+    {
+      "path": "research/forge/artifact_upload.py",
+      "sha256": "efb5a907152e28de841d6c294935c75d7fc834eb392c857b2c8e52403192473e",
+      "bytes": 11579
+    },
+    {
+      "path": "research/forge/artifact_upload_test.py",
+      "sha256": "391b4d348798fef15fbc8e8fd9dadaf4106556d0b6cda78927a0db7d67a0f34f",
+      "bytes": 1719
+    },
+    {
+      "path": "research/forge/curl-fetch.mjs",
+      "sha256": "3cae5d35075ff53928d501006dbd35b3b6431586160a17ec2dc15fb0b1ce5fb9",
+      "bytes": 5194
+    },
+    {
+      "path": "research/forge/curl-fetch.test.mjs",
+      "sha256": "20fe8e1b91a972410e8dd9b7a1afa2a155fcaab0d08ece4fad0a5fc8fdbd1d6d",
+      "bytes": 3734
+    },
+    {
+      "path": "research/forge/dashboard-tour.md",
+      "sha256": "a0273cec356450cc7db9d83cbf9413c6c53fa3eefc14206cf8d8bd303feb8c2d",
+      "bytes": 22464
+    },
+    {
+      "path": "research/forge/models.mjs",
+      "sha256": "f0ac8449bdfb30d33493096858d5d8a3d93160474354fae4621be8bb3436f07e",
+      "bytes": 6864
+    },
+    {
+      "path": "research/forge/models.test.mjs",
+      "sha256": "c4dcce0a6e16fcf98cc0cfa749f9b1063ca67c54bc73a31e89a4c21a31181992",
+      "bytes": 2014
+    },
+    {
+      "path": "research/forge/project.mjs",
+      "sha256": "48b03e1147d07717b0b1017f263e974edf84ae1adbba580c1797f562ee7d75c9",
+      "bytes": 1782
+    },
+    {
+      "path": "research/forge/publish-coach.mjs",
+      "sha256": "ba6cda39d6386fb7e3d860a48e85fad6914b77b9afa2ff12ac3be3137d6d7074",
+      "bytes": 23971
+    },
+    {
+      "path": "research/forge/publish-coach.test.mjs",
+      "sha256": "cbb6c4cafaecfb6c713f7509d0585c63398217bd19556575655412d3669c3f38",
+      "bytes": 10044
+    },
+    {
+      "path": "research/forge/publish-lens.mjs",
+      "sha256": "e6ec382b216c37f9102d53fa242a1feee9a76548a90dba51189f63bc132d5bee",
+      "bytes": 6091
+    },
+    {
+      "path": "research/forge/publish-lens.test.mjs",
+      "sha256": "c12bb4f3bf7f1521713e5ef4e9ec3cfe08861c212d36bbcae6abe6c6238bad19",
+      "bytes": 770
+    },
+    {
+      "path": "research/forge/qualify.mjs",
+      "sha256": "32995d08fd04c0cfc62f720beda6acdc3de24dab9ac77fcf3d03ee4fb5cde8c5",
+      "bytes": 762
+    },
+    {
+      "path": "research/forge/transport.mjs",
+      "sha256": "f30911d24f35b09d8169b89c16a543b40e77f7e7a0896755de80aa08232deddb",
+      "bytes": 8421
+    },
+    {
+      "path": "research/forge/transport.test.mjs",
+      "sha256": "3e1b44f7da6931eddd614bf80511c23fb0bc0daa68dac3fdac5e73c11273741f",
+      "bytes": 5084
+    },
+    {
+      "path": "research/forge/weave-client.mjs",
+      "sha256": "169ad93db5fb077b228e80bf970fdf350321f9dd7d51ec66f0d6304c9ca4ee67",
+      "bytes": 7337
+    },
+    {
+      "path": "research/listening-agent/cases.ts",
+      "sha256": "ca79cca38818e5a533659d9b9fe93190c3dfd5965982ad9943c0452542f97c97",
+      "bytes": 5001
+    },
+    {
+      "path": "research/listening-agent/contract.ts",
+      "sha256": "3105252997e737938528e08a9daf04f8af9a23e82a57ed2cb72758d6ce830692",
+      "bytes": 1323
+    },
+    {
+      "path": "research/listening-agent/contracts.test.ts",
+      "sha256": "e6b17ec6e33c3859b9a702d32d73b4cee90234220fd7f3bad70dd9ef2b424082",
+      "bytes": 2313
+    },
+    {
+      "path": "research/listening-agent/run.ts",
+      "sha256": "8df5653b0f2434e6b27ab9aec5375ed4ac23908ef93de26bacff5a726a9d70fa",
+      "bytes": 12105
+    },
+    {
+      "path": "research/music-data/README.md",
+      "sha256": "b2adb59bf20bac7356ecd03176a71fdf7b908ee766c86c48b11c6441f4202e8f",
+      "bytes": 4888
+    },
+    {
+      "path": "research/music-data/acquire.py",
+      "sha256": "d28b761f8017d29dfb112a8d1be7f95d1130a37ac7ceda88588ae35d1eda8625",
+      "bytes": 1629
+    },
+    {
+      "path": "research/music-data/build.ts",
+      "sha256": "8a18fa2457c7fb7d519a0cd4398a806622c7d9d01cc6aa3253c60f6d0f6e559c",
+      "bytes": 8531
+    },
+    {
+      "path": "research/music-data/guitarset.test.ts",
+      "sha256": "316f5beffe23463bc263f540feff7e7685702b727de8076d4b5ceadc9bb638e1",
+      "bytes": 5957
+    },
+    {
+      "path": "research/music-data/guitarset.ts",
+      "sha256": "8d8b1669a8ecb3a6fd819daac0af76dc88a3cac231c6e05e356e66fe38fe789c",
+      "bytes": 14497
+    },
+    {
+      "path": "research/music-data/research-contract.json",
+      "sha256": "38403cd6dd470fbc4233edd0850b498c6c9757e85fe64e632ad66d79f9ab631f",
+      "bytes": 4525
+    },
+    {
+      "path": "research/practice-intent/README.md",
+      "sha256": "ce9a410b333812c04b1867e513e21f4df2fc0ce0cceb6d6a66181a8b505a1c85",
+      "bytes": 2679
+    },
+    {
+      "path": "research/practice-intent/cases.ts",
+      "sha256": "144873634ffb3201b4d7299cc163e9227d59eeba009fafbfdf822462647fc0ed",
+      "bytes": 5750
+    },
+    {
+      "path": "research/practice-intent/contract.test.ts",
+      "sha256": "a58a010fdc7ca5909a5f1e4fb73f9712c0bee6477c7c3727d2a28d5b6656aec9",
+      "bytes": 3589
+    },
+    {
+      "path": "research/practice-intent/contract.ts",
+      "sha256": "a85b0bffc292ce54663683a43e7fa1aa34900253b569ab970214b4275dd1b1a4",
+      "bytes": 7138
+    },
+    {
+      "path": "research/practice-intent/dataset-card.md",
+      "sha256": "52d7fac5e040976bd0ca2bb08735fe6822149cc85930fb16d81feea30fd2eeaa",
+      "bytes": 3291
+    },
+    {
+      "path": "research/practice-intent/parser.ts",
+      "sha256": "5e788b20376745b47f4c62cd920cc224ec2dfbd68667c971cfe2c2a71eaecee1",
+      "bytes": 2555
+    },
+    {
+      "path": "research/practice-intent/prompt.ts",
+      "sha256": "5328441fa7a449cbd6a8363072b6f7786c44798149de06750477d9ffdd4c8d95",
+      "bytes": 2252
+    },
+    {
+      "path": "research/practice-intent/protocol.md",
+      "sha256": "8369b2ecad7ac0f22de48d46900913e30a1ecfc24541336f425b4e95067e3d40",
+      "bytes": 6693
+    },
+    {
+      "path": "research/practice-intent/publish.mjs",
+      "sha256": "89c31d7787f7a32c8d9127077cc2879680b0d39a4788ceef34486fcbce05b82c",
+      "bytes": 19091
+    },
+    {
+      "path": "research/practice-intent/readback.mjs",
+      "sha256": "16d9a4dbc7893ac93553add66180157f96dda2c7d7bb19e01b0a59060d057206",
+      "bytes": 3100
+    },
+    {
+      "path": "research/practice-intent/results.md",
+      "sha256": "e1e012f7ade282dc44a2033062280e1af6b5db556912c497aca6701f2ca77aa3",
+      "bytes": 7258
+    },
+    {
+      "path": "research/practice-intent/run.ts",
+      "sha256": "4a33553cff2a323ae36b782c7cef443367596f69574de12e5e7cf748dde47676",
+      "bytes": 18485
+    },
+    {
+      "path": "research/presentation/README.md",
+      "sha256": "ae672af696b77b3bf31da6c0dc3c603b25c24c8cea9e3fca0d96d7f371c2a9b2",
+      "bytes": 995
+    },
+    {
+      "path": "research/presentation/dataset-explainer.md",
+      "sha256": "98767c5615a912be45086acceed546ffe5ddd05efb88719372ab6f27444033e2",
+      "bytes": 7568
+    },
+    {
+      "path": "research/presentation/extract-dataset-examples.ts",
+      "sha256": "0abc39d464b0ac3937ab5772c1805e02484c086c504823b859c737dc388a9950",
+      "bytes": 5368
+    },
+    {
+      "path": "research/presentation/render-dataset-explainer.py",
+      "sha256": "477c518d9d41aacb22d0e86f12516202fb376bf59c3c72617d6e9bb2f07a7b03",
+      "bytes": 12564
+    },
+    {
+      "path": "research/recall-benchmark/.gitignore",
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+      "bytes": 19
+    },
+    {
+      "path": "research/recall-benchmark/README.md",
+      "sha256": "249e77916780ada8785d70c7adb09c0dc73f771db2b9b34a75292fe250bd0a14",
+      "bytes": 7575
+    },
+    {
+      "path": "research/recall-benchmark/benchmark.py",
+      "sha256": "c56035ef93fc974e384949b2d414d025858599a3ec03b0c62a34e63a8d55905e",
+      "bytes": 17304
+    },
+    {
+      "path": "research/recall-benchmark/download.py",
+      "sha256": "d945f25f7987484dbed84c2f3e3d3c2fbe9288cc3a61f6e29c308df390f945d1",
+      "bytes": 4758
+    },
+    {
+      "path": "research/recall-benchmark/plot_results.py",
+      "sha256": "70b3c80e074387c60cd9c2a9c47c05eb075e86f14dac9e1a10c0795f6f596db7",
+      "bytes": 15771
+    },
+    {
+      "path": "research/recall-benchmark/protocol.json",
+      "sha256": "4b8b0089706215df174a6c5513e66c7dba3c325590b45a2a2795f22d84709357",
+      "bytes": 2643
+    },
+    {
+      "path": "research/recall-benchmark/requirements.txt",
+      "sha256": "b7ec3e2fbe53f9c1a2f7f7c71d9503d250845b32ca16b0b10d4980428c2396d8",
+      "bytes": 178
+    },
+    {
+      "path": "research/recall-benchmark/results.md",
+      "sha256": "a99544a136926aa5c8e7965dbe15558e095f3c03df8352518eddaa8220f571a1",
+      "bytes": 4813
+    },
+    {
+      "path": "research/recall-benchmark/test_benchmark.py",
+      "sha256": "744bdc8979b040f88066c6d6ca8f0535fbad0c5dee585e011e6e489966dd76a0",
+      "bytes": 4893
+    },
+    {
+      "path": "research/research-contract.md",
+      "sha256": "6b4baf7f388a2e255ebcfccdb730f30e3110cd0459ed9647930d16a16fc58f04",
+      "bytes": 5404
+    },
+    {
+      "path": "research/results.md",
+      "sha256": "c2aa94de661229ab72c6793fab5f286b10cf6e03be720322f7232a89fd55d67e",
+      "bytes": 9497
+    },
+    {
+      "path": "research/teacher-agent/README.md",
+      "sha256": "a10be5fdfa2486130c31902f4d495ca3597eecd38ae5f071034c7660a09264cd",
+      "bytes": 4237
+    },
+    {
+      "path": "research/teacher-agent/adapter.ts",
+      "sha256": "27878e95ac24aba26da1577601662fd5ebb31e685cbe0be19aee81b74b8fd6be",
+      "bytes": 5880
+    },
+    {
+      "path": "research/teacher-agent/budget.ts",
+      "sha256": "914131ec728e02f09b773ea9edc443b33aa33f8f50088ae5f5c735780add7a57",
+      "bytes": 8229
+    },
+    {
+      "path": "research/teacher-agent/cases.ts",
+      "sha256": "72849dd872ca60e92b597769975bb935024949a78854e163a636f220d358c722",
+      "bytes": 12371
+    },
+    {
+      "path": "research/teacher-agent/concurrency.ts",
+      "sha256": "137a9c163686d266cc11fead7cbfb3c8909d1290a694904c2e65a49215e6f57e",
+      "bytes": 668
+    },
+    {
+      "path": "research/teacher-agent/contract.ts",
+      "sha256": "b09cb1ea841e5ba4cdeb1a008865f91df265c8d4dd77853341775dbb12fea6f6",
+      "bytes": 4948
+    },
+    {
+      "path": "research/teacher-agent/contracts.test.ts",
+      "sha256": "e1673f21dcf4bd40afeb46819cbed515ee2b35ac60a3828bac92bb5b3f2c7c2d",
+      "bytes": 7550
+    },
+    {
+      "path": "research/teacher-agent/dataset-card.md",
+      "sha256": "48533e65afb06158bac0f04df36c00c52113a189104d459e86f4827f44491768",
+      "bytes": 3642
+    },
+    {
+      "path": "research/teacher-agent/judge.ts",
+      "sha256": "9a161dd0a77360448165300a18ef471970024cb6ad68fd6cf71422b1670f88f5",
+      "bytes": 17435
+    },
+    {
+      "path": "research/teacher-agent/protocol.json",
+      "sha256": "bc2ccb32099b5afc03dc0ca48b7fc0af24688754fd628c2448508c5cdd0d83c5",
+      "bytes": 3923
+    },
+    {
+      "path": "research/teacher-agent/protocol.md",
+      "sha256": "fc28b87b988fe49ee25f3a56b50ec9f9b3972e7ee426e25ae8902988033f73b8",
+      "bytes": 8183
+    },
+    {
+      "path": "research/teacher-agent/publish.mjs",
+      "sha256": "b8ad5c0568c73a78f30cbe1433d744dd2fb1649cfc7fa820a6af6b55f3666b30",
+      "bytes": 14551
+    },
+    {
+      "path": "research/teacher-agent/results.md",
+      "sha256": "62a4eef43f38eb0946bbbbe8253991191134a00bae8e152ca328163cb67f0008",
+      "bytes": 11339
+    },
+    {
+      "path": "research/teacher-agent/run.ts",
+      "sha256": "3267dfa3ad0dbb1fe987377c5def5ce920ca0d0b7cf38998117b7b34b6c13d01",
+      "bytes": 31133
+    },
+    {
+      "path": "research/teacher-agent/trace.ts",
+      "sha256": "5b10d3e9adb38b0d2b912288086dd8cb852d891aa1c7a2ded509059e61637ee3",
+      "bytes": 3004
+    },
+    {
+      "path": "research/voicing-ranking/README.md",
+      "sha256": "665c4785fae71ec2c240feac1e7a2232997011643d585fc6d325d4a4231b429c",
+      "bytes": 7434
+    },
+    {
+      "path": "research/voicing-ranking/acquire_techs.py",
+      "sha256": "14d70540ff35c74da8ed3421a35b51c2dc492e633d88e158ba51c22139aa85fa",
+      "bytes": 5213
+    },
+    {
+      "path": "research/voicing-ranking/app-conformance.ts",
+      "sha256": "e17727bb687c74f2fc7f8974f82d1511c3d1a627620afe803964bad8a2115c16",
+      "bytes": 3206
+    },
+    {
+      "path": "research/voicing-ranking/audit.py",
+      "sha256": "449029969241d72aa64fad79576695f71d8d01837413c590b937a2416b2f12bd",
+      "bytes": 2379
+    },
+    {
+      "path": "research/voicing-ranking/benchmark.py",
+      "sha256": "caeff122541a0646195ad30f7f831c1f48335765ea2139ac159dcfc7435ff583",
+      "bytes": 16002
+    },
+    {
+      "path": "research/voicing-ranking/conformance.py",
+      "sha256": "dc0018437c02b46b5f94fb9b7554cf5c84086e1c5cda596c94ac0fac3cf581c5",
+      "bytes": 6450
+    },
+    {
+      "path": "research/voicing-ranking/dataset-card.md",
+      "sha256": "0626c782907a6818ed5808f2ceaf9bb88998d226ab02be332f45c2e51b90f024",
+      "bytes": 4870
+    },
+    {
+      "path": "research/voicing-ranking/export_features.py",
+      "sha256": "318e64a025a79b1e8e53a3cb1aac77de47f30ade27da06da894c067654418950",
+      "bytes": 1247
+    },
+    {
+      "path": "research/voicing-ranking/finalize.mjs",
+      "sha256": "3e7815cbc751f43785bbe819ab1c8f828febb59cfc255258458ea83a85623f11",
+      "bytes": 7737
+    },
+    {
+      "path": "research/voicing-ranking/fit_runtime.py",
+      "sha256": "7345c0593052bc1a8f4f5c406a29476e43a50cc188edf5c8bb2500d68355c009",
+      "bytes": 3244
+    },
+    {
+      "path": "research/voicing-ranking/protocol.json",
+      "sha256": "24adb4126fbb47b4aef7d9c114e6c7e8f44937eff461e099facb0c7803c1d9d0",
+      "bytes": 4567
+    },
+    {
+      "path": "research/voicing-ranking/publish.mjs",
+      "sha256": "3128b43e3aa70717dc7bbfa857e027b0a0af47984c7fd5d73357d950b2a40bca",
+      "bytes": 16464
+    },
+    {
+      "path": "research/voicing-ranking/publish_runtime.mjs",
+      "sha256": "999c49c6417f6f89e0ffd8cc2f5da7f9d2117e8e4262005bcd78829b74e9057c",
+      "bytes": 15398
+    },
+    {
+      "path": "research/voicing-ranking/requirements.txt",
+      "sha256": "983665a6331eda07ab1f4b23ef92d66f4b024c27b360ee0e7420511ef3b28c64",
+      "bytes": 27
+    },
+    {
+      "path": "research/voicing-ranking/results.md",
+      "sha256": "9ea00d6c077e4bdaeea9c73fadd272334a8723854dfc621b009cd71fc833be4e",
+      "bytes": 8506
+    },
+    {
+      "path": "research/voicing-ranking/runtime-parity.json",
+      "sha256": "ab910150445846193ca3028a28ab765884061545bfe1b02a6b4f063589abf8de",
+      "bytes": 720988
+    },
+    {
+      "path": "research/voicing-ranking/test_benchmark.py",
+      "sha256": "b95cfa14f748387c63e979568fceadf1144db721dbc97c3b6b0e4bf3bfe0f576",
+      "bytes": 1903
+    },
+    {
+      "path": "research/voicing-ranking/verify.py",
+      "sha256": "f5e1f6da4499e407e1f945fb1ee415de450c32500d2abafeb292dd3a8671b181",
+      "bytes": 2095
+    },
+    {
+      "path": "research/voicing-ranking/verify_runtime.py",
+      "sha256": "b0add0eaed54c0d6ae4c7e0491cecef0f8ede0ed8ba16d1e46fdaa71dddd6920",
+      "bytes": 1701
+    },
+    {
+      "path": "scripts/backup-env.ts",
+      "sha256": "76bab70584e248d6a156ccaf1a830d4ab4b14e3bcc50d498624703bf97c88eb2",
+      "bytes": 741
+    },
+    {
+      "path": "scripts/backup.ts",
+      "sha256": "f99a864f5ddc6754e69416f5554791c642c08590256617a2f9917a8027a52ed3",
+      "bytes": 1117
+    },
+    {
+      "path": "scripts/capture-ear.mjs",
+      "sha256": "92333ec09ca9a5c535f036a6d054d09c770ff349773ccfdda8bedb9e70243b48",
+      "bytes": 3577
+    },
+    {
+      "path": "scripts/capture-progression.ts",
+      "sha256": "287dfeac914cb1382ae4872065e08216dd2715e9dd0ab8d30f6c3d6178b016bc",
+      "bytes": 6084
+    },
+    {
+      "path": "scripts/capture-teacher.ts",
+      "sha256": "41d6b82662710bd79d07ae7d0ecbe8da06b9c77746ffda77b629703962abf535",
+      "bytes": 6573
+    },
+    {
+      "path": "scripts/ear-handoff.py",
+      "sha256": "761d4c8a2e718626e7721321c04a265907f27fbab29a79b64f30279edb5f16b3",
+      "bytes": 3071
+    },
+    {
+      "path": "scripts/invitation-options.ts",
+      "sha256": "e3b12c56179123291667f37e8f0f63f4b1e556db8d201bdbf4deddfc62899059",
+      "bytes": 1172
+    },
+    {
+      "path": "scripts/invitation.ts",
+      "sha256": "a0e4ae734d8e0053257312fd24bef1e15226a3e7fe7741000f02e62ace22863b",
+      "bytes": 1435
+    },
+    {
+      "path": "scripts/migrate.ts",
+      "sha256": "ac413d2aeee8604122d1933736438941bf8c81f083264d70516c5dc191e88671",
+      "bytes": 1978
+    },
+    {
+      "path": "scripts/patch-alphatab.mjs",
+      "sha256": "2d8f73aa16e56061f25b411cface33e28461d4056a72b11b034821249594d036",
+      "bytes": 7415
+    },
+    {
+      "path": "scripts/restore.ts",
+      "sha256": "2318529611e0fb57d54a6baa0ba4c529b156996e91eaf0f3757a215f41ac9302",
+      "bytes": 972
+    },
+    {
+      "path": "server/README.md",
+      "sha256": "83546d0b256eed0e4c889e8c3c86fd1ee11615813c45ede13facf9ba1cf23177",
+      "bytes": 16426
+    },
+    {
+      "path": "server/app.test.ts",
+      "sha256": "f826cd7de538bc1266eae124d9ef2cd2ae90762b8e92d0458bfac134cb7f5956",
+      "bytes": 9920
+    },
+    {
+      "path": "server/app.ts",
+      "sha256": "92239949a018a31ebf1fe7c7cd0105453c574ae879b2ba83872d4f86f797016e",
+      "bytes": 15906
+    },
+    {
+      "path": "server/arrangement-transport.test.ts",
+      "sha256": "27cdf04bed2dde757e0348a69d62c98a1292a6768348a5e25c54ac6c2240aa59",
+      "bytes": 2315
+    },
+    {
+      "path": "server/arrangement-transport.ts",
+      "sha256": "9eefb6b3b7b620bed0a953149f111cb89fd51b12f397db1a8eaca499d54e6d31",
+      "bytes": 2317
+    },
+    {
+      "path": "server/arrangements.test.ts",
+      "sha256": "87f69bb2d4687cdb260d22af862f3ed45e3edac2b40803928f4b920fea275aa5",
+      "bytes": 10968
+    },
+    {
+      "path": "server/arrangements.ts",
+      "sha256": "307ae1adf6ec450f144ce913121218545466d74e9b5a7864fad99056c771120e",
+      "bytes": 10383
+    },
+    {
+      "path": "server/audio.test.ts",
+      "sha256": "5d8bc356dd954acfbb2ac3242c10e533c7a5f768804589cc1afd6945f3087aa6",
+      "bytes": 3125
+    },
+    {
+      "path": "server/audio.ts",
+      "sha256": "7bf325260392b92597a84404b373c0b846dccca108c8c31f051d5f7a78c03d78",
+      "bytes": 7818
+    },
+    {
+      "path": "server/auth.ts",
+      "sha256": "df50a1bff7512200b8af87972edb9f7867da23222bf6140138771f19f0d050c7",
+      "bytes": 384
+    },
+    {
+      "path": "server/backup.test.ts",
+      "sha256": "5ff31a5c040b12fa2acb14a35d12d781bca079c90a4ebd353f08da1b3b3613ae",
+      "bytes": 2618
+    },
+    {
+      "path": "server/check-production.mjs",
+      "sha256": "14f5b8578491d1d6ab23f1a30699d35d94979017ab0a4c5149bd0726d32496eb",
+      "bytes": 4656
+    },
+    {
+      "path": "server/check-recovery.mjs",
+      "sha256": "b76cfdaf7217057747c3ea417e78e839b37e77e5a9acb240866ae68b09450e51",
+      "bytes": 4317
+    },
+    {
+      "path": "server/coach.test.ts",
+      "sha256": "d35bd78c5948cdc59acae90e7bfaf20f470be71ca8e55adbd84d8ce74d65b4c3",
+      "bytes": 5331
+    },
+    {
+      "path": "server/config.ts",
+      "sha256": "2b4b88d553d88c7d7a8d815ba6969a2801e50e97066503d7947b867f8d4e8ef8",
+      "bytes": 2909
+    },
+    {
+      "path": "server/forge-agent.test.ts",
+      "sha256": "29a3adc4fae73a0ed13bc59632f670d37862c1f9ea79573f8a8cc44019679c24",
+      "bytes": 5807
+    },
+    {
+      "path": "server/forge-agent.ts",
+      "sha256": "a221cc682860ec3e732d73d9d280f12458c2b68f6e499ee8d901fcd017554b9c",
+      "bytes": 9450
+    },
+    {
+      "path": "server/index.ts",
+      "sha256": "bbc5ce073738fce21742e6aafe0ac1e5b8c4c0a7230fe5159e84b918f0eb7dd7",
+      "bytes": 845
+    },
+    {
+      "path": "server/postgres.test.ts",
+      "sha256": "152a52ca4f448626b129b506f6ae8a7fd2e811afc9639b7da08c0f5fc62ed54a",
+      "bytes": 4207
+    },
+    {
+      "path": "server/postgres.ts",
+      "sha256": "2636b00909399851dcf57aa10a998eb987832671660472906343127b2c9623a7",
+      "bytes": 6615
+    },
+    {
+      "path": "server/repository.ts",
+      "sha256": "06e0120edc94a5d997b567c53030ed2ee22beb04eb51910a026873f1e79050a1",
+      "bytes": 935
+    },
+    {
+      "path": "server/teacher-api.test.ts",
+      "sha256": "8e50b85b348b3baa220fa5258c1fa3a864fba64da250a98c3b40cc1283492cc3",
+      "bytes": 7690
+    },
+    {
+      "path": "server/teacher-identity.ts",
+      "sha256": "18a31d0e4ee1192c33ebebb9150002bf140dc373443e668335dce594e738bc63",
+      "bytes": 630
+    },
+    {
+      "path": "server/teacher-invitation.test.ts",
+      "sha256": "90e977a0193e483cb1839d793c9ee81f922614f6391551f08796864d8139def9",
+      "bytes": 792
+    },
+    {
+      "path": "server/teacher-limits.ts",
+      "sha256": "e4a79067b471f0280f05b9572b6ebccd6aadbd23330b4a28367d4ef2517baffa",
+      "bytes": 723
+    },
+    {
+      "path": "server/teacher-provider.test.ts",
+      "sha256": "c6c2536453bbcfdf39f48f4eb68c09d1f1d13fa5db9c5536c942732ee47e4bac",
+      "bytes": 3275
+    },
+    {
+      "path": "server/teacher-provider.ts",
+      "sha256": "845f1965af9d72ce55b557e954d5c144a950cdfd8a895558adfe03aa444da2e6",
+      "bytes": 7685
+    },
+    {
+      "path": "server/teacher-review.test.ts",
+      "sha256": "d83de9a9504ba9666f5f9d5b78058b713fa1838f818fe9de862102ab5e3cf490",
+      "bytes": 1002
+    },
+    {
+      "path": "server/teacher-review.ts",
+      "sha256": "cc0b8d300aa8e003fc7c44d5fc543835bd4e41e8bcbd305c9de78b0dfe6e9c62",
+      "bytes": 2937
+    },
+    {
+      "path": "server/teacher-tracing.test.ts",
+      "sha256": "aa85c8f01b19328a93acb0c6936254d5b3145f8093daf01df5c333405657cf65",
+      "bytes": 2758
+    },
+    {
+      "path": "server/teacher-transport.test.ts",
+      "sha256": "bdad149c6c99df0d8ee71618439f53376957dad58f971928c03d21edc517648a",
+      "bytes": 2329
+    },
+    {
+      "path": "server/teacher-transport.ts",
+      "sha256": "c894bdc99a7e12036fdae143ca42cbfecc75df0e7df6219173a33d14860ab8a2",
+      "bytes": 3750
+    },
+    {
+      "path": "server/teacher.test.ts",
+      "sha256": "4f0a66ba437d2f5f643e7145c022e0b2afee2a1c2b06a2c9363e5d17e139bc25",
+      "bytes": 14833
+    },
+    {
+      "path": "server/teacher.ts",
+      "sha256": "ea6cca27a90309b85c42d090a737290d4d277b6ccab429abf969a677d27e8a35",
+      "bytes": 18565
+    },
+    {
+      "path": "server/test-repository.ts",
+      "sha256": "c03463e95320ed59b659df0d5b4e5b35da81dc3a304aed1043a589f28d0944c5",
+      "bytes": 3615
+    },
+    {
+      "path": "server/tracing.test.ts",
+      "sha256": "81f51b73d09a62b641156e7e1648ff6fccae73f0dec8e4c24cfb230e7136f569",
+      "bytes": 3561
+    },
+    {
+      "path": "server/tracing.ts",
+      "sha256": "cbc51b822b006a634f48a9f59124df1766dd77f52b3f4bde534f6581a9b36f5f",
+      "bytes": 5787
+    },
+    {
+      "path": "server/tsconfig.build.json",
+      "sha256": "764516c75ac69daafd211ec300e556bbb61c084d7ab2142acee6487e5243b92c",
+      "bytes": 378
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "316a43fcc0fba269a46f70d03c478a880cda9b8ec6181fc64706ed0c3de64ef1",
+      "bytes": 59350
+    },
+    {
+      "path": "src/audition.test.ts",
+      "sha256": "8b926a46971b810489ff317397ab05fd0f168bcf7d1a70d3dbf12dd7b99351b0",
+      "bytes": 2403
+    },
+    {
+      "path": "src/audition.ts",
+      "sha256": "7cb35b65601914279d3a8ceae001023fe3120abd2aa4b2cc3b2621ec3a401eda",
+      "bytes": 2602
+    },
+    {
+      "path": "src/ear/EarPanel.tsx",
+      "sha256": "af1ecb97120cde6bfa5ca9404f22d89a1db8272067987eed1e2579bc2d8736af",
+      "bytes": 24996
+    },
+    {
+      "path": "src/ear/README.md",
+      "sha256": "6449642ba8830c3a5d1b373cfcf58b0fc85fbcab89578b069b0572fbddaa17dc",
+      "bytes": 3218
+    },
+    {
+      "path": "src/ear/draft.test.ts",
+      "sha256": "bdd25b43fbec6083bab20f9af5045016f2d23bb31f6354c65299e4b477e314ed",
+      "bytes": 1962
+    },
+    {
+      "path": "src/ear/draft.ts",
+      "sha256": "01b6e5ec3c59d3d9e3a5e4a27cbdc21ab0513956c809499cc911f0851ccea66c",
+      "bytes": 2768
+    },
+    {
+      "path": "src/ear/ear.css",
+      "sha256": "02e16a7dc15855781d3c3465a2bfe56c8f8974f2a6fc049806ba131618a493b7",
+      "bytes": 2333
+    },
+    {
+      "path": "src/ear/ear.test.ts",
+      "sha256": "6e6683aac46f393c8d9234d29a4ca8bee872ebfd552b16ac2ae9b9551f2df1e5",
+      "bytes": 7967
+    },
+    {
+      "path": "src/ear/model.ts",
+      "sha256": "7361921ebbc193b58b928638be511fb1b6ec61a3b430db947d4d9b6554706f47",
+      "bytes": 3600
+    },
+    {
+      "path": "src/ear/teacher.ts",
+      "sha256": "99b8a23fdf42b17c8d8e245a124bae3a827654ec110b7a6637331a909e6996d7",
+      "bytes": 2760
+    },
+    {
+      "path": "src/ear/useEarSession.ts",
+      "sha256": "b0611eea9c647e2ea425143e19c77886583b6c97c4b5a32230b718e769f46413",
+      "bytes": 13973
+    },
+    {
+      "path": "src/engine/adapter.ts",
+      "sha256": "d45a1bdb99dbb6792a2ec05afe5c7eb810ed139632b4bbee158e017b0ce19b24",
+      "bytes": 11714
+    },
+    {
+      "path": "src/engine/assessment.ts",
+      "sha256": "d18fef9f80d76ce23e149667574ec79f530da28af608505aadec6ecd585764a2",
+      "bytes": 7040
+    },
+    {
+      "path": "src/engine/engine.test.ts",
+      "sha256": "21533aa47a0709d5412900edd4e0a50754f34df207f2791b4e6d0d1a35551f32",
+      "bytes": 27875
+    },
+    {
+      "path": "src/engine/exercises.ts",
+      "sha256": "08ee671a9202b4e04ce7aff4a8f20bef262c7d95adc073b6c7cfbf9a18f0e4b6",
+      "bytes": 12190
+    },
+    {
+      "path": "src/engine/exploration.test.ts",
+      "sha256": "5a6553d672926b9940672bd94bac199d91b61a019a34cf00ca612a185ae2bc8f",
+      "bytes": 10797
+    },
+    {
+      "path": "src/engine/exploration.ts",
+      "sha256": "1b5137c7d45a7ecf8da37c77ba10d14238833558e5aab78ef2597539ee01b2d2",
+      "bytes": 8426
+    },
+    {
+      "path": "src/engine/harmony-exercises.test.ts",
+      "sha256": "a3781daf54d79ad60e09b4389dd9f80a620c06648e9953366b90addd0651c594",
+      "bytes": 7020
+    },
+    {
+      "path": "src/engine/harmony-exercises.ts",
+      "sha256": "5b9755d1844e3029550088e74d1ffb11fc30422a12d0d6d055786362e08dc01c",
+      "bytes": 6766
+    },
+    {
+      "path": "src/engine/harmony.test.ts",
+      "sha256": "0ea7aa326096056170c382e6d9d3f5c86188f611bad704d21939a2fe25809e40",
+      "bytes": 18149
+    },
+    {
+      "path": "src/engine/harmony.ts",
+      "sha256": "db1d27c6d88f2ed5fe9e83c7007c1e749c3fb31026df79bbba72d5f1094ffac4",
+      "bytes": 36015
+    },
+    {
+      "path": "src/engine/harmony.worker.ts",
+      "sha256": "a83030426f8ce37e8af6d75229fd55d77a3b12cb5fcc568be9a0443f52b82756",
+      "bytes": 674
+    },
+    {
+      "path": "src/engine/index.ts",
+      "sha256": "da605e5feb4991f1a0837913df7849c5cf5dbca2eb0d6ada43f1cba657c73619",
+      "bytes": 170
+    },
+    {
+      "path": "src/engine/presentation.ts",
+      "sha256": "8624d014bab9f44dad5b04530aa7fbbf981a8f4e19e38c6d9c541ae93960d36e",
+      "bytes": 2046
+    },
+    {
+      "path": "src/engine/scheduler.ts",
+      "sha256": "3be23ac3f39fe2b2e2a61733fdec914e42db13221a4c99cf1c30a47ff6a300ed",
+      "bytes": 11613
+    },
+    {
+      "path": "src/engine/teacher-references.ts",
+      "sha256": "8e8ec3c812aa8e7a96679bcec6f444ac7f493124ecde6506a6255a718db2e6b6",
+      "bytes": 5922
+    },
+    {
+      "path": "src/engine/teacher.test.ts",
+      "sha256": "ed3a46785bb11fa98f48bc352024bd44d32ddf07937dfa12992f0de75cb131ec",
+      "bytes": 10134
+    },
+    {
+      "path": "src/engine/teacher.ts",
+      "sha256": "4dc6860576e19e489ac61043bd7125ccfcb2ff4024f2ce991634b6ea17c6f927",
+      "bytes": 45779
+    },
+    {
+      "path": "src/engine/theory.ts",
+      "sha256": "f6e6a6ff32c722243595015edab05844ee657c9b87b951c0ed4899643cbacd00",
+      "bytes": 7392
+    },
+    {
+      "path": "src/engine/types.ts",
+      "sha256": "0246e09704e53a7bdef4cf6a5c3519ee3b17e1f2eeb4d12c50330d6f8bf0afd9",
+      "bytes": 3852
+    },
+    {
+      "path": "src/engine/voicing-ranker.test.ts",
+      "sha256": "a696c3c5d957e91586a6d3dfffe014a55769f836dec0926535a7a0dcf9e2f8d5",
+      "bytes": 3521
+    },
+    {
+      "path": "src/engine/voicing-ranker.ts",
+      "sha256": "027842d3d667a397288a479f4ff3e79549d4b47329e5eda61536a9babc4f22b0",
+      "bytes": 7417
+    },
+    {
+      "path": "src/engine/voicing-ranker.worker.ts",
+      "sha256": "226f907c311dfe308c5c14f89f0df550694ad4ed165b59af19f37269dfeb36a0",
+      "bytes": 1738
+    },
+    {
+      "path": "src/hooks/useLessonSession.ts",
+      "sha256": "04e20a7514075a6b4a22c4e952659bc17789d5fae9bc5d1692bca1a9b069ca4f",
+      "bytes": 7331
+    },
+    {
+      "path": "src/hooks/useListeningSession.ts",
+      "sha256": "1d34f87ea2008c33f05d85259852ef975fdc62e2e2a17c438cc56064ec8c2f6e",
+      "bytes": 5155
+    },
+    {
+      "path": "src/hooks/useProgressionSession.ts",
+      "sha256": "e2c075447296fbdc71e84c2bc646349c2b00b7bab7535c620d8dbfdf4b52b729",
+      "bytes": 17271
+    },
+    {
+      "path": "src/lesson-storage.ts",
+      "sha256": "f56c74abc1e204261fe642a207a88834b1454eec62bb82d08cc9c8e762d543e4",
+      "bytes": 7148
+    },
+    {
+      "path": "src/main.tsx",
+      "sha256": "4261f1a07b4e503895132d2e4446ed422f641ad4555ad5d4e44603ef7bd1af86",
+      "bytes": 1368
+    },
+    {
+      "path": "src/player/PlaybackCoordinator.ts",
+      "sha256": "bfce0e0440db7a28035d32b68ec16413d7854ac7b1617d2a967ef5e7786142e9",
+      "bytes": 528
+    },
+    {
+      "path": "src/player/PlayerController.test.ts",
+      "sha256": "de2d5d020c85bec1349cd72ea699be1aeed344cf9934f5aac8cdd7971fe18e4e",
+      "bytes": 13287
+    },
+    {
+      "path": "src/player/PlayerController.ts",
+      "sha256": "b6cf189569a4501cb33ce3a689a9baa67afc95cfe8d4601e37f9de229ac0a644",
+      "bytes": 17869
+    },
+    {
+      "path": "src/player/catalog-score.ts",
+      "sha256": "618f3c77c1150fc35d1e3e6e47b1c60f74b03a6e0c3d1735ad414ddc13cc4802",
+      "bytes": 1447
+    },
+    {
+      "path": "src/player/demo.test.ts",
+      "sha256": "7783107143a242dcd3d698e938a9ebf9f65ad9b89ccb6326f3242a7b2e00d8f8",
+      "bytes": 1619
+    },
+    {
+      "path": "src/player/demo.ts",
+      "sha256": "55427aaa0775f36d7f29c41ca9ad49df4836165dac0859fe694d8049244076eb",
+      "bytes": 2264
+    },
+    {
+      "path": "src/player/ear-score.ts",
+      "sha256": "6ff4c1a600720559fcc250c4adb1d5f4f36b4a0ceae33d9b5f35241986bfcf12",
+      "bytes": 1469
+    },
+    {
+      "path": "src/player/timeline.ts",
+      "sha256": "902ec3173a4cdd7624a7d786976ed44ae7787e01dc4ef7d67d8dce1f4ffa5eca",
+      "bytes": 1228
+    },
+    {
+      "path": "src/player/variation.test.ts",
+      "sha256": "66dbe96960c34f80c70ca99e4f618031779e57cc43a9544cca1755c73d858d9d",
+      "bytes": 8371
+    },
+    {
+      "path": "src/player/variation.ts",
+      "sha256": "228469f9c17ef5c35440def7e3c181c27d8714ae3049d3b28f55699906243cb5",
+      "bytes": 5801
+    },
+    {
+      "path": "src/research-data/README.md",
+      "sha256": "59c8ca67061f43686b73156546568770361d2c461fc30579542bbdd4236125fa",
+      "bytes": 733
+    },
+    {
+      "path": "src/research-data/recorded-arrangement-v2.json",
+      "sha256": "b2d016987819ac8495c534620e084fcbb3e0f222459abf875884d931e3488ab6",
+      "bytes": 2614
+    },
+    {
+      "path": "src/research-data/voicing-ranker-v1.json",
+      "sha256": "64e24a350e4cb9c6b5c759523f7f8b8766821d09df778f78d7736bf7947cf46b",
+      "bytes": 1942
+    },
+    {
+      "path": "src/shared/arrangements.ts",
+      "sha256": "30b754f4a44c7e705f7df03d7172eec78f140304c7d0b3d0b3053286f4fc9595",
+      "bytes": 17937
+    },
+    {
+      "path": "src/shared/audio.ts",
+      "sha256": "a86be22297a01a255ca4d8306fa34195d27450f8176dd53f760de389908c7467",
+      "bytes": 5515
+    },
+    {
+      "path": "src/shared/coach.ts",
+      "sha256": "3ef4108ece1738d03621fb68743439911c67f751faccf512a21c0c681bb51b5c",
+      "bytes": 9144
+    },
+    {
+      "path": "src/shared/teacher-tools.ts",
+      "sha256": "7d4e3340b979ac19640654727ac7ae9ca9f750394e85a732e68a4cbfc65e6516",
+      "bytes": 1579
+    },
+    {
+      "path": "src/shared/teacher.ts",
+      "sha256": "870e7d1a829c15f66caad5326878cbd7853f8fce9d2c0de0958385560b2d63d5",
+      "bytes": 13117
+    },
+    {
+      "path": "src/songs/authored.ts",
+      "sha256": "cf8c24043a6265b0e7e01fc6ff9552f3f325a93ec66ada380597ebeefb7d06a4",
+      "bytes": 1560
+    },
+    {
+      "path": "src/songs/catalog.ts",
+      "sha256": "e2dfdc1bd1beec9fd51671a841cdc7a48b4a77ca9b58ca69d9b1616b19c7132f",
+      "bytes": 9007
+    },
+    {
+      "path": "src/songs/listening.test.ts",
+      "sha256": "aee4b71daf3df8ad620010cdab803c411d276bdc4a7e5828544b76801e575f01",
+      "bytes": 4456
+    },
+    {
+      "path": "src/songs/listening.ts",
+      "sha256": "9f342ed054a9443228b02bf275717c57c4e5baf2e981ab20a5a3860420bff5a5",
+      "bytes": 5064
+    },
+    {
+      "path": "src/storage.test.ts",
+      "sha256": "806de274919f2793c95e4709d01c6bee95df9dcfe9f9ccf5275a1a583df0e65d",
+      "bytes": 3504
+    },
+    {
+      "path": "src/storage.ts",
+      "sha256": "29ad4d235f13f6b983b12ae7b52e3ee8a445ae46f0773981d0ebd3c5c87980fe",
+      "bytes": 20495
+    },
+    {
+      "path": "src/store.ts",
+      "sha256": "c765b41532bcbe28db53abcda5c83085fbf4c6c31a4f84d4a2b2aa23085e0d47",
+      "bytes": 1159
+    },
+    {
+      "path": "src/style.css",
+      "sha256": "fdca197082a5b3e9007b49b300727afd3ba4b59bcfc9778f1763ebb77fab501b",
+      "bytes": 37174
+    },
+    {
+      "path": "src/ui/ArrangementPrompt.tsx",
+      "sha256": "8252d1565e410e7b6dccb85cfa33b582527146ae0fdb8f64b11127a480c2317d",
+      "bytes": 5840
+    },
+    {
+      "path": "src/ui/ChordExplorer.tsx",
+      "sha256": "5339ad08f4aed4c2d50f37eeccc92422e1e7d8f49e2e3364574b65f600eeef70",
+      "bytes": 7957
+    },
+    {
+      "path": "src/ui/CoachPanel.tsx",
+      "sha256": "fb58fdf0515364b8c8d3978860efc6cddbc1603621cfb28a1576b8a6db2953cb",
+      "bytes": 7861
+    },
+    {
+      "path": "src/ui/Fretboard.tsx",
+      "sha256": "de936be4357bdcfb7dfe52bf7619b1852942c529450b96688ea5f1ce1879c474",
+      "bytes": 3512
+    },
+    {
+      "path": "src/ui/Inspector.tsx",
+      "sha256": "683a98d9f4f0aa7ae20d6b1a9b14e72819caf9ff14ed869199ce125a127a623e",
+      "bytes": 11764
+    },
+    {
+      "path": "src/ui/ListeningPanel.tsx",
+      "sha256": "53ca7ff23ee18cb5a83df17bddfaa6947c32048df435fad76846bed91174f6ce",
+      "bytes": 6443
+    },
+    {
+      "path": "src/ui/Modal.tsx",
+      "sha256": "ef0835d6b477760fb61f395abc002f7bfc18b97f807d3a238e434dd6eac97bd6",
+      "bytes": 1016
+    },
+    {
+      "path": "src/ui/PracticePanel.tsx",
+      "sha256": "601da85f6b2f50cde5aaa0723995052341539898b5484514011c27a41bc6353b",
+      "bytes": 9298
+    },
+    {
+      "path": "src/ui/ProgressionStudio.tsx",
+      "sha256": "e492f9e81cdb0a0e11cd2618c69cee13efe7ec130b300b45361d70346dcd74f5",
+      "bytes": 39624
+    },
+    {
+      "path": "src/ui/RecordedArrangement.tsx",
+      "sha256": "cdda30978f73d7bcbb1c519dcd9bfd48179e1531b2e9ec71ed1f168674d239b7",
+      "bytes": 3668
+    },
+    {
+      "path": "src/ui/RecordedChoiceExplorer.tsx",
+      "sha256": "d53fbf9c8661f899942f290ac03b952751e861f76f0126495944cc51d9cae17a",
+      "bytes": 5016
+    },
+    {
+      "path": "src/ui/RecordingPlayer.tsx",
+      "sha256": "5baf9d1c2445152d630b89442fb9353b4c713cde194698e0b1e30626e80a836e",
+      "bytes": 3888
+    },
+    {
+      "path": "src/ui/SongLibrary.tsx",
+      "sha256": "ab665d70bd841e18290967429617b6f35b2cb5620134b9d2cdb298b29158855f",
+      "bytes": 3646
+    },
+    {
+      "path": "src/ui/TeacherPanel.tsx",
+      "sha256": "7f53624166eeabb5b8316fa409e37f14a0d1c671216b52e9e9f88c8fe32d30ea",
+      "bytes": 34616
+    },
+    {
+      "path": "src/ui/exploration.css",
+      "sha256": "9dfaf9afc9d25aa24e77b9a52772b8bd15a8ba764ab9d8c7bc803500bbceb448",
+      "bytes": 5245
+    },
+    {
+      "path": "src/ui/progression.css",
+      "sha256": "e91c148d51f37d2bf549021cadcdd6f187becaf8c1f3ed2f4fc6ba686c5d7de9",
+      "bytes": 11126
+    },
+    {
+      "path": "src/ui/songs.css",
+      "sha256": "9503b9daa43226c6bcca79cf8ccf232d68fbf2aab05870dfbc541f02ff3acb41",
+      "bytes": 2925
+    },
+    {
+      "path": "src/ui/teacher.css",
+      "sha256": "252f493d1bc355b7ec52d122b5a40a2d3bda6eeeb29710df8484ca542d92ee56",
+      "bytes": 4285
+    },
+    {
+      "path": "src/useLocalData.ts",
+      "sha256": "399acd4f9d825c2e87560f0dd1c5387c2276b1447e0a61861cd514a3893736c9",
+      "bytes": 5696
+    },
+    {
+      "path": "src/useMediaQuery.ts",
+      "sha256": "438bd2296f6dc4b3861d85f233eefd209d920cb725475f309bf0b8753e977626",
+      "bytes": 453
+    },
+    {
+      "path": "tests/app.spec.ts",
+      "sha256": "2b02576dd61749e0047c903e756ba4f187a5c84206f250036db61cc5f7f6cf68",
+      "bytes": 17956
+    },
+    {
+      "path": "tests/ear.browser.spec.ts",
+      "sha256": "b0c033e7e936554edbc15cec9d0b33ea091b5305e59c5fb453d76db413141bd5",
+      "bytes": 3416
+    },
+    {
+      "path": "tests/ear.playwright.config.ts",
+      "sha256": "39c43a47f7ad6bfe27b906bce9011da0c3d7465ca9d20ea541aef1a4de2c0896",
+      "bytes": 1224
+    },
+    {
+      "path": "tests/exploration.spec.ts",
+      "sha256": "3feb972c13d8a30f3d6a7c9c3cf26644c8b4b9d5e28a4df5510796c1b79da011",
+      "bytes": 10819
+    },
+    {
+      "path": "tests/listening.spec.ts",
+      "sha256": "e477565ea928ad3e99b71123a034e911e47df7e80c1eb80c4b6928e3e38063e8",
+      "bytes": 3808
+    },
+    {
+      "path": "tests/offline.browser.spec.ts",
+      "sha256": "d35f08e92dbafa344b749fa75482de64476d51c91a78613f2d8a9842ff45e0db",
+      "bytes": 7921
+    },
+    {
+      "path": "tests/offline.playwright.config.ts",
+      "sha256": "96083b8ae0538c233b786709b34d0a747bd8fb6c0dc65bc08005825fbd5150ff",
+      "bytes": 722
+    },
+    {
+      "path": "tests/progression.spec.ts",
+      "sha256": "9efdd29470a93df0aeb66fb2f35032d7e52a971bf97ef723725ee0330c1b744f",
+      "bytes": 15343
+    },
+    {
+      "path": "tests/renderer.browser.spec.ts",
+      "sha256": "580d270d7d18bbe10dee1affdf58de72e096b5e6344db8071a3a4cdd129fb208",
+      "bytes": 6055
+    },
+    {
+      "path": "tests/renderer.fixture.html",
+      "sha256": "3561ca530ec5377f32e86a5a78bdfac6e932930a700bdff548ded009d883a916",
+      "bytes": 2585
+    },
+    {
+      "path": "tests/renderer.playwright.config.ts",
+      "sha256": "e24e05f0587f7fdafd6d9fa4f857a8514e008740dd85ab149b0d082c05292cbe",
+      "bytes": 530
+    },
+    {
+      "path": "tests/renderer.test.ts",
+      "sha256": "cff4dbde18949447bc49d2974296daf5482aa65e80a03a9858a0f99e627b73f1",
+      "bytes": 15095
+    },
+    {
+      "path": "tests/teacher.spec.ts",
+      "sha256": "aae892ac74bfb3c62b6ea111e194c4e6445371efe94a2e705f10484a59ac1596",
+      "bytes": 17765
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "14779281b4e985594a211321b9a80c36384ef298233d6890eca1529a60903d9e",
+      "bytes": 608
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "6e43421176bc1cd66342f28afc4386034675a3c590aa5df7984a941d56fdcf2b",
+      "bytes": 1157
+    },
+    {
+      "path": "vitest.config.ts",
+      "sha256": "178de87d80c526c7d5470f968b957698f9129bf8fa44e151b83f0de5f6e04004",
+      "bytes": 293
+    }
+  ]
+}

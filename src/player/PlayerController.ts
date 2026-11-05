@@ -1,3 +1,5 @@
+import { earScore } from './ear-score';
+import type { EarStudy } from '../ear/model';
 import { PlaybackClockBridge } from '../live/clock';
 import { buildPracticeScore } from './practice-study';
 import type { TimedStudy } from '../engine/musicianship';
@@ -274,6 +276,12 @@ export class PlayerController {
       alphaTab.importer.ScoreLoader.loadAlphaTex(DEMO_ALPHATEX),
       DEMO_SOURCE_ID,
     );
+  }
+
+  loadEarStudy(study: EarStudy): ScoreDocument {
+    if (this.disposed) throw new Error('The player has been destroyed.');
+    this.cancelPendingLoad();
+    return this.installScore(earScore(study), 'ear-study:' + study.id);
   }
 
   loadCatalogPassage(passage: Passage): ScoreDocument {

@@ -1,6 +1,9 @@
 import { TEACHER_PROMPT_VERSION } from '../src/shared/teacher.js';
 import { TEACHER_CRITIC_PROMPT_VERSION } from './teacher-review.js';
 export interface ServerConfig {
+  audioEnabled?: boolean;
+  audioPython?: string;
+  audioDataDir?: string;
   production: boolean;
   publicOrigin: string;
   databaseUrl?: string;
@@ -46,6 +49,9 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
   const forgeApiKey = env.WANDB_API_KEY;
   return {
     production,
+    audioEnabled: env.EAR_LAB_ENABLED === 'true',
+    audioPython: env.EAR_LAB_PYTHON,
+    audioDataDir: env.EAR_LAB_DATA_DIR,
     publicOrigin,
     databaseUrl,
     sessionSecret,

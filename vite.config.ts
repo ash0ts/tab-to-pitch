@@ -31,7 +31,7 @@ export default defineConfig({
   ],
   server: {
     port: 5173,
-    proxy: { '/api': 'http://127.0.0.1:3000', '/healthz': 'http://127.0.0.1:3000' },
+    proxy: { '/api': process.env.TTP_API_ORIGIN ?? 'http://127.0.0.1:3000', '/healthz': 'http://127.0.0.1:3000' },
   },
   build: { sourcemap: true },
 });
