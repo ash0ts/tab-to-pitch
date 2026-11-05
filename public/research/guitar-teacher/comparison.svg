@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="640" viewBox="0 0 1120 640" role="img" aria-labelledby="title desc">
+<title id="title">Valid requested demonstrations delivered by the guitar teacher</title>
+<desc id="desc">Two hosted trials per checkpoint on 36 GuitarSet recordings. Bars compare role highlights and progression previews. Local policy is a deterministic baseline. Counts include failures.</desc>
+<rect width="1120" height="640" fill="#f2f0e8"/>
+<style>text{font-family:Arial,sans-serif;fill:#242827}.small{font-size:16px}.label{font-size:19px}.count{font-size:18px;font-weight:bold}.muted{fill:#565e58}</style>
+<text x="38" y="48" font-size="27" font-weight="bold">Can the teacher deliver a playable example?</text>
+<text x="38" y="80" class="small muted">Valid artifacts in accepted hosted replies; local action delivery shown separately.</text>
+<line x1="294" y1="124" x2="294" y2="474" stroke="#c8cbc1"/>
+<text x="294" y="113" text-anchor="middle" class="small">0%</text>
+<line x1="459.0" y1="124" x2="459.0" y2="474" stroke="#c8cbc1"/>
+<text x="459.0" y="113" text-anchor="middle" class="small">25%</text>
+<line x1="624.0" y1="124" x2="624.0" y2="474" stroke="#c8cbc1"/>
+<text x="624.0" y="113" text-anchor="middle" class="small">50%</text>
+<line x1="789.0" y1="124" x2="789.0" y2="474" stroke="#c8cbc1"/>
+<text x="789.0" y="113" text-anchor="middle" class="small">75%</text>
+<line x1="954" y1="124" x2="954" y2="474" stroke="#c8cbc1"/>
+<text x="954" y="113" text-anchor="middle" class="small">100%</text>
+<text x="38" y="165" class="label">Current teacher / chord role</text>
+<rect x="294" y="147" width="660" height="25" fill="#e0e2d9"/>
+<rect x="294" y="147" width="18.33" height="25" fill="#636b84"/>
+<text x="982" y="165" class="count">2/72</text>
+<text x="38" y="212" class="label">Current teacher / progression</text>
+<rect x="294" y="194" width="660" height="25" fill="#e0e2d9"/>
+<rect x="294" y="194" width="82.50" height="25" fill="#636b84"/>
+<text x="982" y="212" class="count">9/72</text>
+<text x="38" y="275" class="label">Evidence-first / chord role</text>
+<rect x="294" y="257" width="660" height="25" fill="#e0e2d9"/>
+<rect x="294" y="257" width="119.17" height="25" fill="#237b72"/>
+<text x="982" y="275" class="count">13/72</text>
+<text x="38" y="322" class="label">Evidence-first / progression</text>
+<rect x="294" y="304" width="660" height="25" fill="#e0e2d9"/>
+<rect x="294" y="304" width="201.67" height="25" fill="#237b72"/>
+<text x="982" y="322" class="count">22/72</text>
+<text x="38" y="385" class="label">Local policy / chord role</text>
+<rect x="294" y="367" width="660" height="25" fill="#e0e2d9"/>
+<rect x="294" y="367" width="0.00" height="25" fill="#888d84"/>
+<text x="982" y="385" class="count">0/36</text>
+<text x="38" y="432" class="label">Local policy / progression</text>
+<rect x="294" y="414" width="660" height="25" fill="#e0e2d9"/>
+<rect x="294" y="414" width="0.00" height="25" fill="#888d84"/>
+<text x="982" y="432" class="count">0/36</text>
+<text x="38" y="520" class="label">Paired overall difference: 16.7 points (recording-bootstrap 95% interval 9.0 to 24.3).</text>
+<text x="38" y="552" class="small">Engine control: 72/72 valid artifacts when invoked directly. No language interpretation in this control.</text>
+<text x="38" y="584" class="small muted">Three performers, two progression families; shared lead sheets limit inference. No learner outcomes.</text>
+<text x="38" y="616" class="small muted">TabToPitch · guitar-teacher-grounding-v1 · GuitarSet 1.1.0 annotations · 5 November 2026</text>
+</svg>

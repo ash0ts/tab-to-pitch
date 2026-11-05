@@ -1,0 +1,66 @@
+[
+  {
+    "recording": "02_Funk1-97-C_comp",
+    "reason": "no-supported-three-span-window-with-stable-role-note"
+  },
+  {
+    "recording": "02_Funk2-119-G_comp",
+    "reason": "publisher-known-annotation-error"
+  },
+  {
+    "recording": "02_Funk3-112-C#_comp",
+    "reason": "no-supported-three-span-window-with-stable-role-note"
+  },
+  {
+    "recording": "04_BN3-154-E_comp",
+    "reason": "publisher-known-annotation-error"
+  },
+  {
+    "recording": "04_Jazz1-200-B_comp",
+    "reason": "publisher-known-annotation-error"
+  },
+  {
+    "recording": "04_Rock1-130-A_comp",
+    "reason": "no-supported-three-span-window-with-stable-role-note"
+  },
+  {
+    "recording": "05_BN3-119-G_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_BN3-154-E_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_Funk3-112-C#_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_Funk3-98-A_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_Jazz3-137-Eb_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_Jazz3-150-C_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_Rock3-117-Bb_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_Rock3-148-C_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_SS3-84-Bb_comp",
+    "reason": "previous-live-coach-cohort"
+  },
+  {
+    "recording": "05_SS3-98-C_comp",
+    "reason": "previous-live-coach-cohort"
+  }
+]

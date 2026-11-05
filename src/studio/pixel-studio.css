@@ -1604,6 +1604,51 @@ body .studio-teacher-drawer > p {
 .lab-heading h2 {
   margin: 6px 0;
 }
+/* The controlled comparison leads the lab; legacy campaigns remain below it. */
+.controlled-study {
+  margin-top: 24px;
+  padding: clamp(18px, 3vw, 30px);
+  border: 2px solid #74627c;
+  background: #f7f2e9;
+}
+.controlled-study h3 {
+  font-size: 23px;
+  line-height: 1.35;
+  margin: 12px 0;
+}
+.controlled-study p {
+  max-width: 80ch;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.controlled-study-table {
+  overflow-x: auto;
+}
+.controlled-study table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.controlled-study caption {
+  text-align: left;
+  font-size: 12px;
+  color: #5f5967;
+  padding: 10px 0;
+}
+.controlled-study th,
+.controlled-study td {
+  text-align: right;
+  padding: 12px 8px;
+  border-bottom: 1px solid #c6b9bc;
+}
+.controlled-study th:first-child {
+  text-align: left;
+}
+.controlled-study .controlled-study-primary {
+  font-size: 14px;
+  font-weight: 700;
+  flex-basis: 100%;
+}
 .evidence-studies {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

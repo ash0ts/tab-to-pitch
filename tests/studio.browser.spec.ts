@@ -268,6 +268,11 @@ test('the Forge lab shows failed qualifications and keeps learning claims separa
 }) => {
   await open(page, 'research');
   const lab = page.getByRole('region', { name: 'Forge experiment evidence' });
+  await expect(lab).toContainText('11/144');
+  await expect(lab).toContainText('35/144');
+  await expect(
+    lab.getByRole('link', { name: 'Inspect all 72 requests, trials and returned notes' }),
+  ).toHaveAttribute('href', '/research/guitar-teacher/index.html');
   await expect(lab).toContainText('45 / 96');
   await expect(lab).toContainText('51 local fallbacks');
   await expect(lab).toContainText('52/60');

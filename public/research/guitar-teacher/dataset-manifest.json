@@ -1,0 +1,19 @@
+{
+  "version": "guitar-teacher-grounding-v1",
+  "source": "https://zenodo.org/records/3371780",
+  "license": "CC-BY-4.0",
+  "attribution": "Xi, Bittner, Pauwels, Ye and Bello. GuitarSet: A Dataset for Guitar Transcription. ISMIR 2018.",
+  "labels": "Instructed lead-sheet harmony; recorded note annotations. Tasks and learner requests are authored. Frets are inferred.",
+  "knownIssues": [
+    "https://github.com/marl/GuitarSet/issues/4",
+    "https://github.com/marl/GuitarSet/issues/5"
+  ],
+  "previousUse": "The corpus was used in prior ranking studies. Held out means disjoint from this prompt development, not globally unseen or independent of model pretraining.",
+  "eligibleRecordings": 164,
+  "selectedRecordings": 42,
+  "files": {
+    "passages.json": "bd4cdcc3493e91c5a6b48d533fef7b022e5289423ef5ff4a6a241fecf4a82fc6",
+    "exclusions.json": "6bb6729c2fcc52213c63b0f31973131740f6de10f1c4c9798dd01fa0ebedf5f4"
+  },
+  "builderSha256": "3e441a1caf784a6b4f1e24bd2577b1d90604a4527069b075bcc72fceb75266ba"
+}

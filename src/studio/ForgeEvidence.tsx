@@ -1,4 +1,5 @@
 import { ArrowUpRight, FlaskConical } from 'lucide-react';
+import { ControlledStudy } from './ControlledStudy';
 const project = 'https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research';
 const lens = 'https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research';
 const studies = [
@@ -99,6 +100,7 @@ export function ForgeEvidence() {
         The game is the practice surface. Forge records how the models behave behind it. A good game
         score, a valid tool call, and better learning are different outcomes.
       </p>
+      <ControlledStudy />
       <div className="evidence-studies">
         {studies.map((s) => (
           <article key={s.id}>

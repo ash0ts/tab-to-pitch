@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Can the teacher deliver a playable example? · TabToPitch research</title>
+    <style>
+      :root {
+        font-family: system-ui, sans-serif;
+        color: #242827;
+        background: #f2f0e8;
+        font-synthesis: none;
+        line-height: 1.6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      main {
+        max-width: 1150px;
+        padding: 32px 28px 80px;
+        margin: auto;
+      }
+      a {
+        color: #00665d;
+        text-underline-offset: 4px;
+      }
+      a:hover {
+        color: #963e23;
+      }
+      a:focus-visible,
+      button:focus-visible,
+      select:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid #c76024;
+        outline-offset: 4px;
+      }
+      header {
+        padding: 24px 0 36px;
+        border-bottom: 2px solid #292e2c;
+      }
+      h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        line-height: 1.12;
+        max-width: 900px;
+        letter-spacing: -0.04em;
+        margin: 18px 0;
+      }
+      h2 {
+        font-size: 1.6rem;
+        line-height: 1.25;
+        margin-top: 0;
+      }
+      h3 {
+        line-height: 1.3;
+      }
+      p {
+        max-width: 85ch;
+      }
+      .eyebrow {
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+      .lede {
+        font-size: 1.15rem;
+        max-width: 70ch;
+      }
+      .muted {
+        color: #565e58;
+      }
+      section {
+        padding: 34px 0;
+        border-bottom: 1px solid #c5c8be;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(260px, 1fr);
+        gap: 38px;
+      }
+      .note {
+        border-left: 4px solid #c87937;
+        padding: 12px 18px;
+        background: #ebe8db;
+      }
+      .chart {
+        display: grid;
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .barline {
+        display: grid;
+        grid-template-columns: 145px 1fr 110px;
+        gap: 12px;
+        align-items: center;
+      }
+      .track {
+        height: 23px;
+        background: #dedfd7;
+      }
+      .bar {
+        height: 100%;
+        background: #237b72;
+        min-width: 0;
+      }
+      .bar.current {
+        background: #636b84;
+      }
+      .bar.local {
+        background: #888d84;
+      }
+      .barline strong {
+        font-variant-numeric: tabular-nums;
+        font-size: 0.9rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.92rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid #c5c8be;
+        vertical-align: top;
+      }
+      th {
+        font-weight: 650;
+      }
+      caption {
+        text-align: left;
+        padding: 8px 0;
+        font-weight: 650;
+      }
+      .table-wrap {
+        overflow: auto;
+      }
+      select,
+      button {
+        font: inherit;
+        max-width: 100%;
+        background: #faf9f3;
+        color: #242827;
+        border: 1px solid #737b71;
+        padding: 10px 12px;
+        border-radius: 3px;
+      }
+      label {
+        display: grid;
+        gap: 5px;
+        font-size: 0.88rem;
+        font-weight: 650;
+      }
+      nav,
+      .filters {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .filters {
+        margin: 20px 0;
+      }
+      .filters label:last-child {
+        flex: 1;
+        min-width: 210px;
+      }
+      #context {
+        background: #e6e9e1;
+        padding: 18px 22px;
+        margin: 22px 0;
+      }
+      .chords {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 0.025em;
+      }
+      .responses {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+      .response {
+        padding: 20px;
+        border: 1px solid #a7aea1;
+        background: #faf9f3;
+        overflow-wrap: anywhere;
+      }
+      .response h3 {
+        margin: 0 0 8px;
+      }
+      .response p {
+        white-space: pre-wrap;
+      }
+      .status {
+        font-size: 0.8rem;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .ok {
+        color: #136253;
+      }
+      .bad {
+        color: #9b3827;
+      }
+      pre {
+        overflow: auto;
+        max-height: 350px;
+        font-size: 0.8rem;
+        background: #e9ebe4;
+        padding: 12px;
+        white-space: pre-wrap;
+      }
+      details {
+        margin: 14px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 650;
+      }
+      #loading {
+        padding: 30px;
+      }
+      .error {
+        color: #8d251b;
+      }
+      .ref-list li {
+        margin: 10px 0;
+      }
+      footer {
+        padding-top: 30px;
+        font-size: 0.85rem;
+      }
+      button {
+        cursor: pointer;
+      }
+      .stats {
+        font-variant-numeric: tabular-nums;
+      }
+      @media (max-width: 760px) {
+        main {
+          padding: 18px 18px 50px;
+        }
+        .split,
+        .responses {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+        .barline {
+          grid-template-columns: 110px 1fr 84px;
+          font-size: 0.85rem;
+        }
+        th,
+        td {
+          padding: 8px;
+        }
+        nav {
+          gap: 12px;
+        }
+        .lede {
+          font-size: 1rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav aria-label="Research navigation">
+        <a href="/#/research">← Back to the studio research library</a
+        ><a href="#comparison">Comparison</a><a href="#cases">Inspect a case</a
+        ><a href="#reviewer">Reviewer test</a><a href="#methods">Methods & sources</a>
+      </nav>
+      <header>
+        <span class="eyebrow">TabToPitch · guitar-teacher-grounding-v1 · 5 November 2026</span>
+        <h1>Can the teacher turn a request into something you can play?</h1>
+        <p class="lede">
+          A controlled comparison on passages drawn from recorded guitar. We tested the current
+          teacher, a revised prompt, and the existing local policy. We checked the actual fretboard
+          highlights and accompaniment variations they returned.
+        </p>
+        <p class="note">
+          This tests musical tool use and reliability. It does not test whether the model can hear a
+          recording, teach well, or improve a learner’s playing.
+        </p>
+      </header>
+      <p id="loading" role="status">Loading measured results…</p>
+      <div id="results" hidden>
+        <section id="comparison">
+          <div class="split">
+            <div>
+              <h2>Requested demonstrations delivered</h2>
+              <p id="headline"></p>
+              <div
+                id="chart"
+                class="chart"
+                role="img"
+                aria-label="Delivery rates; exact values in the following table"
+              ></div>
+            </div>
+            <div>
+              <h3>The same task, three policies</h3>
+              <p>
+                <strong>Current:</strong> the existing hosted 20B teacher.<br /><strong
+                  >Evidence-first:</strong
+                >
+                the same model and tools, with instructions to prepare a verified demonstration and
+                leave numeric fret descriptions to the diagram.<br /><strong>Local:</strong> the
+                unchanged authored fallback policy.
+              </p>
+              <p>
+                Both hosted arms had four actor calls, eight tool calls, one factual review, and a
+                60-second deadline. Two trials per request. No production prompt was changed by this
+                experiment.
+              </p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <caption>
+                Accepted hosted demonstrations; local action delivery shown separately
+              </caption>
+              <thead>
+                <tr>
+                  <th>Policy</th>
+                  <th>Show chord role</th>
+                  <th>Move progression</th>
+                  <th>Total</th>
+                  <th>Including fallback artifacts</th>
+                  <th>Median / p95 turn</th>
+                </tr>
+              </thead>
+              <tbody id="outcomes"></tbody>
+            </table>
+          </div>
+          <p id="paired" class="stats"></p>
+          <p class="muted">
+            The interval resamples recordings. Only three performers and two progression families
+            contribute evaluation material; shared lead sheets limit generalization. This is not a
+            population estimate for all guitar lessons.
+          </p>
+          <p id="ceiling"></p>
+          <p id="tool-use" class="muted"></p>
+        </section>
+        <section id="cases">
+          <h2>Look inside a request</h2>
+          <p>
+            Choose a passage, then compare both hosted trials with the local response. A retained
+            fallback artifact does not count as an accepted actor response. A refusal or a correct
+            explanation without the requested demonstration does not satisfy this task.
+          </p>
+          <div class="filters">
+            <label
+              ><span id="task-label">Task</span
+              ><select id="task-filter" aria-labelledby="task-label">
+                <option value="all">Both task types</option>
+                <option value="role">Show a chord role</option>
+                <option value="move">Revoice a progression</option>
+              </select></label
+            ><label
+              ><span id="outcome-label">Paired outcome</span
+              ><select id="outcome-filter" aria-labelledby="outcome-label">
+                <option value="all">All outcomes</option>
+                <option value="improved">Revised prompt has more successes</option>
+                <option value="worse">Current prompt has more successes</option>
+                <option value="neither">Neither delivers</option>
+              </select></label
+            ><label
+              ><span id="case-label">Passage and task</span
+              ><select id="case-select" aria-labelledby="case-label"></select
+            ></label>
+          </div>
+          <p id="case-count" class="muted" aria-live="polite"></p>
+          <div id="context"></div>
+          <div id="responses" class="responses"></div>
+        </section>
+        <section id="local-choice">
+          <h2>A request to stop quizzing should not depend on one phrase</h2>
+          <p id="local-summary"></p>
+          <p>
+            This deterministic diagnostic was motivated by development failures and reuses the
+            evaluation passages. It is separate from the frozen hosted comparison. Removing an
+            unwanted quiz does not, by itself, deliver the requested chord tone or accompaniment.
+          </p>
+          <p>
+            <a href="local-choice.json" download>Inspect all local-policy variants and outputs</a>
+          </p>
+        </section>
+        <section id="reviewer">
+          <h2>Can the factual reviewer spot a wrong claim?</h2>
+          <p>
+            We separately supplied 48 statements with independently constructed answers: six roots ×
+            two chord qualities × four conditions. The critic used its production prompt. These
+            statements were never generated by the actor being compared.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <caption>
+                Reviewer diagnostic, including malformed and unavailable reviews
+              </caption>
+              <thead>
+                <tr>
+                  <th>Condition</th>
+                  <th>Correct classifications</th>
+                  <th>Unavailable</th>
+                </tr>
+              </thead>
+              <tbody id="critic"></tbody>
+            </table>
+          </div>
+          <p id="critic-summary"></p>
+          <details>
+            <summary>Inspect every reviewer decision</summary>
+            <div id="critic-cases"></div>
+          </details>
+          <p class="note">
+            This narrow diagnostic does not replace the earlier, broader qualification suite. The
+            actor and runtime critic use the same model family; correlated errors remain possible.
+            Free-form teaching quality is ungraded here.
+          </p>
+        </section>
+        <section id="methods">
+          <h2>What the data establishes</h2>
+          <div class="split">
+            <div>
+              <h3>Recorded music, authored requests</h3>
+              <p>
+                GuitarSet contains acoustic guitar recordings and string-specific note annotations.
+                We use intended lead-sheet chords for the requested accompaniment and a stable
+                annotated note to anchor each chord-role task. Performed chord labels are partly
+                inferred from the note annotations; they are not independent human chord judgments.
+              </p>
+              <p>
+                Six development recordings use performers 00/01 and progression family 1. The 36
+                evaluation recordings use performers 02/03/04 and families 2/3, with six recordings
+                in each performer/family cell. All are accompaniment recordings. Three
+                publisher-reported annotation errors and the earlier live-coach cohort are excluded.
+              </p>
+              <p>
+                Development contains major-triad passages; evaluation also contains minor,
+                dominant-seventh and half-diminished harmony. That domain shift is part of this
+                split. No recording audio was sent to the teacher. Questions and learner history are
+                authored, not real learner responses.
+              </p>
+            </div>
+            <div>
+              <h3>Independent checks, explicit limits</h3>
+              <p>
+                The scorer uses its own note arithmetic and chord formula tables. It checks every
+                highlighted position; for variations it checks chord tones, required degrees,
+                strings, frets, voice count, span and harmonic timing. Mutation tests corrupt these
+                fields deliberately.
+              </p>
+              <p>
+                The target is a valid requested artifact, not agreement with one fingering. The
+                deterministic engine’s control establishes whether the requested artifact is
+                available. Protocol, split membership, prompts, source and scoring were frozen
+                before evaluation.
+              </p>
+              <p>
+                The corpus supported earlier voicing research. “Held out” means disjoint from this
+                prompt development, not globally unseen. Model pretraining overlap is unknown.
+                Inferred fret locations do not establish the recorded player’s hand technique.
+              </p>
+            </div>
+          </div>
+          <h3>Forge receipts and reproducibility</h3>
+          <p id="accounting"></p>
+          <nav id="remote-links" aria-label="Experiment dashboards"></nav>
+          <p id="readback"></p>
+          <p>
+            <a href="results.json" download>Download all displayed case results</a> ·
+            <a href="protocol.md">Frozen protocol</a> ·
+            <a href="dataset-manifest.json">Dataset provenance and checksums</a> ·
+            <a href="report.md">Plain-text report</a>
+          </p>
+          <ul class="ref-list">
+            <li>
+              <a href="https://guitarset.weebly.com/">GuitarSet dataset description</a> and
+              <a href="https://zenodo.org/records/3371780">version 1.1.0 release</a>. Xi, Bittner,
+              Pauwels, Ye and Bello, ISMIR 2018. Derived annotations distributed under CC BY 4.0.
+            </li>
+            <li>
+              Publisher-reported
+              <a href="https://github.com/marl/GuitarSet/issues/5">timing errors</a> and
+              <a href="https://github.com/marl/GuitarSet/issues/4">duplicate note</a>.
+            </li>
+            <li>
+              <a href="https://www.anthropic.com/research/demystifying-evals-for-ai-agents"
+                >Agent evaluation methods</a
+              >: distinguish the trajectory, task outcome and grader.
+            </li>
+            <li>
+              <a href="https://coreweave.com/forge-pricing/inference-agents"
+                >Forge inference pricing</a
+              >, checked 5 November 2026. Existing shared budget; no new allocation.
+            </li>
+          </ul>
+        </section>
+      </div>
+      <footer>
+        Private Forge dashboards require project access. This report contains licensed music
+        annotations and authored evaluation requests. No private score, learner recording, or
+        personal practice history is included.
+      </footer>
+    </main>
+    <script type="module" src="./report.js"></script>
+  </body>
+</html>
