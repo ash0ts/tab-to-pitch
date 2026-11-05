@@ -68,11 +68,15 @@ try {
       env: { ...process.env, POSTGRES_PASSWORD: password },
     },
   );
+  // The image first starts a socket-only initialization server. Wait for TCP,
+  // the same transport used by the compiled migration in the next container.
   for (let attempt = 0; ; attempt++) {
     const ready = spawnSync('docker', [
       'exec',
       database,
       'pg_isready',
+      '-h',
+      '127.0.0.1',
       '-U',
       'postgres',
       '-d',
