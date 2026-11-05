@@ -889,8 +889,6 @@ export default function App() {
       const original = PASSAGES.find((p) => p.id === 'original-c');
       if (original) openCatalogPassage(original);
     }
-    if (id === 'homework' && score?.hash === 'tabtopitch-original-study-v1')
-      controller.current?.loadHomeworkDemo();
     if (id === 'progression' && score?.hash === 'tabtopitch-original-study-v1')
       openProgressionStudy();
     studio.go('stage', id);
@@ -1014,7 +1012,7 @@ export default function App() {
     setRevealed(false);
     setRecap(false);
     setMobilePanel(false);
-    if (stageActive && activeActivity === 'homework' && score?.hash === 'tabtopitch-original-study-v1') controller.current?.loadHomeworkDemo();
+
     if (stageActive && activeActivity === 'listening' && score && !passageForSource(score.hash)) {
       const original = PASSAGES.find((p) => p.id === 'original-c');
       if (original) controller.current?.loadCatalogPassage(original);
@@ -1035,7 +1033,10 @@ export default function App() {
     }
   }, [stageActive, stageSurface, activeActivity]);
   useEffect(() => {
-    if (stageActive && activeActivity === 'homework' && score?.hash === 'tabtopitch-original-study-v1') controller.current?.loadHomeworkDemo();
+    if (stageActive && activeActivity === 'homework' && score?.hash === 'tabtopitch-original-study-v1') {
+      controller.current?.loadHomeworkDemo();
+      workspace.setLoop(0, 3, true);
+    }
     if (stageActive && activeActivity === 'listening' && score && !passageForSource(score.hash)) {
       const p = PASSAGES.find((p) => p.id === 'original-c');
       if (p) controller.current?.loadCatalogPassage(p);

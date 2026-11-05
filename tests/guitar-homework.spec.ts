@@ -100,6 +100,15 @@ test('a derived F to E study plays backing and preserves the live homework attem
 }) => {
   await syntheticInput(page);
   const hw = await open(page, true);
+  const assignment = (await data(page)).lessons.find((l: any) => l.homework?.playing)!.homework;
+  expect(
+    assignment.playing.steps
+      .filter((s: any) => s.objective === 'progression')
+      .map((s: any) => s.progression.map((h: any) => h.symbol)),
+  ).toEqual([
+    ['C', 'F', 'G', 'C'],
+    ['C', 'F', 'G', 'C'],
+  ]);
   await hw.getByText('Choose a different task', { exact: true }).click();
   await hw.getByRole('button', { name: 'Authored connection · G7 → Cmaj7', exact: true }).click();
   await hw.getByLabel('Response method').selectOption('live');
