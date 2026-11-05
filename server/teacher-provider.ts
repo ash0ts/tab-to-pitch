@@ -4,7 +4,7 @@ import type { ServerConfig } from './config.js';
 import { ForgeFailure } from './forge-agent.js';
 import type { AgentTrace } from './tracing.js';
 import { decodeTeacherAction } from './teacher-transport.js';
-import { teacherActorStepSchema, teacherActionSchema } from '../src/shared/teacher.js';
+import { teacherActorStepSchema, teacherActionSchema, type TeacherRequest } from '../src/shared/teacher.js';
 import { practiceActionSchema } from '../src/shared/practice.js';
 import { homeworkActionSchema } from '../src/shared/homework.js';
 import { teacherToolArgumentSchemas } from '../src/shared/teacher-tools.js';
@@ -80,6 +80,7 @@ export class TeacherProvider {
     private readonly fetcher: typeof fetch,
     private readonly trace: AgentTrace,
     private readonly signal: AbortSignal,
+    private readonly context?: TeacherRequest['context'],
   ) {}
   get chargedTokens(): number {
     return this.unknown || this.inFlight
@@ -115,7 +116,7 @@ export class TeacherProvider {
     role: 'actor' | 'critic',
     messages: Record<string, unknown>[],
     schema: z.ZodType,
-    capabilities: { homework?: boolean; practice?: boolean; listening?: boolean } = {},
+    capabilities: { homework?: boolean; practice?: boolean; listening?: boolean; live?: boolean } = {},
   ) {
     this.signal.throwIfAborted();
     if (
@@ -125,6 +126,7 @@ export class TeacherProvider {
       throw new ForgeFailure('invalid-response', this.chargedTokens);
     const name = role === 'actor' ? 'teacher_step' : 'review_teacher_reply';
     const model = role === 'actor' ? this.config.forgeModel : this.config.teacherCriticModel;
+    capabilities = { homework: !!this.context?.homework, practice: !!this.context?.practice, listening: !!this.context?.listening, ...capabilities, live: !!this.context?.live };
     const tools = Object.entries(teacherToolArgumentSchemas).filter(([name]) =>
       name.startsWith('homework_')
         ? capabilities.homework
@@ -132,12 +134,13 @@ export class TeacherProvider {
           ? capabilities.practice && !capabilities.homework
           : ['inspect_passage', 'listening_activity'].includes(name)
             ? capabilities.listening
-            : true,
+            : ['inspect_live_input', 'live_activity'].includes(name) ? capabilities.live : true,
     );
     const actionOptions = teacherActionSchema.options.filter((option) => {
       if (option === practiceActionSchema) return capabilities.practice && !capabilities.homework;
       if (option === homeworkActionSchema) return capabilities.homework;
       if (!('shape' in option)) return false;
+      if (option.shape.type.value === 'live') return capabilities.live;
       return option.shape.type.value !== 'listening' || capabilities.listening;
     });
     const finalSchema = teacherActorStepSchema.options[1]!.extend({

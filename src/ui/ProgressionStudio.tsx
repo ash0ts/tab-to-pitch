@@ -1,4 +1,7 @@
 import { HOMEWORK_SOURCE_ID } from '../player/demo';
+import { useLiveGuitar } from '../hooks/useLiveGuitar';
+import { LiveGuitarPanel } from './LiveGuitarPanel';
+import { liveTasks } from '../live/assessment';
 import { useHomeworkSession } from '../hooks/useHomeworkSession';
 import { HomeworkWorkspace } from './HomeworkWorkspace';
 import type { MutableRefObject } from 'react';
@@ -83,6 +86,8 @@ export function ProgressionWorkspace(
     audioReady: boolean;
     onStudy(study: TimedStudy): void;
     onStopStudy(): void;
+    listOutputs():Promise<{deviceId:string;label:string}[]>;
+    selectOutput(id:string):Promise<void>;
     teacher: Pick<
       TeacherPanelProps,
       'attempts' | 'selectedNote' | 'activeQuestion' | 'onExercise' | 'onHelp' | 'onUnderstand'
@@ -91,6 +96,7 @@ export function ProgressionWorkspace(
 ) {
   const session = useProgressionSession(props);
   const desktop = useDesktopLayout();
+
   const passage = passageForSource(props.score.hash);
   const learning = useLessonSession(
     props.score.hash,
@@ -143,10 +149,14 @@ export function ProgressionWorkspace(
     },
   );
   const practice = usePracticeSession(learning, session.contextVersion, props.onStopStudy);
+  const [liveOpen,setLiveOpen]=useState(false);
+  const liveBlocked=listening.active || practice.active || homework.active || !!props.teacher.activeQuestion;
+  const liveRevision=`${session.contextVersion}:${props.teacher.selectedNote?.soundingMidi??60}:${homework.task?.id??'none'}:${practice.state.episode?.responseCount??0}`;
+  const guitar=useLiveGuitar(learning,liveRevision,liveTasks(liveRevision,session.spans.every(s=>s.confirmation==='confirmed'&&s.chord)?session.spans.map(s=>s.chord!.symbol):[],props.teacher.selectedNote?.soundingMidi??60,homework.active?undefined:homework.task,practice.state.episode?.kind==='phrase'?(practice.state.episode.firstResponse?.cells??[]).filter((n):n is number=>n!==null):[]),liveBlocked);
   useLayoutEffect(() => {
-    props.onListeningMask(listening.masked || practice.masked || homework.masked);
+    props.onListeningMask(listening.masked || practice.masked || homework.masked || guitar.active);
     return () => props.onListeningMask(false);
-  }, [listening.masked, practice.masked, homework.masked, props.onListeningMask]);
+  }, [listening.masked, practice.masked, homework.masked, guitar.active, props.onListeningMask]);
   useEffect(() => {
     if (homework.active || practice.active || listening.active || props.teacher.activeQuestion)
       setTeacherSheetOpen(false);
@@ -161,12 +171,14 @@ export function ProgressionWorkspace(
   }, [props.teacherFocusRequest]);
   useEffect(() => {
     if (!props.visible) {
+      guitar.stop();
       homework.pause();
       practice.interrupt('The learner returned to the player.');
     }
   }, [props.visible]);
   const teacher = (
     <TeacherPanel
+      live={liveOpen ? guitar : undefined}
       focusRequest={props.teacherFocusRequest}
       presentation={{
         expanded: teacherExpanded,
@@ -184,7 +196,7 @@ export function ProgressionWorkspace(
       track={props.track}
       progression={session}
       {...props.teacher}
-      exploring={props.active && !practice.masked && !homework.masked}
+      exploring={props.active && !practice.masked && !homework.masked && !guitar.active}
       onOpenStudy={props.onOpenStudy}
       onListen={props.onAudition}
     />
@@ -196,9 +208,9 @@ export function ProgressionWorkspace(
         <nav className="homework-entry" aria-label="Learning activity">
           <button
             className="secondary-button"
-            aria-pressed={!homeworkOpen}
+            aria-pressed={!liveOpen && !homeworkOpen && !liveOpen}
             onClick={() => {
-              homework.pause();
+              guitar.stop();setLiveOpen(false);homework.pause();
               setHomeworkOpen(false);
             }}
           >
@@ -209,14 +221,15 @@ export function ProgressionWorkspace(
             aria-pressed={homeworkOpen}
             disabled={listening.active || !!props.teacher.activeQuestion}
             onClick={() => {
-              practice.interrupt('The learner selected fretboard homework.');
+              guitar.stop();setLiveOpen(false);practice.interrupt('The learner selected fretboard homework.');
               setHomeworkOpen(true);
             }}
           >
             Fretboard homework
           </button>
+        <button className="secondary-button" aria-pressed={liveOpen} disabled={listening.active || !!props.teacher.activeQuestion} onClick={()=>{homework.pause();practice.interrupt("The learner selected live guitar practice.");setLiveOpen(true);setHomeworkOpen(false);}}>Play with my guitar</button>
         </nav>
-        {homeworkOpen ? (
+        {liveOpen ? <LiveGuitarPanel session={guitar} blocked={liveBlocked} onReplay={props.onReplay} listOutputs={props.listOutputs} selectOutput={props.selectOutput} /> : homeworkOpen ? (
           <HomeworkWorkspace
             homework={homework}
             progression={session}
@@ -249,7 +262,7 @@ export function ProgressionWorkspace(
             onStop={props.onStopStudy}
           />
         )}
-        {!homeworkOpen && !practice.active && passage && (
+        {!liveOpen && !homeworkOpen && !practice.active && passage && (
           <ListeningPanel
             onTransfer={props.onTransfer}
             session={listening}
@@ -265,7 +278,7 @@ export function ProgressionWorkspace(
             }}
           />
         )}
-        {!homeworkOpen && !listening.masked && !practice.masked && (
+        {!liveOpen && !homeworkOpen && !listening.masked && !practice.masked && (
           <ProgressionStudio {...props} session={session} />
         )}
       </div>

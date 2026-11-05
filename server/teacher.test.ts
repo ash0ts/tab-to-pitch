@@ -376,3 +376,50 @@ it('negotiates integrated capabilities without changing legacy requests', () => 
   expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: ['listening-v1'] }).success).toBe(false);
   expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: ['practice-stage-v1', 'practice-stage-v1'] }).success).toBe(false);
 });
+
+it('keeps live help behind assistance and advertises eligible live tools within the existing request budget', async () => {
+  const { fixture } = await import('../research/live-guitar-v1/teacher-cases.js');
+  const fetcher = vi.fn();
+  const blocked = await new ForgeTeacherAgent(config, fetcher).run(
+    fixture(11),
+    AbortSignal.timeout(2000),
+  );
+  expect(blocked.failure).toBe('assistance-required');
+  expect(fetcher).not.toHaveBeenCalled();
+  const bodies: unknown[] = [];
+  const result = await new ForgeTeacherAgent(config, modelFetcher([final, accepted], bodies)).run(
+    fixture(0),
+    AbortSignal.timeout(2000),
+  );
+  expect(result.response.source).toBe('forge');
+  const body = bodies[0] as { tools: { function: { name: string } }[] };
+  expect(body.tools.map((t) => t.function.name)).toContain('inspect_live_input');
+  expect(body.tools.map((t) => t.function.name)).toContain('live_activity');
+  expect(body.tools.map((t) => t.function.name)).not.toContain('homework_map');
+});
+
+it('withholds invented fingering claims when the independent reviewer rejects them', async () => {
+  const { fixture } = await import('../research/live-guitar-v1/teacher-cases.js');
+  const message = 'You used the E shape and every string sounded clean.';
+  const result = await new ForgeTeacherAgent(
+    config,
+    modelFetcher([
+      { ...final, message },
+      {
+        approved: false,
+        issues: [
+          {
+            code: 'unsupported-claim',
+            excerpt: message,
+            evidenceRefs: ['live-boundary'],
+            reason: 'Experimental pitch detection cannot establish fret positions or technique.',
+          },
+        ],
+      },
+    ]),
+  ).run(fixture(1), AbortSignal.timeout(2000));
+  expect(result.failure).toBe('critic-rejected');
+  expect(result.response.source).toBe('local');
+  expect(result.response.review.status).toBe('withheld');
+  expect(result.response.message).not.toContain('every string sounded clean');
+});

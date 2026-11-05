@@ -1,5 +1,7 @@
 # Curriculum and evidence
 
+Experimental [live guitar practice](../src/live/README.md) adds sounding-pitch and chord evidence alongside screen answers and self-report. A supported sound does not verify a requested fret, CAGED family, clean grip, rhythm, or mastery. Attempt mode hides detection labels until the learner commits the response; uncertainty remains unassessed. First responses and subsequent supported retries stay separate.
+
 The source-note engine generates four exercise families from eligible source notes: name the note, find it elsewhere on the neck, name a spelling-supported simple interval, and identify a validated triad role. `src/engine/exercises.ts` owns eligibility and answer sets; `assessment.ts` owns grading.
 
 Note names and chord tones are the default presentation. Showing octave numbers is a separate display preference; it does not change grading or exercise identity. Note naming accepts enharmonic equivalents and, by default, answers in any octave. The advanced naming option requires the exact concert pitch.

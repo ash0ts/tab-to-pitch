@@ -81,6 +81,8 @@ test('production cache supports offline score, audio and durable practice withou
   const worklet = cachedPaths.find((path) => /^\/assets\/alphaTab\.worklet-[\w-]+\.js$/.test(path));
   expect(worker).toBeDefined();
   expect(worklet).toBeDefined();
+  expect(cachedPaths.some(path=>/^\/assets\/capture\.worklet-[\w-]+\.js$/.test(path))).toBe(true);
+  expect(cachedPaths.some(path=>/^\/assets\/analysis\.worker-[\w-]+\.js$/.test(path))).toBe(true);
   expect(cachedPaths).toContain('/index.html');
   expect(cachedPaths).toContain('/soundfont/sonivox.sf2');
   expect(cachedPaths).toContain('/research/voicing-ranker-v1.json');

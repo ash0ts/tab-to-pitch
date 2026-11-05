@@ -1111,6 +1111,8 @@ export default function App() {
         {score && track && (
           <ProgressionWorkspace
             key={`${score.hash}:${track.id}:${localRevision}`}
+            listOutputs={async()=>controller.current?.api.enumerateOutputDevices()??[]}
+            selectOutput={async(id)=>{const c=controller.current;if(!c)return;const device=(await c.api.enumerateOutputDevices()).find(d=>d.deviceId===id);if(id && !device)throw new Error('This output is no longer available.');await c.api.setOutputDevice(device??null);c.clock.reset('Output changed; recalibration required.');}}
             initialListeningDifficulty={listeningDifficulty}
             onTransfer={() =>
               openCatalogPassage(

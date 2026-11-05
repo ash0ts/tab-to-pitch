@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+const port = Number(process.env.TTP_TEST_PORT ?? 5410);
 export default defineConfig({
   testDir: './tests',
   testMatch: [
@@ -14,13 +15,13 @@ export default defineConfig({
   workers: 1,
   timeout: 45000,
   use: {
-    baseURL: 'http://127.0.0.1:5410',
+    baseURL: `http://127.0.0.1:${port}`,
     channel: process.env.PLAYWRIGHT_CHANNEL || 'chrome',
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: 'npm run dev -- --port 5410 --strictPort',
-    url: 'http://127.0.0.1:5410',
+    command: `npm run dev -- --port ${port} --strictPort`,
+    url: `http://127.0.0.1:${port}`,
     reuseExistingServer: !process.env.CI,
     timeout: 60000,
   },

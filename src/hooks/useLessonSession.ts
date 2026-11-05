@@ -148,9 +148,7 @@ export function useLessonSession(
 
   const record = useCallback(
     (
-      patch: Partial<
-        Pick<LessonSession, 'objective' | 'status' | 'pendingTaskId' | 'practice' | 'homework'>
-      >,
+      patch: Partial<Pick<LessonSession, 'objective' | 'status' | 'pendingTaskId' | 'practice' | 'homework' | 'live'>>,
       additions: LessonMessage[] = [],
       observations: Omit<LessonEvent, 'id' | 'lessonId' | 'at' | 'contextVersion'>[] = [],
       definitions: FrozenExercise[] = [],

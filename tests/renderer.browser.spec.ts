@@ -55,9 +55,10 @@ test('switching from pitch hints to frets replaces the previous engraving', asyn
   await expect(page.locator('.score-loading')).toHaveCount(0);
   await expect(labels).toHaveCount(0);
   await expect(page.locator('.alphatab-host .at-surface')).toHaveCount(1);
+  // Assert the first bar's known fret; later systems can be virtualized below the workspace.
   await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
   await expect(
-    page.locator('.alphatab-host svg text').filter({ hasText: /^7$/ }).first(),
+    page.locator('.alphatab-host svg text').filter({ hasText: /^2$/ }).first(),
   ).toBeVisible();
   expect(errors).toEqual([]);
 });

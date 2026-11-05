@@ -23,6 +23,8 @@ test('song list to listening feedback to the shared fretboard, with masked first
   await expect(page.locator('.music-workspace')).toBeHidden();
   await expect(page.locator('.progression-studio')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(await page.evaluate(() => document.documentElement.clientWidth));
+  const mobile=test.info().project.name==='mobile';
+  if(mobile)await page.getByRole('button',{name:'Open music teacher',exact:true}).click();
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
   const mobileTeacher = page.getByRole('button', { name: 'Open music teacher', exact: true });
   if (await mobileTeacher.isVisible()) await mobileTeacher.click();

@@ -1,3 +1,4 @@
+import { PlaybackClockBridge } from '../live/clock';
 import { buildPracticeScore } from './practice-study';
 import type { TimedStudy } from '../engine/musicianship';
 import { playback } from './PlaybackCoordinator';
@@ -48,6 +49,7 @@ export interface PresentationOptions {
 
 export class PlayerController {
   readonly api: alphaTab.AlphaTabApi;
+  readonly clock = new PlaybackClockBridge();
   document: ScoreDocument | null = null;
   state: PlayerState = {
     ready: false,
@@ -241,6 +243,7 @@ export class PlayerController {
   private update(update: Partial<PlayerState>): void {
     if (this.disposed) return;
     this.state = { ...this.state, ...update };
+    this.clock.observe(this.state.currentTick,this.state.currentTime,this.state.speed,this.state.playing,performance.now());
     this.callbacks.onState?.(this.state);
   }
 
@@ -531,6 +534,7 @@ export class PlayerController {
     this.api.stop();
   }
   seek(tick: number): void {
+    this.clock.reset('Seek invalidated timing alignment.');
     this.api.tickPosition = Math.max(0, Math.min(tick, this.state.endTick));
   }
   seekNote(id: string, occurrence = 0): void {
@@ -540,6 +544,7 @@ export class PlayerController {
     if (tick !== null) this.seek(tick);
   }
   setLoop(startTick: number | null, endTick: number | null = null): void {
+    this.clock.reset('Loop changed.');
     const loop =
       startTick !== null && endTick !== null && endTick > startTick ? { startTick, endTick } : null;
     this.api.playbackRange = loop;

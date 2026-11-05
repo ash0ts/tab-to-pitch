@@ -132,11 +132,16 @@
 .listening-slot {
   min-width: 0;
   display: grid;
+  min-width: 0;
   gap: 12px;
   padding: 14px;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
+}
+.listening-slot select {
+  width: 100%;
+  min-width: 0;
 }
 .listening-slot > span {
   font-size: 12px;

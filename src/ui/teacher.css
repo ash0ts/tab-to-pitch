@@ -39,6 +39,15 @@
   gap: 8px;
   margin: 22px 0;
 }
+.teacher-intents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 14px;
+}
+.teacher-intents button {
+  min-height: 44px;
+}
 .teacher-objectives button {
   border: 1px solid #ccd8c5;
   border-radius: 6px;

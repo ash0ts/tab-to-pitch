@@ -1,3 +1,5 @@
+import type { LiveGuitarSession } from '../hooks/useLiveGuitar';
+import { LIVE_TEACHER_VERSION } from '../shared/live-guitar';
 import type { HomeworkSession } from '../hooks/useHomeworkSession';
 import { HOMEWORK_VERSION } from '../shared/homework';
 import { HOMEWORK_TEACHER_VERSION } from '../shared/teacher';
@@ -49,6 +51,7 @@ export interface TeacherPanelProps {
     setCloud(value: boolean): void;
   };
   learning: LearningSession;
+  live?: LiveGuitarSession;
   practice?: PracticeSession;
   homework?: HomeworkSession;
   listening?: ListeningSession;
@@ -156,7 +159,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
   const selectedToken = selectedNote
     ? `${selectedNote.onsetTicks}:${selectedNote.position?.string}:${selectedNote.position?.fret}:${selectedNote.soundingMidi}`
     : 'none';
-  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:l${listening?.revision ?? 0}`;
+  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision??0}:l${listening?.revision ?? 0}`;
   const versionFor = (revision: number) =>
     `${baseVersion}:r${revision}:${activeQuestion?.support ?? 'none'}:x${learning.externalRevision}`;
   const contextVersion = versionFor(lesson?.revision ?? 0);
@@ -211,7 +214,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
-      props.homework?.masked ||
+      props.homework?.masked || props.live?.masked ||
       document.hidden
     )
       return;
@@ -320,13 +323,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       }
     }
     const request = {
-      schemaVersion: props.homework
-        ? HOMEWORK_TEACHER_VERSION
-        : props.practice
-          ? PRACTICE_TEACHER_VERSION
-          : listening
-            ? LISTENING_TEACHER_VERSION
-            : TEACHER_VERSION,
+      schemaVersion: props.live ? LIVE_TEACHER_VERSION : props.homework ? HOMEWORK_TEACHER_VERSION : props.practice ? PRACTICE_TEACHER_VERSION : listening ? LISTENING_TEACHER_VERSION : TEACHER_VERSION,
       requestId: crypto.randomUUID(),
       lessonId: lesson.id,
       turnId: crypto.randomUUID(),
@@ -334,6 +331,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       request: text,
       context: {
         objective: lesson.objective,
+        ...(props.live ? {live:props.live.context} : {}),
         ...(props.homework
           ? {
               homework: {
@@ -494,7 +492,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
-      props.homework?.masked ||
+      props.homework?.masked || props.live?.masked ||
       !lesson ||
       learning.externalRevision
     )
@@ -597,7 +595,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
-      props.homework?.masked ||
+      props.homework?.masked || props.live?.masked ||
       proposal.validContextVersion !== contextRef.current ||
       learning.externalRevision
     )
@@ -620,6 +618,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       );
       return;
     }
+    if(action.type==='live'){props.live?.apply(action);return;}
     if (action.type === 'homework') {
       props.homework?.apply(action);
       return;
@@ -733,7 +732,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       </div>
       {expanded && (
         <>
-          {!activeQuestion && !listening?.masked && !props.practice?.active && !props.homework?.masked && (
+          {!activeQuestion && !listening?.masked && !props.practice?.active && !props.homework?.masked && !props.live?.masked && (
             <>
               <div className="teacher-intents" aria-label="How should the teacher help?">
                 {['Explain', 'Demonstrate', 'Let me try', 'Change approach', 'Just explore'].map(
@@ -773,7 +772,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
               </div>
             </>
           )}
-          {activeQuestion || listening?.masked || props.practice?.active || props.homework?.masked ? (
+          {activeQuestion || listening?.masked || props.practice?.active || props.homework?.masked || props.live?.masked ? (
             <div className="teacher-recall" role="status">
               <strong>Your question is active.</strong>
               <p>
@@ -784,7 +783,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
               <button
                 className="secondary-button"
                 onClick={() => {
-                  if (props.homework?.masked) props.homework.help('answer');
+                  if (props.live?.masked) props.live.help('teacher');
+                  else if (props.homework?.masked) props.homework.help('answer');
                   else if (props.practice?.active) props.practice.help('answer');
                   else if (listening?.masked) listening.reveal();
                   else props.onHelp();
@@ -884,7 +884,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       disabled={busy || !!learning.externalRevision}
                       onClick={() => useAction(action)}
                     >
-                      {action.type === 'homework' ? (
+                      {action.type === 'live' ? 'Prepare this guitar task' : action.type === 'homework' ? (
                         action.operation === 'task' ? (
                           `Try ${action.kind} homework`
                         ) : (
@@ -1030,8 +1030,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
                 </p>
                 <p className="caption">
                   Cloud teaching sends your question, recent conversation, selected normalized
-                  music, chosen goal and strategy, optional reflection, and recent answer summaries
-                  to the application server and Forge. Your file, song metadata and full practice
+                  music, chosen goal and strategy, optional reflection, and recent answer summaries, including experimental live-input summaries,
+                  to the application server and Forge. Raw audio, device names, your file, song metadata and full practice
                   history stay local. Configured traces record approved lifecycle metadata. Use your
                   invitation in Practice guide. Data contribution for training is separate and is
                   not enabled.

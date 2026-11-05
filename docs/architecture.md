@@ -91,7 +91,7 @@ The backward-compatible `teacher-v1` / `teacher-v2` contracts supply bounded mus
 
 ## Deferred components
 
-The recall predictor is an offline, consent-gated experiment with shadow-only output. It is not wired into the scheduler. Microphone assessment, camera diagnosis, general score reharmonization, preservation of arbitrary guitar articulations during revoicing, and cloud progress synchronization are not implemented. Function labels cover the declared tonal context; they are not an automatic analysis of arbitrary songs. The local baseline remains the product behavior until those features have their own evidence and contracts.
+The recall predictor is an offline, consent-gated experiment with shadow-only output. It is not wired into the scheduler. Experimental USB-guitar input uses a local worklet/worker pipeline and separate performance evidence; its [controller, assessment and privacy contracts](../src/live/README.md) describe supported tasks and qualification limits. Room-microphone qualification, camera diagnosis, general score reharmonization, preservation of arbitrary guitar articulations during revoicing, and cloud progress synchronization are not implemented. Function labels cover the declared tonal context; they are not an automatic analysis of arbitrary songs. The local baseline remains the product behavior until those features have their own evidence and contracts.
 
 ## Listening and recording sources
 

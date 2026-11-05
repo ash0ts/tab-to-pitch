@@ -17,6 +17,10 @@ Open the URL printed by Vite. The original demonstration song is included. Impor
 
 For the invitation API, start `npm run dev:server` in another terminal. The local guide remains available when the backend or Forge is unavailable. See [deployment](docs/deployment.md) before enabling cloud access.
 
+## Play with a guitar
+
+Choose **Play with my guitar**, connect a clean USB-interface input, and use Explore sound or commit a response before seeing feedback. Note targets, CAGED arpeggios, F→E connections and confirmed strummed progressions use the existing lesson. Detection remains experimental; physical positions and timing are not verified. See the [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
+
 ## What is implemented
 
 - Measured pitch labels and optional fret hints in alphaTab's engraving pipeline, including worker serialization and stable masked-label widths.

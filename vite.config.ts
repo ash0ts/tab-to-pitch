@@ -4,6 +4,7 @@ import { alphaTab } from '@coderline/alphatab-vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  optimizeDeps: { include: ['pitchy', 'fft.js'] },
   plugins: [
     react(),
     alphaTab(),

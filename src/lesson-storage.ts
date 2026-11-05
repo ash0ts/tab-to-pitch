@@ -1,3 +1,4 @@
+import { liveBookmarkSchema, liveLessonEventSchema } from './shared/live-guitar';
 import { validFrozenHomeworkTask } from './engine/homework';
 import {
   homeworkAssignmentSchema,
@@ -71,6 +72,7 @@ export const lessonSessionSchema = z
         'Homework stimulus or grading contract was changed.',
       )
       .optional(),
+    live: liveBookmarkSchema.optional(),
   })
   .strict()
   .refine((value) => value.updatedAt >= value.createdAt, 'Lesson timestamps are inconsistent.')
@@ -107,6 +109,7 @@ export const lessonEventSchema = z
       'practice-response',
       'practice-reflection',
       'practice-bookmark',
+      'live-started', 'live-response', 'live-support',
     ]),
     messageId: z.string().uuid().optional(),
     attemptId: text.optional(),
@@ -118,6 +121,7 @@ export const lessonEventSchema = z
     homeworkDefinition: homeworkTaskSchema
       .refine(t => t.variant === null || validFrozenHomeworkTask(t), 'Invalid frozen homework definition.')
       .optional(),
+    live: liveLessonEventSchema.optional(),
   })
   .strict();
 export type LessonEvent = z.infer<typeof lessonEventSchema>;
