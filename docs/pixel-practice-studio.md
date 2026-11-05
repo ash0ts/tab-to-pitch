@@ -41,4 +41,18 @@ The [studio contract](../src/studio/README.md) describes navigation and persiste
 
 The revised browser session covers starting, self-reporting a difficult attempt, changing practice groups, finishing, saving a reflection, and resuming after reload on desktop and mobile. Existing regression checks cover help-before-reveal, first-response preservation, uncertain audio, legacy backups, keyboard answers and interrupted input. Browser fixtures do not qualify a physical guitar interface or establish educational effectiveness.
 
+Local checks on 5 November 2026:
+
+| Check | Result |
+| --- | --- |
+| TypeScript and production build | Passed |
+| Unit and contract checks | 466 passed; 2 PostgreSQL checks skipped without an isolated database |
+| General browser regressions | 82 passed; 4 duplicate-layout skips |
+| Studio session and accessibility checks | 13 passed; 1 duplicate-layout skip |
+| Guitar homework | 16 passed |
+| Notation renderer | 4 passed |
+| Production offline reload | 1 passed |
+
+The isolated walkthrough recorded no page errors. The phone viewport and document width were both 390 pixels. Missing artwork, reduced motion and 200% zoom were exercised in the Studio suite. No new Forge inference or learner study was run.
+
 The original illustrated-studio delivery report remains a dated historical record. Its earlier test counts and worktree integration status do not describe this revision.
