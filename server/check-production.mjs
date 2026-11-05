@@ -57,7 +57,7 @@ const page = await context.newPage();
 const errors = [];
 page.on('pageerror', (error) => errors.push(error.message));
 try {
-  await page.goto(base.href);
+  await page.goto(new URL('/#/stage/notation', base).href);
   const play = page.getByRole('button', { name: 'Play score', exact: true });
   await expect(play).toBeEnabled({ timeout: 30_000 });
   await page.evaluate(async () => {
@@ -84,7 +84,7 @@ try {
   await context.setOffline(true);
   await page.reload();
   await expect(
-    page.getByRole('heading', { name: 'A shape, two meanings', exact: true }),
+    page.getByText('A shape, two meanings', { exact: true }),
   ).toBeVisible();
   await expect(play).toBeEnabled({ timeout: 30_000 });
   const offlineTick = Number(await slider.inputValue());
@@ -94,7 +94,8 @@ try {
     .toBeGreaterThan(offlineTick + 120);
   await page.getByRole('button', { name: 'Pause playback', exact: true }).click();
   await page.getByRole('tab', { name: 'Practice', exact: true }).click();
-  await expect(page.locator('.learning-panel:visible').getByTestId('exercise-card')).toBeVisible();
+  await expect(page.locator('.stage-question:visible')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Type a note name' })).toBeVisible();
   assert.deepEqual(errors, []);
   console.info(
     'Production checks passed: cloud disabled, asset MIME/signatures, real audio clock, offline reload/playback/practice.',
