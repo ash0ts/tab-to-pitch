@@ -26,7 +26,7 @@ export class GuitarDetector {
   private previous = '';
   private since = 0;
   private attack = 0;
-  private wasSilent = true;
+  private pendingAttack = true;
   private level = 0;
   constructor(
     private sessionId: string,
@@ -115,12 +115,16 @@ export class GuitarDetector {
         ? `c${chords[0]!.root}:${chords[0]!.quality}`
         : '';
     const onset = rms > Math.max(0.02, this.level * 2.2) && endMs - this.since > 180;
-    if (key !== this.previous || (key && (this.wasSilent || onset))) {
+    if (rms < 0.003 || onset) this.pendingAttack = true;
+    if (key && (key !== this.previous || this.pendingAttack)) {
       this.previous = key;
       this.since = endMs;
-      if (key) this.attack++;
+      this.attack++;
+      this.pendingAttack = false;
     }
-    this.wasSilent = rms < 0.003;
+    // A low-clarity window is not evidence of another pick attack. Keep the
+    // identity, retain the uncertain observation, and require stability again.
+    if (!key) this.since = endMs;
     this.level = rms;
     const stable =
       !!key && !problems.length && endMs - this.since >= (this.mode === 'notes' ? 45 : 180);

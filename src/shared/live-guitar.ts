@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const LIVE_VERSION = 'live-guitar-v1';
 export const LIVE_TEACHER_VERSION = 'teacher-live-v1';
-export const DETECTOR_VERSION = 'pitchy-spectral-v2';
+export const DETECTOR_VERSION = 'pitchy-spectral-v3';
 export const chordQualitySchema = z.enum(['major', 'minor', '7', 'maj7', 'm7', '6']);
 const id = z.string().min(1).max(160);
 const time = z.number().finite().nonnegative();

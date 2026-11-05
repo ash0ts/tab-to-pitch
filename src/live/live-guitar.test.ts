@@ -116,6 +116,29 @@ describe('musical evidence boundaries', () => {
 });
 
 describe('streaming detectors', () => {
+  it('retains one attack across brief ambiguity but counts a real repeated note after silence', () => {
+    const detector = new GuitarDetector('continuity', 48000, 'notes');
+    const events: PerformanceObservation[] = [];
+    for (let start = 0; start < 48000; start += 512) {
+      const block = Float32Array.from({ length: 512 }, (_, i) => {
+        const frame = start + i,
+          seconds = frame / 48000;
+        if (seconds >= 0.6 && seconds < 0.75) return 0;
+        // A short deterministic disruption of the same sustained pitch.
+        if (seconds >= 0.3 && seconds < 0.32) return 0.18 * Math.sin(frame * frame);
+        return 0.18 * Math.sin(2 * Math.PI * 329.6275569 * seconds);
+      });
+      const event = detector.push(block, start, start / 48);
+      if (event) events.push(event);
+    }
+    expect(events.some((e) => e.problems.includes('ambiguous'))).toBe(true);
+    const first = events.filter((e) => e.stable && e.captureMs < 550);
+    expect(first.length).toBeGreaterThan(2);
+    expect(new Set(first.map((e) => e.attackId)).size).toBe(1);
+    const later = events.filter((e) => e.stable && e.captureMs > 800);
+    expect(later.length).toBeGreaterThan(0);
+    expect(later[0]!.attackId).toBeGreaterThan(first[0]!.attackId);
+  });
   for (const rate of [44100, 48000])
     for (const midi of [40, 48, 60, 76, 88])
       it(`tracks a generated ${midi} tone at ${rate} Hz`, () => {
