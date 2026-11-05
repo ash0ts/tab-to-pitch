@@ -64,6 +64,10 @@ test('playback, loops, mixer and keyboard note inspection work', async ({ page }
     page.getByRole('dialog').getByRole('button', { name: 'Mute', exact: true }).first(),
   ).toHaveAttribute('aria-pressed', 'true');
   await page.keyboard.press('Escape');
+  // Playback advances selection. Reset before asserting the opening chord,
+  // independently of how far the audio clock ran on this machine.
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({ timeout: 30000 });
   await page.getByRole('tab', { name: 'Understand', exact: true }).click();
   await page.getByRole('button', { name: 'Next note', exact: true }).click();
   await expect(page.locator('.note-navigation [aria-live]')).toContainText('Selected');
