@@ -1,18 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { defineChord, generateVoicings } from './harmony.js';
 import {
+  VOICING_FEATURES,
   rankVoicingsWithModel,
   scoreVoicingShape,
   validateVoicingRankerModel,
   voicingRankFeatures,
 } from './voicing-ranker.js';
 
-const modelBytes = readFileSync(
-  new URL('../../public/research/voicing-ranker-v1.json', import.meta.url),
-);
-const model = validateVoicingRankerModel(JSON.parse(modelBytes.toString('utf8')))!;
+// Authored arithmetic fixture, not fitted parameters or a learned model artifact.
+const model = validateVoicingRankerModel({
+  schemaVersion: 1,
+  id: 'guitarset-observed-choice-v1',
+  features: VOICING_FEATURES,
+  weights: VOICING_FEATURES.map((_, i) => (i === 7 ? -1 : 0)),
+  mean: Array(10).fill(0),
+  std: Array(10).fill(1),
+})!;
 const parity = JSON.parse(
   readFileSync(
     new URL('../../research/voicing-ranking/runtime-parity.json', import.meta.url),
@@ -29,8 +34,7 @@ const parity = JSON.parse(
 const tuning = [64, 59, 55, 50, 45, 40];
 
 describe('experimental recorded-choice ordering', () => {
-  it('matches every Python feature and score in the frozen public-data parity sample', () => {
-    expect(createHash('sha256').update(modelBytes).digest('hex')).toBe(parity.modelSha256);
+  it('matches frozen Python features and an independently specified movement score', () => {
     expect(parity.cases).toHaveLength(12);
     for (const sample of parity.cases)
       for (const candidate of sample.candidates) {
@@ -40,7 +44,9 @@ describe('experimental recorded-choice ordering', () => {
           expect(Math.abs(value - candidate.features[index]!)).toBeLessThan(1e-9),
         );
         expect(
-          Math.abs(scoreVoicingShape(candidate.shape, sample.previous, model)! - candidate.score),
+          Math.abs(
+            scoreVoicingShape(candidate.shape, sample.previous, model)! + candidate.features[7]!,
+          ),
         ).toBeLessThan(1e-9);
       }
   });

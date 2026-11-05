@@ -1,7 +1,7 @@
-# Runtime research artifact
+# Research model provenance
 
-`voicing-ranker-v1.json` is a byte-identical copy of the [public runtime model](../../public/research/voicing-ranker-v1.json). The shared teacher engine imports this copy because Vite does not allow module imports from `public/`; the compiled Node service needs the same artifact.
+The two `voicing-ranker-v1.json` files contain matching provenance references, not trained parameters. The standalone distribution excludes model weights. The optional browser ordering and teacher tool return an unavailable result; deterministic movement ordering remains the default and works offline.
 
-SHA-256: `64e24a350e4cb9c6b5c759523f7f8b8766821d09df778f78d7736bf7947cf46b`.
+The historical artifact is `tabtopitch-voicing-ranker-runtime-v1:v0`, SHA-256 `64e24a350e4cb9c6b5c759523f7f8b8766821d09df778f78d7736bf7947cf46b`. Its [training, evaluation and Registry lineage](../../research/voicing-ranking/README.md) remain preserved. Research scripts can verify a separately downloaded artifact outside this source distribution. Restoring it to an application deployment requires an explicit packaging decision; this import does not download it automatically.
 
-The teacher engine's artifact-parity test checks both files. Keep the published bytes intact rather than reformatting the JSON. This is the existing recorded-voicing ranker, not a newly trained teaching model. Its dataset, scope, evaluation, and Registry lineage are documented in the [voicing study](../../research/voicing-ranking/README.md).
+Unit checks retain the frozen Python feature examples and use authored arithmetic coefficients for scorer validation. Those checks are distinct from the historical trained-model prediction reproduction.

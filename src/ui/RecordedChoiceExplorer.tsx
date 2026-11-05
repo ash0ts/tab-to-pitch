@@ -69,9 +69,10 @@ export function RecordedChoiceExplorer({
     <details className="recorded-choice">
       <summary>Research: recorded-choice ordering</summary>
       <p className="caption">
-        Compare shapes using a model trained on GuitarSet accompaniment. It keeps this source
-        chord’s notes and doublings, and uses the previous source shape. This is a one-change
-        comparison; the progression above keeps its movement ranking.
+        Trained parameters are not bundled in this distribution. This optional tool retains the
+        GuitarSet research interface. It keeps this source chord’s notes and doublings, and uses the
+        previous source shape. This is a one-change comparison; the progression above keeps its
+        movement ranking.
       </p>
       <label className="check-label">
         <input

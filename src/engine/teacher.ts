@@ -668,7 +668,9 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
             status: 'unavailable',
             facts: [],
             actions: [],
-            reason: 'Confirmed harmony and qualified model required.',
+            reason: !model
+              ? 'Trained ranking parameters are not bundled. Use deterministic movement ordering.'
+              : 'Confirmed harmony required.',
           };
         const candidates = generateVoicings(
           chord,

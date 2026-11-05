@@ -27,7 +27,7 @@ For the invitation API, start `npm run dev:server` in another terminal. The loca
 - IndexedDB files and immutable attempt records, portable progress backups, offline app assets, and user-controlled app updates.
 - A conversational music teacher with validated workspace tools, a separate factual reviewer, derived questions, exact voice-leading answers, and local lesson/exposure storage. Cloud teaching is experimental and off by default.
 - An invited Fastify/Postgres service with bounded Forge calls, validated proposals, local fallback, persistent quotas, and Agent Lens conversation grouping.
-- Authored arrangement-request evaluations, a real GuitarSet observed-voicing ranking study with optional single-change candidate audition, an independent Guitar-TECHS chord audit, and the retained earlier coach/recall experiments.
+- Authored arrangement-request evaluations, a real GuitarSet observed-voicing ranking study with preserved Registry lineage (trained parameters are not bundled), an independent Guitar-TECHS chord audit, and the retained earlier coach/recall experiments.
 
 ## Verify
 
@@ -41,7 +41,7 @@ PLAYWRIGHT_CHANNEL=chromium npm run test:offline
 
 On a Mac with Google Chrome installed, omit `PLAYWRIGHT_CHANNEL`; browser tests default to that channel. The offline suite runs the production build. Postgres integration and ML verification are documented in their domain guides.
 
-The automated checks cover deterministic musical correctness, masking and answer evidence, browser flows, worker/audio transport startup, and backend contracts. Browser audio startup is not a perceptual audio-quality check. Real Safari/iOS and Chromium/Android testing, a licensed import corpus, deployment-specific Forge qualification, and a learner pilot remain release gates. Learned ranking is an optional research audition, not the default progression or practice policy. No improved-learning claim is made.
+The automated checks cover deterministic musical correctness, masking and answer evidence, browser flows, worker/audio transport startup, and backend contracts. Browser audio startup is not a perceptual audio-quality check. Real Safari/iOS and Chromium/Android testing, a licensed import corpus, deployment-specific Forge qualification, and a learner pilot remain release gates. Trained ranking parameters are excluded from this distribution; its research lineage and deterministic movement ordering remain available. No improved-learning claim is made.
 
 ## Repository guide
 

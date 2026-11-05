@@ -165,11 +165,7 @@ test('production cache supports offline score, audio and durable practice withou
   await studio.getByRole('combobox', { name: 'Number of voices' }).selectOption('5');
   await studio.locator('.recorded-choice summary').click();
   await studio.getByRole('checkbox', { name: 'Enable experimental candidate ordering' }).check();
-  await expect(
-    studio
-      .getByRole('region', { name: 'Experimental recorded-choice candidate' })
-      .getByRole('button'),
-  ).toHaveCount(5);
+  await expect(studio.locator('.recorded-choice').getByRole('status')).toContainText('not bundled');
   await studio.getByText('Recorded Forge research proposal', { exact: true }).click();
   await expect(
     studio.getByRole('region', { name: 'Validated recorded Forge voicing' }).getByRole('button'),

@@ -15,7 +15,17 @@ self.addEventListener('message', async (event: MessageEvent<Request>) => {
     const { chord, options, tuning, capo, previous, pitchClasses } = event.data;
     const response = await fetch('/research/voicing-ranker-v1.json');
     if (!response.ok) throw new Error('Model asset unavailable');
-    const model = validateVoicingRankerModel(await response.json());
+    const artifact = await response.json();
+    if (artifact?.kind === 'model-reference' && artifact.bundled === false) {
+      self.postMessage({
+        status: 'unsupported',
+        voicings: [],
+        reason:
+          'Trained ranking parameters are not bundled. Movement-based progression remains available.',
+      });
+      return;
+    }
+    const model = validateVoicingRankerModel(artifact);
     if (!model) throw new Error('The experimental model could not be validated.');
     const bank = generateVoicings(chord, tuning, capo, { ...options, maxCandidates: 64 });
     const target = [...pitchClasses].sort((a, b) => a - b).join(',');

@@ -188,9 +188,9 @@ test('migrates version-one data without changing existing evidence', async ({ pa
   });
 });
 
-test('orders matching five-voice source shapes only when explicitly enabled', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('pageerror', (error) => errors.push(error.message));
+test('keeps deterministic progression available when trained parameters are excluded', async ({
+  page,
+}) => {
   const studio = await study(page);
   const experiment = studio.locator('.recorded-choice');
   await experiment.locator('summary').click();
@@ -198,40 +198,15 @@ test('orders matching five-voice source shapes only when explicitly enabled', as
     name: 'Enable experimental candidate ordering',
   });
   await expect(enable).not.toBeChecked();
-  await expect(experiment.getByRole('combobox', { name: 'Experimental candidate' })).toHaveCount(0);
-  await enable.check();
-  await expect(experiment.getByRole('status')).toContainText('Select a chord after the first');
-
   await studio.locator('.progression-strip button').nth(2).click();
-  await expect(experiment.getByRole('status')).toContainText('No valid shapes are available');
   await studio.locator('.advanced-voicings summary').click();
   await studio.getByRole('combobox', { name: 'Number of voices' }).selectOption('5');
-  const candidate = experiment.getByRole('combobox', { name: 'Experimental candidate' });
-  await expect(candidate).toBeVisible();
-  await expect(experiment).toContainText('matching shapes in a bounded bank of up to 64');
-  const board = experiment.getByRole('region', { name: 'Experimental recorded-choice candidate' });
-  await expect(board.getByRole('button')).toHaveCount(5);
-  const firstShape = await board.getByRole('button').allTextContents();
-  expect(firstShape.every((note) => ['C', 'E', 'G', 'B'].includes(note))).toBe(true);
-  expect(new Set(firstShape).size).toBe(4);
-
-  const progressionBefore = await studio.locator('.variation-detail').textContent();
-  const sourceBefore = await studio.locator('.progression-strip strong').allTextContents();
-  const choices = await candidate.locator('option').count();
-  expect(choices).toBeGreaterThan(1);
-  await candidate.selectOption('1');
-  const secondShape = await board.getByRole('button').allTextContents();
-  expect([...secondShape].sort()).toEqual([...firstShape].sort());
-  await experiment.getByRole('button', { name: 'Hear this candidate', exact: true }).click();
-  await expect(studio.locator('.variation-detail')).toHaveText(progressionBefore!);
-  await expect(studio.locator('.progression-strip strong')).toHaveText(sourceBefore);
-
-  await studio.getByRole('combobox', { name: 'Number of voices' }).selectOption('4');
-  await expect(candidate).toHaveCount(0);
-  await expect(experiment.getByRole('status')).toContainText('No valid shapes are available');
+  const before = await studio.locator('.progression-strip strong').allTextContents();
+  await enable.check();
+  await expect(experiment.getByRole('status')).toContainText('not bundled');
+  await expect(experiment.getByRole('combobox', { name: 'Experimental candidate' })).toHaveCount(0);
+  await expect(studio.locator('.progression-strip strong')).toHaveText(before);
   await enable.uncheck();
-  await expect(experiment.getByRole('status')).toHaveCount(0);
-  expect(errors).toEqual([]);
 });
 
 test('validates the retained Forge proposal locally and auditions its chord change without cloud access', async ({

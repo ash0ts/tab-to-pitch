@@ -247,7 +247,7 @@ describe('teacher musical tools', () => {
     const action = localTeacher(r).actions.find((a) => a.type === 'question');
     expect(action?.type === 'question' && action.recipe.spanIndex).toBe(1);
   });
-  it('keeps the bundled ranker byte-identical to its downloadable research artifact', () => {
+  it('keeps matching provenance references without bundled trained parameters', () => {
     expect(
       readFileSync(new URL('../research-data/voicing-ranker-v1.json', import.meta.url), 'utf8'),
     ).toBe(
@@ -256,6 +256,30 @@ describe('teacher musical tools', () => {
         'utf8',
       ),
     );
+  });
+  it('keeps trained parameters out of both runtime distributions', () => {
+    for (const path of [
+      '../research-data/voicing-ranker-v1.json',
+      '../../public/research/voicing-ranker-v1.json',
+    ]) {
+      const reference = JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
+      expect(reference.kind).toBe('model-reference');
+      for (const key of ['weights', 'mean', 'std']) expect(reference).not.toHaveProperty(key);
+    }
+    const result = createTeacherToolRuntime(request()).execute({
+      name: 'research_ranker',
+      args: {
+        spanIndex: 0,
+        previous: [
+          { string: 1, fret: 0 },
+          { string: 2, fret: 1 },
+          { string: 3, fret: 0 },
+        ],
+        candidateId: 'unavailable',
+      },
+    });
+    expect(result.status).toBe('unavailable');
+    expect(result.reason).toContain('not bundled');
   });
   it('returns argument errors for repair without executing invented tools', () => {
     const result = createTeacherToolRuntime(request()).execute({
