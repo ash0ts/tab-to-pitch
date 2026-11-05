@@ -100,3 +100,7 @@ The recall predictor is an offline, consent-gated experiment with shadow-only ou
 ## Practice workspace capability
 
 The additive `teaching-practice-v1` lesson state and `teacher-v3` capability reuse the existing lesson store and single player. The [practice contract](practice-workspace.md) owns their persistence, exposure, masking, grading, and parallel-work integration details.
+
+## Fretboard homework
+
+The [homework contract](homework.md) documents CAGED parent maps, coordinate-set grading, graduated support, exposure tracking, progression playback and the optional teacher-v4 capability.

@@ -69,3 +69,7 @@ For a subsequent matched-passage comparison, counterbalance conventional-tab and
 ## Goals, feedback and broader musicianship
 
 The [practice-workspace contract](practice-workspace.md) defines persisted goals and accepted strategies, first-response episodes, graduated help, original rhythm/construction/expression activities, distinct evidence formats, and conservative exposure tracking. These activities add creating and responding; they do not provide microphone-based performance assessment.
+
+## Fretboard homework
+
+The [homework contract](homework.md) documents CAGED parent maps, coordinate-set grading, graduated support, exposure tracking, progression playback and the optional teacher-v4 capability.

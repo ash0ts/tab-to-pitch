@@ -168,7 +168,7 @@
 .workspace > .learning-layout {
   grid-column: 1 / -1;
   min-width: 0;
-  margin: 0 40px 20px;
+  margin: 0 0 20px;
 }
 .learning-task-column .progression-studio,
 .learning-task-column .listening-panel {
@@ -192,7 +192,7 @@
 }
 @media (max-width: 900px) {
   .workspace > .learning-layout {
-    margin: 0 16px 20px;
+    margin: 0 0 20px;
   }
 }
 @media (max-width: 900px) {
