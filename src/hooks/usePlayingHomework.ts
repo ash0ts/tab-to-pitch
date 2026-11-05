@@ -105,7 +105,11 @@ export function usePlayingHomework(
     if (id && firstMount.current !== id) {
       firstMount.current = id;
       // A reload never reopens capture or replaces a previously reserved response.
-      if (state?.status === 'playing' && !(state.method === 'live' && learning.lesson?.live?.pending)) interrupt();
+      if (
+        state?.status === 'playing' &&
+        !(state.method === 'live' && learning.lesson?.live?.pending)
+      )
+        interrupt();
     }
   }, [h.state?.id]);
   useEffect(() => {
@@ -116,7 +120,11 @@ export function usePlayingHomework(
   }, [visible, h.fresh]);
   useEffect(() => {
     const s = current.current;
-    const completed = guitar.result ?? guitar.attempts.findLast(a => a.episodeId === s?.episodeId && a.responseIndex === s?.responseIndex);
+    const completed =
+      guitar.result ??
+      guitar.attempts.findLast(
+        (a) => a.episodeId === s?.episodeId && a.responseIndex === s?.responseIndex,
+      );
     if (completed) link(completed);
   }, [guitar.result?.id, guitar.attempts.length]);
   function begin() {

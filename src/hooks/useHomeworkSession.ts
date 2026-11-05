@@ -1,5 +1,10 @@
 import { playingPlan } from '../homework/planner';
-import { PLAYING_VERSION, type PlayingState, type PlayingEvent } from '../shared/homework-playing';
+import {
+  PLAYING_VERSION,
+  type PlayingState,
+  type PlayingEvent,
+  type HomeworkWorkspace,
+} from '../shared/homework-playing';
 import { useEffect, useRef, useState } from 'react';
 import type { useLessonSession } from './useLessonSession';
 import {
@@ -298,7 +303,9 @@ export function useHomeworkSession(
     const s = current.current;
     if (
       !s ||
-      (s.contextVersion !== context && observation?.kind !== 'interrupted' && !(observation?.kind === 'performance-reference' && next.status === 'paused')) ||
+      (s.contextVersion !== context &&
+        observation?.kind !== 'interrupted' &&
+        !(observation?.kind === 'performance-reference' && next.status === 'paused')) ||
       learning.externalRevision
     )
       return false;
@@ -314,6 +321,7 @@ export function useHomeworkSession(
   function startPlaying(
     workload: 5 | 15 | 30,
     harmony: { symbol: string; ticks: number; startTick?: number }[],
+    workspace?: HomeworkWorkspace,
   ) {
     const steps = playingPlan(context, tuning, capo, setup.region, harmony, workload);
     if (!steps.length) return;
@@ -321,6 +329,7 @@ export function useHomeworkSession(
     setViewState('explore');
     updatePlaying({
       version: PLAYING_VERSION,
+      ...(workspace ? { workspace } : {}),
       steps,
       index: 0,
       method: 'self-report',

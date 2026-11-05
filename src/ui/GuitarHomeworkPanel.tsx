@@ -205,6 +205,7 @@ export function GuitarHomeworkPanel(props: {
                       startTick: x.startTick,
                     }))
                   : [],
+                progression.homeworkWorkspace(),
               )
             }
           >
@@ -249,6 +250,7 @@ export function GuitarHomeworkPanel(props: {
                           startTick: x.startTick,
                         }))
                       : [],
+                    progression.homeworkWorkspace(),
                   )
                 }
               >

@@ -21,7 +21,9 @@ export function playingPlan(
   const steps: PlayingStep[] = [];
   function add(value: Omit<PlayingStep, 'id' | 'stimulusId' | 'sourceRevision' | 'supportPolicy'>) {
     const signature = JSON.stringify(value);
-    const fingerprint = Array.from(signature).reduce((h,c) => Math.imul(h ^ c.charCodeAt(0),16777619) >>> 0,2166136261).toString(36);
+    const fingerprint = Array.from(signature)
+      .reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261)
+      .toString(36);
     const id = `${PLAYING_VERSION}:${context}:${fingerprint}`;
     steps.push(
       playingStepSchema.parse({

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { arrangementConstraintsSchema } from './arrangements';
 export const PLAYING_VERSION = 'homework-playing-v1';
 const id = z.string().min(1).max(500);
 const time = z.number().finite().nonnegative();
@@ -44,9 +45,47 @@ export const playingStepSchema = z
   })
   .strict();
 export type PlayingStep = z.infer<typeof playingStepSchema>;
+export const homeworkWorkspaceSchema = z
+  .object({
+    sourceHash: id,
+    trackId: id,
+    firstBar: z.number().int().nonnegative(),
+    lastBar: z.number().int().nonnegative(),
+    barGrid: z.boolean(),
+    symbols: z.record(id, z.string().max(32)),
+    targets: z.record(id, z.string().max(32)),
+    selected: z.number().int().nonnegative().max(7),
+    context: z
+      .object({
+        tonic: z.string().regex(/^[A-G](?:#|b){0,2}$/),
+        mode: z.enum([
+          'ionian',
+          'dorian',
+          'phrygian',
+          'lydian',
+          'mixolydian',
+          'aeolian',
+          'locrian',
+        ]),
+      })
+      .strict()
+      .nullable(),
+    options: arrangementConstraintsSchema,
+    melodyVoice: z.string().max(50),
+  })
+  .strict()
+  .refine(
+    (s) =>
+      s.lastBar >= s.firstBar &&
+      s.lastBar - s.firstBar < 8 &&
+      Object.keys(s.symbols).length <= 64 &&
+      Object.keys(s.targets).length <= 64,
+  );
+export type HomeworkWorkspace = z.infer<typeof homeworkWorkspaceSchema>;
 export const playingStateSchema = z
   .object({
     version: z.literal(PLAYING_VERSION),
+    workspace: homeworkWorkspaceSchema.optional(),
     steps: z.array(playingStepSchema).min(1).max(20),
     index: z.number().int().nonnegative(),
     method: z.enum(['self-report', 'live']),

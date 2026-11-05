@@ -1,4 +1,5 @@
 import { passageForSource } from '../songs/catalog';
+import type { HomeworkWorkspace } from '../shared/homework-playing';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   analyzeHarmony,
@@ -445,7 +446,40 @@ export function useProgressionSession(props: ProgressionSessionInput) {
       'The verified proposal is loaded in the shared controls. Apply & save keeps a separate variation.',
     );
   }
+  function homeworkWorkspace(): HomeworkWorkspace {
+    return {
+      sourceHash: score.hash,
+      trackId: track.id,
+      firstBar,
+      lastBar,
+      barGrid,
+      symbols,
+      targets,
+      selected: selectedIndex,
+      context,
+      options,
+      melodyVoice,
+    };
+  }
+  function restoreHomeworkWorkspace(saved: HomeworkWorkspace) {
+    if (
+      saved.sourceHash !== score.hash ||
+      saved.trackId !== track.id ||
+      saved.lastBar >= score.measures.length
+    )
+      return;
+    props.onRange(saved.firstBar, saved.lastBar);
+    setBarGrid(saved.barGrid);
+    setSymbols(saved.symbols);
+    setTargets(saved.targets);
+    setSelected(saved.selected);
+    setContext(saved.context);
+    setOptions(saved.options);
+    setMelodyVoice(saved.melodyVoice);
+  }
   return {
+    homeworkWorkspace,
+    restoreHomeworkWorkspace,
     barGrid,
     setBarGrid,
     symbols,

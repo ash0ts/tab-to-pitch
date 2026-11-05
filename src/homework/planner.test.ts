@@ -41,6 +41,25 @@ function result(index: number, pitches: number[]) {
   return assessPerformance(t, pitches.map(observation), t.sourceRevision).outcome;
 }
 describe('guitar homework musical contracts', () => {
+  it('keeps the selected fragment positions in its audition score', () => {
+    const step = plan.find((s) => s.objective === 'fragment')!;
+    const score = buildHomeworkStudy({
+      step,
+      tuning,
+      capo: 0,
+      tempo: 84,
+      example: true,
+      countIn: false,
+      responseMeasures: 1,
+      restMeasures: 0,
+    });
+    const positions = score.tracks[0]!.staves[0]!.bars.flatMap((b) =>
+      b.voices[0]!.beats.flatMap((beat) =>
+        beat.notes.map((n) => ({ string: 7 - n.string, fret: n.fret })),
+      ),
+    );
+    expect(positions.slice(0, step.fragment.length)).toEqual(step.fragment);
+  });
   it('asks for one pitch class rather than every accepted coordinate', () => {
     const old = makeHomeworkTask('locate', 'C', 'A', region, tuning, 0)!;
     const task = homeworkLiveTask(old, 'source')!;

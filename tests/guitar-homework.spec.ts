@@ -135,16 +135,68 @@ test('source changes and reload interrupt an attempt without replacing its first
   ]);
 });
 
-test('reloading active USB homework links the interrupted performance and leaves capture stopped',async({page})=>{
- await syntheticInput(page);const hw=await open(page);
- await hw.getByLabel('Response method').selectOption('live');
- await hw.getByRole('button',{name:'Connect guitar',exact:true}).click();
- await expect(hw.getByText('● Listening locally',{exact:true})).toBeVisible();
- await hw.getByRole('button',{name:'Play along',exact:true}).click();
- await expect(hw.getByText('Homework saved on this device',{exact:true})).toBeVisible();
- await page.reload();
- await expect(hw.getByText('Attempt interrupted',{exact:true})).toBeVisible({timeout:30000});
- await expect(hw.getByText('Input stopped',{exact:true})).toBeVisible();
- const saved=await data(page), attempts=saved.lessonEvents.flatMap((e:any)=>e.live?.attempt?[e.live.attempt]:[]),refs=saved.lessonEvents.flatMap((e:any)=>e.playing?.performanceAttemptId?[e.playing]:[]);
- expect(attempts).toHaveLength(1);expect(attempts[0].outcome).toBe('interrupted');expect(refs).toHaveLength(1);expect(refs[0].performanceAttemptId).toBe(attempts[0].id);expect(refs[0].responseIndex).toBe(0);
+test('reloading active USB homework links the interrupted performance and leaves capture stopped', async ({
+  page,
+}) => {
+  await syntheticInput(page);
+  const hw = await open(page);
+  await hw.getByLabel('Response method').selectOption('live');
+  await hw.getByRole('button', { name: 'Connect guitar', exact: true }).click();
+  await expect(hw.getByText('● Listening locally', { exact: true })).toBeVisible();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await expect(hw.getByText('Homework saved on this device', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(hw.getByText('Attempt interrupted', { exact: true })).toBeVisible({
+    timeout: 30000,
+  });
+  await expect(hw.getByText('Input stopped', { exact: true })).toBeVisible();
+  const saved = await data(page),
+    attempts = saved.lessonEvents.flatMap((e: any) => (e.live?.attempt ? [e.live.attempt] : [])),
+    refs = saved.lessonEvents.flatMap((e: any) =>
+      e.playing?.performanceAttemptId ? [e.playing] : [],
+    );
+  expect(attempts).toHaveLength(1);
+  expect(attempts[0].outcome).toBe('interrupted');
+  expect(refs).toHaveLength(1);
+  expect(refs[0].performanceAttemptId).toBe(attempts[0].id);
+  expect(refs[0].responseIndex).toBe(0);
+});
+
+test('a bookmark restores the selected region and constraints into the shared workspace', async ({
+  page,
+}) => {
+  await page.goto('/#/stage/homework');
+  await expect(
+    page.getByRole('button', { name: 'Start guitar homework', exact: true }),
+  ).toBeEnabled({ timeout: 30000 });
+  await page.evaluate(() => {
+    location.hash = '/stage/progression';
+  });
+  await page.getByRole('button', { name: 'Frets 5–9', exact: true }).click();
+  await page.evaluate(() => {
+    location.hash = '/stage/homework';
+  });
+  const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
+  await hw.getByRole('button', { name: 'Start guitar homework', exact: true }).click();
+  await expect(hw.getByText('Homework saved on this device', { exact: true })).toBeVisible();
+  const before = (await data(page)).lessons.find((l: any) => l.homework?.playing)?.homework;
+  expect(before.region).toEqual({ minFret: 5, maxFret: 9 });
+  await page.getByRole('button', { name: 'Save for next time', exact: true }).first().click();
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: 'Save for next time', exact: true })
+    .click();
+  await page.reload();
+  await expect(page.locator('.resume-line')).toContainText('Find C · frets 5–9');
+  await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+  await expect(hw.getByRole('button', { name: 'Play along', exact: true })).toBeEnabled({
+    timeout: 30000,
+  });
+  await expect(hw.getByRole('alert')).toHaveCount(0);
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await hw.getByRole('button', { name: 'Felt secure', exact: true }).click();
+  const after = (await data(page)).lessons.find((l: any) => l.homework?.playing)?.homework;
+  expect(after.contextVersion).toBe(before.contextVersion);
+  expect(after.playing.workspace.options.minFret).toBe(5);
 });

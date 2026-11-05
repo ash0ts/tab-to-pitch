@@ -36,7 +36,12 @@ export function buildHomeworkStudy(options: HomeworkPlayback): model.Score {
       });
     }
   } else if (example) {
-    for (const pitch of step.pitches) pattern.push({ pitches: [pitch], ticks: 960 });
+    for (const [index, pitch] of step.pitches.entries())
+      pattern.push({
+        pitches: [pitch],
+        ticks: 960,
+        ...(step.fragment[index] ? { positions: [step.fragment[index]!] } : {}),
+      });
   } else {
     // An explicitly authored accompaniment; its label distinguishes it from the imported source.
     for (const pitches of step.objective === 'connection' || step.objective === 'phrase'

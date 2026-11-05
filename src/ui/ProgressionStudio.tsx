@@ -146,6 +146,13 @@ export function ProgressionWorkspace(
     };
   }, [learning.record, props.supportRecorder]);
   const homeworkOpen = props.activity === 'homework';
+  const restoredHomework = useRef(false);
+  useEffect(() => {
+    if (!learning.lesson || restoredHomework.current) return;
+    restoredHomework.current = true;
+    const saved = learning.lesson.homework?.playing?.workspace;
+    if (saved) session.restoreHomeworkWorkspace(saved);
+  }, [learning.lesson?.id]);
   const [homeworkSurface, setHomeworkSurface] = useState<'guitar' | 'coordinates'>('guitar');
   const homework = useHomeworkSession(
     learning,
@@ -167,7 +174,8 @@ export function ProgressionWorkspace(
   const ear = useEarSession(learning, () => {}, props.onEarStudy, props.earSeed, props.onAudition);
   const liveOpen = props.activity === 'live';
   useEffect(() => {
-    if (!props.stageVisible || (!liveOpen && !(homeworkOpen && homeworkSurface === 'guitar'))) guitar.stop();
+    if (!props.stageVisible || (!liveOpen && !(homeworkOpen && homeworkSurface === 'guitar')))
+      guitar.stop();
     if ((!props.stageVisible || !earOpen) && ear.state?.activeQuestion)
       ear.revise({ activeQuestion: false }, 'audio-change', 'Activity changed.');
     if (!props.stageVisible || !homeworkOpen) homework.pause();
@@ -190,30 +198,52 @@ export function ProgressionWorkspace(
     guitar.stop();
   }, [props.goalRevision]);
   const playingStep = homework.state?.playing?.steps[homework.state.playing.index];
-  const liveRevisionText = JSON.stringify([props.goalRevision, session.contextVersion, props.teacher.selectedNote?.soundingMidi, homework.task?.id, homeworkOpen ? playingStep?.id : null]);
+  const liveRevisionText = JSON.stringify([
+    props.goalRevision,
+    session.contextVersion,
+    props.teacher.selectedNote?.soundingMidi,
+    homework.task?.id,
+    homeworkOpen ? playingStep?.id : null,
+  ]);
   // Bound local revision identifiers; never put learner wording in cloud evidence IDs.
-  const liveRevision = `live-${Array.from(liveRevisionText).reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261).toString(16)}`;
+  const liveRevision = `live-${Array.from(liveRevisionText)
+    .reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261)
+    .toString(16)}`;
   const playingTask = playingStep ? stepLiveTask(playingStep, liveRevision) : null;
   const guitar = useLiveGuitar(
     learning,
     liveRevision,
-    homeworkOpen && playingTask ? [playingTask] : liveTasks(
-      liveRevision,
-      session.spans.every((s) => s.confirmation === 'confirmed' && s.chord)
-        ? session.spans.map((s) => s.chord!.symbol)
-        : [],
-      props.teacher.selectedNote?.soundingMidi ?? 60,
-      homework.active ? undefined : homework.task,
-      practice.state.episode?.kind === 'phrase'
-        ? (practice.state.episode.firstResponse?.cells ?? []).filter((n): n is number => n !== null)
-        : [],
-    ),
+    homeworkOpen && playingTask
+      ? [playingTask]
+      : liveTasks(
+          liveRevision,
+          session.spans.every((s) => s.confirmation === 'confirmed' && s.chord)
+            ? session.spans.map((s) => s.chord!.symbol)
+            : [],
+          props.teacher.selectedNote?.soundingMidi ?? 60,
+          homework.active ? undefined : homework.task,
+          practice.state.episode?.kind === 'phrase'
+            ? (practice.state.episode.firstResponse?.cells ?? []).filter(
+                (n): n is number => n !== null,
+              )
+            : [],
+        ),
     liveBlocked,
   );
-  const playingHomework = usePlayingHomework(homework, learning, guitar, props.stageVisible && homeworkOpen && homeworkSurface === 'guitar');
+  const playingHomework = usePlayingHomework(
+    homework,
+    learning,
+    guitar,
+    props.stageVisible && homeworkOpen && homeworkSurface === 'guitar',
+  );
   useLayoutEffect(() => {
     props.onListeningMask(
-      listening.masked || practice.masked || homework.masked || guitar.active || ear.masked || playingHomework.masked,
+      listening.masked ||
+        practice.masked ||
+        homework.masked ||
+        guitar.active ||
+        ear.masked ||
+        playingHomework.masked,
     );
     return () => props.onListeningMask(false);
   }, [
@@ -241,7 +271,12 @@ export function ProgressionWorkspace(
         playing: props.playing,
         feedbackVisible: !props.teacher.activeQuestion,
       }}
-      live={liveOpen || (homeworkOpen && homeworkSurface === 'guitar' && homework.state?.playing?.method === 'live') ? guitar : undefined}
+      live={
+        liveOpen ||
+        (homeworkOpen && homeworkSurface === 'guitar' && homework.state?.playing?.method === 'live')
+          ? guitar
+          : undefined
+      }
       playingHomework={homeworkOpen ? playingHomework : undefined}
       learning={learning}
       practice={practice}
@@ -279,35 +314,61 @@ export function ProgressionWorkspace(
                 selectOutput={props.selectOutput}
               />
             ) : homeworkOpen && homeworkSurface === 'guitar' ? (
-              <GuitarHomeworkPanel homework={homework} playing={playingHomework} guitar={guitar} progression={session}
-                trackIndex={props.track.index} tuning={props.track.tuningMidi} capo={props.track.capo} workload={props.workload} tempo={props.score.measures[props.firstBar]?.tempoBpm ?? 84}
-                ready={!!learning.lesson && !learning.externalRevision && !liveBlocked}
-                onPlayback={props.onHomeworkPlayback} onStop={props.onStopStudy}
-                onCoordinates={() => { guitar.stop(); setHomeworkSurface('coordinates'); }}
-                onOriginal={() => { playingHomework.interrupt(); props.onOpenHomework?.(); }}
-                listOutputs={props.listOutputs} selectOutput={props.selectOutput} />
-            ) : homeworkOpen ? (<>
-              <button className="secondary-button" onClick={() => {homework.pause();setHomeworkSurface('guitar');}}>Return to guitar homework</button>
-              <HomeworkWorkspace
-                workload={props.workload}
+              <GuitarHomeworkPanel
                 homework={homework}
+                playing={playingHomework}
+                guitar={guitar}
                 progression={session}
+                trackIndex={props.track.index}
                 tuning={props.track.tuningMidi}
                 capo={props.track.capo}
-                ready={
-                  !!learning.lesson &&
-                  !learning.externalRevision &&
-                  !listening.active &&
-                  !props.teacher.activeQuestion
-                }
-                onListen={props.onAudition}
+                workload={props.workload}
+                tempo={props.score.measures[props.firstBar]?.tempoBpm ?? 84}
+                ready={!!learning.lesson && !learning.externalRevision && !liveBlocked}
+                onPlayback={props.onHomeworkPlayback}
                 onStop={props.onStopStudy}
+                onCoordinates={() => {
+                  guitar.stop();
+                  setHomeworkSurface('coordinates');
+                }}
                 onOriginal={() => {
-                  homework.pause();
+                  playingHomework.interrupt();
                   props.onOpenHomework?.();
                 }}
-                showOctaves={props.showOctaves}
+                listOutputs={props.listOutputs}
+                selectOutput={props.selectOutput}
               />
+            ) : homeworkOpen ? (
+              <>
+                <button
+                  className="secondary-button"
+                  onClick={() => {
+                    homework.pause();
+                    setHomeworkSurface('guitar');
+                  }}
+                >
+                  Return to guitar homework
+                </button>
+                <HomeworkWorkspace
+                  workload={props.workload}
+                  homework={homework}
+                  progression={session}
+                  tuning={props.track.tuningMidi}
+                  capo={props.track.capo}
+                  ready={
+                    !!learning.lesson &&
+                    !learning.externalRevision &&
+                    !listening.active &&
+                    !props.teacher.activeQuestion
+                  }
+                  onListen={props.onAudition}
+                  onStop={props.onStopStudy}
+                  onOriginal={() => {
+                    homework.pause();
+                    props.onOpenHomework?.();
+                  }}
+                  showOctaves={props.showOctaves}
+                />
               </>
             ) : props.activity === 'musicianship' ? (
               <PracticeWorkspace
