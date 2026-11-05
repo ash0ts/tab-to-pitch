@@ -60,6 +60,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
+      - run: npx tsc -p server/tsconfig.build.json --noEmit
       - run: npm test
       - run: node --import tsx --test research/forge/*.test.mjs
       - run: npm run build

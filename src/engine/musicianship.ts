@@ -4,7 +4,7 @@ import {
   type ActivityKind,
   type PracticeResponse,
   type SupportKind,
-} from '../shared/practice';
+} from '../shared/practice.js';
 
 export interface TimedStudy {
   id: string;
