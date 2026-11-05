@@ -1,3 +1,4 @@
+import { budgetedInference } from '../forge/inference-budget.js';
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -47,7 +48,7 @@ if (
     'Transport recovery is restricted to the original campaign with no successful provider response',
   );
 const native = recovery ? createNativeInferenceFetch() : undefined;
-const send = native?.fetch ?? inferenceFetch;
+const send = native?.fetch ?? budgetedInference(inferenceFetch, 'integrated-research');
 const project = 'wandb/tab-to-pitch-public-data-research';
 const models = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b'];
 const maxCalls = 88 - (previous?.requests.length ?? 0);

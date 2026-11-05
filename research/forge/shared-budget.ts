@@ -33,7 +33,7 @@ export class SharedInferenceBudget {
       !PRICES[model] ||
       !Number.isSafeInteger(inputBytes) ||
       inputBytes < 0 ||
-      inputBytes > 32768 ||
+      inputBytes > 49152 ||
       !Number.isSafeInteger(outputTokens) ||
       outputTokens < 1 ||
       outputTokens > 4096

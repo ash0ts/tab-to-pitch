@@ -1,0 +1,247 @@
+{
+  "sources": [
+    {
+      "path": "source-0/arrangement-agent-v1/campaign.json",
+      "sha256": "196dbf85801f8ef1bd585bef72d8e09ac8057986afdd685a78f153bf9eb60540",
+      "calls": 226,
+      "dollars": 0.020372849999999994,
+      "unknownUsage": 18,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v1-preflight-01/campaign.json",
+      "sha256": "55ed1a503bbb85b23ccf60d63144ed3ce915cee116b861ac0139753dd244cf51",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v1-preflight-02/campaign.json",
+      "sha256": "63247aa6c811230b3bff130bb74d3acf1bc9696e9fedff3812daab9ba35c1f91",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v2/campaign.json",
+      "sha256": "3411eda086904881b15fe670e4ea552382d729c6b4d39b5f10462933551e57ed",
+      "calls": 297,
+      "dollars": 0.032087919999999985,
+      "unknownUsage": 4,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v2-development-01/campaign.json",
+      "sha256": "b65fd869330b14d901c806377e89c8c940876f7e518885775c639fe5794ffe4f",
+      "calls": 5,
+      "dollars": 0.0019059000000000003,
+      "unknownUsage": 2,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v2-preflight-01/campaign.json",
+      "sha256": "442cea77b2ae715bb828d7a5262fa47dd3d52b30792da052cfc27f33807a192e",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v2-preflight-02/campaign.json",
+      "sha256": "26325dfba79497e3bf968367c7faf873a58cb9f84550e96e068e971297137def",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/arrangement-agent-v2-preflight-03/campaign.json",
+      "sha256": "2e5dd28a04b01aad6ed53747c28dbc20e71a03ee8456ae0fbb57c4aecd9ec9e8",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/coach/campaign.json",
+      "sha256": "58bcdce68aceddb032bf43be3d3e4630d2619ddc4b53f58746ddc1e90dcf0d95",
+      "calls": 2,
+      "dollars": 0.00058854,
+      "unknownUsage": 2,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/coach-recovery/campaign.json",
+      "sha256": "78813d394eae5ab419553ae7c9b6759149e880207f2525f6b33a6726ccc9bff3",
+      "calls": 41,
+      "dollars": 0.0010150099999999998,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/listening-agent-001/campaign.json",
+      "sha256": "e844eacab4a5af56c005f017c14727824bc3c5351e78e1951249720e8d84fdd5",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/listening-agent-002/campaign.json",
+      "sha256": "5e75a058e6e3ba53b1733e67a1db101294a680a8c6ac51e7623b95414747aada",
+      "calls": 130,
+      "dollars": 0.016621639999999993,
+      "unknownUsage": 4,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/listening-agent-003/campaign.json",
+      "sha256": "7a8d46499f48d88462d0b26de4607b0e68d2c8b74e14f361b381e9a157956ea2",
+      "calls": 603,
+      "dollars": 0.12813255999999992,
+      "unknownUsage": 9,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/listening-demo-001/campaign.json",
+      "sha256": "d5b6a2d06693415262b957fc2ed078bb7af1d5fc74db7dbc1a4ded1580fa484c",
+      "calls": 6,
+      "dollars": 0.0017567899999999998,
+      "unknownUsage": 1,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/practice-intent-v2/campaign.json",
+      "sha256": "a42ffcf96e21c8412c2ae3ece6db80c1f36ba9844ae8a5c6ecf9fed9953d8a38",
+      "calls": 26,
+      "dollars": 0.0017724700000000006,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/teacher-agent-v1-qualification-001/campaign.json",
+      "sha256": "13ed439e264b63eb01fef310aa909dfefede355ccae323517e29cdfe695a9437",
+      "calls": 4,
+      "dollars": 0.00251545,
+      "unknownUsage": 2,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/teacher-agent-v1-qualification-002/campaign.json",
+      "sha256": "90c2993b54606898f27c75e370573e6d7ffd340e99d3dc9ba4c7b9128f3dc08c",
+      "calls": 30,
+      "dollars": 0.007826050000000001,
+      "unknownUsage": 3,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/teacher-agent-v2-calibration-003/campaign.json",
+      "sha256": "c58de639eb833d98f38560c3af81ff8e454e10c8912fa3bb2f4d4a57c22d5ae5",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-0/teacher-agent-v3-004/campaign.json",
+      "sha256": "b07aff9111446ad6960330f7ff3729dbf816d00f9efb773dfcbc0744cd72ec5a",
+      "calls": 6,
+      "dollars": 0.0039615499999999994,
+      "unknownUsage": 5,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "legacy-synthetic/live-coach.json",
+      "sha256": "ac24349573e55315ed5e76a1a016b04d84bf236b55c89a6fd41b1ece0c5f836f",
+      "calls": 7,
+      "dollars": 0.0005273400000000001,
+      "unknownUsage": 7,
+      "method": "legacy charged total tokens reserved entirely at highest published output price; input/output split absent"
+    },
+    {
+      "path": "source-1/ear-lab-v1-qualification-001/campaign.json",
+      "sha256": "36b889ebc2a24e2a42d472eb36b154e2a09827296d124e5fcbef7e18fe1ffa8e",
+      "calls": 5,
+      "dollars": 0.00094916,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-1/ear-lab-v1-teacher-frozen-002/campaign.json",
+      "sha256": "acd76d33ab4753f3c3aab476a085408685526eb6dfb2fc6ed832dde4c64ed542",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-2/teaching-practice-001/campaign.json",
+      "sha256": "070b313f3898e7c13e3cd272e021329fb2f54506e29e1e2ea1046692dc3a99cc",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-2/teaching-practice-002/campaign.json",
+      "sha256": "8d4f923e6d1fb31ecef5127e31aca851d792ae29a1d72304e0bced7af6234735",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-2/teaching-practice-003/campaign.json",
+      "sha256": "a0de13cbcd82d4519b42443f7a88af2e3abb944f3bf88d5dd3cbfd1f6f4b7d31",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-2/teaching-practice-004/campaign.json",
+      "sha256": "c3b2f2a4062b988a5e93cf7f9dc99d1c5dbb370d612792e53a6318b47c8943c6",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-2/teaching-practice-005/campaign.json",
+      "sha256": "9b6b834dfbf39d7d649a4c4d208868b3f1b755cf5ba079f7659a71cc11a3de8b",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-3/homework-caged-001/campaign.json",
+      "sha256": "6c7b92a7ef2b22fe0d88ded8b4969c9ed071b4e361e353af0cf02217059521c5",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-3/homework-caged-002/campaign.json",
+      "sha256": "c7be7e3b413cf0809a8a802a30588c07b5888f6999a04469c6d36bf24eab49a6",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    },
+    {
+      "path": "source-3/homework-caged-003/campaign.json",
+      "sha256": "5b143647e57641a494c45c1bd54f24b1948692be65caba0455b216af603b6be0",
+      "calls": 0,
+      "dollars": 0,
+      "unknownUsage": 0,
+      "method": "actual dollars, then valid split usage, then full reservation; no inherited priorCosts double-counting"
+    }
+  ],
+  "calls": 1388,
+  "dollars": 0.2200332299999999,
+  "unknownUsage": 57
+}

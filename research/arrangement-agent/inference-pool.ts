@@ -1,7 +1,8 @@
+import { budgetedInference } from '../forge/inference-budget.js';
 import { Agent, request } from 'node:https';
 import { lookup, resolve4 } from 'node:dns/promises';
 /** One completion attempt per call. Only unauthenticated GET probes try alternate DNS addresses. */
-export async function createInferencePool() {
+export async function createInferencePool(options: { callerReserves?: boolean } = {}) {
   const addresses = await resolve4('api.inference.wandb.ai')
     .then((values) => values.map((address) => ({ address, family: 4 })))
     .catch(() => lookup('api.inference.wandb.ai', { all: true, family: 4 }));
@@ -113,5 +114,10 @@ export async function createInferencePool() {
       connection.end(body);
     });
   };
-  return { fetch: fetcher, close: () => agent.destroy(), probes, address };
+  return {
+    fetch: options.callerReserves ? fetcher : budgetedInference(fetcher, 'integrated-research'),
+    close: () => agent.destroy(),
+    probes,
+    address,
+  };
 }

@@ -9,6 +9,13 @@
     "types": ["node"],
     "sourceMap": false
   },
-  "include": ["./**/*.ts", "../scripts/*.ts", "../src/shared/coach.ts"],
+  "include": [
+    "./**/*.ts",
+    "../scripts/invitation.ts",
+    "../scripts/migrate.ts",
+    "../scripts/backup.ts",
+    "../scripts/restore.ts",
+    "../src/shared/coach.ts"
+  ],
   "exclude": ["./**/*.test.ts", "./test-repository.ts"]
 }

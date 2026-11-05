@@ -1,6 +1,6 @@
 # TabToPitch
 
-Learn the fretboard through the songs you play. Open a Guitar Pro file, read note names on its strings, find those notes across the neck, move a confirmed progression, compare chord colors, and practice without hints. Octave numbers are optional.
+Learn the fretboard with a guitar in your hands. Choose **Fretboard homework**, pick a short workload, and play notes, CAGED fragments and a progression in different regions. USB input is optional. Note names are prominent; octave numbers are optional.
 
 This standalone application runs independently of `wandb/core`. The local player and exercises work without an account. Cloud coaching is optional and requires a configured Forge account and an invitation.
 
@@ -19,7 +19,9 @@ For the invitation API, start `npm run dev:server` in another terminal. The loca
 
 ## Play with a guitar
 
-Choose **Play with my guitar**, connect a clean USB-interface input, and use Explore sound or commit a response before seeing feedback. Note targets, CAGED arpeggios, F→E connections and confirmed strummed progressions use the existing lesson. Detection remains experimental; physical positions and timing are not verified. See the [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
+From the Studio, choose **Fretboard homework**. Start a 5, 15 or 30-minute suggested workload, hear an example, then play along or try without labels. Finish with a self-report, or connect a clean USB input in the same task to attach experimental pitch/chord observations. Repeats preserve the first response. Save the current target to resume later.
+
+Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. Watch the [original-song walkthrough](docs/guitar-homework-demo.md) for the complete flow. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
 
 ## What is implemented
 
@@ -39,11 +41,15 @@ Choose **Play with my guitar**, connect a clean USB-interface input, and use Exp
 npm run check
 npx playwright install chromium
 PLAYWRIGHT_CHANNEL=chromium npm run test:browser
+PLAYWRIGHT_CHANNEL=chromium npm run test:live
+PLAYWRIGHT_CHANNEL=chromium npm run test:ear
+PLAYWRIGHT_CHANNEL=chromium npm run test:studio
+PLAYWRIGHT_CHANNEL=chromium npm run test:guitar-homework
 PLAYWRIGHT_CHANNEL=chromium npm run test:renderer
 PLAYWRIGHT_CHANNEL=chromium npm run test:offline
 ```
 
-On a Mac with Google Chrome installed, omit `PLAYWRIGHT_CHANNEL`; browser tests default to that channel. The offline suite runs the production build. Postgres integration and ML verification are documented in their domain guides.
+On a Mac with Google Chrome installed, omit `PLAYWRIGHT_CHANNEL`; browser tests default to that channel. Run browser suites sequentially; they share a diagnostics directory. The offline suite runs the production build. Postgres integration and ML verification are documented in their domain guides.
 
 The automated checks cover deterministic musical correctness, masking and answer evidence, browser flows, worker/audio transport startup, and backend contracts. Browser audio startup is not a perceptual audio-quality check. Real Safari/iOS and Chromium/Android testing, a licensed import corpus, deployment-specific Forge qualification, and a learner pilot remain release gates. Trained ranking parameters are excluded from this distribution; its research lineage and deterministic movement ordering remain available. No improved-learning claim is made.
 
@@ -59,6 +65,7 @@ The automated checks cover deterministic musical correctness, masking and answer
 | Run the product demonstration              | [Demo script](docs/demo.md)                                   |
 | Remaining release evidence                 | [Release gates](docs/release-gates.md)                        |
 | Checks completed for this implementation   | [Verification record](docs/verification.md)                   |
+| Combined release and source ownership      | [Integration record](integration/README.md)                   |
 | Deploy, migrate, recover, and roll back    | [Deployment](docs/deployment.md)                              |
 | Invitation service and Forge integration   | [Backend](server/README.md)                                   |
 | Coach regression replay                    | [Evaluations](evals/README.md)                                |
@@ -78,7 +85,7 @@ The [practice workspace](docs/practice-workspace.md) adds learner goals, graduat
 
 ## Fretboard homework
 
-Open **Understand → Fretboard homework** for note recall, CAGED fragments and progression application. See [the activity guide](docs/homework.md) and [evaluation protocol](research/homework-caged/README.md).
+Open **Studio → Fretboard homework** for playing, note recall, CAGED fragments and progression application. The optional coordinate checks are available inside the activity. See [the activity guide](docs/homework.md), [guitar homework walkthrough](docs/guitar-homework-demo.md) and [evaluation protocol](research/homework-caged/README.md).
 
 ## Experimental ear workspace
 

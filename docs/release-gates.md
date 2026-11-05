@@ -1,5 +1,7 @@
 # Release gates
 
+The [combined release record](../integration/release-verification.md) owns current integration status. The table below retains earlier feature qualification evidence. Cloud teaching is off by default but may be enabled for invited experiments; enablement does not satisfy actor or evaluator qualification.
+
 This repository implements a local-first beta and its optional coaching infrastructure. The following evidence must be collected before claiming the broader product milestones are complete.
 
 | Gate                                | Current evidence                                                                                                                                               | Remaining work                                                                                                                                                                               |

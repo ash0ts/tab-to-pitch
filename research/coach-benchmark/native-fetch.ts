@@ -1,3 +1,4 @@
+import { budgetedInference } from '../forge/inference-budget.js';
 import { Agent, request } from 'node:https';
 
 /** Reuse one authenticated TLS connection; never retry a completion request. */
@@ -66,5 +67,5 @@ export function createNativeInferenceFetch() {
       connection.end(body);
     });
   };
-  return { fetch: fetcher, close: () => agent.destroy() };
+  return { fetch: budgetedInference(fetcher, 'integrated-research'), close: () => agent.destroy() };
 }

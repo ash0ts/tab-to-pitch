@@ -1,0 +1,42 @@
+{
+  "source": "Original TabToPitch C\u2013F\u2013G\u2013C and authored G7\u2192Cmaj7 studies",
+  "capture": "Isolated Playwright Chromium; simulated learner actions and local synthetic input",
+  "mediaAudio": false,
+  "cloudCalls": 0,
+  "hardwareQualification": false,
+  "sceneCount": 11,
+  "pageErrors": [],
+  "performanceOutcomes": [
+    "unassessed",
+    "match"
+  ],
+  "firstResponsePreserved": true,
+  "sourceEvidenceSha256": "c957ba93b6b6953a109ce3c678cfc27ce3888eb46e55bdb6ca9d7f7bdb50f73b",
+  "files": [
+    {
+      "file": "preview.gif",
+      "bytes": 7594130,
+      "sha256": "0c6b339f0cfc99a88ec0f3e60b1afe71317fc3d562cf775188bac536f5672608"
+    },
+    {
+      "file": "progression.png",
+      "bytes": 104416,
+      "sha256": "3e60d858bb9d2d17b6666492951ef0acd5d28800d74cbe9557f8c688671dfb26"
+    },
+    {
+      "file": "studio.png",
+      "bytes": 1314573,
+      "sha256": "da5492709e9642b4634e380a627d9c18463efe5c8e8d15323f1aeae1f8422a15"
+    },
+    {
+      "file": "uncertain.png",
+      "bytes": 128644,
+      "sha256": "f0123449a55741344638374830d95bb848113ce0c87c77244a86db41acc852ac"
+    },
+    {
+      "file": "walkthrough.mp4",
+      "bytes": 1910262,
+      "sha256": "7e174f5aec52ea6d05c176a37039582e3f3d058a4dc98a240ddb96b3456f385a"
+    }
+  ]
+}
