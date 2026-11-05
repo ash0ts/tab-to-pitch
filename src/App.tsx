@@ -68,7 +68,7 @@ import {
 import { selectNextExercise } from './engine/scheduler';
 import { displayNoteLabel, formatPitch } from './engine/exploration';
 import { coachContextSchema, type CoachContext } from './shared/coach';
-import { readSetting, writeSetting, exportProgress, type LibraryEntry } from './storage';
+import { readSetting, writeSetting, exportProgress, getMemoryLessonData, type LibraryEntry } from './storage';
 import { useLocalData } from './useLocalData';
 import { useDesktopLayout } from './useMediaQuery';
 import { Inspector } from './ui/Inspector';
@@ -898,6 +898,8 @@ export default function App() {
   }
   function saveBookmark(completed = false) {
     if (!score) return;
+    const homework = activeActivity === 'homework' ? getMemoryLessonData().lessons.filter(l=>l.sourceHash===score.hash&&l.homework?.playing).sort((a,b)=>b.updatedAt-a.updatedAt)[0]?.homework : undefined;
+    const playingStep = homework?.playing?.steps[homework.playing.index];
     studio.change({
       reflection,
       bookmark: {
@@ -908,7 +910,7 @@ export default function App() {
         lastBar: loopEnd,
         speed,
         at: Date.now(),
-        next: activity(activeActivity).title,
+        next: playingStep ? `${playingStep.title} · frets ${playingStep.region.minFret}–${playingStep.region.maxFret}` : activity(activeActivity).title,
       },
       visits: [
         ...studio.set.visits,

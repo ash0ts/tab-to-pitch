@@ -298,7 +298,7 @@ export function useHomeworkSession(
     const s = current.current;
     if (
       !s ||
-      (s.contextVersion !== context && observation?.kind !== 'interrupted') ||
+      (s.contextVersion !== context && observation?.kind !== 'interrupted' && !(observation?.kind === 'performance-reference' && next.status === 'paused')) ||
       learning.externalRevision
     )
       return false;

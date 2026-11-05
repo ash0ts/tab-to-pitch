@@ -134,3 +134,17 @@ test('source changes and reload interrupt an attempt without replacing its first
     ['self-report', 1],
   ]);
 });
+
+test('reloading active USB homework links the interrupted performance and leaves capture stopped',async({page})=>{
+ await syntheticInput(page);const hw=await open(page);
+ await hw.getByLabel('Response method').selectOption('live');
+ await hw.getByRole('button',{name:'Connect guitar',exact:true}).click();
+ await expect(hw.getByText('● Listening locally',{exact:true})).toBeVisible();
+ await hw.getByRole('button',{name:'Play along',exact:true}).click();
+ await expect(hw.getByText('Homework saved on this device',{exact:true})).toBeVisible();
+ await page.reload();
+ await expect(hw.getByText('Attempt interrupted',{exact:true})).toBeVisible({timeout:30000});
+ await expect(hw.getByText('Input stopped',{exact:true})).toBeVisible();
+ const saved=await data(page), attempts=saved.lessonEvents.flatMap((e:any)=>e.live?.attempt?[e.live.attempt]:[]),refs=saved.lessonEvents.flatMap((e:any)=>e.playing?.performanceAttemptId?[e.playing]:[]);
+ expect(attempts).toHaveLength(1);expect(attempts[0].outcome).toBe('interrupted');expect(refs).toHaveLength(1);expect(refs[0].performanceAttemptId).toBe(attempts[0].id);expect(refs[0].responseIndex).toBe(0);
+});
