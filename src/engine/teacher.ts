@@ -1,3 +1,4 @@
+import { musicianshipTask } from './musicianship.js';
 import { curatedHarmony } from '../songs/catalog.js';
 import { scaleTones } from './harmony.js';
 import { z } from 'zod';
@@ -39,6 +40,8 @@ import { rankVoicingsWithModel, validateVoicingRankerModel } from './voicing-ran
 import rankerArtifact from '../research-data/voicing-ranker-v1.json' with { type: 'json' };
 
 export const teacherToolDescriptions = {
+  practice_activity:
+    'args {action:{type:practice,operation:strategy,approach,rationale}|{type:practice,operation:activity,activity:rhythm|phrase|expression,variant:0..3,assessment:practice|reserved}|{type:practice,operation:reflection}}. Requires practice capability. Propose an approach for learner acceptance, open an original two-bar G7 to Cmaj7 study, or invite optional self-reflection. Tasks grade symbolic constraints, not playing or artistic quality. Reserved IDs must come from read_learner. No mandatory sequence.',
   inspect_passage:
     'args {}. Verified catalog passage, audio source, learning support, and separate root/quality/order evidence. Familiarity and playback are not learning or playing assessments. No media or song metadata is supplied.',
   listening_activity:
@@ -236,6 +239,28 @@ function musicalFacts(request: TeacherRequest): TeacherFact[] {
       kind: 'observation',
       text: `Recorded ${e.kind} response ${JSON.stringify(e.response)}: ${e.outcome}; ${e.assisted ? 'assisted' : 'unassisted'}; ${e.mode}; ${e.elapsedDays} days ago. No playing diagnosis follows.`,
     });
+  for (const [i, e] of (request.context.practice?.evidence ?? []).entries())
+    facts.push({
+      id: `practice-evidence:${i}`,
+      kind: 'observation',
+      text: `Recorded ${e.format}/${e.responseFormat ?? 'unknown format'} (${e.skill}): ${e.outcome}; ${e.assisted ? 'assisted' : 'unassisted'}; ${e.firstResponse ? 'first response' : 'revision'}; exposure ${e.exposure}; delay ${e.delayDays ?? 'unknown'} days. Engine feedback: ${e.feedback ?? 'not recorded'}. This does not establish another skill or performance.`,
+    });
+  const studyId = request.context.practice?.studyId;
+  if (studyId) {
+    const [, kind, variant] = studyId.split(':');
+    const study = musicianshipTask(kind as 'rhythm' | 'phrase' | 'expression', Number(variant));
+    facts.push({
+      id: 'practice-study',
+      kind: 'music',
+      text: `The current activity is the original authored ${study.title} (${study.id}), over G7 then Cmaj7. It is a separate synthesized example, not an annotation of the imported score. Supplied instruction: ${study.prompt}`,
+    });
+  }
+  if (request.context.practice)
+    facts.push({
+      id: 'practice-boundary',
+      kind: 'boundary',
+      text: 'Original authored studies check symbolic answers and construction constraints. Reflection and confidence are self-report; artistic preferences and playing are not graded.',
+    });
   return facts;
 }
 
@@ -426,6 +451,26 @@ export function resolveTeacherAction(
   if (!p.success) return null;
   const a = p.data,
     exposureKeys = musicExposureKeys(request);
+  if (a.type === 'practice') {
+    const practice = request.context.practice;
+    if (!practice || practice.active) return null;
+    if (a.operation === 'activity') {
+      const task = musicianshipTask(a.activity, a.variant);
+      if (a.assessment === 'reserved' && !practice.reserved.includes(task.id)) return null;
+      return {
+        facts: [
+          {
+            id: 'practice-boundary',
+            kind: 'boundary',
+            text: 'Original authored two-bar studies assess symbolic answers or explicit construction constraints. They do not assess playing or artistic quality.',
+          },
+        ],
+        exposureKeys: [],
+      };
+    }
+    return { facts: [], exposureKeys: [] };
+  }
+  if (request.context.practice?.active && !request.context.practice.active.assisted) return null;
   if (a.type === 'listening') {
     const listening = request.context.listening;
     const passage = listening && curatedHarmony.getPassage(listening.passageId);
@@ -524,6 +569,18 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
             data: { key: request.context.music.key, constraints: request.context.constraints },
           };
         }
+        if (call.name === 'practice_activity') {
+          const { action } = toolArgs.practice_activity.parse(call.args);
+          const resolved = resolveTeacherAction(request, action);
+          return resolved
+            ? accept({ status: 'ok', facts: resolved.facts, actions: [action] })
+            : {
+                status: 'unavailable',
+                facts: [],
+                actions: [],
+                reason: 'Practice capability, fresh context and an eligible example are required.',
+              };
+        }
         if (call.name === 'read_learner') {
           toolArgs[call.name].parse(call.args);
           return {
@@ -532,6 +589,7 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
             actions: [],
             data: {
               objective: request.context.objective,
+              practice: request.context.practice,
               evidence: request.context.evidence,
               history: request.context.history,
               exposures: request.context.exposures,
@@ -753,6 +811,7 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
   if (
     t.actions.length &&
     ((request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
+      (request.context.practice?.active && !request.context.practice.active.assisted) ||
       (request.context.listening?.activeQuestion &&
         !request.context.listening.activeQuestion.assisted))
   )
@@ -923,7 +982,7 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
   }
   if (request.context.listening && objective === 'listening') {
     const l = request.context.listening,
-      last = l.evidence.at(-1);
+      last = [...l.evidence].reverse().find((e) => e.outcome === 'answered') ?? l.evidence.at(-1);
     message =
       'Listen to the passage with its tonic in mind. Try placing the chords, then compare the root movement and chord qualities separately. After the answer, bring the progression to another neck region.';
     if (last?.outcome === 'answered' && last.sequence === false) {
@@ -943,10 +1002,64 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
     factRefs.push('listening-context');
     if (last) factRefs.push(last.id);
   }
-  if (/don't quiz|do not quiz|no quiz|just explain/.test(text)) {
+  const practice = request.context.practice;
+  if (
+    practice &&
+    /rhythm|timing|in time|phrase|response|express|articulation|dynamic|change approach|another approach|compare two|do not want.*repeat|reflect/.test(
+      text,
+    )
+  ) {
+    actions.length = 0;
+    if (/change approach|another approach|compare two|do not want.*repeat/.test(text)) {
+      message =
+        'We can change approach. Try comparing two short versions, then decide whether you want to answer, make your own example, or keep exploring.';
+      actions.push({
+        type: 'practice',
+        operation: 'strategy',
+        approach: 'Compare two versions',
+        rationale: 'Attend to one difference before deciding whether to try another response.',
+      });
+    } else if (/reflect/.test(text)) {
+      message =
+        'What helped you notice the change, and what would you try next? Reflection is optional and records your perspective, not a score.';
+      actions.push({ type: 'practice', operation: 'reflection' });
+    } else {
+      const activity = /phrase|make.*response|construct/.test(text)
+        ? 'phrase'
+        : /express|articulation|dynamic/.test(text)
+          ? 'expression'
+          : 'rhythm';
+      message =
+        activity === 'phrase'
+          ? 'Make a short response and listen to it. The original study supplies notes, rests and a destination; different phrases can satisfy the same constraints. Your artistic preference is yours.'
+          : activity === 'expression'
+            ? 'Compare two authored versions of the same phrase. First identify what changed in the sound, then describe which intention you prefer. We can check the factual difference, not grade your taste.'
+            : 'Use a short original G7 to Cmaj7 study. Place attacks and rests on half-beat slots, then compare your pattern with the original. This checks a symbolic response, not your guitar timing.';
+      const reserved = /reserved|fresh|transfer/.test(text);
+      const id = practice.reserved.find((id) => id.startsWith(`musicianship-v1:${activity}:`));
+      if (!reserved || id)
+        actions.push({
+          type: 'practice',
+          operation: 'activity',
+          activity,
+          variant: id ? Number(id.split(':').at(-1)) : 0,
+          assessment: reserved ? 'reserved' : 'practice',
+        });
+      else
+        message +=
+          ' No unexposed example remains in this small authored set. We can revisit it as practice.';
+    }
+  }
+  if (/dominant seventh|blues|always.*v\b/.test(text)) {
+    message =
+      'Dominant seventh names a chord quality. Function depends on context: a blues tonic can be a dominant seventh without functioning as V. Choose a key and progression before assigning a functional label.';
+    actions.length = 0;
+  }
+  if (/don't quiz|do not quiz|no quiz|stop quizzing|just explore|just explain/.test(text)) {
     for (let i = actions.length - 1; i >= 0; i--)
       if (
         actions[i]!.type === 'question' ||
+        actions[i]!.type === 'practice' ||
         (actions[i]!.type === 'listening' &&
           (actions[i] as { operation: string }).operation === 'question')
       )
@@ -958,6 +1071,7 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
     actions.length = 0;
   }
   if (
+    (request.context.practice?.active && !request.context.practice.active.assisted) ||
     (request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
     (request.context.listening?.activeQuestion &&
       !request.context.listening.activeQuestion.assisted)
@@ -973,7 +1087,7 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
     contextVersion: request.contextVersion,
     source: 'local',
     message,
-    actions,
+    actions: actions.filter((action) => resolveTeacherAction(request, action)),
     factRefs: [...new Set(factRefs)],
     referenceIds,
     claims: [],

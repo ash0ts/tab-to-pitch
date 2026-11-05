@@ -33,11 +33,14 @@ export function useListeningSession(
     assisted: boolean;
     replays: number;
     complete: boolean;
+    episodeId: string;
+    responseIndex: number;
   } | null>(null);
   const callbacks = useRef({ learning, onMask });
   callbacks.current = { learning, onMask };
   const active = !!exercise && !outcome;
-  const masked = active && !assisted;
+  const needsRetry = outcome?.outcome === 'answered' && !outcome.grade?.correct;
+  const masked = (active || !!needsRetry) && outcome?.outcome !== 'revealed';
   function observe(
     kind: 'listening-replay' | 'listening-assistance' | 'source-changed',
     detail: string,
@@ -56,6 +59,8 @@ export function useListeningSession(
     const attempt: ListeningAttempt = {
       id: crypto.randomUUID(),
       exerciseId: c.exercise.id,
+      episodeId: c.episodeId,
+      responseIndex: c.responseIndex++,
       at: Date.now(),
       response,
       outcome: kind,
@@ -139,6 +144,8 @@ export function useListeningSession(
       assisted: false,
       replays: 0,
       complete: false,
+      episodeId: crypto.randomUUID(),
+      responseIndex: 0,
     };
     setExercise(next);
     setDifficulty(level);
@@ -154,12 +161,11 @@ export function useListeningSession(
       [next],
     );
   }
-  function assist(reason = 'Teacher help requested before the first answer.') {
+  function assist(reason = 'Focused help requested.') {
     if (current.current && !current.current.complete) {
       current.current.assisted = true;
-      setAssisted(true);
-      onMask(false);
       observe('listening-assistance', reason);
+      setAssisted(true);
     }
   }
   function replay() {
@@ -188,6 +194,7 @@ export function useListeningSession(
     active,
     masked,
     outcome,
+    needsRetry,
     familiar,
     setFamiliar,
     revision,
@@ -195,7 +202,21 @@ export function useListeningSession(
     assist,
     replay,
     answer: (answers: string[]) => finish('answered', answers),
-    reveal: () => finish('revealed'),
+    retry: () => {
+      const c = current.current;
+      if (!c || !needsRetry) return;
+      observe('listening-assistance', 'Retry after feedback; first response preserved.');
+      c.complete = false;
+      c.assisted = true;
+      c.started = Date.now();
+      setAssisted(true);
+      setOutcome(null);
+    },
+    reveal: () => {
+      if (current.current && needsRetry) current.current.complete = false;
+      assist('Full explanation requested.');
+      finish('revealed');
+    },
     interrupt: () => finish('interrupted'),
     recent: getMemoryLessonData()
       .listeningAttempts.filter((a) => a.exerciseId.includes(`:${passage?.id}:`))

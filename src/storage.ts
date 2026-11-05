@@ -399,6 +399,8 @@ const attemptSchema = z
     outcome: z.enum(['correct', 'incorrect', 'revealed', 'interrupted', 'self-reported']),
     assisted: z.boolean(),
     hintsUsed: z.array(safeText).max(32),
+    episodeId: safeText.optional(),
+    responseIndex: z.number().int().nonnegative().optional(),
     startedAt: z.number().finite().nonnegative(),
     answeredAt: z.number().finite().nonnegative(),
     responseMs: z.number().finite().nonnegative(),

@@ -1,3 +1,4 @@
+import { practiceActionSchema, practiceContextSchema } from './practice.js';
 import { difficultySchema } from '../songs/listening.js';
 import { CATALOG_VERSION, curatedHarmony, passageReady } from '../songs/catalog.js';
 import { z } from 'zod';
@@ -10,7 +11,10 @@ import {
 } from './arrangements.js';
 
 export const TEACHER_VERSION = 'teacher-v1';
-export const TEACHER_PROMPT_VERSION = 'teacher-tools-v5-listening';
+export const INTEGRATED_TEACHER_VERSION = 'teacher-v5';
+export const teacherCapabilitySchema = z.enum(['listening-v1', 'teaching-practice-v1', 'homework-caged-v1', 'teacher-live-v1', 'ear-lab-v1', 'practice-stage-v1', 'homework-playing-v1']);
+export const TEACHER_PROMPT_VERSION = 'teacher-tools-v5-practice';
+export const PRACTICE_TEACHER_VERSION = 'teacher-v3';
 export const LISTENING_TEACHER_VERSION = 'teacher-v2';
 export const CURRICULUM_VERSION = 'teacher-curriculum-v1';
 export const teacherObjectiveSchema = z.enum([
@@ -35,7 +39,8 @@ const position = z
   .strict();
 export const teacherRequestSchema = z
   .object({
-    schemaVersion: z.enum([TEACHER_VERSION, LISTENING_TEACHER_VERSION]),
+    schemaVersion: z.enum([TEACHER_VERSION, LISTENING_TEACHER_VERSION, PRACTICE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION]),
+    capabilities: z.array(teacherCapabilitySchema).max(7).optional(),
     requestId: z.string().uuid(),
     lessonId: z.string().uuid(),
     turnId: z.string().uuid(),
@@ -44,6 +49,7 @@ export const teacherRequestSchema = z
     context: z
       .object({
         objective: teacherObjectiveSchema,
+        practice: practiceContextSchema.optional(),
         listening: z
           .object({
             passageId: z.string().max(100),
@@ -148,9 +154,25 @@ export const teacherRequestSchema = z
   })
   .strict()
   .superRefine((request, ctx) => {
+    if (request.schemaVersion === INTEGRATED_TEACHER_VERSION) {
+      const capabilities = request.capabilities;
+      if (!capabilities || new Set(capabilities).size !== capabilities.length)
+        ctx.addIssue({ code: 'custom', path: ['capabilities'], message: 'V5 requires unique, explicit capabilities.' });
+      for (const [field, capability] of [['practice', 'teaching-practice-v1'], ['listening', 'listening-v1']] as const) {
+        if (Boolean(request.context[field]) !== Boolean(capabilities?.includes(capability)))
+          ctx.addIssue({ code: 'custom', path: ['capabilities'], message: `Capability ${capability} must match its context.` });
+      }
+    }
+
+    if (request.context.practice && ![PRACTICE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION].includes(request.schemaVersion))
+      ctx.addIssue({
+        code: 'custom',
+        path: ['context', 'practice'],
+        message: 'Practice requires the v3 capability contract.',
+      });
     if (request.context.listening) {
       const p = curatedHarmony.getPassage(request.context.listening.passageId);
-      if (request.schemaVersion !== LISTENING_TEACHER_VERSION || !p || !passageReady(p))
+      if (request.schemaVersion === TEACHER_VERSION || !p || !passageReady(p))
         ctx.addIssue({
           code: 'custom',
           path: ['context', 'listening'],
@@ -257,7 +279,23 @@ export const teacherTaskRecipeSchema = z
   })
   .strict();
 export type TeacherTaskRecipe = z.infer<typeof teacherTaskRecipeSchema>;
+export const teacherHighlightActionSchema = z
+    .object({
+      type: z.literal('highlight'),
+      spanIndex: z.number().int().min(0).max(7),
+      degree: z.string().max(4),
+    })
+    .strict();
+export const teacherAuditionActionSchema = z
+    .object({
+      type: z.literal('audition'),
+      spanIndex: z.number().int().min(0).max(7),
+      includeBass: z.boolean(),
+      omitRoot: z.boolean().optional(),
+    })
+    .strict();
 export const teacherActionSchema = z.discriminatedUnion('type', [
+  practiceActionSchema,
   z
     .object({
       type: z.literal('listening'),
@@ -265,13 +303,7 @@ export const teacherActionSchema = z.discriminatedUnion('type', [
       difficulty: difficultySchema,
     })
     .strict(),
-  z
-    .object({
-      type: z.literal('highlight'),
-      spanIndex: z.number().int().min(0).max(7),
-      degree: z.string().max(4),
-    })
-    .strict(),
+  teacherHighlightActionSchema,
   z
     .object({
       type: z.literal('preview'),
@@ -280,14 +312,7 @@ export const teacherActionSchema = z.discriminatedUnion('type', [
     })
     .strict(),
   z.object({ type: z.literal('question'), recipe: teacherTaskRecipeSchema }).strict(),
-  z
-    .object({
-      type: z.literal('audition'),
-      spanIndex: z.number().int().min(0).max(7),
-      includeBass: z.boolean(),
-      omitRoot: z.boolean().optional(),
-    })
-    .strict(),
+  teacherAuditionActionSchema,
 ]);
 export type TeacherAction = z.infer<typeof teacherActionSchema>;
 export const teacherClaimSchema = z.discriminatedUnion('kind', [
@@ -319,6 +344,7 @@ const finalFields = {
   claims: z.array(teacherClaimSchema).max(16),
 };
 export const teacherToolNames = [
+  'practice_activity',
   'inspect_passage',
   'listening_activity',
   'inspect_music',
@@ -343,7 +369,7 @@ export const teacherActorStepSchema = z.discriminatedUnion('kind', [
 export type TeacherActorStep = z.infer<typeof teacherActorStepSchema>;
 export const teacherTurnSchema = z
   .object({
-    schemaVersion: z.enum([TEACHER_VERSION, LISTENING_TEACHER_VERSION]),
+    schemaVersion: z.enum([TEACHER_VERSION, LISTENING_TEACHER_VERSION, PRACTICE_TEACHER_VERSION, INTEGRATED_TEACHER_VERSION]),
     lessonId: z.string().uuid(),
     turnId: z.string().uuid(),
     contextVersion: id,

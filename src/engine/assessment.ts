@@ -76,7 +76,9 @@ export function gradeExercise(exercise: ExerciseDefinition, response: string): G
     correct,
     feedback: correct
       ? `Correct. ${exercise.explanation}`
-      : `The answer is ${answerLabel(exercise)}. ${exercise.explanation}`,
+      : exercise.answer.type === 'position-pair'
+        ? 'Check both positions and the direction of movement. You can request a cue or try again.'
+        : 'That response does not match this question. Choose a cue, compare an example, or try again.',
   };
 }
 
@@ -88,6 +90,8 @@ export interface RecordAttemptOptions {
   hintsUsed?: string[];
   outcome?: Exclude<AttemptOutcome, 'correct' | 'incorrect'>;
   id?: string;
+  episodeId?: string;
+  responseIndex?: number;
 }
 
 export function recordAttempt(
@@ -108,6 +112,9 @@ export function recordAttempt(
   return {
     id: options.id ?? `${exercise.id}:attempt:${options.answeredAt}`,
     exerciseId: exercise.id,
+    ...(options.episodeId
+      ? { episodeId: options.episodeId, responseIndex: options.responseIndex ?? 0 }
+      : {}),
     scoreId: exercise.scoreId,
     trackId: exercise.trackId,
     skillId: exercise.skillId,
@@ -194,4 +201,24 @@ export function buildPracticeEvidence(attempts: readonly AttemptRecord[]): {
       assisted: metrics.assisted + metrics.revealed,
     };
   });
+}
+
+export function exerciseSupport(
+  exercise: ExerciseDefinition,
+  level: 'cue' | 'comparison' | 'worked-example' | 'answer',
+): string {
+  if (level === 'answer') return `${answerLabel(exercise)}. ${exercise.explanation}`;
+  if (level === 'worked-example')
+    return 'In a separate C-major example, C is the root, E the third, and G the fifth. The note name and chord role answer different questions.';
+  if (level === 'comparison')
+    return exercise.answer.type === 'pitch'
+      ? 'Compare an open string with the selected fret. Each fret moves one semitone.'
+      : exercise.answer.type === 'position-pair'
+        ? 'Check the starting pitch and ending pitch separately, then compare the signed distance.'
+        : 'Separate note identity, chord role, and physical position. Which one does this question ask for?';
+  return exercise.kind === 'interval'
+    ? 'Attend to the distance and quality, not just the direction.'
+    : exercise.answer.type === 'position'
+      ? 'Start from the open-string pitch and count semitones. Check the requested octave rule.'
+      : 'Read the requested property first: a note name, a role, or a location.';
 }

@@ -197,7 +197,7 @@ export function ListeningPanel({
                 Reveal progression
               </button>
               <button type="button" className="text-button" onClick={() => s.assist()}>
-                Ask for teacher help
+                Give me an attention cue
               </button>
             </div>
           )}
@@ -235,7 +235,10 @@ export function ListeningPanel({
             </div>
           )}
           {s.assisted && s.active && (
-            <p role="status">Help is recorded. This answer will count as assisted.</p>
+            <p role="status">
+              Help is recorded. Attend to the bass movement first, then compare chord qualities.
+              This answer will count as assisted.
+            </p>
           )}
         </form>
       )}
@@ -254,7 +257,7 @@ export function ListeningPanel({
             <p key={i}>{line}</p>
           ))}
           <p>
-            {s.outcome.outcome !== 'interrupted' && (
+            {(s.outcome.outcome === 'revealed' || s.outcome.grade?.correct) && (
               <>
                 {p.chords.map((c) => c.symbol).join(' → ')}
                 <br />
@@ -267,9 +270,21 @@ export function ListeningPanel({
             playback starts · {s.familiar ? 'Familiar progression' : 'Familiarity not reported'}. A
             screen answer is separate from playing.
           </p>
-          <button className="secondary-button" onClick={onWorkspace}>
-            Find this progression on the neck <ArrowRight size={16} />
-          </button>
+          {s.needsRetry && (
+            <div className="song-actions">
+              <button className="secondary-button" onClick={s.retry}>
+                Try this progression again
+              </button>
+              <button className="text-button" onClick={s.reveal}>
+                Show the full explanation
+              </button>
+            </div>
+          )}
+          {!s.masked && (
+            <button className="secondary-button" onClick={onWorkspace}>
+              Find this progression on the neck <ArrowRight size={16} />
+            </button>
+          )}
         </div>
       )}
       {s.masked && (
@@ -277,21 +292,23 @@ export function ListeningPanel({
           Score, diagrams, and earlier explanations are hidden while you answer.
         </p>
       )}
-      <details className="listening-provenance">
-        <summary>About this passage</summary>
-        <p>{p.review}</p>
-        <p>
-          {p.representation === 'teaching-reduction'
-            ? 'This is a teaching reduction, not a complete transcription of the arrangement.'
-            : 'This accompaniment was authored for the lesson.'}{' '}
-          {p.reuse}
-        </p>
-        {p.sources.map((url) => (
-          <a key={url} href={url} target="_blank" rel="noreferrer">
-            Source reference ↗{' '}
-          </a>
-        ))}
-      </details>
+      {!s.masked && (
+        <details className="listening-provenance">
+          <summary>About this passage</summary>
+          <p>{p.review}</p>
+          <p>
+            {p.representation === 'teaching-reduction'
+              ? 'This is a teaching reduction, not a complete transcription of the arrangement.'
+              : 'This accompaniment was authored for the lesson.'}{' '}
+            {p.reuse}
+          </p>
+          {p.sources.map((url) => (
+            <a key={url} href={url} target="_blank" rel="noreferrer">
+              Source reference ↗{' '}
+            </a>
+          ))}
+        </details>
+      )}
     </section>
   );
 }

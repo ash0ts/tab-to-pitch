@@ -125,6 +125,8 @@ export interface ExerciseDefinition {
 }
 
 export interface AttemptRecord {
+  episodeId?: string;
+  responseIndex?: number;
   id: string;
   exerciseId: string;
   scoreId: string;

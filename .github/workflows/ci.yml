@@ -6,6 +6,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   ml-contracts:
     runs-on: ubuntu-latest
@@ -31,6 +34,7 @@ jobs:
       - run: uv --no-config pip install --python .research-venv/bin/python -r research/recall-benchmark/requirements.txt
       - run: .research-venv/bin/python -m unittest discover -s research/recall-benchmark -p 'test_*.py' -v
       - run: .research-venv/bin/python -m unittest discover -s research/forge -p '*_test.py' -v
+      - run: .research-venv/bin/python -m unittest discover -s research/teaching-practice -p 'test_*.py' -v
       - run: uv --no-config venv .voicing-venv
       - run: uv --no-config pip install --python .voicing-venv/bin/python -r research/voicing-ranking/requirements.txt
       - run: .voicing-venv/bin/python -m unittest discover -s research/voicing-ranking -p 'test_*.py' -v
@@ -59,6 +63,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
+      - run: npx tsc -p server/tsconfig.build.json --noEmit
       - run: npm test
       - run: node --import tsx --test research/forge/*.test.mjs
       - run: npm run build

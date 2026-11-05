@@ -36,3 +36,7 @@ Remaining cases include multi-voice sustain, tuplets, pickups, grace notes, slid
 Keep fixture provenance with each future file: author, creation method, redistribution permission, expected musical facts, parser version and qualification result. Do not add copyrighted song tabs merely because they can be downloaded.
 
 See `patches/README.md` for alphaTab's pinned version, modifications, source distribution and asset notices.
+
+## Original musicianship studies
+
+`src/engine/musicianship.ts` defines twelve two-bar studies (four rhythm, four phrase, four expression). Their melodies, attack/rest grids, dynamic/articulation comparisons and worked examples are original material dedicated to CC0, like the existing demonstration studies. The G7/Cmaj7 accompaniment is a deterministic reconstruction. These examples have no commercial recording alignment. Each practice episode freezes its exact versioned stimulus and grading constraints.

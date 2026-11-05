@@ -303,12 +303,18 @@ test('ignores a pending cloud response when the neck constraints change', async 
     .fill('Give me a question here.');
   await teacher.getByRole('button', { name: 'Ask teacher', exact: true }).click();
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toBeVisible();
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
   await studio.getByRole('button', { name: 'Frets 9–12', exact: true }).click();
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   release();
   await finished;
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toHaveCount(0);
   await expect(teacher.locator('.teacher-message.assistant')).toHaveCount(0);
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
+  if (test.info().project.name === 'mobile')
+    await teacher.locator('.teacher-settings summary').click();
   await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).uncheck();
   await ask(page, 'Help me understand this position.');
   await expect(teacher.locator('.teacher-message.assistant')).toBeVisible();
@@ -346,8 +352,12 @@ test('grounds explanations in the current derived harmony and clears stale sourc
     await route.fulfill({ json: localTeacher(request) });
   });
   const { teacher, studio } = await study(page);
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
   await studio.getByRole('button', { name: 'Add color', exact: true }).click();
   await studio.getByRole('combobox', { name: 'Chord color', exact: true }).selectOption('m9');
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await expect(teacher.locator('.teacher-context')).toContainText('Dm9');
   await teacher.locator('.teacher-settings summary').click();
   await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).check();
@@ -358,7 +368,11 @@ test('grounds explanations in the current derived harmony and clears stale sourc
     sourceSymbols: ['Dm7', 'G7', 'Cmaj7', 'Am7'],
   });
   expect(seen.at(-1)?.context.selectedNotes?.[0]?.id).toBe('n0');
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
   await studio.getByRole('button', { name: 'Preview variation', exact: true }).click();
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
   await ask(page, 'Explain this variation in the player.');
   await expect.poll(() => seen.length).toBe(2);

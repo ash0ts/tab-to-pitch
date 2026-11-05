@@ -31,6 +31,31 @@ function patch(source) {
       'const pendingSource = this.source;\n\t\tBrowserUiFacade.createAlphaSynthAudioWorklet(ctx, this._settings).then(() => {\n\t\t\tif (this.source !== pendingSource || this.context !== ctx) return;',
       'Cancel stale async worklet startup');
   }
+  if (!source.includes('TAB_TO_PITCH_RENDER_REVISION')) {
+    const start=source.indexOf('//#region src/platform/worker/AlphaTabWorkerScoreRenderer.ts');
+    const end=source.indexOf('//#endregion',start);
+    if(start<0 || end<0)throw new Error('Worker renderer region missing');
+    let renderer=source.slice(start,end);
+    renderer=replaceOnce(renderer,'_api;', '_api;\n\t_ttpRevision = 0; // TAB_TO_PITCH_RENDER_REVISION\n\t_send;', 'Renderer revision fields');
+    renderer=replaceOnce(renderer,'this._worker = worker;', `this._worker = worker;
+      this._send = (message) => {
+        if (["alphaTab.renderScore", "alphaTab.render", "alphaTab.resizeRender"].includes(message.cmd)) this._ttpRevision++;
+        this._worker.postMessage({ ...message, ttpRevision: this._ttpRevision });
+      };`, 'Revision sender');
+    // Keep the sender's one native call; every original command uses the wrapper.
+    renderer=renderer.replaceAll('this._worker.postMessage({\n','this._send({\n').replaceAll('this._worker.postMessage({ cmd:', 'this._send({ cmd:');
+    renderer=replaceOnce(renderer,'const data = e.data;', 'const data = e.data;\n\t\tif (data.ttpRevision !== this._ttpRevision) return;', 'Reject stale engraving results');
+    source=source.slice(0,start)+renderer+source.slice(end);
+    const workerStart=source.indexOf('class AlphaTabWebWorker {');
+    const workerEnd=source.indexOf('//#endregion',workerStart);
+    if(workerStart<0 || workerEnd<0)throw new Error('Rendering worker region missing');
+    let worker=source.slice(workerStart,workerEnd);
+    worker=replaceOnce(worker,'_renderer;', '_renderer;\n\t_ttpRevision = 0;\n\t_send;', 'Worker revision fields');
+    worker=worker.replaceAll('this._main.postMessage(', 'this._send(');
+    worker=replaceOnce(worker,'this._main = main;', 'this._main = main;\n\t\tthis._send = (message) => this._main.postMessage({ ...message, ttpRevision: this._ttpRevision });', 'Worker revision reply');
+    worker=replaceOnce(worker,'if (!data?.cmd) return;', 'if (!data?.cmd) return;\n\t\tif (data.ttpRevision < this._ttpRevision) return;\n\t\tthis._ttpRevision = data.ttpRevision;', 'Worker revision command');
+    source=source.slice(0,workerStart)+worker+source.slice(workerEnd);
+  }
   if (source.includes(marker)) return source;
   // Works for the ESM core and the indented UMD distribution.
   source = replaceOnce(source, 'static globalNoteId = 0;', `// ${marker}\n\ttabToPitchLabel = null;\n\ttabToPitchWidthText = null;\n\tstatic globalNoteId = 0;`, 'Note field');

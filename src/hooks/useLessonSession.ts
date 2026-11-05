@@ -148,7 +148,7 @@ export function useLessonSession(
 
   const record = useCallback(
     (
-      patch: Partial<Pick<LessonSession, 'objective' | 'status' | 'pendingTaskId'>>,
+      patch: Partial<Pick<LessonSession, 'objective' | 'status' | 'pendingTaskId' | 'practice'>>,
       additions: LessonMessage[] = [],
       observations: Omit<LessonEvent, 'id' | 'lessonId' | 'at' | 'contextVersion'>[] = [],
       definitions: FrozenExercise[] = [],
@@ -156,7 +156,13 @@ export function useLessonSession(
       listeningAttempts: ListeningAttempt[] = [],
     ) => {
       const before = current.current;
-      if (!before) return;
+      if (
+        !before ||
+        before.sourceHash !== sourceHash ||
+        before.trackId !== trackId ||
+        externalRevision
+      )
+        return;
       const now = Date.now();
       const next: LessonSession = {
         ...before,
@@ -196,7 +202,7 @@ export function useLessonSession(
         });
       return next;
     },
-    [],
+    [sourceHash, trackId, externalRevision],
   );
 
   const changeObjective = useCallback(

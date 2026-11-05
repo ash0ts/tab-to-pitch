@@ -29,6 +29,8 @@ export const listeningGradeSchema = z
 export const listeningAttemptSchema = z
   .object({
     id: z.string().uuid(),
+    episodeId: z.string().uuid().optional(),
+    responseIndex: z.number().int().nonnegative().optional(),
     exerciseId: z.string().max(160),
     at: z.number().nonnegative(),
     response: z.array(z.string().max(24)).max(8),
@@ -124,7 +126,7 @@ export function gradeListening(exercise: ListeningExercise, answers: string[]) {
               ? 'The quality matches; listen for the root movement.'
               : 'Compare the root movement and chord quality separately.';
       feedback.push(
-        `Change ${exercise.slots[i]! + 1}: ${reason} This annotation accepts ${expected.join(' or ')}.`,
+        `Change ${exercise.slots[i]! + 1}: ${reason}`,
       );
     }
   });

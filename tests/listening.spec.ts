@@ -23,12 +23,18 @@ test('song list to listening feedback to the shared fretboard, with masked first
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
   await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await expect(teacher.getByRole('log')).toHaveCount(0);
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
   for (const [i, value] of ['D', 'G7', 'Cmaj7', 'Am7'].entries())
     await lesson.getByLabel(`Chord at change ${i + 1}`).selectOption(value);
   await lesson.getByRole('button', { name: 'Check progression' }).click();
   await expect(lesson).toContainText('The root matches; compare the chord quality.');
+  await expect(page.locator('.music-workspace')).toBeHidden();
+  await lesson.getByRole('button', { name: 'Show the full explanation' }).click();
   await lesson.getByRole('button', { name: 'Find this progression on the neck' }).click();
   await expect(page.getByRole('region', { name: 'Progression studio', exact: true })).toBeVisible();
+  if (test.info().project.name === 'mobile')
+    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await teacher
     .getByRole('textbox', { name: 'Your question', exact: true })
     .fill('Help me understand my missed chord quality.');
@@ -38,7 +44,8 @@ test('song list to listening feedback to the shared fretboard, with masked first
     const path = '/src/storage.ts';
     return (await import(path)).getLessonData();
   });
-  expect(records.listeningAttempts).toHaveLength(1);
+  expect(records.listeningAttempts).toHaveLength(2);
+  expect(records.listeningAttempts[1].outcome).toBe('revealed');
   expect(records.listeningAttempts[0]).toMatchObject({
     assisted: false,
     outcome: 'answered',
@@ -59,7 +66,7 @@ test('teacher help is recorded before revealing answers; reload preserves eviden
   await page.getByRole('button', { name: 'Four chords, one key' }).click();
   const lesson = page.getByRole('region', { name: 'Listening lesson' });
   await lesson.getByRole('button', { name: 'Try a listening question' }).click();
-  await lesson.getByRole('button', { name: 'Ask for teacher help' }).click();
+  await lesson.getByRole('button', { name: 'Give me an attention cue' }).click();
   await expect(lesson).toContainText('This answer will count as assisted');
   await lesson.getByLabel('Chord at change 1').selectOption('Dm7');
   await lesson.getByRole('button', { name: 'Check progression' }).click();

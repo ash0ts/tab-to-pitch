@@ -69,3 +69,5 @@ The original study in `src/player/demo.ts` is CC0. Third-party code, fonts, and 
 ## Listening activity
 
 **Learn from my songs** adds local list import, visible recording previews, deterministic listening questions, and a shared fretboard/teacher lesson. The original study is playable and gradable offline; popular-song excerpts remain pending annotation and embedding qualification. See [the current listening contract](docs/listening.md), [research protocol](research/listening-agent/README.md), and [results](research/listening-agent/results.md).
+
+The [practice workspace](docs/practice-workspace.md) adds learner goals, graduated help, immutable retries, and original rhythm, construction and expression studies. Its separate [teaching-practice protocol](research/teaching-practice/README.md) preserves earlier experiments and shares their remaining inference authorization.

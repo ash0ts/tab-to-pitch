@@ -1,7 +1,8 @@
+import type { SupportKind } from '../shared/practice';
 import { useId } from 'react';
 import { ArrowRight, Check, Eye, Lightbulb, RotateCcw, Target } from 'lucide-react';
 import type { ExerciseKind, ExerciseSelection, GradeResult } from '../engine/types';
-import { answerLabel } from '../engine/assessment';
+import { answerLabel, exerciseSupport } from '../engine/assessment';
 import { SKILL_LABELS, SKILL_ORDER } from '../engine/exercises';
 
 export function PracticePanel({
@@ -12,6 +13,9 @@ export function PracticePanel({
   onKind,
   onAnswer,
   onReveal,
+  onSupport,
+  supportLevel,
+  onRetry,
   onNext,
   onSelfReport,
   octaveRequired,
@@ -32,6 +36,9 @@ export function PracticePanel({
   onKind(kind: ExerciseKind): void;
   onAnswer(answer: string): void;
   onReveal(): void;
+  onSupport(kind: SupportKind): void;
+  supportLevel: SupportKind | null;
+  onRetry(): void;
   onNext(): void;
   onSelfReport(): void;
   octaveRequired: boolean;
@@ -137,6 +144,27 @@ export function PracticePanel({
               </p>
             </div>
           )}
+          {!revealed && !result?.correct && (
+            <details className="support-options">
+              <summary>Choose some help</summary>
+              {(['cue', 'comparison', 'worked-example', 'answer'] as SupportKind[]).map((level) => (
+                <button className="text-button" key={level} onClick={() => onSupport(level)}>
+                  {level === 'cue'
+                    ? 'Attention cue'
+                    : level === 'comparison'
+                      ? 'Focused comparison'
+                      : level === 'worked-example'
+                        ? 'Worked example'
+                        : 'Full explanation'}
+                </button>
+              ))}
+            </details>
+          )}
+          {supportLevel && (
+            <p role="status" className="teaching-cue">
+              {exerciseSupport(exercise, supportLevel)}
+            </p>
+          )}
           {!finished && (
             <>
               <div className="answer-options">
@@ -205,7 +233,12 @@ export function PracticePanel({
                     ? 'You’ve got it.'
                     : 'Keep this one in mind.'}
               </span>
-              <p>{result?.feedback || exercise.explanation}</p>
+              <p>{revealed ? exerciseSupport(exercise, 'answer') : result?.feedback}</p>
+              {result && !result.correct && !revealed && (
+                <button className="secondary-button" onClick={onRetry}>
+                  Try again with this feedback
+                </button>
+              )}
               <p className="caption">
                 {revealed
                   ? 'Revealed answers are recorded separately from recall.'

@@ -7,6 +7,7 @@ export default defineConfig({
     'progression.spec.ts',
     'teacher.spec.ts',
     'listening.spec.ts',
+    'teaching-practice.spec.ts',
   ],
   fullyParallel: false,
   workers: 1,

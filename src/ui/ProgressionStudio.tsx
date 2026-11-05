@@ -1,3 +1,10 @@
+import type { MutableRefObject } from 'react';
+import type { SupportKind } from '../shared/practice';
+import { useEffect, useLayoutEffect } from 'react';
+import { useDesktopLayout } from '../useMediaQuery';
+import { usePracticeSession } from '../hooks/usePracticeSession';
+import { PracticeWorkspace } from './PracticeWorkspace';
+import type { TimedStudy } from '../engine/musicianship';
 import { passageForSource } from '../songs/catalog';
 import { useLessonSession } from '../hooks/useLessonSession';
 import { useListeningSession } from '../hooks/useListeningSession';
@@ -64,10 +71,13 @@ const colorFamilies: ChordQuality[][] = [
 export function ProgressionWorkspace(
   props: ProgressionSessionInput & {
     onListeningMask(masked: boolean): void;
+    supportRecorder: MutableRefObject<(kind: SupportKind, episodeId: string) => boolean>;
     initialListeningDifficulty: 'guided' | 'recall' | 'transfer';
     onTransfer(): void;
     onReplay(bassOnly?: boolean): void;
     audioReady: boolean;
+    onStudy(study: TimedStudy): void;
+    onStopStudy(): void;
     teacher: Pick<
       TeacherPanelProps,
       'attempts' | 'selectedNote' | 'activeQuestion' | 'onExercise' | 'onHelp' | 'onUnderstand'
@@ -75,6 +85,7 @@ export function ProgressionWorkspace(
   },
 ) {
   const session = useProgressionSession(props);
+  const desktop = useDesktopLayout();
   const passage = passageForSource(props.score.hash);
   const learning = useLessonSession(
     props.score.hash,
@@ -92,43 +103,83 @@ export function ProgressionWorkspace(
   const listening = useListeningSession(
     passage,
     learning,
-    props.onListeningMask,
+    () => {},
     session.contextVersion + String(props.active),
     props.initialListeningDifficulty,
   );
+  useEffect(() => {
+    props.supportRecorder.current = (support, episodeId) =>
+      !!learning.record(
+        {},
+        [],
+        [{ kind: 'practice-support', exposureKeys: [], practice: { support, episodeId } }],
+      );
+    return () => {
+      props.supportRecorder.current = () => false;
+    };
+  }, [learning.record, props.supportRecorder]);
+  const practice = usePracticeSession(learning, session.contextVersion, props.onStopStudy);
+  useLayoutEffect(() => {
+    props.onListeningMask(listening.masked || practice.masked);
+    return () => props.onListeningMask(false);
+  }, [listening.masked, practice.masked, props.onListeningMask]);
+  const teacher = (
+    <TeacherPanel
+      learning={learning}
+      onTransfer={props.onTransfer}
+      practice={practice}
+      listening={passage ? listening : undefined}
+      onReplay={props.onReplay}
+      score={props.score}
+      track={props.track}
+      progression={session}
+      {...props.teacher}
+      exploring={props.active && !practice.masked}
+      onOpenStudy={props.onOpenStudy}
+      onListen={props.onAudition}
+    />
+  );
   return (
-    <>
-      {passage && (
-        <ListeningPanel
-          onTransfer={props.onTransfer}
-          session={listening}
-          audioReady={props.audioReady}
-          onPlay={(bassOnly) => {
-            session.show(null);
-            props.onReplay(bassOnly);
-          }}
-          onAudition={props.onAudition}
-          onWorkspace={() => {
-            props.teacher.onUnderstand();
-            document.getElementById('progression-studio')?.scrollIntoView({ block: 'start' });
-          }}
+    <div className="learning-layout">
+      <div className="learning-task-column">
+        <PracticeWorkspace
+          session={practice}
+          ready={
+            !!learning.lesson &&
+            !learning.externalRevision &&
+            !listening.active &&
+            !props.teacher.activeQuestion
+          }
+          onPlay={props.onStudy}
+          onStop={props.onStopStudy}
         />
-      )}
-      <TeacherPanel
-        learning={learning}
-        listening={passage ? listening : undefined}
-        onReplay={props.onReplay}
-        onTransfer={props.onTransfer}
-        score={props.score}
-        track={props.track}
-        progression={session}
-        {...props.teacher}
-        exploring={props.active}
-        onOpenStudy={() => props.onOpenStudy()}
-        onListen={props.onAudition}
-      />
-      {!listening.masked && <ProgressionStudio {...props} session={session} />}
-    </>
+        {!practice.active && passage && (
+          <ListeningPanel
+            onTransfer={props.onTransfer}
+            session={listening}
+            audioReady={props.audioReady}
+            onPlay={(bassOnly) => {
+              session.show(null);
+              props.onReplay(bassOnly);
+            }}
+            onAudition={props.onAudition}
+            onWorkspace={() => {
+              props.teacher.onUnderstand();
+              document.getElementById('progression-studio')?.scrollIntoView({ block: 'start' });
+            }}
+          />
+        )}
+        {!listening.masked && !practice.masked && (
+          <ProgressionStudio {...props} session={session} />
+        )}
+      </div>
+      <aside
+        className={desktop ? 'learning-teacher-column' : 'learning-teacher-mobile'}
+        aria-label="Teacher"
+      >
+        {teacher}
+      </aside>
+    </div>
   );
 }
 

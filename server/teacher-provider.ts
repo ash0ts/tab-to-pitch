@@ -23,14 +23,28 @@ const usageSchema = z
   })
   .refine((usage) => usage.total_tokens >= usage.prompt_tokens + usage.completion_tokens);
 
-/** The Forge grammar backend rejects propertyNames. Zod still validates the full schema locally. */
+/** Keep the transport grammar compact. Bounds and patterns are enforced by the full local Zod schema; types, required fields, unions and enums remain in the provider grammar. */
 export function teacherProviderSchema(schema: z.ZodType): unknown {
   const project = (value: unknown): unknown => {
     if (Array.isArray(value)) return value.map(project);
     if (!value || typeof value !== 'object') return value;
     return Object.fromEntries(
       Object.entries(value)
-        .filter(([key]) => key !== 'propertyNames' && key !== '$schema')
+        .filter(
+          ([key]) =>
+            ![
+              'propertyNames',
+              '$schema',
+              'minLength',
+              'maxLength',
+              'minimum',
+              'maximum',
+              'minItems',
+              'maxItems',
+              'pattern',
+              'format',
+            ].includes(key),
+        )
         .map(([key, item]) => [key, project(item)]),
     );
   };
