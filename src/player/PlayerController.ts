@@ -85,7 +85,7 @@ export class PlayerController {
   private cleanups: Array<() => void> = [];
 
   constructor(
-    host: HTMLElement,
+    private readonly host: HTMLElement,
     private callbacks: PlayerCallbacks = {},
   ) {
     const compact = window.matchMedia('(max-width: 700px)');
@@ -225,7 +225,9 @@ export class PlayerController {
       this.renderPending = true;
       return;
     }
-    this.rendering = true;
+    // alphaTab skips a zero-width render without emitting postRenderFinished.
+    // Install the score/MIDI while hidden, but do not lock the render queue.
+    this.rendering = this.host.getBoundingClientRect().width > 0;
     const sameTrack = this.renderedTrack === this.state.activeTrack;
     this.renderedTrack = this.state.activeTrack;
     if (this.api.score !== this.score) this.api.renderScore(this.score, [this.state.activeTrack]);
