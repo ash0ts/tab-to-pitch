@@ -81,39 +81,46 @@ test('real worker renders SPN and stable masks; audio transport starts; mobile s
   const before = await page
     .locator('#score svg')
     .evaluateAll((elements) => elements.map((element) => element.getAttribute('height')));
-  // Inspect the captured full-page raster, not SVG DOM visibility. A compositor
-  // failure can leave accessible SVG text with a completely blank screenshot.
-  const labelBox = await page
+  // Inspect painted pixels in the viewport. Full-page captures can omit
+  // composited notation even though the visible viewport paints correctly.
+  const label = page
     .locator('#score svg text')
     .filter({ hasText: /^D4·3$/ })
-    .first()
-    .boundingBox();
-  expect(labelBox).not.toBeNull();
-  const captured = await page.screenshot({ path: '../renderer-desktop.png', fullPage: true });
-  const inkPixels = await page.evaluate(
-    async ({ png, box }) => {
-      const raster = new Image();
-      raster.src = `data:image/png;base64,${png}`;
-      await raster.decode();
-      const canvas = document.createElement('canvas');
-      canvas.width = raster.width;
-      canvas.height = raster.height;
-      const context = canvas.getContext('2d')!;
-      context.drawImage(raster, 0, 0);
-      const pixels = context.getImageData(
-        Math.floor(box.x),
-        Math.floor(box.y),
-        Math.ceil(box.width),
-        Math.ceil(box.height),
-      ).data;
-      let ink = 0;
-      for (let i = 0; i < pixels.length; i += 4)
-        if (pixels[i] < 100 && pixels[i + 1] < 100 && pixels[i + 2] < 100) ink++;
-      return ink;
-    },
-    { png: captured.toString('base64'), box: labelBox! },
-  );
-  expect(inkPixels).toBeGreaterThan(25);
+    .first();
+  await label.scrollIntoViewIfNeeded();
+  await expect
+    .poll(
+      async () => {
+        const labelBox = await label.boundingBox();
+        expect(labelBox).not.toBeNull();
+        const captured = await page.screenshot({ path: '../renderer-desktop.png' });
+        return page.evaluate(
+          async ({ png, box }) => {
+            const raster = new Image();
+            raster.src = `data:image/png;base64,${png}`;
+            await raster.decode();
+            const canvas = document.createElement('canvas');
+            canvas.width = raster.width;
+            canvas.height = raster.height;
+            const context = canvas.getContext('2d')!;
+            context.drawImage(raster, 0, 0);
+            const pixels = context.getImageData(
+              Math.floor(box.x),
+              Math.floor(box.y),
+              Math.ceil(box.width),
+              Math.ceil(box.height),
+            ).data;
+            let ink = 0;
+            for (let i = 0; i < pixels.length; i += 4)
+              if (pixels[i] < 100 && pixels[i + 1] < 100 && pixels[i + 2] < 100) ink++;
+            return ink;
+          },
+          { png: captured.toString('base64'), box: labelBox! },
+        );
+      },
+      { timeout: 10000, message: 'The pitch label must paint in the visible viewport' },
+    )
+    .toBeGreaterThan(25);
   await page.getByRole('button', { name: 'Hide answers' }).click();
   await expect(page.locator('#score svg text').filter({ hasText: /^\?$/ }).first()).toBeVisible();
   await expect(page.locator('#score svg text').filter({ hasText: /^D4·3$/ })).toHaveCount(0);
@@ -136,6 +143,6 @@ test('real worker renders SPN and stable masks; audio transport starts; mobile s
       page.locator('#viewport').evaluate((element) => element.scrollWidth > element.clientWidth),
     )
     .toBe(true);
-  await page.screenshot({ path: '../renderer-mobile.png', fullPage: true });
+  await page.screenshot({ path: '../renderer-mobile.png' });
   expect(errors).toEqual([]);
 });
