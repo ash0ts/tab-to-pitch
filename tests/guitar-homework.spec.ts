@@ -245,3 +245,27 @@ test('a bookmark restores the selected region and constraints into the shared wo
   expect(after.contextVersion).toBe(before.contextVersion);
   expect(after.playing.workspace.options.minFret).toBe(5);
 });
+
+test('the homework diagram follows the accompaniment clock through the progression', async ({
+  page,
+}) => {
+  const hw = await open(page, true);
+  await hw.getByText('Choose a different task', { exact: true }).click();
+  await hw
+    .getByRole('button', { name: /^Play C–F–G–C/ })
+    .first()
+    .click();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  const strip = hw.getByRole('navigation', { name: 'Homework progression' });
+  await expect(strip.getByRole('button', { name: 'F', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+    { timeout: 20000 },
+  );
+  await expect(strip.getByRole('button', { name: 'G', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+    { timeout: 10000 },
+  );
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+});

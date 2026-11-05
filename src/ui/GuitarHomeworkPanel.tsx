@@ -29,6 +29,8 @@ export function GuitarHomeworkPanel(props: {
   tempo: number;
   ready: boolean;
   audioReady: boolean;
+  audioPlaying: boolean;
+  currentTick: number;
   onPlayback(study: HomeworkPlayback): void;
   onStop(): void;
   onCoordinates(): void;
@@ -125,7 +127,19 @@ export function GuitarHomeworkPanel(props: {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
-  const currentChord = step?.progression[chordIndex];
+  // Follow the player clock; the diagram never owns musical time.
+  let cursor = 0;
+  const playbackChord =
+    p.active && props.audioPlaying
+      ? step?.progression.findIndex((span) => {
+          const start = span.startTick ?? cursor;
+          cursor = start + span.ticks;
+          return props.currentTick >= start && props.currentTick < cursor;
+        })
+      : -1;
+  const displayedChord =
+    playbackChord !== undefined && playbackChord >= 0 ? playbackChord : chordIndex;
+  const currentChord = step?.progression[displayedChord];
   const chord =
     currentChord || step?.family
       ? parseChordSymbol(currentChord?.symbol ?? step!.title.split(' major')[0]!)
@@ -290,7 +304,7 @@ export function GuitarHomeworkPanel(props: {
                 <button
                   key={i}
                   className="secondary-button"
-                  aria-pressed={chordIndex === i}
+                  aria-pressed={displayedChord === i}
                   onClick={() => setChordIndex(i)}
                 >
                   {c.symbol}
