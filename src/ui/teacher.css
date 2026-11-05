@@ -13,6 +13,10 @@
   align-items: center;
   gap: 20px;
 }
+.teacher-heading > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 .teacher-heading .eyebrow {
   display: flex;
   align-items: center;
@@ -188,6 +192,7 @@
   .teacher-heading {
     align-items: start;
     gap: 12px;
+    flex-wrap: wrap;
   }
   .teacher-heading h2 {
     font-size: 23px;
