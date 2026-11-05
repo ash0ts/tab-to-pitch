@@ -211,7 +211,7 @@ if (process.argv.includes('--prepare')) {
     forgeProject: project,
   };
   if (!config.forgeApiKey) throw new Error('Forge credentials unavailable.');
-  const pool = await createInferencePool();
+  const pool = await createInferencePool({ callerReserves: true });
   const capture = createLensCapture(join(directory, 'lens-capture'));
   let initialized = false;
   let identity = '';

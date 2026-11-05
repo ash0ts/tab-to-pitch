@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 4,
+  "exportedAt": "1970-01-01T00:00:00.200Z",
+  "attempts": [
+    {
+      "id": "authored-answer",
+      "exerciseId": "e",
+      "scoreId": "original-study",
+      "trackId": "t",
+      "skillId": "note-name",
+      "kind": "note-name",
+      "noteIds": [
+        "n"
+      ],
+      "response": "C",
+      "outcome": "incorrect",
+      "assisted": false,
+      "hintsUsed": [],
+      "startedAt": 100,
+      "answeredAt": 200,
+      "responseMs": 100,
+      "mode": "recall",
+      "partition": "practice",
+      "evidence": "answer"
+    }
+  ],
+  "variations": [],
+  "lessons": [
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "schemaVersion": 1,
+      "curriculumVersion": "teacher-curriculum-v1",
+      "sourceHash": "original-study",
+      "trackId": "t",
+      "objective": "foundations",
+      "contextVersion": "authored-legacy",
+      "revision": 0,
+      "createdAt": 100,
+      "updatedAt": 200,
+      "status": "active",
+      "messages": [],
+      "pendingTaskId": null,
+      "practice": {
+        "version": "teaching-practice-v1",
+        "intent": "hear",
+        "goal": {
+          "wording": "Hear the seventh",
+          "target": "Distinguish G from G7",
+          "context": "original-study",
+          "chosenAt": 100
+        },
+        "strategy": null,
+        "reflection": {
+          "text": "Need another pass",
+          "confidence": "unsure",
+          "at": 200,
+          "evidence": "self-report"
+        },
+        "episode": null,
+        "bookmark": null,
+        "review": null
+      },
+      "homework": {
+        "version": "homework-caged-v1",
+        "id": "authored-assignment",
+        "lessonId": "00000000-0000-4000-8000-000000000001",
+        "goal": "Find C",
+        "contextVersion": "authored-legacy",
+        "minutes": 15,
+        "region": {
+          "minFret": 0,
+          "maxFret": 5
+        },
+        "tasks": [
+          {
+            "id": "homework-caged-v1:locate:C:A:0-5:64.59.55.50.45.40:0:0:false",
+            "version": "homework-caged-v1",
+            "kind": "locate",
+            "symbol": "C",
+            "family": "A",
+            "region": {
+              "minFret": 0,
+              "maxFret": 5
+            },
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 0,
+            "pitch": 0,
+            "string": 2,
+            "template": [
+              {
+                "string": 1,
+                "fret": 3
+              },
+              {
+                "string": 2,
+                "fret": 5
+              },
+              {
+                "string": 3,
+                "fret": 5
+              }
+            ],
+            "sourcePosition": {
+              "string": 2,
+              "fret": 1
+            },
+            "exact": false,
+            "prompt": "Find C on string 2. Choose any matching location in this region.",
+            "exposureKeys": [
+              "neck:64.59.55.50.45.40:0:1:0",
+              "neck:64.59.55.50.45.40:0:2:0",
+              "neck:64.59.55.50.45.40:0:3:0",
+              "neck:64.59.55.50.45.40:0:4:0",
+              "neck:64.59.55.50.45.40:0:5:0",
+              "neck:64.59.55.50.45.40:0:6:0",
+              "neck:64.59.55.50.45.40:0:1:1",
+              "neck:64.59.55.50.45.40:0:2:1",
+              "neck:64.59.55.50.45.40:0:3:1",
+              "neck:64.59.55.50.45.40:0:4:1",
+              "neck:64.59.55.50.45.40:0:5:1",
+              "neck:64.59.55.50.45.40:0:6:1",
+              "neck:64.59.55.50.45.40:0:1:2",
+              "neck:64.59.55.50.45.40:0:2:2",
+              "neck:64.59.55.50.45.40:0:3:2",
+              "neck:64.59.55.50.45.40:0:4:2",
+              "neck:64.59.55.50.45.40:0:5:2",
+              "neck:64.59.55.50.45.40:0:6:2",
+              "neck:64.59.55.50.45.40:0:1:3",
+              "neck:64.59.55.50.45.40:0:2:3",
+              "neck:64.59.55.50.45.40:0:3:3",
+              "neck:64.59.55.50.45.40:0:4:3",
+              "neck:64.59.55.50.45.40:0:5:3",
+              "neck:64.59.55.50.45.40:0:6:3",
+              "neck:64.59.55.50.45.40:0:1:4",
+              "neck:64.59.55.50.45.40:0:2:4",
+              "neck:64.59.55.50.45.40:0:3:4",
+              "neck:64.59.55.50.45.40:0:4:4",
+              "neck:64.59.55.50.45.40:0:5:4",
+              "neck:64.59.55.50.45.40:0:6:4",
+              "neck:64.59.55.50.45.40:0:1:5",
+              "neck:64.59.55.50.45.40:0:2:5",
+              "neck:64.59.55.50.45.40:0:3:5",
+              "neck:64.59.55.50.45.40:0:4:5",
+              "neck:64.59.55.50.45.40:0:5:5",
+              "neck:64.59.55.50.45.40:0:6:5"
+            ]
+          }
+        ],
+        "index": 0,
+        "support": [],
+        "responses": [],
+        "status": "active",
+        "createdAt": 100,
+        "updatedAt": 200,
+        "dueAt": null,
+        "reviewDays": 1,
+        "reviewPolicy": "review-defaults-v1",
+        "reflection": "",
+        "exposure": "unknown"
+      },
+      "live": {
+        "task": {
+          "version": "live-guitar-v1",
+          "id": "authored-live-task",
+          "sourceRevision": "authored-legacy",
+          "stimulusId": "derived-original",
+          "prompt": "Play C",
+          "kind": "note",
+          "pitches": [
+            60
+          ],
+          "chords": [],
+          "exactOctave": false,
+          "positionVerified": false,
+          "timingGraded": false
+        },
+        "episodeId": "authored-live-episode",
+        "responseIndex": 0
+      }
+    }
+  ],
+  "lessonEvents": [],
+  "exerciseDefinitions": [],
+  "listeningExercises": [],
+  "listeningAttempts": [],
+  "studio": {
+    "version": 1,
+    "goal": "Connect what I hear to the neck",
+    "workload": 15,
+    "activities": [
+      "homework",
+      "knowledge",
+      "progression"
+    ],
+    "bookmark": null,
+    "bandmate": true,
+    "staticStage": false,
+    "weeklyIntention": "",
+    "reflection": "",
+    "visits": []
+  },
+  "stageRuns": []
+}

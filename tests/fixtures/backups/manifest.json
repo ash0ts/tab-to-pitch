@@ -1,0 +1,44 @@
+[
+  {
+    "name": "foundation",
+    "sourceSchemaSha256": "f5f852e1af086d35bad8232cc2cbfc052acde5d1362e5b0faff24251d9cb47c9",
+    "fixtureSha256": "c32f5db51e59cbc2ec743c05487f4cf18ac42cbc5f975f5bd4b94bb144dd5beb",
+    "authored": true,
+    "validatedWithFrozenSource": true
+  },
+  {
+    "name": "teaching",
+    "sourceSchemaSha256": "67aaf38d1f2c5dc05f95860c850307f460a3858e873edf76789b50551cdbaf94",
+    "fixtureSha256": "f334b77354b0b5214a15e1bd0ef7fef928e2bfad097320825b0faf5076ee579e",
+    "authored": true,
+    "validatedWithFrozenSource": true
+  },
+  {
+    "name": "homework",
+    "sourceSchemaSha256": "67aaf38d1f2c5dc05f95860c850307f460a3858e873edf76789b50551cdbaf94",
+    "fixtureSha256": "a0d1da0ec61d3a481ec42f28c750062bad710593b0163e527ee186466298f4bb",
+    "authored": true,
+    "validatedWithFrozenSource": true
+  },
+  {
+    "name": "live",
+    "sourceSchemaSha256": "67aaf38d1f2c5dc05f95860c850307f460a3858e873edf76789b50551cdbaf94",
+    "fixtureSha256": "03c9ab76705f3b060f788594df579e8f1c7bef93489b2cc0d1099e8c1b75b0b5",
+    "authored": true,
+    "validatedWithFrozenSource": true
+  },
+  {
+    "name": "ear",
+    "sourceSchemaSha256": "29ad4d235f13f6b983b12ae7b52e3ee8a445ae46f0773981d0ebd3c5c87980fe",
+    "fixtureSha256": "e7a4cb60e50d53fbc2dd7dff31918dedf388da3a2e95e32dce53a5c967d8f29e",
+    "authored": true,
+    "validatedWithFrozenSource": true
+  },
+  {
+    "name": "studio",
+    "sourceSchemaSha256": "d21d8314eaa497c52541df6ef0dc2596bd73423d6608d72a033105739a1d39d0",
+    "fixtureSha256": "59e1d0b92115384ceeecdc62542e93a626cacaa091fd8d01bac1eb7d4bdc619b",
+    "authored": true,
+    "validatedWithFrozenSource": true
+  }
+]

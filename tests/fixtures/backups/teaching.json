@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 3,
+  "exportedAt": "1970-01-01T00:00:00.200Z",
+  "attempts": [
+    {
+      "id": "authored-answer",
+      "exerciseId": "e",
+      "scoreId": "original-study",
+      "trackId": "t",
+      "skillId": "note-name",
+      "kind": "note-name",
+      "noteIds": [
+        "n"
+      ],
+      "response": "C",
+      "outcome": "incorrect",
+      "assisted": false,
+      "hintsUsed": [],
+      "startedAt": 100,
+      "answeredAt": 200,
+      "responseMs": 100,
+      "mode": "recall",
+      "partition": "practice",
+      "evidence": "answer"
+    }
+  ],
+  "variations": [],
+  "lessons": [
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "schemaVersion": 1,
+      "curriculumVersion": "teacher-curriculum-v1",
+      "sourceHash": "original-study",
+      "trackId": "t",
+      "objective": "foundations",
+      "contextVersion": "authored-legacy",
+      "revision": 0,
+      "createdAt": 100,
+      "updatedAt": 200,
+      "status": "active",
+      "messages": [],
+      "pendingTaskId": null,
+      "practice": {
+        "version": "teaching-practice-v1",
+        "intent": "hear",
+        "goal": {
+          "wording": "Hear the seventh",
+          "target": "Distinguish G from G7",
+          "context": "original-study",
+          "chosenAt": 100
+        },
+        "strategy": null,
+        "reflection": {
+          "text": "Need another pass",
+          "confidence": "unsure",
+          "at": 200,
+          "evidence": "self-report"
+        },
+        "episode": null,
+        "bookmark": null,
+        "review": null
+      }
+    }
+  ],
+  "lessonEvents": [],
+  "exerciseDefinitions": [],
+  "listeningExercises": [],
+  "listeningAttempts": []
+}

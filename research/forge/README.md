@@ -2,6 +2,16 @@
 
 These tools publish licensed public research outputs to the private `wandb/tab-to-pitch-public-data-research` project. The application and its users' files are outside this pipeline. The earlier synthetic project and failed runs remain unchanged.
 
+## Shared inference accounting
+
+All active campaigns must use one absolute SQLite ledger, never copied per worktree. `shared-budget.ts` reserves the worst-case request cost under `BEGIN IMMEDIATE` before transport, accounts for actor and critic calls, and retains full reservations for missing usage or failed requests. A request exceeding its reserved bound halts further reservations. The original $25 authorization is not reset; the per-campaign ceiling is at most $15 of the remaining balance.
+
+The standalone import reconciled 30 historical source records: 1,388 calls, $0.22003323 in known charges plus conservative unknown-usage reservations, including 57 calls without known usage. This is a local accounting snapshot, not a provider invoice or a claim that every call succeeded. See the [hashed inventory](../../integration/budget-reconciliation.json). No paid call was made for the integration.
+
+Legacy research transports now use `budgetedInference`. Before a paid request they require `TTP_SHARED_INFERENCE_LEDGER` and `TTP_BUDGET_PARTICIPANTS_RECEIPT`. The receipt must identify the same absolute ledger, the hash of its reconciled historical provenance, adoption by every active campaign, and a pricing verification within seven days matching the pinned rates. No adoption receipt is shipped or assumed: preserved original worktrees must stop their old runners or adopt the shared ledger before another campaign starts. Model discovery and result publication do not reserve inference cost.
+
+`reconcile-integration.ts` builds a new ledger from the legacy coach receipt and campaign roots, detects duplicate provider response IDs, and refuses to replace different historical authorization. Its SQLite file and raw campaign records remain private. Existing teaching-practice and CAGED runners already reserve atomically; the teaching runner explicitly bypasses only the transport's duplicate reservation. Production invitation quotas remain separate from these research commands and do not grant campaign spending authority.
+
 `project.mjs` checks project access before an experiment write and reads it again after creation. `transport.mjs` records request hashes, acknowledgements, failures, connection stages, and readbacks. A stable operation key can reuse a successful acknowledgement. An unresolved write cannot be replayed automatically. A server acknowledgement is not proof that a dashboard has the expected data. Native mode uses one persistent connection; JSON and multipart op-source uploads share it.
 
 `curl-fetch.mjs` is a scoped transport for the Forge shell's `/api/wandb` and `/api/trace` proxies. It supplies credentials through process stdin, limits request duration and size, follows no redirects, and performs no retries. `createForgeSdkFetch()` maps the SDK's public API origins to those proxies. It rejects inference traffic. Native HTTPS is also available through `ForgeTransport({mode: 'native'})`.
