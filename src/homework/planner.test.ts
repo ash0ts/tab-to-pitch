@@ -41,6 +41,30 @@ function result(index: number, pitches: number[]) {
   return assessPerformance(t, pitches.map(observation), t.sourceRevision).outcome;
 }
 describe('guitar homework musical contracts', () => {
+  it('gives note finding an unpitched response pulse and silent rest measures', () => {
+    const step = plan.find((s) => s.objective === 'note')!;
+    const score = buildHomeworkStudy({
+      step,
+      tuning,
+      capo: 0,
+      tempo: 84,
+      example: false,
+      countIn: true,
+      responseMeasures: 2,
+      restMeasures: 1,
+    });
+    expect(
+      score.tracks[0]!.staves[0]!.bars.every((b) =>
+        b.voices[0]!.beats.every((beat) => beat.isRest),
+      ),
+    ).toBe(true);
+    const pulse = score.tracks[1]!;
+    expect(pulse.isPercussion).toBe(true);
+    expect(pulse.percussionArticulations[0]!.outputMidiNumber).toBe(37);
+    expect(
+      pulse.staves[0]!.bars.map((b) => b.voices[0]!.beats.filter((beat) => !beat.isRest).length),
+    ).toEqual([4, 4, 0]);
+  });
   it('builds playable G7 to Cmaj7 accompaniment for connection and phrase tasks', () => {
     for (const objective of ['connection', 'phrase']) {
       for (const capo of [0, 2]) {

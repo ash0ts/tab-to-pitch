@@ -26,6 +26,9 @@ test('unplugged playing preserves reports, help, first response and resume', asy
   const hw = await open(page);
   await hw.getByRole('button', { name: 'Try without labels' }).click();
   await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Pause playback', exact: true })).toBeEnabled({
+    timeout: 15000,
+  });
   await expect(hw).toContainText('Play at your own pace');
   await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
   await hw.getByRole('button', { name: 'Needs another pass', exact: true }).click();

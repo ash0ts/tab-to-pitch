@@ -89,3 +89,6 @@
     flex: 1 1 135px;
   }
 }
+.guitar-homework .fret:disabled {
+  opacity: 1;
+}

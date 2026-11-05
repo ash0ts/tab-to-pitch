@@ -77,7 +77,11 @@ export function buildHomeworkStudy(options: HomeworkPlayback): model.Score {
   if (restMeasures) events.push({ pitches: [], ticks: restMeasures * 3840 });
   const barCount = padded / 3840 + restMeasures;
   if (barCount > 80) throw new Error('Choose a shorter homework passage.');
-  const tex = `\\title "Derived guitar homework"\n\\tempo ${tempo}\n\\track "Homework example" \\instrument 25 \\tuning ${tuning.map((n) => midiToSpn(n)).join(' ')} \\capo ${capo}\n. ${Array(barCount).fill('r.1').join(' | ')}`;
+  const pulse =
+    !example && events.every((e) => e.pitches.length === 0)
+      ? `\n\\track "Practice pulse" \\instrument percussion . ${Array.from({ length: barCount }, (_, i) => (i < padded / 3840 ? ':4 37 37 37 37' : 'r.1')).join(' | ')}`
+      : '';
+  const tex = `\\title "Derived guitar homework"\n\\tempo ${tempo}\n\\track "Homework example" \\instrument 25 \\tuning ${tuning.map((n) => midiToSpn(n)).join(' ')} \\capo ${capo}\n. ${Array(barCount).fill('r.1').join(' | ')}${pulse}`;
   const score = importer.ScoreLoader.loadAlphaTex(tex);
   let cursor = 0;
   const timed = events.map((event) => {

@@ -6,6 +6,8 @@ The homework assignment owns the plan and resume checkpoint. `planner.ts` create
 
 The default response method is self-report. A detected pitch does not verify a coordinate, family, technique or timing. A location answer set is never converted into a mandatory arpeggio. A selected fragment accepts its notes in any order unless the instruction specifies movement; the authored F→E connection requires one descending semitone in any register.
 
+Note-finding play-along uses an unpitched percussion pulse through the same alphaTab player. Response bars contain quarter-note clicks and the configured rest bars remain silent; the backing does not reveal the requested pitch. The G7→Cmaj7 accompaniment uses validated four-note realizations with the root in the bass for the selected tuning and capo.
+
 Teacher-v5 negotiates `homework-playing-v1`. Tools select an eligible step, isolate a change or prepare a retry. Device activation, saving arrangements and paid turns remain explicit learner actions. During a label-free attempt, unrelated teacher history remains hidden until help is recorded.
 
 The suggested workload reserves roughly four-fifths for playing or listening-and-playing. This is an editable product default, not an enforced timer or a measured teaching result. Coordinate checks remain a separate optional surface. See [the frozen behavior checks](../../research/guitar-homework/README.md) and [integration verification](../../integration/verification.md).
