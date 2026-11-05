@@ -201,7 +201,9 @@ export function ProgressionWorkspace(
   const liveRevisionText = JSON.stringify([
     props.goalRevision,
     session.contextVersion,
-    props.teacher.selectedNote?.soundingMidi,
+    // Playing homework freezes its own stimulus. Playback cursor movement
+    // must not invalidate that task as it auditions different source notes.
+    homeworkOpen && playingStep ? null : props.teacher.selectedNote?.soundingMidi,
     homework.task?.id,
     homeworkOpen ? playingStep?.id : null,
   ]);

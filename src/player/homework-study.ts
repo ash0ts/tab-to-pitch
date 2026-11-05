@@ -2,7 +2,7 @@ import { importer, model, Settings } from '@coderline/alphatab';
 import { noteAt, locations } from '../engine/caged';
 import { midiToSpn } from '../engine/theory';
 import type { HomeworkPlayback } from '../shared/homework-playing';
-import { parseChordSymbol, type ProgressionVariation } from '../engine/harmony';
+import { generateVoicings, parseChordSymbol, type ProgressionVariation } from '../engine/harmony';
 import { timedBeat } from './variation';
 
 /** A labeled derived exercise. The imported source is never mutated. */
@@ -44,13 +44,28 @@ export function buildHomeworkStudy(options: HomeworkPlayback): model.Score {
       });
   } else {
     // An explicitly authored accompaniment; its label distinguishes it from the imported source.
-    for (const pitches of step.objective === 'connection' || step.objective === 'phrase'
-      ? [
-          [43, 47, 50, 53],
-          [48, 52, 55, 59],
-        ]
-      : [[]])
-      pattern.push({ pitches, ticks: 3840 });
+    if (step.objective === 'connection' || step.objective === 'phrase') {
+      for (const symbol of ['G7', 'Cmaj7']) {
+        // The former close-position G2–B2–D3–F3 chord cannot occupy
+        // four distinct standard-tuning strings. Use validated realizations.
+        const voicing = generateVoicings(parseChordSymbol(symbol)!, tuning, capo, {
+          minFret: 0,
+          maxFret: 12,
+          maxSpan: 4,
+          voiceCount: 4,
+          omitFifth: false,
+          rootless: false,
+          bass: '1',
+          maxCandidates: 1,
+        }).voicings[0];
+        if (!voicing) throw new Error(`No supported ${symbol} accompaniment fits this instrument.`);
+        pattern.push({
+          pitches: voicing.notes.map((n) => n.midi),
+          positions: voicing.notes.map((n) => n.position),
+          ticks: 3840,
+        });
+      }
+    } else pattern.push({ pitches: [], ticks: 3840 });
   }
   const patternTicks = pattern.reduce((n, e) => n + e.ticks, 0);
   if (!patternTicks) throw new Error('The study has no musical events.');

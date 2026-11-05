@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { arrangementConstraintsSchema } from './arrangements';
+import { arrangementConstraintsSchema } from './arrangements.js';
 export const PLAYING_VERSION = 'homework-playing-v1';
 const id = z.string().min(1).max(500);
 const time = z.number().finite().nonnegative();

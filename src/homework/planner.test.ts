@@ -41,6 +41,34 @@ function result(index: number, pitches: number[]) {
   return assessPerformance(t, pitches.map(observation), t.sourceRevision).outcome;
 }
 describe('guitar homework musical contracts', () => {
+  it('builds playable G7 to Cmaj7 accompaniment for connection and phrase tasks', () => {
+    for (const objective of ['connection', 'phrase']) {
+      for (const capo of [0, 2]) {
+        const step = plan.find((s) => s.objective === objective)!;
+        const score = buildHomeworkStudy({
+          step,
+          tuning,
+          capo,
+          tempo: 84,
+          example: false,
+          countIn: true,
+          responseMeasures: 1,
+          restMeasures: 1,
+        });
+        const bars = score.tracks[0]!.staves[0]!.bars;
+        for (const [i, expected] of [
+          [0, [7, 11, 2, 5]],
+          [1, [0, 4, 7, 11]],
+        ] as const) {
+          const notes = bars[i]!.voices[0]!.beats[0]!.notes;
+          expect(new Set(notes.map((n) => n.string)).size).toBe(4);
+          expect(new Set(notes.map((n) => n.realValue % 12))).toEqual(new Set(expected));
+          expect(Math.min(...notes.map((n) => n.realValue)) % 12).toBe(expected[0]);
+        }
+        expect(bars[2]!.voices[0]!.beats.every((b) => b.isRest)).toBe(true);
+      }
+    }
+  });
   it('keeps the selected fragment positions in its audition score', () => {
     const step = plan.find((s) => s.objective === 'fragment')!;
     const score = buildHomeworkStudy({

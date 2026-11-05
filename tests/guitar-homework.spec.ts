@@ -1,7 +1,9 @@
 import { test, expect, type Page } from '@playwright/test';
 import { syntheticInput, play } from './guitar-input-fixture';
-async function open(page: Page) {
-  await page.goto('/#/stage/homework');
+async function open(page: Page, fromStudio = false) {
+  await page.goto(fromStudio ? '/#/studio' : '/#/stage/homework');
+  if (fromStudio)
+    await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
   const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
@@ -92,6 +94,37 @@ test('optional input stays in the assignment and uncertainty remains unassessed'
   );
   expect(reports[0].playing.responseIndex).toBe(2);
   expect(reports[0].playing.episodeId).toBe(attempts[0].episodeId);
+});
+test('a derived F to E study plays backing and preserves the live homework attempt from Studio', async ({
+  page,
+}) => {
+  await syntheticInput(page);
+  const hw = await open(page, true);
+  await hw.getByText('Choose a different task', { exact: true }).click();
+  await hw.getByRole('button', { name: 'Authored connection · G7 → Cmaj7', exact: true }).click();
+  await hw.getByLabel('Response method').selectOption('live');
+  await hw.getByRole('button', { name: 'Connect guitar', exact: true }).click();
+  await expect(hw.getByText('● Listening locally', { exact: true })).toBeVisible();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Pause playback', exact: true })).toBeEnabled({
+    timeout: 15000,
+  });
+  await play(page, [], 0.4);
+  await expect(hw.getByRole('button', { name: 'Finish attempt', exact: true })).toBeEnabled();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await expect(hw.getByText('Could not assess', { exact: true })).toBeVisible();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await play(page, [65]);
+  await play(page, [], 0.2);
+  await play(page, [64]);
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await expect(hw.getByText('Supported match', { exact: true })).toBeVisible();
+  const attempts = (await data(page)).lessonEvents.flatMap((e: any) =>
+    e.live?.attempt ? [e.live.attempt] : [],
+  );
+  expect(attempts.map((a: any) => a.outcome)).toEqual(['unassessed', 'match']);
+  expect(attempts[1].episodeId).toBe(attempts[0].episodeId);
+  expect(attempts[1].responseIndex).toBe(1);
 });
 test('teacher help precedes exposure and uses the v5 homework context', async ({ page }) => {
   const hw = await open(page);
