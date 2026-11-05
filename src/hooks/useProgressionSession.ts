@@ -34,6 +34,7 @@ const contextId = (text: string) => {
 };
 
 export interface ProgressionSessionInput {
+  derivedSymbols?: string[];
   score: ScoreDocument;
   track: ScoreTrack;
   firstBar: number;
@@ -65,6 +66,10 @@ export function useProgressionSession(props: ProgressionSessionInput) {
   const [selected, setSelected] = useState(0);
   const [operation, setOperation] = useState<'move' | 'color' | 'substitute'>('move');
   const catalogPassage = passageForSource(score.hash);
+  const derivedSymbols =
+    score.hash.startsWith('ear-study:') && props.derivedSymbols?.length === score.measures.length
+      ? props.derivedSymbols
+      : undefined;
   const [context, setContext] = useState<HarmonicContext | null>(
     catalogPassage
       ? { tonic: catalogPassage.tonic, mode: 'ionian' }
@@ -102,39 +107,51 @@ export function useProgressionSession(props: ProgressionSessionInput) {
     end = (last?.startTicks ?? 0) + (last?.durationTicks ?? 0);
   const sourceSpans = useMemo(() => {
     if (!rangeValid || track.tuningMidi.length !== 6 || track.supported === false) return [];
-    const spans: HarmonySpan[] = catalogPassage
-      ? catalogPassage.chords
-          .map((chord, index) => {
-            const measure = score.measures[index]!;
-            return {
-              id: `catalog-span:${catalogPassage.id}:${index}`,
-              startTick: measure.startTicks,
-              endTick: measure.startTicks + measure.durationTicks,
-              sourceNoteIds: track.notes.filter((n) => n.measureIndex === index).map((n) => n.id),
-              chord: parseChordSymbol(chord.symbol),
-              confirmation: 'confirmed' as const,
-              source: 'catalog' as const,
-            };
-          })
+    const spans: HarmonySpan[] = derivedSymbols
+      ? score.measures
+          .map((measure, index) => ({
+            id: 'ear-span:' + score.hash + ':' + index,
+            startTick: measure.startTicks,
+            endTick: measure.startTicks + measure.durationTicks,
+            sourceNoteIds: track.notes.filter((n) => n.measureIndex === index).map((n) => n.id),
+            chord: parseChordSymbol(derivedSymbols[index]!),
+            confirmation: 'confirmed' as const,
+            source: 'manual' as const,
+          }))
           .filter((s) => s.startTick >= start && s.endTick <= end)
-      : barGrid
-        ? score.measures.slice(firstBar, lastBar + 1).map((measure) => {
-            const notes = soundingAt(track.notes, measure.startTicks);
-            const analysis = track.harmonySupported === false ? null : analyzeHarmony(notes);
-            const chord =
-              analysis?.status === 'supported' ? analysis.interpretations[0]!.chord : null;
-            return {
-              id: `${track.id}:bar:${measure.index}`,
-              startTick: measure.startTicks,
-              endTick: measure.startTicks + measure.durationTicks,
-              sourceNoteIds: notes.map((note) => note.id),
-              chord,
-              confirmation: 'suggested',
-              source: 'inferred',
-              alternatives: analysis?.interpretations.map((item) => item.chord),
-            };
-          })
-        : buildHarmonySpans(track, start, end);
+      : catalogPassage
+        ? catalogPassage.chords
+            .map((chord, index) => {
+              const measure = score.measures[index]!;
+              return {
+                id: `catalog-span:${catalogPassage.id}:${index}`,
+                startTick: measure.startTicks,
+                endTick: measure.startTicks + measure.durationTicks,
+                sourceNoteIds: track.notes.filter((n) => n.measureIndex === index).map((n) => n.id),
+                chord: parseChordSymbol(chord.symbol),
+                confirmation: 'confirmed' as const,
+                source: 'catalog' as const,
+              };
+            })
+            .filter((s) => s.startTick >= start && s.endTick <= end)
+        : barGrid
+          ? score.measures.slice(firstBar, lastBar + 1).map((measure) => {
+              const notes = soundingAt(track.notes, measure.startTicks);
+              const analysis = track.harmonySupported === false ? null : analyzeHarmony(notes);
+              const chord =
+                analysis?.status === 'supported' ? analysis.interpretations[0]!.chord : null;
+              return {
+                id: `${track.id}:bar:${measure.index}`,
+                startTick: measure.startTicks,
+                endTick: measure.startTicks + measure.durationTicks,
+                sourceNoteIds: notes.map((note) => note.id),
+                chord,
+                confirmation: 'suggested',
+                source: 'inferred',
+                alternatives: analysis?.interpretations.map((item) => item.chord),
+              };
+            })
+          : buildHarmonySpans(track, start, end);
     return spans.map((span) => {
       const authored =
         score.hash === HOMEWORK_SOURCE_ID
@@ -177,7 +194,19 @@ export function useProgressionSession(props: ProgressionSessionInput) {
         melodyAnchors: anchors?.status === 'ok' ? anchors.anchors : undefined,
       };
     });
-  }, [score, track, rangeValid, firstBar, lastBar, start, end, barGrid, symbols, melodyVoice]);
+  }, [
+    score,
+    track,
+    derivedSymbols,
+    rangeValid,
+    firstBar,
+    lastBar,
+    start,
+    end,
+    barGrid,
+    symbols,
+    melodyVoice,
+  ]);
   const spans = useMemo(
     () =>
       sourceSpans.map((span) => ({

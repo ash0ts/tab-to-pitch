@@ -1,3 +1,4 @@
+import type { EarStudy } from './ear/model';
 import type { SupportKind } from './shared/practice';
 import { SongLibrary } from './ui/SongLibrary';
 import { PASSAGES, type Passage } from './songs/catalog';
@@ -81,6 +82,7 @@ export default function App() {
     controller = useRef<PlayerController | null>(null),
     fileInput = useRef<HTMLInputElement>(null),
     backupInput = useRef<HTMLInputElement>(null);
+  const [earStudy, setEarStudy] = useState<EarStudy | undefined>();
   const [score, setScore] = useState<ScoreDocument | null>(null),
     [player, setPlayer] = useState(initialPlayer),
     [error, setError] = useState(''),
@@ -1113,6 +1115,12 @@ export default function App() {
             key={`${score.hash}:${track.id}:${localRevision}`}
             listOutputs={async()=>controller.current?.api.enumerateOutputDevices()??[]}
             selectOutput={async(id)=>{const c=controller.current;if(!c)return;const device=(await c.api.enumerateOutputDevices()).find(d=>d.deviceId===id);if(id && !device)throw new Error('This output is no longer available.');await c.api.setOutputDevice(device??null);c.clock.reset('Output changed; recalibration required.');}}
+            earSeed={score.hash.startsWith('ear-study:') ? earStudy?.seed : undefined}
+            onEarStudy={(study) => {
+              finishInterrupted(); playback.stopAll(); setEarStudy(study);
+              controller.current?.loadEarStudy(study);
+              workspace.setMode('understand'); workspace.setLoop(0, study.symbols.length - 1, true);
+            }}
             initialListeningDifficulty={listeningDifficulty}
             onTransfer={() =>
               openCatalogPassage(

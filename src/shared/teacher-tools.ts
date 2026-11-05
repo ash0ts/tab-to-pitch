@@ -1,6 +1,7 @@
 import { liveActionSchema } from './live-guitar.js';
 import { homeworkActionSchema } from './homework.js';
 import { practiceActionSchema } from './practice.js';
+import { earActionSchema } from './audio.js';
 import { z } from 'zod';
 import { arrangementIntentSchema } from './arrangements.js';
 import { teacherHighlightActionSchema, teacherAuditionActionSchema, teacherTaskRecipeSchema, type TeacherToolCall } from './teacher.js';
@@ -12,6 +13,8 @@ export const teacherToolArgumentSchemas = {
   homework_map: emptyArgs,
   homework_activity: z.object({ action: homeworkActionSchema }).strict(),
   practice_activity: z.object({ action: practiceActionSchema }).strict(),
+  inspect_audio: emptyArgs,
+  ear_activity: z.object({ action: earActionSchema }).strict(),
   inspect_music: emptyArgs,
   inspect_passage: emptyArgs,
   listening_activity: z

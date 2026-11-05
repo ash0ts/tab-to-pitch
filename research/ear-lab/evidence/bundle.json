@@ -1,0 +1,21 @@
+{
+  "version": "ear-lab-v1",
+  "sourceManifestSha256": "46f6ec74e602f17d6a09f5e3433985cb7ba2d0478202339bdcb627e9e9731dbd",
+  "sourceCampaignSha256": "36b889ebc2a24e2a42d472eb36b154e2a09827296d124e5fcbef7e18fe1ffa8e",
+  "sha256": {
+    "analysis.json": "44df1e988594a1db670a199df327a37d4bbdb26e7b513f0079ce72fb97652c69",
+    "audio.table.json": "9452e7d7e6e751d76c0ecdea9b70b5393d13e54372abdb414ced631e4246fbaa",
+    "dataset-cards.md": "312cf14960eee2635ee254da6a1d5e2c564590fe85b09533af030b080441d0a4",
+    "features.json": "c543ee9c05468894b0e6be4592970bcee77f76ddbf559d860e5e4071e6cf4d9f",
+    "manifest.json": "46f6ec74e602f17d6a09f5e3433985cb7ba2d0478202339bdcb627e9e9731dbd",
+    "model.json": "84d73c7fc285c0c5ab8b361a134c80840ea41dcf5571eedd44f9da7ee21ecd29",
+    "predictions.json": "27bc96a2eae2521fcea3fe73a64cbc7d54eb253f3fd3cf285499f15e0407ca36",
+    "report.json": "fa37ff151c1cc9770ebe85ffefeed1bdd2e9d616cea1e374a7357ca940744e0e",
+    "source/analysis.py": "9ec440405411834fe398fef49479add18f1e3d46ead980bd004ea9aa28a161e3",
+    "source/fit.py": "1eb1ee5676b95fd18657ca2b7e9b63ec2f144dbf1fdb891f087df64cda9db126",
+    "source/protocol.json": "f130d9e8a50d26e9f2aa890396e1d5bf6135bb1165ea57c6a303cff9cecd853d",
+    "teacher-evidence.json": "926abd761315de1f4f1efa80cdfaff5885eb6074b5a3fb62f5eb7afa0e3cbf21",
+    "teacher.table.json": "528c3f3ba95d151880231db62fc0cf1946dbc6fd914bdd0fbc87dc86c537dd29"
+  },
+  "privacy": "Public-dataset derived annotations and authored evaluation contexts; no media or learner data."
+}

@@ -1,0 +1,40 @@
+{
+  "version": "ear-reliability-v1",
+  "target": "reference-note-match-at-50ms",
+  "features": [
+    "duration",
+    "activation",
+    "activationMissing",
+    "independentAgreement",
+    "simultaneousDensity"
+  ],
+  "mean": [
+    0.31526315789473675,
+    0.0,
+    1.0,
+    0.6842105263157895,
+    2.3834586466165413
+  ],
+  "scale": [
+    0.2537732661206584,
+    1.0,
+    1.0,
+    0.4648295192804139,
+    0.9941316875543565
+  ],
+  "coefficients": [
+    2.1354497296813055,
+    0.0,
+    0.0,
+    0.6015734887166855,
+    -0.5595023724659095
+  ],
+  "intercept": 1.3992032619765862,
+  "researchOnly": true,
+  "trainingGroups": [
+    "gaps-performer:b223da1f42fe",
+    "gaps-performer:ca61d73f63c7",
+    "guitarset-performer:00",
+    "guitarset-performer:01"
+  ]
+}

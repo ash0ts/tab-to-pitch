@@ -1,0 +1,3434 @@
+{
+  "columns": [
+    "case_id",
+    "actor",
+    "suite",
+    "question",
+    "verified_context",
+    "displayed_response",
+    "actions",
+    "failure",
+    "criteria",
+    "execution_ms",
+    "accounted_dollars",
+    "lens_trace"
+  ],
+  "data": [
+    [
+      "authored:development:0:0:reference:0",
+      "authored-local",
+      "development",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "59085492-2967-4bf1-9d4d-cde4371eaf37",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      6.05929100000003,
+      0,
+      null
+    ],
+    [
+      "authored:development:1:1:actual-analysis:0",
+      "authored-local",
+      "development",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "a118296c-e0c7-4dfa-a0ed-f1af0667ce64",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.5824999999999818,
+      0,
+      null
+    ],
+    [
+      "authored:development:2:2:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "I chose F. Can you explain the difference between my proposal and the transcription?",
+      {
+        "revision": "f1754737-0690-4904-84cb-02efa981416c",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "G7",
+          "Cmaj7"
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        },
+        {
+          "type": "ear",
+          "operation": "draft"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.4960000000000946,
+      0,
+      null
+    ],
+    [
+      "authored:development:3:3:reference:0",
+      "authored-local",
+      "development",
+      "Can we listen again before showing a tab? I want to work it out myself.",
+      {
+        "revision": "e1dfe11f-f3e2-4dc9-b61d-5d98b79ae49d",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": false,
+        "activeQuestion": false,
+        "assisted": false,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.2817499999998745,
+      0,
+      null
+    ],
+    [
+      "authored:development:4:0:actual-analysis:0",
+      "authored-local",
+      "development",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "ddb610ba-072c-4099-b4d2-8d3f751d0f93",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.2920409999999265,
+      0,
+      null
+    ],
+    [
+      "authored:development:5:1:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "f19bc74c-c310-4286-9ffa-45ee082009e8",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.27899999999999636,
+      0,
+      null
+    ],
+    [
+      "authored:development:6:2:reference:0",
+      "authored-local",
+      "development",
+      "I chose F. Can you explain the difference between my proposal and the transcription?",
+      {
+        "revision": "f8676e7d-449e-4a83-a3d3-2d8563a02ebc",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "G7",
+          "Cmaj7"
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        },
+        {
+          "type": "ear",
+          "operation": "draft"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.5010420000000977,
+      0,
+      null
+    ],
+    [
+      "authored:development:7:3:actual-analysis:0",
+      "authored-local",
+      "development",
+      "Can we listen again before showing a tab? I want to work it out myself.",
+      {
+        "revision": "44bd8f40-8ce5-4e3b-8c00-67c772feca69",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": false,
+        "activeQuestion": false,
+        "assisted": false,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.32704100000000835,
+      0,
+      null
+    ],
+    [
+      "authored:development:8:0:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "badeb9ab-33dd-42b1-b46f-d5bc103c2146",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.34187500000007276,
+      0,
+      null
+    ],
+    [
+      "authored:development:9:1:reference:0",
+      "authored-local",
+      "development",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "fe5d80c4-e320-4f0d-99ad-3720806b39b9",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.31245800000010604,
+      0,
+      null
+    ],
+    [
+      "authored:development:10:2:actual-analysis:0",
+      "authored-local",
+      "development",
+      "I chose F. Can you explain the difference between my proposal and the transcription?",
+      {
+        "revision": "c18532d1-5031-4541-9b44-8789f0b009c9",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "G7",
+          "Cmaj7"
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        },
+        {
+          "type": "ear",
+          "operation": "draft"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.6638749999999618,
+      0,
+      null
+    ],
+    [
+      "authored:development:11:3:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "Can we listen again before showing a tab? I want to work it out myself.",
+      {
+        "revision": "0e5b01e8-8d99-4ca1-b488-b2df83528c2e",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": false,
+        "activeQuestion": false,
+        "assisted": false,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.26866599999993923,
+      0,
+      null
+    ],
+    [
+      "authored:development:12:0:reference:0",
+      "authored-local",
+      "development",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "59085492-2967-4bf1-9d4d-cde4371eaf37",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.24195799999984047,
+      0,
+      null
+    ],
+    [
+      "authored:development:13:1:actual-analysis:0",
+      "authored-local",
+      "development",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "a118296c-e0c7-4dfa-a0ed-f1af0667ce64",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.28091700000004494,
+      0,
+      null
+    ],
+    [
+      "authored:development:14:2:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "I chose F. Can you explain the difference between my proposal and the transcription?",
+      {
+        "revision": "f1754737-0690-4904-84cb-02efa981416c",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "G7",
+          "Cmaj7"
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        },
+        {
+          "type": "ear",
+          "operation": "draft"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.45241600000008475,
+      0,
+      null
+    ],
+    [
+      "authored:development:15:3:reference:0",
+      "authored-local",
+      "development",
+      "Can we listen again before showing a tab? I want to work it out myself.",
+      {
+        "revision": "e1dfe11f-f3e2-4dc9-b61d-5d98b79ae49d",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": false,
+        "activeQuestion": false,
+        "assisted": false,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.26283300000000054,
+      0,
+      null
+    ],
+    [
+      "authored:development:16:0:actual-analysis:0",
+      "authored-local",
+      "development",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "ddb610ba-072c-4099-b4d2-8d3f751d0f93",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.2565829999998641,
+      0,
+      null
+    ],
+    [
+      "authored:development:17:1:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "f19bc74c-c310-4286-9ffa-45ee082009e8",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.26729100000011385,
+      0,
+      null
+    ],
+    [
+      "authored:development:18:2:reference:0",
+      "authored-local",
+      "development",
+      "I chose F. Can you explain the difference between my proposal and the transcription?",
+      {
+        "revision": "f8676e7d-449e-4a83-a3d3-2d8563a02ebc",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "G7",
+          "Cmaj7"
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        },
+        {
+          "type": "ear",
+          "operation": "draft"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.22770799999989322,
+      0,
+      null
+    ],
+    [
+      "authored:development:19:3:actual-analysis:0",
+      "authored-local",
+      "development",
+      "Can we listen again before showing a tab? I want to work it out myself.",
+      {
+        "revision": "44bd8f40-8ce5-4e3b-8c00-67c772feca69",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": false,
+        "activeQuestion": false,
+        "assisted": false,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.1362500000000182,
+      0,
+      null
+    ],
+    [
+      "authored:development:20:0:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "badeb9ab-33dd-42b1-b46f-d5bc103c2146",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.11683300000004238,
+      0,
+      null
+    ],
+    [
+      "authored:development:21:1:reference:0",
+      "authored-local",
+      "development",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "fe5d80c4-e320-4f0d-99ad-3720806b39b9",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.10504200000013952,
+      0,
+      null
+    ],
+    [
+      "authored:development:22:2:actual-analysis:0",
+      "authored-local",
+      "development",
+      "I chose F. Can you explain the difference between my proposal and the transcription?",
+      {
+        "revision": "c18532d1-5031-4541-9b44-8789f0b009c9",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "G7",
+          "Cmaj7"
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        },
+        {
+          "type": "ear",
+          "operation": "draft"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.43975000000000364,
+      0,
+      null
+    ],
+    [
+      "authored:development:23:3:controlled-corruption:0",
+      "authored-local",
+      "development",
+      "Can we listen again before showing a tab? I want to work it out myself.",
+      {
+        "revision": "0e5b01e8-8d99-4ca1-b488-b2df83528c2e",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": false,
+        "activeQuestion": false,
+        "assisted": false,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 49,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 56,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 60,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 65,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 68,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 74,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 23,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 25,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 27,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 29,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 31,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 33,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [
+        {
+          "type": "ear",
+          "operation": "replay"
+        }
+      ],
+      null,
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      0.2527500000001055,
+      0,
+      null
+    ],
+    [
+      "openai/gpt-oss-20b:0:development:0:0:reference:0",
+      "openai/gpt-oss-20b",
+      "qualification",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "59085492-2967-4bf1-9d4d-cde4371eaf37",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [],
+      "invalid-response",
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      18008.944165999997,
+      0.00052048,
+      "https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/dc1a8458-5cc6-48af-aa60-adeff3b6898d"
+    ],
+    [
+      "openai/gpt-oss-20b:1:development:1:1:actual-analysis:0",
+      "openai/gpt-oss-20b",
+      "qualification",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "a118296c-e0c7-4dfa-a0ed-f1af0667ce64",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [],
+      "invalid-response",
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      6081.233207999998,
+      0.0002559,
+      "https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/55d087ff-2c7d-43c3-a26b-85cd52905043"
+    ],
+    [
+      "openai/gpt-oss-120b:0:development:0:0:reference:0",
+      "openai/gpt-oss-120b",
+      "qualification",
+      "The root sounds right but the seventh is unclear. Help me investigate one change.",
+      {
+        "revision": "59085492-2967-4bf1-9d4d-cde4371eaf37",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 65,
+            "start": 0,
+            "end": 4,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          },
+          {
+            "id": "h1",
+            "midi": 64,
+            "start": 4,
+            "end": 8,
+            "authority": "independent-reference",
+            "confidence": null,
+            "independentFamilies": 0
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [],
+      "invalid-response",
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      1153.305124999999,
+      6.826e-05,
+      "https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/eefd846d-483b-47f2-83e2-ec5a2631679e"
+    ],
+    [
+      "openai/gpt-oss-120b:1:development:1:1:actual-analysis:0",
+      "openai/gpt-oss-120b",
+      "qualification",
+      "Does agreement between these two systems prove that I heard the note correctly?",
+      {
+        "revision": "a118296c-e0c7-4dfa-a0ed-f1af0667ce64",
+        "duration": 8,
+        "analysis": "completed",
+        "origin": "upload",
+        "draftVisible": true,
+        "activeQuestion": false,
+        "assisted": true,
+        "hypotheses": [
+          {
+            "id": "h0",
+            "midi": 48,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h1",
+            "midi": 55,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h2",
+            "midi": 59,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h3",
+            "midi": 64,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h4",
+            "midi": 67,
+            "start": 4,
+            "end": 4.01,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h5",
+            "midi": 73,
+            "start": 0,
+            "end": 0.19736961451247165,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h6",
+            "midi": 22,
+            "start": 0.011609977324263039,
+            "end": 0.3831292517006803,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h7",
+            "midi": 24,
+            "start": 0.011609977324263039,
+            "end": 2.659968707482993,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h8",
+            "midi": 26,
+            "start": 0.011609977324263039,
+            "end": 0.22058956916099773,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h9",
+            "midi": 28,
+            "start": 0.011609977324263039,
+            "end": 1.5209070294784581,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h10",
+            "midi": 30,
+            "start": 0.011609977324263039,
+            "end": 0.5340589569160997,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          },
+          {
+            "id": "h11",
+            "midi": 32,
+            "start": 0.011609977324263039,
+            "end": 2.578698866213152,
+            "authority": "model-hypothesis",
+            "confidence": null,
+            "independentFamilies": 1
+          }
+        ],
+        "proposal": [
+          "",
+          ""
+        ],
+        "referenceAvailable": false
+      },
+      "Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.",
+      [],
+      "invalid-response",
+      {
+        "schemaValid": true,
+        "contextMatches": true,
+        "musicalActionsValid": true,
+        "sourceUnchanged": true,
+        "boundedCalls": true,
+        "noGradeMutation": true,
+        "maskedActions": true,
+        "providerSuccess": false,
+        "fallback": true,
+        "conversationalQuality": null,
+        "unsupportedCertainty": null
+      },
+      861.4930000000022,
+      0.00010452,
+      "https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/7b381550-92a9-4e1f-bc84-1762dfff4225"
+    ]
+  ]
+}

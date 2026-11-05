@@ -61,6 +61,7 @@ jobs:
         with:
           node-version: '24'
           cache: npm
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: npm ci
       - run: npm run typecheck
       - run: npx tsc -p server/tsconfig.build.json --noEmit
@@ -69,6 +70,8 @@ jobs:
       - run: npm run build
       - run: npm run eval:replay -- --output evals/artifacts/ci.json
       - run: npx playwright install --with-deps chromium
+      - run: PYTHONPATH=audio_worker python3 -m unittest discover -s audio_worker/tests
+      - run: npm run test:ear
       - run: npm run test:browser
       - run: npm run test:live
       - run: npm run test:renderer

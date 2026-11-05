@@ -54,6 +54,32 @@ export const TEACHING_REFERENCES: readonly TeachingReference[] = [
       'Instructional reference, not evidence that CAGED or this application improves recall or playing.',
   },
   {
+    id: 'ear-fragments-v1',
+    title: 'Liscio: investigating ear-learning workflows',
+    url: 'https://uwspace.uwaterloo.ca/items/6a548281-ef22-47cf-a3c1-a7067415896a',
+    guidance:
+      'Offer a short playback region, memory pause, note finding, and comparison with the learner’s own proposal. Ask which uncertainty they want to investigate.',
+    limitation:
+      'Observational design opportunities, not evidence that this interface improves ear learning.',
+  },
+  {
+    id: 'ear-strategies-v1',
+    title: 'Rush: overlapping strategies in ear learning',
+    url: 'https://doi.org/10.1177/02557614251339552',
+    guidance:
+      'Support fragments, playing along, and chord-before-melody exploration. Let the learner choose an approach; do not impose a universal bass-first sequence.',
+    limitation: 'A small pilot does not establish an optimal sequence for intermediate guitarists.',
+  },
+  {
+    id: 'audio-symbolic-boundary-v1',
+    title: 'Carone and colleagues: symbolic and audio musical reasoning',
+    url: 'https://proceedings.mlr.press/v303/carone26a.html',
+    guidance:
+      'Evaluate an audio hypothesis separately from a symbolic explanation. Fluency, model agreement, and learner confirmation cannot certify what a recording contains.',
+    limitation:
+      'Model-task evaluations do not measure learning effectiveness or validate this app’s transcriptions.',
+  },
+  {
     id: 'gordon-context',
     title: 'Gordon: sound, context, and symbols',
     url: 'https://giml.org/mlt/methodology/',

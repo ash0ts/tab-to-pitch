@@ -1,0 +1,9 @@
+{
+  "status": "cloud-unexecuted",
+  "qualificationCampaignSha256": "36b889ebc2a24e2a42d472eb36b154e2a09827296d124e5fcbef7e18fe1ffa8e",
+  "reason": "Neither actor completed both development qualification turns; no qualified factual evaluator.",
+  "plannedCloudTurnsExcludingQualification": 1584,
+  "authoredTurnsExecuted": 420,
+  "newPaidCalls": 0,
+  "qualifiedModels": []
+}

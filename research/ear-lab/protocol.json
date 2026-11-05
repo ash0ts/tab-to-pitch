@@ -1,0 +1,66 @@
+{
+  "version": "ear-lab-v1",
+  "decision": "Whether local audio hypotheses can support an experimental ear-learning workspace without gaining grading authority",
+  "analysis": {
+    "excerptSeconds": 6,
+    "startSeconds": 2,
+    "newRecordingsPerDatasetPerPartition": 2,
+    "partitions": ["train", "calibration", "test"],
+    "freshDatasets": ["guitarset", "gaps"],
+    "regressionDatasets": ["guitar-techs", "slakh2100"],
+    "conditions": ["full", "separated", "reconciled", "reference-ceiling"],
+    "noteMatch": {
+      "pitchSemitones": 0,
+      "onsetSeconds": 0.05,
+      "assignment": "one-to-one-maximum-cardinality"
+    },
+    "offsetTolerance": { "seconds": 0.05, "durationFraction": 0.2 },
+    "harmony": "duration-weighted pitch-class intersection/union on 100ms slices; not chord-symbol ground truth",
+    "physicalValidity": "single-note existence on six-string standard tuning, frets 0..24; not simultaneous fingering feasibility",
+    "missingness": "retain stage errors; report observed denominators and coverage, never impute missing inference as correct",
+    "aggregation": "recording-macro; paired differences with recording bootstrap (seed 8291, 2000 samples); regression excluded from holdout",
+    "overlap": "exclude every recording listed in any prior Toraneko manifest from fresh groups; upstream training overlap remains unknown"
+  },
+  "reliability": {
+    "target": "independently matched predicted note at exact MIDI and 50ms onset",
+    "features": [
+      "duration",
+      "activation",
+      "activationMissing",
+      "independentAgreement",
+      "simultaneousDensity"
+    ],
+    "model": "L2 logistic regression, C=1, train-only standardization, no tuning",
+    "baseline": "0.75 for independent agreement, 0.5 for duration >=150ms, otherwise 0.25; fixed evidence rule, uncalibrated",
+    "calibration": "report separately; no tuning or fitted calibration on heldout groups",
+    "metrics": ["Brier", "logLoss", "precisionAt0.8", "coverageAt0.8"],
+    "promotion": "research-only unless test Brier improves and precision/coverage both improve; no teaching claim"
+  },
+  "teacher": {
+    "development": 24,
+    "checkpoints": 48,
+    "episodes": 12,
+    "boundary": 12,
+    "maxEpisodeTurns": 6,
+    "trials": 2,
+    "conditions": ["reference", "actual-analysis", "controlled-corruption"],
+    "maxActorCalls": 4,
+    "maxCriticCalls": 1,
+    "maxToolCalls": 8,
+    "deadlineSeconds": 60,
+    "qualification": "two successful development turns per actor before full execution; retain every failure",
+    "judge": "reuse teacher-agent calibration, 95% factual accuracy, 90% critical recall, zero instruction takeover; unavailable judges mean unavailable quality scores",
+    "promotion": "zero critical accepted violations; no promotion without qualified evaluation"
+  },
+  "budget": {
+    "cumulativeUSD": 25,
+    "campaignUSD": 15,
+    "reserveBeforeSend": true,
+    "unknownUsage": "full reservation",
+    "newCloudGPU": false,
+    "pricingChecked": "2026-11-04",
+    "source": "https://coreweave.com/forge-pricing/inference-agents"
+  },
+  "privacy": "Only authored conversation fixtures and derived public-dataset metrics are published. No local recordings, stems, filenames, raw private exports, or user history.",
+  "historicalResults": "Immutable; Toraneko inspected recordings are regression material, not new holdout."
+}

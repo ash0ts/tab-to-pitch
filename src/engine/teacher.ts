@@ -2,6 +2,7 @@ import { instrumentExposureId, positionExposureKey } from './exposure.js';
 import { cagedPlacements } from './caged.js';
 import { makeHomeworkTask, solution } from './homework.js';
 import { musicianshipTask } from './musicianship.js';
+import { earFacts, earActionAllowed } from '../ear/teacher.js';
 import { curatedHarmony } from '../songs/catalog.js';
 import { scaleTones } from './harmony.js';
 import { z } from 'zod';
@@ -50,6 +51,11 @@ export const teacherToolDescriptions = {
 
   practice_activity:
     'args {action:{type:practice,operation:strategy,approach,rationale}|{type:practice,operation:activity,activity:rhythm|phrase|expression,variant:0..3,assessment:practice|reserved}|{type:practice,operation:reflection}}. Requires practice capability. Propose an approach for learner acceptance, open an original two-bar G7 to Cmaj7 study, or invite optional self-reflection. Tasks grade symbolic constraints, not playing or artistic quality. Reserved IDs must come from read_learner. No mandatory sequence.',
+  inspect_audio:
+    'args {}. Inspect timed audio hypotheses and their authority. A model suggestion, a learner correction, and an authored reference are different. No audio or filenames are supplied.',
+  ear_activity:
+    'args {action:{type:ear,operation:replay|analyze|draft|compare|compare-note|correct|question|workspace}}. Prepare a local action. When a local worker binding is available, analyze queues an asynchronous job and returns its receipt; otherwise it prepares a learner action. A receipt is NOT a completed result. Draft/compare mark help. compare-note auditions the learner’s entered note. correct requires noteId from inspect_audio and midi (0–127, or null to reject); it prepares an explicit learner-applied correction, never a reference answer. Only the original authored source supports a graded listening question. Workspace opens separate derived accompaniment.',
+
   inspect_passage:
     'args {}. Verified catalog passage, audio source, learning support, and separate root/quality/order evidence. Familiarity and playback are not learning or playing assessments. No media or song metadata is supplied.',
   listening_activity:
@@ -537,6 +543,10 @@ export function resolveTeacherAction(
     return { facts: [], exposureKeys: [] };
   }
   if (request.context.practice?.active && !request.context.practice.active.assisted) return null;
+  if (a.type === 'ear')
+    return earActionAllowed(request.context.ear, a)
+      ? { facts: earFacts(request.context.ear), exposureKeys: [] }
+      : null;
   if (a.type === 'listening') {
     const listening = request.context.listening;
     const passage = listening && curatedHarmony.getPassage(listening.passageId);
@@ -613,7 +623,7 @@ export function resolveTeacherAction(
 
 export function createTeacherToolRuntime(request: TeacherRequest) {
   teacherRequestSchema.parse(request);
-  const facts = musicalFacts(request),
+  const facts = [...musicalFacts(request), ...earFacts(request.context.ear)],
     actions: TeacherAction[] = [];
   const accept = (result: TeacherToolResult): TeacherToolResult => {
     for (const f of result.facts) if (!facts.some((old) => old.id === f.id)) facts.push(f);
@@ -698,6 +708,31 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
                   'No eligible homework action under this context. The learner can change approach or choose a different region.',
               };
         }
+        if (call.name === 'inspect_audio') {
+          toolArgs.inspect_audio.parse(call.args);
+          return {
+            status: request.context.ear ? 'ok' : 'unavailable',
+            facts: earFacts(request.context.ear),
+            actions: [],
+            data: request.context.ear ?? null,
+          };
+        }
+        if (call.name === 'ear_activity') {
+          const { action } = toolArgs.ear_activity.parse(call.args);
+          return earActionAllowed(request.context.ear, action)
+            ? accept({
+                status: 'ok',
+                facts: earFacts(request.context.ear),
+                actions: [action],
+                data: { status: 'prepared', executed: false },
+              })
+            : {
+                status: 'unavailable',
+                facts: [],
+                actions: [],
+                reason: 'Source, question, or analysis state does not permit this action.',
+              };
+        }
         if (call.name === 'inspect_music') {
           toolArgs[call.name].parse(call.args);
           return {
@@ -755,10 +790,7 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
           };
         }
         if (call.name === 'listening_activity') {
-          const action = {
-            type: 'listening' as const,
-            ...toolArgs.listening_activity.parse(call.args),
-          };
+          const action = { type: 'listening' as const, ...toolArgs.listening_activity.parse(call.args) };
           const resolved = resolveTeacherAction(request, action);
           return resolved
             ? accept({ status: 'ok', facts: resolved.facts, actions: [action] })
@@ -949,11 +981,20 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
   )
     return null;
   if (
+    t.audioJobs?.some(
+      (j) =>
+        j.contextRevision !== request.localAudio?.contextRevision ||
+        j.contextRevision !== request.context.ear?.revision,
+    )
+  )
+    return null;
+  if (
     t.actions.length &&
     ((request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
       (request.context.practice?.active && !request.context.practice.active.assisted) ||
       (request.context.homework?.active && !request.context.homework.assisted) ||
     (request.context.live?.active && !request.context.live.assisted) ||
+      (request.context.ear?.activeQuestion && !request.context.ear.assisted) ||
       (request.context.listening?.activeQuestion &&
         !request.context.listening.activeQuestion.assisted))
   )
@@ -963,7 +1004,7 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
     t.actions.length !== 1
   )
     return null;
-  const facts = musicalFacts(request);
+  const facts = [...musicalFacts(request), ...earFacts(request.context.ear)];
   for (const a of t.actions) {
     const resolved = resolveTeacherAction(request, a);
     if (!resolved) return null;
@@ -1080,6 +1121,26 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
     message +=
       ' Adding a ninth introduces a new tone; an add9 chord and a ninth chord differ in whether a seventh is included. Interpret a rootless shape only with an explicit bass context.';
   }
+  if (request.context.ear) {
+    const ear = request.context.ear;
+    message =
+      'Start with the sound, then test one idea. Replay the fragment or audition your proposed chord. A transcription is a draft: uncertain and missing notes stay uncertain. The score workspace is a separate derived example.';
+    if (ear.analysis === 'failed')
+      message += ' Local analysis failed; you can still listen and compare your own proposal.';
+    actions.splice(0, actions.length, { type: 'ear', operation: 'replay' });
+    const operation = /draft|transcri|analy/.test(text)
+      ? ear.analysis === 'completed'
+        ? 'draft'
+        : 'analyze'
+      : /question|quiz/.test(text)
+        ? 'question'
+        : /neck|fret|voic/.test(text)
+          ? 'workspace'
+          : 'compare';
+    if (earActionAllowed(ear, { type: 'ear', operation })) actions.push({ type: 'ear', operation });
+    factRefs.splice(0, factRefs.length, 'ear:boundary', 'ear:state');
+    recipe = undefined;
+  }
   if (recipe && createTeacherExercise(request, recipe)) actions.push({ type: 'question', recipe });
   if (/rootless/.test(text)) {
     const span = request.context.music.spans.findIndex(
@@ -1122,7 +1183,7 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
     actions.length = 0;
     referenceIds.push('modes');
   }
-  if (request.context.listening && objective === 'listening') {
+  if (!request.context.ear && request.context.listening && objective === 'listening') {
     const l = request.context.listening,
       last = [...l.evidence].reverse().find((e) => e.outcome === 'answered') ?? l.evidence.at(-1);
     message =
@@ -1272,6 +1333,7 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
   }
   if (
     (request.context.practice?.active && !request.context.practice.active.assisted) ||
+    (request.context.ear?.activeQuestion && !request.context.ear.assisted) ||
     (request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
     (request.context.homework?.active && !request.context.homework.assisted) ||
     (request.context.live?.active && !request.context.live.assisted) ||

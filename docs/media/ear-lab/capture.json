@@ -1,0 +1,35 @@
+{
+  "errors": [],
+  "checkpoints": [
+    {
+      "name": "01-listen",
+      "seconds": 2.252
+    },
+    {
+      "name": "02-quality-feedback",
+      "seconds": 5.615
+    },
+    {
+      "name": "03-real-draft",
+      "seconds": 11.133
+    },
+    {
+      "name": "04-correction",
+      "seconds": 13.903
+    },
+    {
+      "name": "05-derived-workspace",
+      "seconds": 16.816
+    },
+    {
+      "name": "06-mobile",
+      "seconds": 19.592
+    }
+  ],
+  "correction": {
+    "original": "C3",
+    "chosen": "D4",
+    "authority": "learner-confirmed"
+  },
+  "purpose": "Actual local app; original CC0 synthesis; existing cached model-stage results"
+}

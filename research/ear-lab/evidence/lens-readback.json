@@ -1,0 +1,19 @@
+{
+  "verified": true,
+  "identitiesMatch": true,
+  "conversationsMatch": true,
+  "expectedSpans": 17,
+  "observedSpans": 17,
+  "checkedAt": "2026-11-04T23:49:37.338Z",
+  "project": "wandb/tab-to-pitch-public-data-research",
+  "conversationIds": [
+    "dc1a8458-5cc6-48af-aa60-adeff3b6898d",
+    "55d087ff-2c7d-43c3-a26b-85cd52905043",
+    "eefd846d-483b-47f2-83e2-ec5a2631679e",
+    "7b381550-92a9-4e1f-bc84-1762dfff4225"
+  ],
+  "capturedBatchHashes": [
+    "fbca228d642c48312ca3cc8488a891f43a1fb99a941ce84c64651390a19f5db5"
+  ],
+  "sourceCampaignHash": "a5af252f7a0f369371717980e63f8d01548f78f37c098194bd459ad318ea6b8c"
+}

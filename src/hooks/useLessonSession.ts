@@ -146,9 +146,10 @@ export function useLessonSession(
     };
   }, [sourceHash, trackId]);
 
+  const persistedRevision = useRef(-1);
   const record = useCallback(
     (
-      patch: Partial<Pick<LessonSession, 'objective' | 'status' | 'pendingTaskId' | 'practice' | 'homework' | 'live'>>,
+      patch: Partial<Pick<LessonSession, 'objective' | 'status' | 'pendingTaskId' | 'practice' | 'homework' | 'live' | 'ear' | 'source'>>,
       additions: LessonMessage[] = [],
       observations: Omit<LessonEvent, 'id' | 'lessonId' | 'at' | 'contextVersion'>[] = [],
       definitions: FrozenExercise[] = [],
@@ -185,16 +186,17 @@ export function useLessonSession(
       setLesson(next);
       setEvents(eventRef.current);
       writes.current = writes.current
-        .then(() =>
-          saveLessonSession(
+        .then(async () => {
+          await saveLessonSession(
             next,
             appended,
             definitions,
             writeGeneration.current,
             listeningExercises,
             listeningAttempts,
-          ),
-        )
+          );
+          persistedRevision.current = next.revision;
+        })
         .catch(() => {
           setStorageWarning(
             'Teaching history is kept in memory. Export progress before closing this tab.',
@@ -217,6 +219,10 @@ export function useLessonSession(
   );
 
   return {
+    flush: async () => {
+      await writes.current;
+      return persistedRevision.current >= (current.current?.revision ?? 0);
+    },
     lesson,
     events,
     record,

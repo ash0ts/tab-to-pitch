@@ -1,0 +1,9 @@
+{
+  "asOf": "2026-11-05T00:20:25.510Z",
+  "scope": "Historical ledger across the original workspace and this isolated worktree; no reset",
+  "accountedDollars": 0.2200332299999999,
+  "calls": 1388,
+  "earCampaignDollars": 0.00094916,
+  "ceilingDollars": 25,
+  "unknownUsage": 57
+}

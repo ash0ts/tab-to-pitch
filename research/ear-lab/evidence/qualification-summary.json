@@ -1,0 +1,47 @@
+{
+  "status": "execution-complete",
+  "project": "wandb/tab-to-pitch-public-data-research",
+  "rows": 28,
+  "requests": 5,
+  "campaignDollars": 0.00094916,
+  "historicalDollars": 0.2081321499999999,
+  "cumulativeDollars": 0.2090813099999999,
+  "arms": [
+    {
+      "arm": "authored-local",
+      "turns": 24,
+      "contexts": 1,
+      "providerSuccess": 0,
+      "fallbacks": 24,
+      "invalidActions": 0,
+      "conversationalQuality": "unavailable: no qualified independent judge",
+      "medianLatencyMs": 0.2817499999998745
+    },
+    {
+      "arm": "openai/gpt-oss-20b",
+      "turns": 2,
+      "contexts": 1,
+      "providerSuccess": 0,
+      "fallbacks": 2,
+      "invalidActions": 0,
+      "conversationalQuality": "unavailable: no qualified independent judge",
+      "medianLatencyMs": 18008.944165999997
+    },
+    {
+      "arm": "openai/gpt-oss-120b",
+      "turns": 2,
+      "contexts": 1,
+      "providerSuccess": 0,
+      "fallbacks": 2,
+      "invalidActions": 0,
+      "conversationalQuality": "unavailable: no qualified independent judge",
+      "medianLatencyMs": 1153.305124999999
+    }
+  ],
+  "qualification": {
+    "openai/gpt-oss-20b": false,
+    "openai/gpt-oss-120b": false
+  },
+  "productionPromotion": false,
+  "limitation": "Authored synthetic conversations and structural checks do not measure learner outcomes or establish teaching quality."
+}

@@ -116,7 +116,7 @@ export class TeacherProvider {
     role: 'actor' | 'critic',
     messages: Record<string, unknown>[],
     schema: z.ZodType,
-    capabilities: { homework?: boolean; practice?: boolean; listening?: boolean; live?: boolean } = {},
+    capabilities: { homework?: boolean; practice?: boolean; listening?: boolean; live?: boolean; ear?: boolean } = {},
   ) {
     this.signal.throwIfAborted();
     if (
@@ -126,7 +126,7 @@ export class TeacherProvider {
       throw new ForgeFailure('invalid-response', this.chargedTokens);
     const name = role === 'actor' ? 'teacher_step' : 'review_teacher_reply';
     const model = role === 'actor' ? this.config.forgeModel : this.config.teacherCriticModel;
-    capabilities = { homework: !!this.context?.homework, practice: !!this.context?.practice, listening: !!this.context?.listening, ...capabilities, live: !!this.context?.live };
+    capabilities = { homework: !!this.context?.homework, practice: !!this.context?.practice, listening: !!this.context?.listening, ...capabilities, live: !!this.context?.live, ear: !!this.context?.ear };
     const tools = Object.entries(teacherToolArgumentSchemas).filter(([name]) =>
       name.startsWith('homework_')
         ? capabilities.homework
@@ -134,12 +134,13 @@ export class TeacherProvider {
           ? capabilities.practice && !capabilities.homework
           : ['inspect_passage', 'listening_activity'].includes(name)
             ? capabilities.listening
-            : ['inspect_live_input', 'live_activity'].includes(name) ? capabilities.live : true,
+            : ['inspect_live_input', 'live_activity'].includes(name) ? capabilities.live : ['inspect_audio', 'ear_activity'].includes(name) ? capabilities.ear : true,
     );
     const actionOptions = teacherActionSchema.options.filter((option) => {
       if (option === practiceActionSchema) return capabilities.practice && !capabilities.homework;
       if (option === homeworkActionSchema) return capabilities.homework;
       if (!('shape' in option)) return false;
+      if (option.shape.type.value === 'ear') return capabilities.ear;
       if (option.shape.type.value === 'live') return capabilities.live;
       return option.shape.type.value !== 'listening' || capabilities.listening;
     });

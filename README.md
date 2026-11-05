@@ -79,3 +79,7 @@ The [practice workspace](docs/practice-workspace.md) adds learner goals, graduat
 ## Fretboard homework
 
 Open **Understand → Fretboard homework** for note recall, CAGED fragments and progression application. See [the activity guide](docs/homework.md) and [evaluation protocol](research/homework-caged/README.md).
+
+## Experimental ear workspace
+
+[Work it out by ear](src/ear/README.md) adds local audio, reviewable hypotheses, learner corrections and derived accompaniment. [Worker setup](audio_worker/README.md), [demonstration](docs/ear-lab-demo.md), and [retained research failures](research/ear-lab/results.md) describe its optional local operation and qualification limits.
