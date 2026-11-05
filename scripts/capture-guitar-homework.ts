@@ -51,11 +51,13 @@ async function scene(name: string, caption: string) {
 }
 try {
   await page.goto(`${origin}/#/studio`);
-  await expect(page.getByRole('button', { name: 'Continue practicing', exact: true })).toBeEnabled({
+  await expect(
+    page.getByRole('button', { name: /^(Start|Continue) practicing$/, exact: true }),
+  ).toBeEnabled({
     timeout: 30000,
   });
   await scene('01-studio', 'A short practice set. No interface required.');
-  await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/, exact: true }).click();
   const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
   await hw.getByRole('button', { name: 'Start guitar homework', exact: true }).click();
   await hw.scrollIntoViewIfNeeded();
@@ -169,7 +171,7 @@ try {
     .getByRole('button', { name: 'Save for next time', exact: true })
     .click();
   await page.reload();
-  await expect(page.locator('.resume-line')).toContainText('Authored connection');
+  await expect(page.locator('.mission-goal')).toContainText('Authored connection');
   await scene('11-resume', 'Save the exact musical target and return when you choose.');
   const evidence = await page.evaluate(async () => {
     const path = '/src/storage.ts';

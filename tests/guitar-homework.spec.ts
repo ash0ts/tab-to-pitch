@@ -3,7 +3,7 @@ import { syntheticInput, play } from './guitar-input-fixture';
 async function open(page: Page, fromStudio = false) {
   await page.goto(fromStudio ? '/#/studio' : '/#/stage/homework');
   if (fromStudio)
-    await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+    await page.getByRole('button', { name: /^(Start|Continue) practicing$/, exact: true }).click();
   const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
@@ -232,8 +232,8 @@ test('a bookmark restores the selected region and constraints into the shared wo
     .getByRole('button', { name: 'Save for next time', exact: true })
     .click();
   await page.reload();
-  await expect(page.locator('.resume-line')).toContainText('Find C · frets 5–9');
-  await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+  await expect(page.locator('.mission-goal')).toContainText('Find C · frets 5–9');
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/, exact: true }).click();
   await expect(hw.getByRole('button', { name: 'Play along', exact: true })).toBeEnabled({
     timeout: 30000,
   });

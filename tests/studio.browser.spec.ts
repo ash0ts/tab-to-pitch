@@ -29,8 +29,8 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await open(page);
-  await expect(page.getByRole('heading', { name: 'A little practice. More music.' })).toBeVisible();
-  await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await expect(page.getByRole('heading', { name: 'Make the neck feel familiar.' })).toBeVisible();
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).click();
   await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Start homework', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Start homework', exact: true }).click();
@@ -48,7 +48,7 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
     .getByRole('button', { name: 'Save for next time', exact: true })
     .click();
   await page.reload();
-  await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).click();
   await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'Fretboard homework', exact: true }),
@@ -92,7 +92,7 @@ test('timeline uses the existing player and offers static, notation and recovery
   await page.getByTestId('score-viewport').scrollIntoViewIfNeeded();
   await expect(page.locator('.alphatab-host svg').first()).toBeVisible();
   await page.getByRole('button', { name: 'Exit to studio' }).click();
-  await expect(page.getByRole('button', { name: 'Continue practicing' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^(Start|Continue) practicing$/ })).toBeVisible();
 });
 test('listening and teaching references are reachable without exposing another task', async ({
   page,
@@ -184,4 +184,51 @@ test('backup restores presentation atomically and the research index keeps its r
     'aria-pressed',
     'true',
   );
+});
+
+test('a practice round has a visible route, honest feedback, and a saved ending', async ({
+  page,
+}, info) => {
+  await open(page, 'studio');
+  await page.getByRole('button', { name: '5 min', exact: true }).click();
+  await page.getByRole('button', { name: 'Start practicing', exact: true }).click();
+  const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
+  await expect(hw.getByRole('heading', { name: 'From a note to a progression.' })).toBeVisible();
+  await hw.getByRole('button', { name: 'Start guitar homework', exact: true }).click();
+  const route = hw.getByRole('navigation', { name: 'Homework learning route' });
+  await expect(route.getByRole('button', { name: '01 Find notes' })).toHaveAttribute(
+    'aria-current',
+    'step',
+  );
+  await expect(hw.getByRole('button', { name: 'Play along', exact: true })).toBeEnabled({
+    timeout: 30000,
+  });
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await expect(hw.locator('.homework-feedback')).toBeFocused();
+  await hw.getByRole('button', { name: 'Needs another pass', exact: true }).click();
+  await expect(hw.getByText('You reported: Needs another pass', { exact: true })).toBeVisible();
+  await expect(hw.locator('.homework-participation')).toContainText('1 of');
+  await expect(hw.locator('.homework-participation')).toContainText('not a score');
+  await route.getByRole('button', { name: '03 Play changes' }).click();
+  await expect(hw.getByRole('navigation', { name: 'Homework progression' })).toBeVisible();
+  await route.getByRole('button', { name: '04 Make music' }).click();
+  await expect(hw.getByRole('heading', { name: 'Hear F resolve to E' })).toBeVisible();
+  await hw.getByRole('button', { name: 'Finish session', exact: true }).click();
+  const recap = page.getByRole('dialog');
+  await expect(recap.getByRole('heading', { name: 'Keep your next step.' })).toBeVisible();
+  await recap.getByRole('textbox').fill('Repeat F to E before trying another position.');
+  await recap.getByRole('button', { name: 'Save for next time', exact: true }).click();
+  await expect(page).toHaveURL(/#\/studio$/);
+  await expect(
+    page.getByRole('button', { name: 'Continue practicing', exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+  await expect(hw.getByRole('heading', { name: 'Hear F resolve to E' })).toBeVisible();
+  const events = await data(page, 'lessonEvents');
+  expect(events.filter((e: any) => e.playing?.kind === 'self-report')).toHaveLength(1);
+  expect(events.filter((e: any) => e.live?.attempt)).toHaveLength(0);
+  expect(await data(page, 'attempts')).toHaveLength(0);
+  await page.screenshot({ path: `../pixel-practice-${info.project.name}.png` });
 });

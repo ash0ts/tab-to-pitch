@@ -21,7 +21,7 @@ For the invitation API, start `npm run dev:server` in another terminal. The loca
 
 From the Studio, choose **Fretboard homework**. Start a 5, 15 or 30-minute suggested workload, hear an example, then play along or try without labels. Finish with a self-report, or connect a clean USB input in the same task to attach experimental pitch/chord observations. Repeats preserve the first response. Save the current target to resume later.
 
-Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. Watch the [original-song walkthrough](docs/guitar-homework-demo.md) for the complete flow. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
+Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. See the [pixel studio and practice route](docs/pixel-practice-studio.md), or watch the [original-song walkthrough](docs/guitar-homework-demo.md) for the complete playing flow. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
 
 ## What is implemented
 

@@ -17,6 +17,7 @@ import {
   type StageRun,
 } from './studio/contracts';
 import './studio/studio.css';
+import './studio/pixel-studio.css';
 import type { SupportKind } from './shared/practice';
 import { SongLibrary } from './ui/SongLibrary';
 import { PASSAGES, passageForSource, type Passage } from './songs/catalog';
@@ -68,7 +69,13 @@ import {
 import { selectNextExercise } from './engine/scheduler';
 import { displayNoteLabel, formatPitch } from './engine/exploration';
 import { coachContextSchema, type CoachContext } from './shared/coach';
-import { readSetting, writeSetting, exportProgress, getMemoryLessonData, type LibraryEntry } from './storage';
+import {
+  readSetting,
+  writeSetting,
+  exportProgress,
+  getMemoryLessonData,
+  type LibraryEntry,
+} from './storage';
 import { useLocalData } from './useLocalData';
 import { useDesktopLayout } from './useMediaQuery';
 import { Inspector } from './ui/Inspector';
@@ -896,7 +903,12 @@ export default function App() {
   }
   function saveBookmark(completed = false) {
     if (!score) return;
-    const homework = activeActivity === 'homework' ? getMemoryLessonData().lessons.filter(l=>l.sourceHash===score.hash&&l.homework?.playing).sort((a,b)=>b.updatedAt-a.updatedAt)[0]?.homework : undefined;
+    const homework =
+      activeActivity === 'homework'
+        ? getMemoryLessonData()
+            .lessons.filter((l) => l.sourceHash === score.hash && l.homework?.playing)
+            .sort((a, b) => b.updatedAt - a.updatedAt)[0]?.homework
+        : undefined;
     const playingStep = homework?.playing?.steps[homework.playing.index];
     studio.change({
       reflection,
@@ -908,7 +920,9 @@ export default function App() {
         lastBar: loopEnd,
         speed,
         at: Date.now(),
-        next: playingStep ? `${playingStep.title} · frets ${playingStep.region.minFret}–${playingStep.region.maxFret}` : activity(activeActivity).title,
+        next: playingStep
+          ? `${playingStep.title} · frets ${playingStep.region.minFret}–${playingStep.region.maxFret}`
+          : activity(activeActivity).title,
       },
       visits: [
         ...studio.set.visits,
@@ -1033,7 +1047,11 @@ export default function App() {
     }
   }, [stageActive, stageSurface, activeActivity]);
   useEffect(() => {
-    if (stageActive && activeActivity === 'homework' && score?.hash === 'tabtopitch-original-study-v1') {
+    if (
+      stageActive &&
+      activeActivity === 'homework' &&
+      score?.hash === 'tabtopitch-original-study-v1'
+    ) {
       controller.current?.loadHomeworkDemo();
       workspace.setLoop(0, 3, true);
     }
@@ -1245,7 +1263,10 @@ export default function App() {
         onSettings={() => setModal('settings')}
         onImport={() => fileInput.current?.click()}
       />
-      <p className="local-status" role="status">
+      <p
+        className={`local-status ${local.storageStatus === 'saved' ? 'status-quiet' : ''}`}
+        role="status"
+      >
         {local.storageStatus === 'unavailable'
           ? 'Local storage needs attention'
           : local.storageStatus === 'loading'
@@ -1371,6 +1392,7 @@ export default function App() {
           </button>
         </div>
         <Tabs.Root
+          hidden={activeActivity === 'homework'}
           value={mode}
           onValueChange={(value) => {
             if (activeActivity === 'notation' && value !== 'practice') {
@@ -1406,6 +1428,14 @@ export default function App() {
           </span>
         </Tabs.Root>
         <div className="stage-actions">
+          <button
+            id="stage-teacher-button"
+            className="stage-guide-button"
+            aria-label="Open music teacher"
+            onClick={() => setTeacherOpen(true)}
+          >
+            {studio.set.bandmate && <img src="/art/pixel-guide.png" alt="" />} Ask teacher
+          </button>
           <a href={`#/research/${activeActivity}`}>Why this exercise?</a>
           <button className="text-button" onClick={() => saveBookmark()}>
             Save for next time
@@ -1506,7 +1536,6 @@ export default function App() {
             workload={studio.set.workload}
             activity={activeActivity}
             stageVisible={stageActive}
-            bandmate={studio.set.bandmate}
             playing={player.playing}
             goalRevision={studio.set.goal}
             stageMode={run && !run.endedAt && !run.assisted ? 'challenge' : 'rehearsal'}
@@ -1543,7 +1572,12 @@ export default function App() {
             supportRecorder={recordSupport}
             onReplay={replayCatalog}
             audioReady={player.ready}
-            onHomeworkPlayback={(study) => { stopAudition(); setCountIn(study.countIn); controller.current?.previewHomeworkStudy(study); }}
+            onHomeworkWrapUp={() => saveBookmark(true)}
+            onHomeworkPlayback={(study) => {
+              stopAudition();
+              setCountIn(study.countIn);
+              controller.current?.previewHomeworkStudy(study);
+            }}
             onStudy={(study) => {
               stopAudition();
               controller.current?.previewPracticeStudy(study);
@@ -1970,8 +2004,8 @@ export default function App() {
       <Modal
         open={recap}
         onOpenChange={setRecap}
-        title="Keep the idea going."
-        description="A bookmark is a place to return, not a deadline."
+        title="Keep your next step."
+        description="Repeat an idea, try it elsewhere, or save your place and return to the studio."
       >
         <p>{activity(activeActivity).title}</p>
         {runScore && (
@@ -1992,7 +2026,7 @@ export default function App() {
         </label>
         <div className="recap-actions">
           <button
-            className="primary-button"
+            className="secondary-button"
             onClick={() => {
               setRecap(false);
               if (activeActivity === 'knowledge') nextQuestion();
@@ -2007,7 +2041,7 @@ export default function App() {
             Try elsewhere
           </button>
           <button
-            className="secondary-button"
+            className="primary-button"
             onClick={() => {
               studio.change({ reflection });
               setRecap(false);

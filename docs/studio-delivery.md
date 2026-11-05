@@ -1,5 +1,7 @@
 # Illustrated practice studio delivery
 
+> Historical snapshot from 4 November 2026. The current standalone application includes Ear Lab and the later guitar-homework integration. See the [current studio contract](../src/studio/README.md) and [combined release verification](../integration/release-verification.md). The counts and pending integration steps below describe that earlier snapshot.
+
 This worktree adds the studio presentation to the integrated listening, teaching-practice, CAGED and experimental live-input snapshot. The base was copied from `dfc0/lima/.context/tab-to-pitch` on November 4, 2026. The original worktree was not edited. Ear Lab's Python worker remains in its separate worktree; the library describes that activity but does not pretend it is integrated.
 
 The runnable application is `.context/tab-to-pitch` in the `f167/lima` worktree. It remains a standalone application, outside the W&B Core product. The accompanying patch and base-file checksums make this change portable to the eventual integrated repository.

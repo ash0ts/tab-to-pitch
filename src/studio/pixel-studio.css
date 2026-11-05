@@ -1,0 +1,1282 @@
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('/fonts/silkscreen-400.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+/* Pixel decoration stays in the shell. Musical colors and answer semantics stay in the engine views. */
+.studio-shell {
+  --night: #171c30;
+  --panel: #232a42;
+  --panel-edge: #46506d;
+  --cream: #fff4de;
+  --coral: #ffa18b;
+  --mint: #b8ead4;
+  --ink: #263047;
+  --muted: #5c6576;
+  --paper: #fffaf0;
+  --line: #d9d5cf;
+  --green: #315b51;
+  --accent: #98613d;
+  background: var(--night);
+  color: var(--cream);
+  padding-bottom: 24px;
+}
+.studio-shell :is(button, a, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #e07150;
+  outline-offset: 4px;
+}
+.studio-shell .studio-nav {
+  height: 72px;
+  padding: 0 max(24px, calc((100vw - 1240px) / 2));
+  gap: 24px;
+  background: #12172a;
+  border-bottom: 2px solid #3a425e;
+  color: var(--cream);
+}
+.studio-shell .studio-wordmark {
+  font-family: Silkscreen, monospace;
+  font-size: 21px;
+  letter-spacing: -1px;
+  padding: 0;
+}
+.studio-shell .studio-wordmark small {
+  display: none;
+}
+.studio-shell .studio-logo {
+  border-radius: 0;
+  transform: none;
+  background: var(--coral);
+  color: #20263c;
+  box-shadow: 3px 3px 0 #864e55;
+  height: 32px;
+  width: 32px;
+}
+.studio-shell .studio-nav nav a {
+  border-radius: 0;
+  font-size: 12px;
+  padding: 12px 10px;
+}
+.studio-shell .studio-nav nav a[aria-current] {
+  background: #303750;
+  color: var(--cream);
+  box-shadow: inset 0 -3px var(--coral);
+}
+.studio-shell .studio-nav :is(.text-button, .icon-button) {
+  color: var(--cream);
+}
+.studio-shell .local-status {
+  padding: 7px 24px;
+  color: #b7bfd2;
+  background: #171c30;
+  font-size: 10px;
+  text-align: right;
+  min-height: 27px;
+}
+.studio-shell .studio-home {
+  max-width: 1240px;
+  padding: 0 24px;
+}
+.studio-shell .studio-hero {
+  height: 290px;
+  border: 2px solid #46506d;
+  box-shadow: 5px 5px 0 #0d1120;
+  background: #1e223a;
+}
+.studio-shell .studio-room {
+  object-position: center 55%;
+  image-rendering: pixelated;
+}
+.studio-shell .room-shade {
+  background: linear-gradient(90deg, #181c32f0 0%, #181c32bb 37%, transparent 72%);
+}
+.studio-shell .studio-welcome {
+  padding: 30px 32px;
+  max-width: 580px;
+}
+.studio-shell .studio-kicker {
+  font-family: Silkscreen, monospace;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+.studio-shell .studio-welcome h1 {
+  font-family: Silkscreen, monospace;
+  font-size: clamp(25px, 3.2vw, 39px);
+  line-height: 1.22;
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  margin: 15px 0;
+  color: #fff4df;
+  text-shadow: 3px 3px #181c32;
+}
+.studio-shell .studio-welcome p {
+  color: #f1dcd4;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.studio-shell .room-caption {
+  font-family: Silkscreen, monospace;
+  font-size: 9px;
+  letter-spacing: 0;
+  padding: 8px 12px;
+  background: #171c30e8;
+  border: 1px solid #62637a;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.studio-shell .room-caption span {
+  margin: 0;
+}
+.pixel-signal {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #b8ead4;
+  box-shadow: 0 0 0 2px #b8ead426;
+}
+.mission-board {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  margin-top: 24px;
+  border: 2px solid #d9c6b4;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 5px 5px 0 #0d1120;
+}
+.mission-main {
+  padding: 26px 28px;
+}
+.mission-label {
+  font:
+    400 10px/1.6 Silkscreen,
+    monospace;
+  color: inherit;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+.pixel-diamond {
+  width: 8px;
+  height: 8px;
+  background: #b95c46;
+  transform: rotate(45deg);
+}
+.mission-main h2 {
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin: 12px 0;
+  max-width: 460px;
+}
+.mission-goal {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5c5965;
+  max-width: 480px;
+  margin-bottom: 16px;
+}
+.mission-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.studio-shell .workload {
+  border: 1px solid #adacb5;
+  border-radius: 0;
+  padding: 3px;
+  width: max-content;
+  background: #f1ede5;
+}
+.studio-shell .workload button {
+  font-weight: 700;
+  border-radius: 0;
+  color: #424359;
+  min-height: 40px;
+}
+.studio-shell .workload button[aria-pressed='true'] {
+  background: #353c58;
+  color: #fff3e0;
+  box-shadow: 2px 2px 0 #1c2238;
+}
+.mission-note {
+  color: #5e606e;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.studio-shell .studio-cta {
+  border: 2px solid #252c43;
+  border-radius: 0;
+  color: #222a40;
+  background: #ffa18b;
+  box-shadow: 4px 4px 0 #30364b;
+  min-height: 50px;
+  justify-content: center;
+  padding: 12px 20px;
+}
+.studio-shell .studio-cta:hover {
+  background: #ffb7a1;
+}
+.studio-shell .studio-cta:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #30364b;
+}
+.mission-footnote {
+  font-size: 11px;
+  color: #63606b;
+  margin: 12px 0 0;
+}
+.mission-route {
+  border-left: 1px solid #d9d5cf;
+  padding: 26px;
+  background: #f1eadd;
+}
+.mission-route ol {
+  padding: 0;
+  margin: 20px 0 16px;
+  list-style: none;
+  display: grid;
+  gap: 17px;
+}
+.mission-route li {
+  display: flex;
+  gap: 13px;
+  align-items: start;
+}
+.mission-route li > span {
+  font:
+    400 13px Silkscreen,
+    monospace;
+  color: #46516c;
+  background: #fff9ec;
+  border: 1px solid #b9b6be;
+  padding: 8px;
+}
+.mission-route strong {
+  font-size: 14px;
+}
+.mission-route p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 3px 0 0;
+  color: #5d5c69;
+}
+.mission-route a {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.studio-shell .set-section {
+  padding: 32px 0 12px;
+}
+.studio-shell .section-heading .studio-kicker {
+  color: #bdc5dd;
+}
+.studio-shell .section-heading h2 {
+  margin: 6px 0;
+  font-size: 22px;
+  color: var(--cream);
+}
+.studio-shell .section-heading .text-button {
+  color: var(--mint);
+}
+.studio-shell .practice-set {
+  gap: 16px;
+  margin-top: 18px;
+}
+.studio-shell .set-card {
+  border: 2px solid #4b5572;
+  border-radius: 0;
+  box-shadow: 4px 4px #0d1120;
+  background: #232a42;
+  color: #fff4de;
+}
+.studio-shell .set-card-top {
+  padding: 13px 16px;
+  border-bottom: 1px solid #48516d;
+  color: #bfc7dc;
+  font-size: 9px;
+  gap: 10px;
+}
+.studio-shell .set-number {
+  font-family: Silkscreen, monospace;
+  font-size: 13px;
+  color: #ffb49f;
+}
+.studio-shell .set-launch {
+  background: transparent;
+  padding: 18px;
+  color: inherit;
+}
+.studio-shell .set-launch h3 {
+  font-size: 19px;
+  line-height: 1.3;
+  margin: 14px 0 8px;
+  letter-spacing: -0.3px;
+}
+.studio-shell .set-launch p {
+  font-size: 13px;
+  color: #c1c9da;
+  line-height: 1.5;
+  min-height: 40px;
+}
+.pixel-activity-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  background: #373f5c;
+  color: #bbedd7;
+  border: 1px solid #586581;
+  box-shadow: 3px 3px #14192b;
+}
+.cover-knowledge .pixel-activity-icon {
+  color: #ffcf9b;
+}
+.cover-progression .pixel-activity-icon {
+  color: #cfb5ff;
+}
+.studio-shell .card-start {
+  color: #ffb49f;
+  font-size: 12px;
+}
+.studio-shell .set-card > a {
+  border-color: #48516d;
+  color: #b9c5db;
+  padding: 10px 18px;
+  font-size: 11px;
+}
+.studio-shell .set-bottom {
+  color: #b5bfd5;
+  font-size: 11px;
+}
+.studio-shell .set-bottom .text-button {
+  color: #d2e9dc;
+}
+.studio-shell .studio-lower {
+  padding: 12px 0;
+  display: block;
+}
+.studio-shell .studio-invitation {
+  background: #232a42;
+  border: 1px solid #46516b;
+  border-radius: 0;
+  padding: 20px;
+  color: #f7eddb;
+}
+.studio-shell .studio-invitation h3 {
+  font-size: 15px;
+}
+.studio-shell .studio-invitation p {
+  color: #c2c9db;
+  font-size: 12px;
+}
+.studio-shell .studio-preferences {
+  margin: 12px 0;
+  padding: 14px 0;
+  border-color: #46506d;
+  color: #bdc7dd;
+  font-size: 12px;
+}
+.studio-shell .studio-preferences input:not([type='checkbox']) {
+  background: #252c44;
+  color: #fff4de;
+  border: 1px solid #626b87;
+  padding: 10px;
+}
+/* A compact stage frame, with a light reading surface for the active musical task. */
+.studio-shell.on-stage {
+  background: #171c30;
+}
+.studio-shell .studio-stage {
+  max-width: 1200px;
+  padding: 16px 24px 50px;
+  gap: 12px;
+}
+.studio-shell .studio-stage .song-header {
+  color: #fff4de;
+}
+.studio-shell .studio-stage .song-header h1 {
+  font:
+    400 20px/1.4 Silkscreen,
+    monospace;
+  margin: 5px 0;
+  letter-spacing: -0.5px;
+}
+.studio-shell .studio-stage .eyebrow {
+  color: #b9c4dd;
+  font-size: 10px;
+}
+.studio-shell .stage-goal {
+  color: #c3cde0;
+  margin: 0;
+}
+.studio-shell .song-meta {
+  color: #b5c0d5;
+}
+.studio-shell .original-badge {
+  border: 1px solid #5b6580;
+  background: #303850;
+  color: #e1e7f2;
+  border-radius: 0;
+}
+.studio-shell .stage-actions {
+  color: #c5cee0;
+  gap: 18px;
+  padding-bottom: 8px;
+}
+.studio-shell .stage-actions .text-button {
+  color: #c5cee0;
+  font-size: 12px;
+}
+.studio-shell .stage-actions > a {
+  font-size: 12px;
+}
+.studio-shell .mode-description {
+  color: #c4cce0;
+}
+.studio-shell .stage-view-controls {
+  color: #f3eadc;
+}
+.studio-shell .guitar-homework {
+  color: #283249;
+  border: 2px solid #b4b7c3;
+  background: #fffaf0;
+  border-radius: 0;
+  padding: 0 24px 18px;
+  box-shadow: 5px 5px #0d1120;
+}
+.homework-session-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid #d5d2ce;
+  font-size: 11px;
+}
+.homework-session-bar > span:nth-child(2) {
+  margin-left: auto;
+  color: #5d6270;
+}
+.homework-session-bar .text-button {
+  font-size: 11px;
+}
+.homework-route {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  padding: 16px 0 8px;
+}
+.homework-route button {
+  border: 1px solid #c6c6cb;
+  background: #eeece6;
+  padding: 10px;
+  border-radius: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #555d70;
+  min-height: 44px;
+}
+.homework-route button span {
+  font:
+    400 11px Silkscreen,
+    monospace;
+}
+.homework-route button strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.studio-shell .homework-route button:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.homework-route button[aria-current='step'] {
+  color: #252b42;
+  background: #ffd8bb;
+  border: 2px solid #a0694f;
+  padding: 9px;
+  box-shadow: 0 3px #d3b699;
+}
+.studio-shell .guitar-homework .homework-task-heading {
+  padding: 15px 0 0;
+  gap: 12px;
+  align-items: center;
+}
+.studio-shell .guitar-homework .eyebrow {
+  color: #656578;
+  font:
+    400 10px Silkscreen,
+    monospace;
+}
+.studio-shell .guitar-homework h2 {
+  font-size: 28px;
+  letter-spacing: -0.7px;
+  margin: 8px 0 4px;
+}
+.region-chip {
+  padding: 8px 10px;
+  background: #ede9f3;
+  border: 1px solid #a9a4b9;
+  font:
+    400 10px Silkscreen,
+    monospace;
+}
+.studio-shell .guitar-instruction {
+  font-size: 17px;
+  line-height: 1.5;
+  max-width: 850px;
+  margin: 12px 0;
+}
+.task-purpose {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  background: #eeeee5;
+  border-left: 3px solid #8b9e91;
+}
+.task-purpose > span {
+  flex-shrink: 0;
+  font:
+    400 9px Silkscreen,
+    monospace;
+}
+.task-purpose p {
+  margin: 0;
+  color: #555d66;
+}
+.homework-save-status {
+  margin: 3px 0;
+  color: #636b70;
+  font-size: 10px !important;
+}
+.studio-shell .guitar-toolbar {
+  margin: 12px 0;
+  align-items: end;
+  gap: 16px;
+}
+.studio-shell .guitar-toolbar label {
+  font-size: 11px;
+}
+.studio-shell .guitar-toolbar select {
+  padding: 8px;
+  font-size: 12px;
+  background: #fffdf7;
+  color: #303a4a;
+  border: 1px solid #a7adb5;
+  border-radius: 0;
+}
+.studio-shell .guitar-toolbar .text-button {
+  margin-left: auto;
+  font-size: 12px;
+  min-height: 40px;
+}
+.homework-instrument {
+  border: 2px solid #596078;
+  background: #252c41;
+  box-shadow: 3px 3px #dfd9ce;
+}
+.instrument-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: #d3d8e7;
+  border-bottom: 1px solid #515b73;
+  font-size: 11px;
+}
+.instrument-heading > span:first-child {
+  font:
+    400 10px Silkscreen,
+    monospace;
+  color: #e7d8ae;
+}
+.studio-shell .homework-instrument .fretboard {
+  background: #252c41;
+  padding: 8px;
+}
+.studio-shell .homework-instrument .fretboard-scroll {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  background: #252c41;
+}
+.studio-shell .homework-instrument :is(.fret-number, .string-name) {
+  color: #c7d0e6;
+  font-size: 11px;
+}
+.studio-shell .homework-instrument .fret {
+  border-color: #5b6581;
+  min-height: 42px;
+  color: #929db8;
+}
+.studio-shell .homework-instrument .fret::before {
+  background: #64718e;
+}
+.studio-shell .homework-instrument .fret > span {
+  border-radius: 3px;
+}
+.studio-shell .homework-instrument .fret:not(.marked) > span {
+  color: #687997;
+}
+.studio-shell .guitar-chords {
+  gap: 6px;
+  margin: 12px 0;
+}
+.studio-shell .guitar-chords button {
+  font-size: 18px;
+  min-width: 64px;
+  background: #e8e5ef;
+  border: 1px solid #aaa6b9;
+  border-radius: 0;
+}
+.studio-shell .guitar-chords button[aria-pressed='true'] {
+  background: #333e5b;
+  color: #fff1d7;
+  box-shadow: 0 3px #9299b1;
+}
+.homework-role-key {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 9px 14px;
+  color: #d4dbea;
+  font-size: 10px;
+  border-top: 1px solid #515b73;
+}
+.homework-role-key span::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  margin-right: 6px;
+  background: #ddd;
+}
+.homework-role-key .root::before {
+  background: #dcebd4;
+}
+.homework-role-key .third::before {
+  background: #fae9cc;
+}
+.homework-role-key .fifth::before {
+  background: #e6e3f4;
+}
+.homework-role-key .seventh::before {
+  background: #d7e9f2;
+}
+.homework-role-key .extension::before {
+  background: #f5e0d9;
+}
+.studio-shell .guitar-homework :is(.primary-button, .secondary-button) {
+  border-radius: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 12px;
+  gap: 8px;
+}
+.studio-shell .guitar-homework .primary-button {
+  background: #303e5a;
+  color: #fff5df;
+  border: 1px solid #1e2a42;
+  box-shadow: 2px 2px #9fa5b1;
+}
+.studio-shell .guitar-homework .secondary-button {
+  background: #fffaf0;
+  color: #38465b;
+  border: 1px solid #a7acb6;
+}
+.studio-shell .guitar-actions {
+  gap: 9px;
+  margin: 14px 0;
+  align-items: center;
+}
+.studio-shell .guitar-actions .text-button {
+  font-size: 12px;
+}
+.studio-shell .guitar-result {
+  background: #ebeee6;
+  border-left: 3px solid #6f947e;
+  margin: 16px 0;
+  padding: 15px;
+}
+.studio-shell .guitar-result strong {
+  font-size: 17px;
+}
+.studio-shell .guitar-result p {
+  font-size: 13px;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+.studio-shell .guitar-result small {
+  color: #5d636a;
+}
+.homework-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  margin-top: 20px;
+  background: #ece9f0;
+  border: 1px solid #bcb7c7;
+}
+.homework-next p {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+.homework-participation {
+  font-size: 11px;
+  color: #656775;
+  margin: 10px 0 18px;
+}
+.studio-shell .guitar-homework > details {
+  border-top: 1px solid #ddd7cf;
+  font-size: 12px;
+}
+.studio-shell .guitar-homework summary {
+  padding: 12px 0;
+}
+.homework-brief {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 26px 0 22px;
+  border: 1px solid #c1bec7;
+}
+.homework-brief > div {
+  padding: 20px;
+  border-right: 1px solid #d1cdd4;
+}
+.homework-brief > div:last-child {
+  border-right: 0;
+}
+.homework-brief svg {
+  color: #64608b;
+  margin-bottom: 12px;
+}
+.homework-brief strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.homework-brief p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #606375;
+  margin: 0;
+}
+.homework-input-note {
+  font-size: 13px;
+  max-width: 620px;
+  line-height: 1.5;
+}
+.studio-shell .intro-actions .primary-button {
+  background: #ffa18b;
+  color: #232d42;
+  box-shadow: 3px 3px #4e5363;
+  font-size: 14px;
+}
+.studio-shell .guitar-reflection {
+  border: 2px solid #917c66;
+  background: #fff0d5;
+  padding: 15px;
+}
+.studio-shell .guitar-reflection legend {
+  font-size: 12px;
+  padding: 0 8px;
+}
+.studio-shell .transport {
+  background: #141a2d;
+  border-top: 2px solid #46516c;
+  color: #f5eedf;
+}
+.studio-shell
+  .transport
+  :is(
+    .transport-title strong,
+    .transport-title span,
+    .time-label,
+    .scrubber span,
+    .speed-control,
+    .tool-button,
+    .stop-button
+  ) {
+  color: #c8d3e9;
+}
+.studio-shell .transport .play-button {
+  border-radius: 0;
+  background: #ffc3a0;
+  color: #202c42;
+  box-shadow: 3px 3px #925e54;
+}
+.studio-shell .transport input {
+  accent-color: #b8ead4;
+}
+.studio-shell .transport .speed-control select {
+  background: #303b57;
+  color: #fff1da;
+  border: 1px solid #65708a;
+  border-radius: 0;
+}
+.studio-shell .transport .tool-button.active {
+  background: #3c4963;
+  color: #e7f4e5;
+}
+.studio-shell
+  :is(
+    .practice-workspace,
+    .homework-workspace,
+    .listening-panel,
+    .progression-studio,
+    .stage-question,
+    .learning-panel
+  ) {
+  color: #283249;
+}
+.studio-shell .studio-page {
+  color: #283249;
+  background: #fffaf0;
+  border: 2px solid #b1b5c5;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.studio-shell .studio-page .page-intro .studio-kicker {
+  color: #65657a;
+}
+.studio-shell .studio-invitation .secondary-button {
+  border-radius: 0;
+  color: #fff1d8;
+  background: #303c56;
+  border: 1px solid #6a7590;
+}
+@media (max-width: 1000px) {
+  .studio-shell .studio-nav {
+    padding: 0 20px;
+    gap: 12px;
+  }
+  .studio-shell .studio-nav nav {
+    gap: 0;
+  }
+  .studio-shell .studio-nav nav a {
+    font-size: 11px;
+    padding: 12px 8px;
+  }
+  .studio-shell .studio-wordmark {
+    font-size: 17px;
+  }
+  .mission-main {
+    padding: 24px;
+  }
+  .mission-main h2 {
+    font-size: 21px;
+  }
+  .mission-route {
+    padding: 24px 20px;
+  }
+  .studio-shell .homework-route button {
+    gap: 6px;
+  }
+}
+@media (max-width: 760px) {
+  .studio-shell .studio-nav {
+    height: auto;
+    min-height: 96px;
+    flex-wrap: wrap;
+    padding: 14px 16px 0;
+    gap: 12px;
+  }
+  .studio-shell .studio-nav nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0;
+  }
+  .studio-shell .studio-nav nav a {
+    padding: 10px 6px;
+    font-size: 11px;
+    min-height: 44px;
+  }
+  .studio-shell .studio-nav nav svg {
+    width: 14px;
+  }
+  .studio-shell .studio-nav-tools {
+    margin-left: auto;
+  }
+  .studio-shell .studio-nav-tools .text-button span {
+    display: none;
+  }
+  .studio-shell .studio-home {
+    padding: 0 16px;
+  }
+  .studio-shell .studio-hero {
+    height: 245px;
+  }
+  .studio-shell .studio-welcome {
+    padding: 26px 22px;
+  }
+  .studio-shell .studio-welcome h1 {
+    font-size: 28px;
+  }
+  .studio-shell .room-caption {
+    display: none;
+  }
+  .mission-board {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+  }
+  .mission-route {
+    border-left: 0;
+    border-top: 1px solid #ccc6c0;
+    padding: 16px 22px;
+  }
+  .mission-route ol {
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .mission-route li > span {
+    padding: 5px;
+    font-size: 11px;
+  }
+  .mission-route p {
+    display: none;
+  }
+  .mission-route strong {
+    font-size: 13px;
+  }
+  .mission-route ol {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .mission-route li {
+    gap: 7px;
+    align-items: center;
+  }
+  .mission-route a {
+    font-size: 11px;
+  }
+  .studio-shell .practice-set {
+    grid-template-columns: 1fr;
+  }
+  .studio-shell .set-launch {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    column-gap: 16px;
+    padding: 16px;
+  }
+  .studio-shell .set-launch .pixel-activity-icon {
+    grid-row: 1 / 4;
+  }
+  .studio-shell .set-launch h3 {
+    font-size: 18px;
+    margin: 0 0 6px;
+  }
+  .studio-shell .set-launch p {
+    min-height: 0;
+    margin: 0 0 12px;
+  }
+  .studio-shell .set-launch .card-start {
+    grid-column: 2;
+  }
+  .studio-shell .studio-stage {
+    padding: 12px 12px 45px;
+  }
+  .studio-shell .studio-stage .song-header h1 {
+    font-size: 17px;
+  }
+  .studio-shell .guitar-homework {
+    padding: 0 14px 15px;
+  }
+  .homework-session-bar {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .homework-session-bar .text-button {
+    margin-left: auto;
+  }
+  .homework-route {
+    gap: 4px;
+  }
+  .homework-route button {
+    display: grid;
+    gap: 4px;
+    padding: 8px 6px;
+  }
+  .homework-route button[aria-current='step'] {
+    padding: 7px 5px;
+  }
+  .homework-route button strong {
+    font-size: 10px;
+  }
+  .studio-shell .guitar-homework h2 {
+    font-size: 24px;
+  }
+  .studio-shell .guitar-instruction {
+    font-size: 16px;
+  }
+  .task-purpose {
+    display: block;
+    font-size: 12px;
+  }
+  .task-purpose > span {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .homework-next {
+    align-items: start;
+    flex-direction: column;
+  }
+  .homework-next > button {
+    width: 100%;
+    justify-content: center;
+  }
+  .homework-brief {
+    grid-template-columns: 1fr;
+    margin: 18px 0;
+  }
+  .homework-brief > div {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    column-gap: 12px;
+    padding: 14px;
+    border-right: 0;
+    border-bottom: 1px solid #d1cdd4;
+  }
+  .homework-brief > div:last-child {
+    border-bottom: 0;
+  }
+  .homework-brief svg {
+    grid-row: 1/3;
+    margin: 0;
+  }
+  .homework-brief strong {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .studio-shell .guitar-toolbar select {
+    width: 100%;
+  }
+  .studio-shell .guitar-toolbar label {
+    flex: 1 1 100%;
+  }
+  .studio-shell .guitar-toolbar .text-button {
+    margin-left: 0;
+  }
+  .studio-shell .guitar-actions button {
+    flex: 1 1 135px;
+    justify-content: center;
+  }
+  .studio-shell .studio-teacher-trigger {
+    right: 10px;
+    bottom: 110px;
+    padding: 7px 10px;
+  }
+  .studio-shell .studio-teacher-trigger img {
+    width: 30px;
+    height: 34px;
+  }
+  .studio-shell .studio-page {
+    margin: 12px;
+    padding: 22px 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-shell *,
+  .studio-shell *::before,
+  .studio-shell *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+/* Remove the inherited outer-workspace inset and keep help out of the neck diagram. */
+.studio-shell .studio-stage .learning-layout {
+  padding: 0;
+  margin: 0;
+}
+.studio-shell .studio-stage .song-header h1 {
+  color: #fff1d8;
+}
+.studio-shell .studio-stage .mixer-shortcut {
+  color: #e4ddcc;
+  background: #303850;
+  border-color: #65708a;
+  border-radius: 0;
+}
+.studio-shell .stage-actions {
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+.studio-shell .stage-actions > a {
+  margin-right: auto;
+}
+.stage-guide-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 4px 12px 4px 6px;
+  background: #303750;
+  border: 1px solid #68728e;
+  color: #fff1d8;
+  font-size: 12px;
+}
+.stage-guide-button img {
+  image-rendering: pixelated;
+  width: 28px;
+  height: 30px;
+  object-fit: cover;
+}
+.studio-shell .homework-instrument :is(.string-name, .string-heading) {
+  background: #252c41;
+}
+.studio-shell .homework-instrument .string-name small {
+  color: #c7d0e6;
+}
+.studio-shell .homework-instrument .fret {
+  background: linear-gradient(transparent 49%, #64718e 49%, #64718e 52%, transparent 52%);
+}
+.studio-shell .guitar-homework .task-purpose {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid #ddd7cf;
+  background: none;
+}
+.studio-shell .task-purpose p {
+  margin-bottom: 14px;
+}
+.homework-feedback:empty {
+  display: none;
+}
+.studio-shell .guitar-homework .guitar-actions {
+  margin: 10px 0 16px;
+}
+@media (max-width: 760px) {
+  .studio-shell .guitar-homework .guitar-toolbar label {
+    flex: 1 1 250px;
+  }
+  .studio-shell .guitar-toolbar .text-button {
+    margin-left: auto;
+  }
+  .studio-shell .stage-actions :is(.text-button, a) {
+    font-size: 11px;
+  }
+  .studio-shell .guitar-homework .homework-instrument .fret {
+    min-height: 36px;
+  }
+}
+.studio-shell > .local-status.status-quiet {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.studio-shell .studio-home {
+  margin-top: 22px;
+}
+@media (min-width: 641px) and (max-width: 760px) {
+  .studio-shell .studio-nav {
+    min-height: 72px;
+    height: 72px;
+    flex-wrap: nowrap;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .studio-shell .studio-nav nav {
+    order: 0;
+    width: auto;
+    flex-wrap: nowrap;
+    margin: auto;
+    gap: 0;
+  }
+  .studio-shell .studio-nav nav a {
+    padding: 10px 6px;
+    font-size: 10px;
+    gap: 5px;
+  }
+  .studio-shell .studio-nav nav svg {
+    display: none;
+  }
+  .studio-shell .studio-wordmark {
+    font-size: 15px;
+  }
+  .studio-shell .studio-nav-tools {
+    gap: 6px;
+    margin: 0;
+  }
+}
+
+/* Radix portals sit outside the shell and need the same readable practice palette. */
+.modal-overlay.pixel-dialog-overlay,
+.teacher-sheet-overlay {
+  background: #101628c9;
+  backdrop-filter: none;
+}
+.modal-content.pixel-dialog,
+body .studio-teacher-drawer {
+  background: #fffaf0;
+  color: #263047;
+  border: 2px solid #85869b;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #101628;
+}
+.pixel-dialog .modal-heading h2,
+body .studio-teacher-drawer > h2 {
+  font:
+    400 21px/1.4 Silkscreen,
+    monospace;
+  color: #263047;
+}
+.pixel-dialog :is(.small-muted, .caption),
+body .studio-teacher-drawer > p {
+  color: #586174;
+  line-height: 1.6;
+}
+.pixel-dialog :is(button, input, textarea, select),
+.studio-teacher-drawer :is(button, input, textarea, select) {
+  border-radius: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+.pixel-dialog textarea {
+  background: #fffef9;
+  border: 1px solid #8d92a3;
+  color: #263047;
+  padding: 10px;
+  min-height: 72px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pixel-dialog .primary-button,
+.studio-teacher-drawer .primary-button {
+  background: #ffa18b;
+  color: #202a40;
+  border: 1px solid #354057;
+  box-shadow: 3px 3px #4c5268;
+  min-height: 44px;
+}
+.pixel-dialog .secondary-button {
+  background: #efede8;
+  color: #303a50;
+  border: 1px solid #a7abba;
+  min-height: 44px;
+}
+.pixel-dialog :is(button, input, textarea, select):focus-visible,
+.studio-teacher-drawer :is(button, input, textarea, select):focus-visible {
+  outline: 3px solid #b84f35;
+  outline-offset: 3px;
+}

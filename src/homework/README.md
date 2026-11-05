@@ -2,6 +2,8 @@
 
 The homework assignment owns the plan and resume checkpoint. `planner.ts` creates derived playing steps from the confirmed passage, tuning and region. The progression owner supplies chord timing; the existing alphaTab variation builder retains backing tracks and source timing for progression play-along. Isolated examples are separately labeled 4/4 studies with count-in and response/rest measures.
 
+`presentation.ts` supplies concise instructions and a navigable view of the existing objectives. It does not change task identities, expected answers, or the planner. The four groups can be selected in any order; the final step exposes Finish session, and Wrap up session is always available. Both use the shared Studio bookmark and recap.
+
 `usePlayingHomework` coordinates the existing homework, lesson and live-input owners. It records self-reports and support in immutable lesson events. Detected outcomes remain in `PerformanceAttempt`; homework events reference their IDs. Switching response method interrupts an active attempt and retains its episode and first response. Reload never reopens capture. Save status distinguishes pending persistence from a resumable checkpoint.
 
 The default response method is self-report. A detected pitch does not verify a coordinate, family, technique or timing. A location answer set is never converted into a mandatory arpeggio. A selected fragment accepts its notes in any order unless the instruction specifies movement; the authored F→E connection requires one descending semitone in any register.

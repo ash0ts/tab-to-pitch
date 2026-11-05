@@ -15,3 +15,16 @@ The generated source files remain in the creator’s image-generation archive. A
 **Bandmate:** Original adult indie guitarist on a transparent background. Thoughtful friendly expression, short blue-black hair with amber clip, brown eyes, off-white rehearsal shirt over muted teal sleeves, striped guitar strap, worn seafoam electric guitar. Waist-up, relaxed, warm side light. Hand-drawn anime linework, soft cel shading, readable silhouette. No existing character, text, logo or background.
 
 **Covers:** Three equal-width panels: worn seafoam guitar neck against an amplifier; over-ear headphones beside a cassette recorder; notebook of abstract musical scribbles beside effects pedals and cable. Original hand-painted anime live-house setting, fine ink, grain, cream/teal/rust/charcoal, muted contrast. One central object per panel. No people, brands, readable notation, UI or numbers.
+
+## Pixel practice room
+
+Added 5 November 2026 using the built-in OpenAI image-generation tool. The existing illustrated assets remain archived here; the active Studio and teacher button use these original pixel assets:
+
+- `pixel-studio.png`: generated environment, copied from `exec-1eafb661-2d04-4b45-8a7f-c46e04ff1dc9.png`.
+- `pixel-guide.png`: transparent generated musician portrait, copied from `exec-c4cb836c-1470-4e3e-894e-05daca4785e9.png`.
+
+**Environment prompt:** Original pixel-art background for a guitar-learning rhythm game. Wide landscape composition, consistent square pixel clusters and hard edges. Cozy small Japanese live-house rehearsal room at night, wooden floor, electric guitar, bass, compact drum kit, amber amplifier lights, lavender CRT display, teal and orange lighting, blank gig posters, cables, stool and city window. Midnight navy and muted plum shadows, cream highlights, coral and mint accents. Gear in the right two-thirds; quiet dark space at left. No people, interface, text, logos, blur or photographic texture.
+
+**Guide prompt:** Original adult indie musician on a transparent background. Short dark indigo hair, coral clip, thoughtful expression, cream shirt, teal overshirt and seafoam electric guitar. Consistent pixel clusters and hard silhouette, limited navy/lavender/mint/coral/cream palette. Readable at small sizes. No text, scene, logo, smooth gradients or existing character.
+
+Silkscreen comes from [Google Fonts](https://github.com/google/fonts/tree/main/ofl/silkscreen), copyright The Silkscreen Project Authors, under the [bundled SIL Open Font License](../fonts/silkscreen-OFL.txt). It is used for short decorative labels; musical notation and instructional text use the existing fonts. Neither image encodes musical facts or grading feedback.

@@ -4,6 +4,8 @@ import {
   BookOpen,
   ChevronRight,
   Guitar,
+  Headphones,
+  Route,
   Home,
   Library,
   Music2,
@@ -56,7 +58,7 @@ export function StudioHeader({
         ))}
       </nav>
       <div className="studio-nav-tools">
-        <button className="text-button" onClick={onImport}>
+        <button className="text-button" aria-label="Import tab" onClick={onImport}>
           <Plus size={17} />
           <span>Import tab</span>
         </button>
@@ -87,81 +89,141 @@ export function StudioHome({
   const resume = studio.set.bookmark;
   const first = activity(resume?.activity ?? studio.set.activities[0]!);
   return (
-    <main className="studio-home">
+    <main className="studio-home pixel-home">
       <section className="studio-hero">
-        <picture>
-          <source media="(max-width:600px)" srcSet="/art/studio-mobile.jpg" />
-          <img className="studio-room" src="/art/studio.jpg" alt="" />
-        </picture>
+        <img className="studio-room" src="/art/pixel-studio.png" alt="" />
         <div className="room-shade" />
         <div className="studio-welcome">
-          <span className="studio-kicker">
-            <span /> THE ROOM IS YOURS
-          </span>
+          <span className="studio-kicker">GUITAR / PRACTICE ROOM</span>
           <h1>
-            A little practice.
+            Make the neck
             <br />
-            More music.
+            feel familiar.
           </h1>
           <p>
-            Find a note. Hear a change.
+            A few notes. A chord change.
             <br />
-            Make it yours, somewhere else on the neck.
+            Something you can play with your guitar.
           </p>
+        </div>
+        <span className="room-caption">
+          <span className="pixel-signal" /> FREE PLAY · NO UNLOCKS
+        </span>
+      </section>
+
+      <section className="mission-board" aria-label="Your next practice session">
+        <div className="mission-main">
+          <div className="mission-label">
+            <span className="pixel-diamond" /> {resume ? 'YOUR SAVED SESSION' : 'START HERE'}
+          </div>
+          <h2>
+            {resume
+              ? 'Pick up where you left off.'
+              : first.id === 'homework'
+                ? 'Your guitar, your way around the neck.'
+                : first.title}
+          </h2>
+          <p className="mission-goal">
+            {resume
+              ? resume.next
+              : first.id === 'homework'
+                ? 'Find a note, connect a chord shape, then play it in a progression.'
+                : first.objective}
+          </p>
+          <div className="mission-controls">
+            <div className="workload" aria-label="Suggested practice workload">
+              {([5, 15, 30] as const).map((n) => (
+                <button
+                  key={n}
+                  aria-pressed={studio.set.workload === n}
+                  onClick={() => studio.change({ workload: n })}
+                >
+                  {n} min
+                </button>
+              ))}
+            </div>
+            <span className="mission-note">
+              Choose a workload.
+              <br />
+              There’s no countdown.
+            </span>
+          </div>
           <button className="studio-cta" disabled={!ready} onClick={() => onStart(first.id)}>
-            <Play size={18} fill="currentColor" />
-            Continue practicing
+            <Play size={17} fill="currentColor" />
+            {resume ? 'Continue practicing' : 'Start practicing'}
             <ArrowRight size={18} />
           </button>
-          <span className="resume-line">
-            {resume ? resume.next : first.title} · {studio.set.workload} min set
-          </span>
+          <p className="mission-footnote">
+            {resume || first.id !== 'homework'
+              ? first.title
+              : 'Start with guitar homework. An interface is optional.'}
+          </p>
         </div>
-        <div className="room-caption">
-          THE REHEARSAL ROOM <span>01</span>
+        <div className="mission-route">
+          <div className="mission-label">A ROUND OF PRACTICE</div>
+          <ol>
+            <li>
+              <span>01</span>
+              <div>
+                <strong>Hear & find</strong>
+                <p>Listen to the idea. Locate it on the neck.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <strong>Pick up & play</strong>
+                <p>Loop it, slow it down, or try without labels.</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <strong>Reflect & return</strong>
+                <p>Keep a useful next step for your next session.</p>
+              </div>
+            </li>
+          </ol>
+          <a href="#/research/homework">
+            Why these steps? <ArrowRight size={14} />
+          </a>
         </div>
       </section>
+
       <section className="set-section">
         <div className="section-heading">
           <div>
-            <span className="studio-kicker">YOUR PRACTICE SET</span>
-            <h2>A few ideas to play with.</h2>
+            <span className="studio-kicker">CHOOSE YOUR NEXT MOVE</span>
+            <h2>Your practice set</h2>
           </div>
-          <div className="workload" aria-label="Suggested practice workload">
-            {([5, 15, 30] as const).map((n) => (
-              <button
-                key={n}
-                aria-pressed={studio.set.workload === n}
-                onClick={() => studio.change({ workload: n })}
-              >
-                {n} min
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="set-meta">
-          <span>{resume ? 'Pick up where you left off' : 'Start with what interests you'}</span>
-          <span>Suggested workload. Stop or stay longer.</span>
+          <button className="text-button" onClick={() => studio.go('library')}>
+            All exercises <ArrowRight size={16} />
+          </button>
         </div>
         {due > 0 && (
           <p className="due-review">
-            {due} note or role review{due === 1 ? ' is' : 's are'} available.{' '}
+            {due} review{due === 1 ? '' : 's'} available.{' '}
             <button className="text-button" onClick={() => onStart('knowledge')}>
-              Return to a recall question
-            </button>{' '}
-            · You can choose something else.
+              Try a recall question
+            </button>
           </p>
         )}
         <div className="practice-set">
           {studio.set.activities.map((id, i) => {
             const a = activity(id);
+            const Icon =
+              id === 'listening' || id === 'ear-lab'
+                ? Headphones
+                : id === 'progression'
+                  ? Route
+                  : id === 'knowledge'
+                    ? Sparkles
+                    : Guitar;
             return (
               <article className={`set-card cover-${id}`} key={`${id}-${i}`}>
                 <div className="set-card-top">
-                  <span className="set-number">0{i + 1}</span>
-                  <span>
-                    {i === 0 ? 'YOUR CHOICE' : i === 1 ? 'RETURN TO AN IDEA' : 'TAKE IT ELSEWHERE'}
-                  </span>
+                  <span className="set-number">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{a.category}</span>
                   <button
                     className="icon-button"
                     aria-label={`Remove ${a.title} from set`}
@@ -174,14 +236,13 @@ export function StudioHome({
                   </button>
                 </div>
                 <button className="set-launch" disabled={!ready} onClick={() => onStart(id)}>
-                  <div className="cover-art" aria-hidden="true">
-                    <img src="/art/exercise-covers.jpg" alt="" />
-                  </div>
-                  <span className="card-category">{a.category}</span>
+                  <span className="pixel-activity-icon" aria-hidden="true">
+                    <Icon size={28} strokeWidth={1.8} />
+                  </span>
                   <h3>{a.title}</h3>
                   <p>{a.objective}</p>
                   <span className="card-start">
-                    Start here <ArrowRight size={17} />
+                    Play this <ArrowRight size={17} />
                   </span>
                 </button>
                 <a href={`#/research/${id}`}>Why this exercise?</a>
@@ -191,36 +252,25 @@ export function StudioHome({
         </div>
         <div className="set-bottom">
           <button className="text-button" onClick={() => studio.go('library')}>
-            <Plus size={16} />
-            Change the set
+            <Plus size={16} /> Edit your set
           </button>
-          <span>{source} · On this device</span>
+          <span>Current passage: {source}</span>
         </div>
       </section>
       <section className="studio-lower">
         <div className="studio-invitation">
-          <Guitar size={28} />
+          <Guitar size={24} />
           <div>
-            <h3>Bring your guitar.</h3>
-            <p>Plug in a USB interface, or just play along. Screen practice always works.</p>
+            <h3>Plug in, if you like.</h3>
+            <p>Optional USB sound feedback. You can play every homework session unplugged.</p>
           </div>
           <button className="secondary-button" disabled={!ready} onClick={() => onStart('live')}>
             Connect guitar <ArrowRight size={16} />
           </button>
         </div>
-        <div className="studio-note">
-          <Sparkles size={22} />
-          <p>
-            Stay with one idea as long as you like.
-            <br />
-            <a href="#/research">
-              See how the practice is designed <ArrowRight size={13} />
-            </a>
-          </p>
-        </div>
       </section>
       <details className="studio-preferences">
-        <summary>Make the studio yours</summary>
+        <summary>Room settings & weekly intention</summary>
         <label>
           <input
             type="checkbox"
@@ -243,14 +293,15 @@ export function StudioHome({
             maxLength={300}
             value={studio.set.weeklyIntention}
             onChange={(e) => studio.change({ weeklyIntention: e.target.value })}
-            placeholder="Make time for a few chord changes"
+            placeholder="Play the C to F change without stopping"
           />
         </label>
-        <p>No streak to lose. No activities to unlock.</p>
+        <p>No streak to lose. Repeat, skip, or change your approach.</p>
       </details>
     </main>
   );
 }
+
 export function ActivityLibrary({
   studio,
   onStart,
@@ -523,7 +574,9 @@ export function ProgressPage({
       .then((d) => {
         if (active) setData(d);
       })
-      .catch(() => { if (active) setData(getMemoryLessonData()); });
+      .catch(() => {
+        if (active) setData(getMemoryLessonData());
+      });
     return () => {
       active = false;
     };
@@ -582,9 +635,22 @@ export function ProgressPage({
       </div>
       <section className="progress-context">
         <h2>Guitar homework</h2>
-        <p>{data?.lessonEvents.filter(e => e.playing?.kind === 'self-report').length ?? 0} self-reported passes. These describe how playing felt; they are not verified correctness.</p>
-        <p>{data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'match').length ?? 0} supported sound matches · {data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'discrepancy').length ?? 0} supported discrepancies · {data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'unassessed').length ?? 0} unassessed. Input is experimental. No string, fret, technique or precise timing was verified.</p>
-        <button className="secondary-button" onClick={() => studio.go('stage','homework')}>Return to guitar homework</button>
+        <p>
+          {data?.lessonEvents.filter((e) => e.playing?.kind === 'self-report').length ?? 0}{' '}
+          self-reported passes. These describe how playing felt; they are not verified correctness.
+        </p>
+        <p>
+          {data?.lessonEvents.filter((e) => e.live?.attempt?.outcome === 'match').length ?? 0}{' '}
+          supported sound matches ·{' '}
+          {data?.lessonEvents.filter((e) => e.live?.attempt?.outcome === 'discrepancy').length ?? 0}{' '}
+          supported discrepancies ·{' '}
+          {data?.lessonEvents.filter((e) => e.live?.attempt?.outcome === 'unassessed').length ?? 0}{' '}
+          unassessed. Input is experimental. No string, fret, technique or precise timing was
+          verified.
+        </p>
+        <button className="secondary-button" onClick={() => studio.go('stage', 'homework')}>
+          Return to guitar homework
+        </button>
       </section>
       <section className="progress-context">
         <h2>Other evidence stays with its activity</h2>

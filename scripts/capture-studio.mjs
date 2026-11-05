@@ -44,10 +44,11 @@ const shot = async (name) => {
   await page.screenshot({ path: `${out}/${name}.png` });
 };
 await page.goto(url);
-await page.getByRole('button', { name: 'Continue practicing' }).waitFor();
+await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).waitFor();
 await pause(2000);
 await shot('studio-final');
-await click('Continue practicing');
+await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).click();
+await click('Explore or check the fretboard');
 await click('Start homework');
 await pause(1000);
 await page.locator('.homework-workspace').scrollIntoViewIfNeeded();
