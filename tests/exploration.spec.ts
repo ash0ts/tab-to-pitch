@@ -10,6 +10,7 @@ async function open(page: Page) {
     timeout: 30000,
   });
   await expect(page.locator('.score-loading')).toHaveCount(0);
+  await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
 }
 
 async function explore(page: Page) {
@@ -36,6 +37,7 @@ test('note names are the default; octave display is optional and survives reload
   await page.reload();
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled();
   await expect(page.getByRole('checkbox', { name: 'Octaves', exact: true })).toBeChecked();
+  await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
   await expect(notesInScore(page, /^B2·2$/).first()).toBeVisible();
   const inspector = await explore(page);
   await expect(inspector.locator('.note-identity h2')).toHaveText('B2');
@@ -195,6 +197,7 @@ test('an exact pitch without another location does not silently start a differen
   });
   await expect(page.getByRole('heading', { name: 'Low-string study', exact: true })).toBeVisible();
   await expect(page.locator('.score-loading')).toHaveCount(0);
+  await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
   const inspector = await explore(page);
   await expect(inspector.locator('.note-identity h2')).toHaveText('E');
   await inspector.getByRole('button', { name: 'Exact pitch', exact: true }).click();
