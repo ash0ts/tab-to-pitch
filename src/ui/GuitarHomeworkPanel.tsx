@@ -28,6 +28,7 @@ export function GuitarHomeworkPanel(props: {
   workload: 5 | 15 | 30;
   tempo: number;
   ready: boolean;
+  audioReady: boolean;
   onPlayback(study: HomeworkPlayback): void;
   onStop(): void;
   onCoordinates(): void;
@@ -50,7 +51,7 @@ export function GuitarHomeworkPanel(props: {
     props.onStop();
   }
   function audition(example: boolean) {
-    if (!s || !step) return;
+    if (!s || !step || !props.audioReady) return;
     if (example && !p.help('example')) return;
     try {
       props.onPlayback({
@@ -70,6 +71,7 @@ export function GuitarHomeworkPanel(props: {
     }
   }
   function begin() {
+    if (!props.audioReady) return;
     setFinishing(false);
     if (p.begin()) audition(false);
   }
@@ -312,13 +314,18 @@ export function GuitarHomeworkPanel(props: {
             Playing sound does not verify a string, fret or CAGED family.
           </p>
           <div className="guitar-actions">
-            <button className="secondary-button" disabled={!h.fresh} onClick={() => audition(true)}>
+            <button
+              className="secondary-button"
+              disabled={!h.fresh || !props.audioReady}
+              onClick={() => audition(true)}
+            >
               Hear example
             </button>
             <button
               className="primary-button"
               disabled={
                 !h.fresh ||
+                !props.audioReady ||
                 p.active ||
                 (s.method === 'live' && guitar.input?.status !== 'listening')
               }
@@ -328,7 +335,7 @@ export function GuitarHomeworkPanel(props: {
             </button>
             <button
               className="secondary-button"
-              disabled={!h.fresh}
+              disabled={!h.fresh || !props.audioReady}
               onClick={() => audition(false)}
             >
               Repeat this change
@@ -359,6 +366,7 @@ export function GuitarHomeworkPanel(props: {
               Cancel attempt
             </button>
           </div>
+          {!props.audioReady && <p role="status">Preparing backing audio…</p>}
           {p.active && (
             <p role="status">
               {s.method === 'live'

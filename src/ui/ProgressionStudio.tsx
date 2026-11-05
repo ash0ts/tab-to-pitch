@@ -327,6 +327,7 @@ export function ProgressionWorkspace(
                 workload={props.workload}
                 tempo={props.score.measures[props.firstBar]?.tempoBpm ?? 84}
                 ready={!!learning.lesson && !learning.externalRevision && !liveBlocked}
+                audioReady={props.audioReady}
                 onPlayback={props.onHomeworkPlayback}
                 onStop={props.onStopStudy}
                 onCoordinates={() => {
