@@ -1,13 +1,11 @@
-# Pixel practice studio
+# Live-house practice studio
 
-The Studio now uses an original pixel-art rehearsal room, a navy and cream interface, coral primary actions, and mint accents. Silkscreen marks short game labels; note names and instructions retain DM Sans. Musical role colors remain stable across the app.
+The Studio is now a full-screen pixel-art game room. A setlist menu selects one activity, a foreground optional bandmate introduces it, and a single button starts or resumes practice. Warm stage lighting, red curtains, battered amplifiers and a darker instrument screen replace the previous banner-and-cards layout. The environment and musician are original assets.
 
 ## A visible practice route
 
-The starting screen offers one main action, a suggested workload, and the saved next task. Guitar homework follows the assignment already created by the music engine:
-
 ```text
-Start or resume
+Choose an idea from the setlist
   → Find notes
   → Connect shapes
   → Play changes
@@ -15,44 +13,49 @@ Start or resume
   → Reflect and save the next step
 ```
 
-The route is navigable in either direction. Learners can repeat a change, request help, or wrap up early. A workload is a suggestion, not a countdown. Every activity remains available in Songs & exercises.
+These are navigable groups, not compulsory levels. Learners can repeat a change, ask for help, skip a group, or wrap up early. Workloads remain 5/15/30-minute suggestions without countdowns or unlock requirements. The library edits the practice set; room settings can hide the bandmate.
 
-Each playing task shows a short instruction, its neck region, and playback controls before the diagram. Finishing an attempt focuses the feedback. The next task is named before advancing. Wrap up session opens the shared reflection and bookmark dialog.
+Desktop homework places playback and response controls beside the fretboard so all six strings remain visible. Mobile stacks the same controls above it. Instructions and note names retain DM Sans; short game labels use Silkscreen. Stable chord-role colors still describe musical roles, not string identity or correctness.
 
-Participation is counted from existing immutable events. A step tried is not a correct answer or evidence of mastery. Self-reports, coordinate answers and detected performances retain their separate contracts. Teacher help, first responses, masking, capture and the single player retain their existing owners.
+The teacher, playback, lesson state, live input and assessment retain their existing owners. The bandmate’s room introduction is authored interface text. It is not an inference response or an observation about the learner. Finishing an attempt uses the existing feedback, then the shared reflection and bookmark dialog. A self-report remains a self-report; an uncertain detector result stays unassessed.
 
-## Application captures
+## Actual application captures
 
-These captures use the original authored study in an isolated Chromium browser. The reflection and self-report are scripted demonstration inputs, not evidence from a learner. No microphone or guitar interface was opened.
+With the local app running, `node scripts/capture-livehouse.mjs ../livehouse-walkthrough` reproduces the captures. Set `TTP_CAPTURE_ORIGIN` to use another local port.
 
-![Studio and practice route](media/pixel-studio/studio.png)
+An isolated Chromium browser used the original C–F–G–C study. The demonstrated response and reflection are scripted; no microphone or interface was opened.
 
-![A CAGED fragment in the focused task view](media/pixel-studio/task.png)
+![The live-house room and selectable practice set](media/livehouse/studio.png)
 
-![Saving the next practice target](media/pixel-studio/recap.png)
+![A CAGED fragment with controls beside all six strings](media/livehouse/caged.png)
 
-## Implementation
+![The connected practice flow](media/livehouse/practice-flow.gif)
 
-The [studio contract](../src/studio/README.md) describes navigation and persistence. [Homework presentation](../src/homework/presentation.ts) groups existing objectives and supplies instructions. The presentation adds no grading history, audio scheduler, model or paid inference call.
+![Forge experiments, including failed qualifications](media/livehouse/forge-evidence.png)
 
-[Asset provenance](../public/art/provenance.md) records the built-in image-generation prompts and the bundled Silkscreen license. Artwork is decorative; missing images cannot prevent a practice session. Reduced motion, static notation and keyboard controls remain available.
+## Forge evidence
 
-## Verification
+The research page now exposes the voicing, arrangement, listening-teacher and Ear Lab results with their denominators, dataset context, limitations and private dashboard links. It distinguishes a hosted reply from a fallback and a research candidate from a qualified release.
 
-The revised browser session covers starting, self-reporting a difficult attempt, changing practice groups, finishing, saving a reflection, and resuming after reload on desktop and mobile. Existing regression checks cover help-before-reveal, first-response preservation, uncertain audio, legacy backups, keyboard answers and interrupted input. Browser fixtures do not qualify a physical guitar interface or establish educational effectiveness.
+The [dated evidence audit](../public/research/notebook/evidence-audit.md) records fresh Lens, Weave, Models, Tables and Registry readbacks, plus local archive checks. It includes the initially failed verification attempts and their resolution. No inference, training, publication or qualification was added by the redesign.
 
-Local checks on 5 November 2026:
+## Implementation and validation
 
-| Check | Result |
+The [studio contract](../src/studio/README.md) owns navigation and persistence. [Asset provenance](../public/art/provenance.md) records the generation prompts and font license. Art remains decorative; missing images, reduced motion and keyboard use must leave the practice flow usable.
+
+Physical guitar-interface latency, Safari/iOS audio and learner effectiveness remain outside these browser checks.
+
+| Check · 5 November 2026 | Result |
 | --- | --- |
 | TypeScript and production build | Passed |
-| Unit and contract checks | 466 passed; 2 PostgreSQL checks skipped without an isolated database |
+| Unit and contracts | 466 passed; 2 PostgreSQL checks skipped without an isolated database |
 | General browser regressions | 82 passed; 4 duplicate-layout skips |
-| Studio session and accessibility checks | 13 passed; 1 duplicate-layout skip |
+| Studio, full session, accessibility and evidence links | 17 passed; 1 duplicate-layout skip |
 | Guitar homework | 16 passed |
 | Notation renderer | 4 passed |
-| Production offline reload | 1 passed |
+| Offline production reload | 1 passed |
+| Forge transport/publication guards | 17 passed with the required TypeScript loader |
 
-The isolated walkthrough recorded no page errors. The phone viewport and document width were both 390 pixels. Missing artwork, reduced motion and 200% zoom were exercised in the Studio suite. No new Forge inference or learner study was run.
+The original-song capture recorded no page errors. At phone width, both viewport and document measured 390 pixels. Missing art, reduced motion, 200% zoom and keyboard operation are covered by the Studio checks. The initial plain-Node Forge test invocation lacked the TypeScript import resolver; rerunning with `node --import tsx --test research/forge/*.test.mjs` passed all 17 checks.
 
-The original illustrated-studio delivery report remains a dated historical record. Its earlier test counts and worktree integration status do not describe this revision.
+The earlier illustrated-studio delivery report remains historical. This change does not add a learning-effectiveness claim, promote a model or qualify a guitar interface.

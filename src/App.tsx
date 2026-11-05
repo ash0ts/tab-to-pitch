@@ -1243,7 +1243,7 @@ export default function App() {
 
   return (
     <div
-      className={`app-shell studio-shell ${stageActive ? 'on-stage' : ''}`}
+      className={`app-shell studio-shell ${stageActive ? 'on-stage' : ''} ${studio.route.page === 'studio' ? 'in-room' : ''}`}
       onDragOver={(e) => {
         e.preventDefault();
         setDragging(true);

@@ -73,324 +73,557 @@
   text-align: right;
   min-height: 27px;
 }
-.studio-shell .studio-home {
-  max-width: 1240px;
-  padding: 0 24px;
+/* The lobby is a room scene; controls are an opaque game HUD, not image hotspots. */
+.studio-shell.in-room {
+  padding-bottom: 0;
+  background: #171319;
 }
-.studio-shell .studio-hero {
-  height: 290px;
-  border: 2px solid #46506d;
-  box-shadow: 5px 5px 0 #0d1120;
-  background: #1e223a;
+.studio-shell .studio-nav {
+  height: 62px;
+  padding: 0 28px;
+  background: #14141c;
+  border-color: #514047;
+  gap: 20px;
 }
-.studio-shell .studio-room {
-  object-position: center 55%;
+.studio-shell .studio-nav nav a {
+  font-size: 12px;
+}
+.studio-shell .studio-nav nav a[aria-current] {
+  background: #362d37;
+  box-shadow: inset 0 -3px #fca47d;
+}
+.studio-shell .studio-logo {
+  background: #fba680;
+  box-shadow: 3px 3px #853d4d;
+}
+.studio-shell .studio-home.game-lobby {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  isolation: isolate;
+  min-height: 720px;
+  height: calc(100svh - 62px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(390px, 440px);
+  grid-template-rows: 1fr auto;
+  gap: 0 36px;
+  padding: 40px 5vw 0;
+  overflow: hidden;
+}
+.livehouse-scene,
+.livehouse-vignette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+.livehouse-scene {
+  object-fit: cover;
+  object-position: center;
   image-rendering: pixelated;
 }
-.studio-shell .room-shade {
-  background: linear-gradient(90deg, #181c32f0 0%, #181c32bb 37%, transparent 72%);
+.livehouse-vignette {
+  z-index: -1;
+  background:
+    linear-gradient(0deg, #15121beb 0%, transparent 47%),
+    linear-gradient(90deg, #18131b65, transparent 50%, #15121b75);
 }
-.studio-shell .studio-welcome {
-  padding: 30px 32px;
-  max-width: 580px;
+.room-title {
+  position: absolute;
+  left: 5vw;
+  top: 38px;
+  color: #fff0ce;
+  text-shadow: 3px 3px #241922;
 }
 .studio-shell .studio-kicker {
-  font-family: Silkscreen, monospace;
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 0;
-  line-height: 1.6;
-}
-.studio-shell .studio-welcome h1 {
-  font-family: Silkscreen, monospace;
-  font-size: clamp(25px, 3.2vw, 39px);
-  line-height: 1.22;
-  font-weight: 400;
-  letter-spacing: -1.5px;
-  margin: 15px 0;
-  color: #fff4df;
-  text-shadow: 3px 3px #181c32;
-}
-.studio-shell .studio-welcome p {
-  color: #f1dcd4;
-  font-size: 14px;
-  line-height: 1.6;
-}
-.studio-shell .room-caption {
-  font-family: Silkscreen, monospace;
-  font-size: 9px;
-  letter-spacing: 0;
-  padding: 8px 12px;
-  background: #171c30e8;
-  border: 1px solid #62637a;
-  bottom: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.studio-shell .room-caption span {
-  margin: 0;
-}
-.pixel-signal {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: #b8ead4;
-  box-shadow: 0 0 0 2px #b8ead426;
-}
-.mission-board {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  margin-top: 24px;
-  border: 2px solid #d9c6b4;
-  background: var(--paper);
-  color: var(--ink);
-  box-shadow: 5px 5px 0 #0d1120;
-}
-.mission-main {
-  padding: 26px 28px;
-}
-.mission-label {
   font:
     400 10px/1.6 Silkscreen,
     monospace;
-  color: inherit;
-  display: flex;
-  gap: 9px;
-  align-items: center;
+  letter-spacing: 0;
 }
-.pixel-diamond {
-  width: 8px;
-  height: 8px;
-  background: #b95c46;
-  transform: rotate(45deg);
-}
-.mission-main h2 {
-  font-size: 24px;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
+.room-title h1 {
+  font:
+    400 clamp(30px, 4vw, 55px) / 1.15 Silkscreen,
+    monospace;
   margin: 12px 0;
-  max-width: 460px;
+  letter-spacing: -2px;
+  color: #ffddb6;
+}
+.room-title p {
+  font-size: 15px;
+  margin: 0;
+  color: #f3d9c5;
+}
+.game-setlist {
+  grid-column: 2;
+  align-self: start;
+  color: #f9ead7;
+  background: #211f2bf5;
+  border: 3px solid #c98e71;
+  box-shadow:
+    7px 7px 0 #17131dd9,
+    inset 0 0 0 3px #38303b;
+  position: relative;
+}
+.game-setlist::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 16px;
+  left: calc(50% - 40px);
+  top: -11px;
+  background: #d7bf94d9;
+  transform: rotate(-4deg);
+}
+.setlist-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 22px 18px;
+  border-bottom: 1px solid #67505b;
+}
+.setlist-heading .studio-kicker {
+  color: #edac85;
+}
+.setlist-heading h2 {
+  font:
+    600 21px/1.3 'DM Sans',
+    sans-serif;
+  color: #fff1de;
+  margin: 7px 0 0;
+  letter-spacing: -0.4px;
+}
+.setlist-count {
+  font:
+    24px Silkscreen,
+    monospace;
+  color: #e9d9c8;
+  text-align: right;
+}
+.setlist-count small {
+  display: block;
+  font-size: 8px;
+  color: #b7a8b5;
+}
+.setlist-choices {
+  padding: 10px;
+  max-height: 290px;
+  overflow: auto;
+  scrollbar-color: #b48d7e #27232f;
+}
+.setlist-choices button {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 14px;
+  width: 100%;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #d8cad4;
+  padding: 12px 10px;
+  min-height: 67px;
+}
+.setlist-choices button:hover {
+  background: #38303e;
+}
+.setlist-choices button[aria-pressed='true'] {
+  background: #ffd0a5;
+  border-color: #ffe4c9;
+  color: #322332;
+  box-shadow: 3px 3px #a46e61;
+}
+.setlist-cursor {
+  font:
+    12px Silkscreen,
+    monospace;
+  width: 20px;
+  flex-shrink: 0;
+}
+.setlist-choices strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.setlist-choices small {
+  display: block;
+  font-size: 11px;
+  margin-top: 5px;
+  opacity: 0.8;
+}
+.saved-slot {
+  font:
+    8px Silkscreen,
+    monospace;
+  margin-left: auto;
+}
+.selected-mission {
+  padding: 16px 22px 20px;
+  border-top: 1px dashed #76616d;
+}
+.mission-label {
+  font:
+    400 9px/1.6 Silkscreen,
+    monospace;
+  color: #edbca0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .mission-goal {
-  font-size: 14px;
+  color: #f3e2d6;
+  font-size: 13px;
   line-height: 1.5;
-  color: #5c5965;
-  max-width: 480px;
-  margin-bottom: 16px;
+  margin: 8px 0 15px;
+  min-height: 39px;
 }
-.mission-controls {
+.session-size {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #cbbcc6;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 .studio-shell .workload {
-  border: 1px solid #adacb5;
+  display: flex;
+  gap: 3px;
+  padding: 0;
+  background: #15131d;
+  border: 1px solid #75616d;
   border-radius: 0;
-  padding: 3px;
   width: max-content;
-  background: #f1ede5;
 }
 .studio-shell .workload button {
-  font-weight: 700;
+  color: #d9c8d4;
+  background: transparent;
+  min-height: 38px;
+  padding: 7px 10px;
   border-radius: 0;
-  color: #424359;
-  min-height: 40px;
+  font-size: 12px;
 }
 .studio-shell .workload button[aria-pressed='true'] {
-  background: #353c58;
-  color: #fff3e0;
-  box-shadow: 2px 2px 0 #1c2238;
-}
-.mission-note {
-  color: #5e606e;
-  font-size: 11px;
-  line-height: 1.5;
+  background: #eadcc8;
+  color: #352739;
+  box-shadow: none;
 }
 .studio-shell .studio-cta {
-  border: 2px solid #252c43;
-  border-radius: 0;
-  color: #222a40;
-  background: #ffa18b;
-  box-shadow: 4px 4px 0 #30364b;
-  min-height: 50px;
+  width: 100%;
+  display: flex;
+  gap: 12px;
   justify-content: center;
-  padding: 12px 20px;
+  min-height: 52px;
+  padding: 12px 18px;
+  background: #fa9c79;
+  color: #2e2131;
+  border: 2px solid #ffcdac;
+  border-radius: 0;
+  box-shadow: 4px 4px #884b50;
+  font-weight: 800;
 }
 .studio-shell .studio-cta:hover {
-  background: #ffb7a1;
+  background: #ffb38b;
 }
 .studio-shell .studio-cta:active {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #30364b;
+  box-shadow: 2px 2px #884b50;
 }
-.mission-footnote {
-  font-size: 11px;
-  color: #63606b;
-  margin: 12px 0 0;
-}
-.mission-route {
-  border-left: 1px solid #d9d5cf;
-  padding: 26px;
-  background: #f1eadd;
-}
-.mission-route ol {
-  padding: 0;
-  margin: 20px 0 16px;
-  list-style: none;
-  display: grid;
-  gap: 17px;
-}
-.mission-route li {
+.setlist-footer {
   display: flex;
-  gap: 13px;
-  align-items: start;
-}
-.mission-route li > span {
-  font:
-    400 13px Silkscreen,
-    monospace;
-  color: #46516c;
-  background: #fff9ec;
-  border: 1px solid #b9b6be;
-  padding: 8px;
-}
-.mission-route strong {
-  font-size: 14px;
-}
-.mission-route p {
-  font-size: 12px;
-  line-height: 1.5;
-  margin: 3px 0 0;
-  color: #5d5c69;
-}
-.mission-route a {
-  font-size: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.studio-shell .set-section {
-  padding: 32px 0 12px;
-}
-.studio-shell .section-heading .studio-kicker {
-  color: #bdc5dd;
-}
-.studio-shell .section-heading h2 {
-  margin: 6px 0;
-  font-size: 22px;
-  color: var(--cream);
-}
-.studio-shell .section-heading .text-button {
-  color: var(--mint);
-}
-.studio-shell .practice-set {
-  gap: 16px;
-  margin-top: 18px;
-}
-.studio-shell .set-card {
-  border: 2px solid #4b5572;
-  border-radius: 0;
-  box-shadow: 4px 4px #0d1120;
-  background: #232a42;
-  color: #fff4de;
-}
-.studio-shell .set-card-top {
-  padding: 13px 16px;
-  border-bottom: 1px solid #48516d;
-  color: #bfc7dc;
-  font-size: 9px;
+  justify-content: space-between;
   gap: 10px;
-}
-.studio-shell .set-number {
-  font-family: Silkscreen, monospace;
-  font-size: 13px;
-  color: #ffb49f;
-}
-.studio-shell .set-launch {
-  background: transparent;
-  padding: 18px;
-  color: inherit;
-}
-.studio-shell .set-launch h3 {
-  font-size: 19px;
-  line-height: 1.3;
-  margin: 14px 0 8px;
-  letter-spacing: -0.3px;
-}
-.studio-shell .set-launch p {
-  font-size: 13px;
-  color: #c1c9da;
+  font-size: 10px;
+  color: #c4b6c2;
+  margin-top: 16px;
   line-height: 1.5;
-  min-height: 40px;
 }
-.pixel-activity-icon {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  background: #373f5c;
-  color: #bbedd7;
-  border: 1px solid #586581;
-  box-shadow: 3px 3px #14192b;
+.setlist-footer a {
+  color: #ffcc9e;
+  white-space: nowrap;
 }
-.cover-knowledge .pixel-activity-icon {
-  color: #ffcf9b;
-}
-.cover-progression .pixel-activity-icon {
-  color: #cfb5ff;
-}
-.studio-shell .card-start {
-  color: #ffb49f;
-  font-size: 12px;
-}
-.studio-shell .set-card > a {
-  border-color: #48516d;
-  color: #b9c5db;
-  padding: 10px 18px;
-  font-size: 11px;
-}
-.studio-shell .set-bottom {
-  color: #b5bfd5;
-  font-size: 11px;
-}
-.studio-shell .set-bottom .text-button {
-  color: #d2e9dc;
-}
-.studio-shell .studio-lower {
-  padding: 12px 0;
-  display: block;
-}
-.studio-shell .studio-invitation {
-  background: #232a42;
-  border: 1px solid #46516b;
+.setlist-library {
+  border: 0;
+  border-top: 1px solid #65515e;
+  width: 100%;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #302936;
+  color: #e9d5c9;
   border-radius: 0;
-  padding: 20px;
-  color: #f7eddb;
+  font-size: 12px;
 }
-.studio-shell .studio-invitation h3 {
+.setlist-library svg:last-child {
+  margin-left: auto;
+}
+.room-companion {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  position: relative;
+  padding-top: 300px;
+  margin-bottom: 28px;
+  max-width: 650px;
+}
+.bandmate-sprite {
+  position: absolute;
+  bottom: 100px;
+  left: -26px;
+  width: min(430px, 36vw);
+  height: 430px;
+  object-fit: contain;
+  object-position: bottom;
+  image-rendering: pixelated;
+  filter: drop-shadow(8px 8px 0 #16121b66);
+  z-index: -1;
+}
+.game-dialogue {
+  padding: 24px 24px 18px;
+  background: #1d1c2bf5;
+  border: 3px solid #d5b8a3;
+  box-shadow:
+    6px 6px #17131dba,
+    inset 0 0 0 3px #3e3448;
+  position: relative;
+}
+.dialogue-name {
+  position: absolute;
+  left: 20px;
+  top: -15px;
+  background: #eac9a7;
+  border: 2px solid #f7e2cc;
+  padding: 6px 12px;
+  color: #322338;
+  font:
+    10px Silkscreen,
+    monospace;
+}
+.dialogue-name small {
+  font:
+    10px 'DM Sans',
+    sans-serif;
+  margin-left: 14px;
+  color: #583f53;
+}
+.game-dialogue p {
   font-size: 15px;
+  color: #f4e7de;
+  line-height: 1.6;
+  margin: 7px 0 18px;
 }
-.studio-shell .studio-invitation p {
-  color: #c2c9db;
+.dialogue-route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: #d4c0d3;
+  font-size: 10px;
+  border-top: 1px solid #64526a;
+  padding-top: 12px;
+}
+.dialogue-route i {
+  color: #efa77e;
+  font-style: normal;
+}
+.room-console {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin: 0 -5vw;
+  padding: 16px 5vw;
+  background: #16151ef5;
+  border-top: 2px solid #66505c;
+  color: #d4c6d1;
   font-size: 12px;
 }
-.studio-shell .studio-preferences {
-  margin: 12px 0;
-  padding: 14px 0;
-  border-color: #46506d;
-  color: #bdc7dd;
-  font-size: 12px;
+.room-console button,
+.room-console a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  color: #ead7ca;
+  padding: 6px 0;
+  background: transparent;
+  border: 0;
+  text-decoration: none;
+  white-space: nowrap;
 }
-.studio-shell .studio-preferences input:not([type='checkbox']) {
-  background: #252c44;
-  color: #fff4de;
-  border: 1px solid #626b87;
-  padding: 10px;
+.room-console button:hover,
+.room-console a:hover {
+  color: #ffc39a;
 }
-/* A compact stage frame, with a light reading surface for the active musical task. */
+.room-console small {
+  color: #bcadb9;
+  font-size: 10px;
+}
+.loaded-passage {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-right: auto;
+  min-width: 0;
+}
+.loaded-passage > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.loaded-passage small {
+  display: block;
+  font:
+    8px Silkscreen,
+    monospace;
+  margin-bottom: 5px;
+}
+.pixel-signal {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  background: #b6dac1;
+}
+.room-options {
+  display: grid;
+  gap: 22px;
+  padding: 22px 0;
+}
+.room-options label:last-child {
+  display: grid;
+  gap: 8px;
+}
+@media (min-width: 1500px) {
+  .studio-shell .studio-home.game-lobby {
+    grid-template-columns: 1fr 480px;
+    padding-top: 65px;
+  }
+  .room-title {
+    top: 65px;
+  }
+  .setlist-choices button {
+    min-height: 77px;
+  }
+  .bandmate-sprite {
+    height: 490px;
+    width: 490px;
+  }
+}
+@media (max-width: 1000px) {
+  .studio-shell .studio-home.game-lobby {
+    grid-template-columns: 1fr 370px;
+    gap: 20px;
+    padding: 30px 24px 0;
+  }
+  .room-title {
+    left: 24px;
+  }
+  .room-console {
+    margin: 0 -24px;
+    padding: 12px 24px;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .room-console small {
+    display: none;
+  }
+  .game-dialogue {
+    padding: 24px 18px 15px;
+  }
+  .dialogue-name small {
+    display: none;
+  }
+  .room-title h1 {
+    font-size: 34px;
+  }
+}
+@media (max-width: 700px) {
+  .studio-shell .studio-home.game-lobby {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100svh - 100px);
+    padding: 130px 16px 0;
+    gap: 18px;
+  }
+  .livehouse-scene {
+    object-position: 34% top;
+    height: 660px;
+  }
+  .livehouse-vignette {
+    background: linear-gradient(0deg, #18151e 3%, transparent 75%);
+  }
+  .room-title {
+    top: 22px;
+    left: 20px;
+  }
+  .room-title h1 {
+    font-size: 32px;
+    margin: 8px 0;
+  }
+  .room-title p {
+    font-size: 12px;
+  }
+  .game-setlist {
+    width: 100%;
+  }
+  .setlist-heading {
+    padding: 20px 18px 12px;
+  }
+  .setlist-choices {
+    max-height: 240px;
+  }
+  .setlist-choices button {
+    min-height: 62px;
+    padding: 9px;
+  }
+  .selected-mission {
+    padding: 14px 18px 18px;
+  }
+  .room-companion {
+    padding: 0;
+    margin: 16px 0 10px;
+    width: 100%;
+  }
+  .bandmate-sprite {
+    width: 120px;
+    height: 140px;
+    bottom: auto;
+    top: -145px;
+    left: auto;
+    right: -8px;
+    display: none;
+  }
+  .game-dialogue {
+    padding: 24px 18px 16px;
+  }
+  .game-dialogue p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .dialogue-route {
+    font-size: 9px;
+    gap: 7px;
+  }
+  .room-console {
+    margin: 0 -16px;
+    padding: 12px 16px;
+    gap: 6px 22px;
+  }
+  .loaded-passage {
+    width: 100%;
+  }
+  .room-console button,
+  .room-console a {
+    font-size: 11px;
+  }
+}
+/* The instrument screen keeps the same room palette, with quiet surfaces while playing. */
 .studio-shell.on-stage {
   background: #171c30;
 }
@@ -445,9 +678,9 @@
   color: #f3eadc;
 }
 .studio-shell .guitar-homework {
-  color: #283249;
-  border: 2px solid #b4b7c3;
-  background: #fffaf0;
+  color: #f3e8df;
+  border: 2px solid #8f7483;
+  background: #24212e;
   border-radius: 0;
   padding: 0 24px 18px;
   box-shadow: 5px 5px #0d1120;
@@ -457,12 +690,12 @@
   align-items: center;
   gap: 18px;
   padding: 12px 0;
-  border-bottom: 1px solid #d5d2ce;
+  border-bottom: 1px solid #514251;
   font-size: 11px;
 }
 .homework-session-bar > span:nth-child(2) {
   margin-left: auto;
-  color: #5d6270;
+  color: #bdafc4;
 }
 .homework-session-bar .text-button {
   font-size: 11px;
@@ -474,15 +707,15 @@
   padding: 16px 0 8px;
 }
 .homework-route button {
-  border: 1px solid #c6c6cb;
-  background: #eeece6;
+  border: 1px solid #6d5c72;
+  background: #302a3a;
   padding: 10px;
   border-radius: 0;
   text-align: left;
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #555d70;
+  color: #d7c8d9;
   min-height: 44px;
 }
 .homework-route button span {
@@ -511,7 +744,7 @@
   align-items: center;
 }
 .studio-shell .guitar-homework .eyebrow {
-  color: #656578;
+  color: #d5b5c2;
   font:
     400 10px Silkscreen,
     monospace;
@@ -523,8 +756,8 @@
 }
 .region-chip {
   padding: 8px 10px;
-  background: #ede9f3;
-  border: 1px solid #a9a4b9;
+  background: #3a3045;
+  border: 1px solid #836d92;
   font:
     400 10px Silkscreen,
     monospace;
@@ -557,7 +790,7 @@
 }
 .homework-save-status {
   margin: 3px 0;
-  color: #636b70;
+  color: #b8afc3;
   font-size: 10px !important;
 }
 .studio-shell .guitar-toolbar {
@@ -571,9 +804,9 @@
 .studio-shell .guitar-toolbar select {
   padding: 8px;
   font-size: 12px;
-  background: #fffdf7;
-  color: #303a4a;
-  border: 1px solid #a7adb5;
+  background: #201c2a;
+  color: #e7d9e4;
+  border: 1px solid #78657b;
   border-radius: 0;
 }
 .studio-shell .guitar-toolbar .text-button {
@@ -584,7 +817,7 @@
 .homework-instrument {
   border: 2px solid #596078;
   background: #252c41;
-  box-shadow: 3px 3px #dfd9ce;
+  box-shadow: 3px 3px #171320;
 }
 .instrument-heading {
   display: flex;
@@ -637,8 +870,8 @@
 .studio-shell .guitar-chords button {
   font-size: 18px;
   min-width: 64px;
-  background: #e8e5ef;
-  border: 1px solid #aaa6b9;
+  background: #3a3045;
+  border: 1px solid #8b7194;
   border-radius: 0;
 }
 .studio-shell .guitar-chords button[aria-pressed='true'] {
@@ -686,15 +919,15 @@
   gap: 8px;
 }
 .studio-shell .guitar-homework .primary-button {
-  background: #303e5a;
-  color: #fff5df;
-  border: 1px solid #1e2a42;
-  box-shadow: 2px 2px #9fa5b1;
+  background: #ffa580;
+  color: #302032;
+  border: 1px solid #ffcfad;
+  box-shadow: 3px 3px #885261;
 }
 .studio-shell .guitar-homework .secondary-button {
-  background: #fffaf0;
-  color: #38465b;
-  border: 1px solid #a7acb6;
+  background: #24212e;
+  color: #eddcda;
+  border: 1px solid #806b83;
 }
 .studio-shell .guitar-actions {
   gap: 9px;
@@ -705,7 +938,7 @@
   font-size: 12px;
 }
 .studio-shell .guitar-result {
-  background: #ebeee6;
+  background: #2c3835;
   border-left: 3px solid #6f947e;
   margin: 16px 0;
   padding: 15px;
@@ -719,7 +952,7 @@
   line-height: 1.5;
 }
 .studio-shell .guitar-result small {
-  color: #5d636a;
+  color: #c1c9c2;
 }
 .homework-next {
   display: flex;
@@ -728,8 +961,8 @@
   gap: 14px;
   padding: 16px;
   margin-top: 20px;
-  background: #ece9f0;
-  border: 1px solid #bcb7c7;
+  background: #322c40;
+  border: 1px solid #7e6b88;
 }
 .homework-next p {
   margin: 6px 0 0;
@@ -737,11 +970,11 @@
 }
 .homework-participation {
   font-size: 11px;
-  color: #656775;
+  color: #bfb2c7;
   margin: 10px 0 18px;
 }
 .studio-shell .guitar-homework > details {
-  border-top: 1px solid #ddd7cf;
+  border-top: 1px solid #64526b;
   font-size: 12px;
 }
 .studio-shell .guitar-homework summary {
@@ -751,11 +984,11 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 26px 0 22px;
-  border: 1px solid #c1bec7;
+  border: 1px solid #78677d;
 }
 .homework-brief > div {
   padding: 20px;
-  border-right: 1px solid #d1cdd4;
+  border-right: 1px solid #78677d;
 }
 .homework-brief > div:last-child {
   border-right: 0;
@@ -788,7 +1021,7 @@
 }
 .studio-shell .guitar-reflection {
   border: 2px solid #917c66;
-  background: #fff0d5;
+  background: #32293d;
   padding: 15px;
 }
 .studio-shell .guitar-reflection legend {
@@ -853,12 +1086,6 @@
 .studio-shell .studio-page .page-intro .studio-kicker {
   color: #65657a;
 }
-.studio-shell .studio-invitation .secondary-button {
-  border-radius: 0;
-  color: #fff1d8;
-  background: #303c56;
-  border: 1px solid #6a7590;
-}
 @media (max-width: 1000px) {
   .studio-shell .studio-nav {
     padding: 0 20px;
@@ -873,15 +1100,6 @@
   }
   .studio-shell .studio-wordmark {
     font-size: 17px;
-  }
-  .mission-main {
-    padding: 24px;
-  }
-  .mission-main h2 {
-    font-size: 21px;
-  }
-  .mission-route {
-    padding: 24px 20px;
   }
   .studio-shell .homework-route button {
     gap: 6px;
@@ -917,76 +1135,6 @@
   }
   .studio-shell .studio-home {
     padding: 0 16px;
-  }
-  .studio-shell .studio-hero {
-    height: 245px;
-  }
-  .studio-shell .studio-welcome {
-    padding: 26px 22px;
-  }
-  .studio-shell .studio-welcome h1 {
-    font-size: 28px;
-  }
-  .studio-shell .room-caption {
-    display: none;
-  }
-  .mission-board {
-    grid-template-columns: 1fr;
-    margin-top: 18px;
-  }
-  .mission-route {
-    border-left: 0;
-    border-top: 1px solid #ccc6c0;
-    padding: 16px 22px;
-  }
-  .mission-route ol {
-    gap: 12px;
-    margin: 14px 0;
-  }
-  .mission-route li > span {
-    padding: 5px;
-    font-size: 11px;
-  }
-  .mission-route p {
-    display: none;
-  }
-  .mission-route strong {
-    font-size: 13px;
-  }
-  .mission-route ol {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .mission-route li {
-    gap: 7px;
-    align-items: center;
-  }
-  .mission-route a {
-    font-size: 11px;
-  }
-  .studio-shell .practice-set {
-    grid-template-columns: 1fr;
-  }
-  .studio-shell .set-launch {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    column-gap: 16px;
-    padding: 16px;
-  }
-  .studio-shell .set-launch .pixel-activity-icon {
-    grid-row: 1 / 4;
-  }
-  .studio-shell .set-launch h3 {
-    font-size: 18px;
-    margin: 0 0 6px;
-  }
-  .studio-shell .set-launch p {
-    min-height: 0;
-    margin: 0 0 12px;
-  }
-  .studio-shell .set-launch .card-start {
-    grid-column: 2;
   }
   .studio-shell .studio-stage {
     padding: 12px 12px 45px;
@@ -1050,7 +1198,7 @@
     column-gap: 12px;
     padding: 14px;
     border-right: 0;
-    border-bottom: 1px solid #d1cdd4;
+    border-bottom: 1px solid #78677d;
   }
   .homework-brief > div:last-child {
     border-bottom: 0;
@@ -1075,15 +1223,6 @@
   .studio-shell .guitar-actions button {
     flex: 1 1 135px;
     justify-content: center;
-  }
-  .studio-shell .studio-teacher-trigger {
-    right: 10px;
-    bottom: 110px;
-    padding: 7px 10px;
-  }
-  .studio-shell .studio-teacher-trigger img {
-    width: 30px;
-    height: 34px;
   }
   .studio-shell .studio-page {
     margin: 12px;
@@ -1279,4 +1418,379 @@ body .studio-teacher-drawer > p {
 .studio-teacher-drawer :is(button, input, textarea, select):focus-visible {
   outline: 3px solid #b84f35;
   outline-offset: 3px;
+}
+
+/* Practice controls sit next to the neck, so all six strings remain visible. */
+.studio-shell .studio-nav {
+  min-height: 62px;
+}
+.studio-shell.on-stage {
+  background:
+    linear-gradient(#1a1826ee, #171622f7),
+    url('/art/live-house.png') center top / cover fixed;
+}
+.studio-shell .studio-stage {
+  max-width: 1360px;
+  padding-top: 12px;
+}
+.studio-shell .studio-stage .song-header h1 {
+  font-size: 16px;
+}
+.studio-shell .studio-stage .song-header {
+  margin: 0;
+}
+.studio-shell .studio-stage .song-meta {
+  margin-top: 6px;
+  font-size: 10px;
+}
+.studio-shell .stage-goal summary {
+  font-size: 11px;
+}
+.studio-shell .stage-actions {
+  padding-bottom: 0;
+}
+.studio-shell .guitar-homework {
+  background: #24212eef;
+}
+.homework-session-bar {
+  padding: 8px 0;
+}
+.homework-route {
+  padding: 10px 0 0;
+}
+.studio-shell .guitar-homework h2 {
+  color: #fff0de;
+  font:
+    400 27px/1.25 Silkscreen,
+    monospace;
+}
+.studio-shell .guitar-homework .homework-task-heading {
+  padding-top: 10px;
+}
+.studio-shell .guitar-instruction {
+  margin: 8px 0 16px;
+  font-size: 15px;
+  color: #dfd3e0;
+}
+.homework-playfield {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.homework-play-controls {
+  background: #201b29;
+  border: 1px solid #65516e;
+  padding: 14px;
+}
+.homework-play-controls .guitar-toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0;
+  gap: 8px;
+}
+.studio-shell .homework-play-controls .guitar-toolbar label {
+  flex: initial;
+  font-size: 10px;
+  gap: 6px;
+  color: #c7b6cd;
+}
+.studio-shell .homework-play-controls .guitar-toolbar select {
+  font-size: 11px;
+  width: 100%;
+}
+.studio-shell .homework-play-controls .guitar-toolbar .text-button {
+  margin: 0;
+  color: #f3bb93;
+  text-align: left;
+}
+.studio-shell .homework-play-controls .guitar-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 12px 0 0;
+}
+.studio-shell .homework-play-controls .guitar-actions button {
+  justify-content: center;
+  flex: initial;
+}
+.studio-shell .guitar-homework .text-button {
+  color: #e9bc99;
+}
+.studio-shell .guitar-homework .caption {
+  color: #b6acbf;
+  font-size: 10px;
+  margin: 8px 0 0;
+}
+.homework-neck-view {
+  min-width: 0;
+}
+.studio-shell .homework-instrument .fret {
+  min-height: 37px;
+}
+.studio-shell .homework-instrument .fret > span {
+  font-size: 12px;
+}
+.studio-shell .guitar-homework .task-purpose {
+  border-color: #5f4e69;
+}
+.studio-shell .guitar-homework .task-purpose p {
+  color: #d5c8d9;
+}
+.studio-shell .guitar-homework .homework-input-note {
+  color: #c5b7cb;
+}
+.studio-shell .guitar-homework .homework-brief {
+  background: #2c2637;
+}
+.studio-shell .guitar-homework .homework-brief strong {
+  color: #f5d6bb;
+}
+.studio-shell .guitar-homework .homework-brief p {
+  color: #cabccf;
+}
+.studio-shell .guitar-homework .guitar-reflection {
+  border-color: #8d7798;
+  color: #f5dfd2;
+}
+.studio-shell .guitar-homework details label {
+  color: #d9c6df;
+}
+.studio-shell .guitar-homework > details {
+  border-color: #5f4d68;
+}
+@media (max-width: 800px) {
+  .homework-playfield {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .homework-play-controls {
+    padding: 10px;
+  }
+  .studio-shell .homework-play-controls .guitar-toolbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+  }
+  .studio-shell .homework-play-controls .guitar-toolbar label {
+    flex: 1 1 180px;
+  }
+  .studio-shell .homework-play-controls .guitar-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .studio-shell .homework-play-controls .guitar-actions button {
+    flex: 1 1 120px;
+  }
+  .studio-shell .guitar-homework h2 {
+    font-size: 22px;
+  }
+}
+/* Evidence keeps its denominators and failures visible rather than looking like game stats. */
+.forge-evidence {
+  scroll-margin-top: 24px;
+}
+.lab-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lab-heading svg {
+  color: #7c4d65;
+  flex-shrink: 0;
+}
+.lab-heading h2 {
+  margin: 6px 0;
+}
+.evidence-studies {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+.evidence-studies article {
+  padding: 24px;
+  background: #f3ede7;
+  border: 1px solid #c6b9bc;
+}
+.evidence-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 8px;
+  border: 1px solid #b48c82;
+  color: #7b403a;
+  background: #f5dfd3;
+}
+.evidence-voicing {
+  background: #e4e7df;
+  color: #455c46;
+  border-color: #a4b19b;
+}
+.evidence-studies h3 {
+  font-size: 17px;
+  line-height: 1.4;
+  margin: 16px 0 12px;
+}
+.evidence-metric {
+  display: block;
+  font:
+    400 26px/1.4 Silkscreen,
+    monospace;
+  letter-spacing: -1px;
+}
+.evidence-measure {
+  display: block;
+  font-size: 11px;
+  color: #5f5967;
+  margin: 8px 0 18px;
+}
+.evidence-studies p {
+  font-size: 13px;
+  line-height: 1.65;
+}
+.evidence-limit {
+  border-left: 2px solid #a0796d;
+  padding-left: 12px;
+}
+.evidence-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.evidence-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #5b3b67;
+}
+.evidence-footnote {
+  padding: 18px;
+  border: 1px dashed #9f93a5;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.evidence-footnote p {
+  margin: 8px 0;
+}
+@media (max-width: 700px) {
+  .evidence-studies {
+    grid-template-columns: 1fr;
+  }
+  .evidence-studies article {
+    padding: 18px;
+  }
+}
+.studio-shell .homework-play-controls .guitar-chords {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+.studio-shell .homework-play-controls .guitar-chords button {
+  min-width: 0;
+  padding: 8px 4px;
+  font-size: 15px;
+}
+@media (max-width: 700px) {
+  .studio-shell.on-stage .studio-nav {
+    padding: 7px 12px 0;
+    gap: 4px;
+  }
+  .studio-shell.on-stage .studio-logo {
+    width: 26px;
+    height: 26px;
+  }
+  .studio-shell.on-stage .studio-nav nav a {
+    padding: 7px 4px;
+  }
+  .studio-shell .studio-stage {
+    padding-top: 8px;
+  }
+  .studio-shell .studio-stage .song-header h1 {
+    font-size: 13px;
+    margin: 0 0 4px;
+  }
+  .studio-shell .activity-homework .song-meta {
+    font-size: 9px;
+    margin-top: 4px;
+  }
+  .studio-shell .stage-actions {
+    gap: 4px 14px;
+  }
+  .studio-shell .stage-actions .stage-guide-button {
+    min-height: 34px;
+    padding: 2px 8px;
+  }
+  .studio-shell .stage-actions .stage-guide-button img {
+    width: 22px;
+    height: 24px;
+  }
+  .studio-shell .stage-actions > a {
+    margin-right: 0;
+  }
+  .studio-shell .stage-actions > .text-button {
+    min-height: 32px;
+  }
+  .studio-shell .guitar-homework {
+    padding: 0 10px 12px;
+  }
+  .homework-session-bar {
+    gap: 6px;
+    font-size: 9px;
+  }
+  .homework-session-bar .mission-label {
+    font-size: 8px;
+  }
+  .homework-session-bar .text-button {
+    font-size: 10px;
+  }
+  .homework-session-bar > span:nth-child(2) {
+    margin-left: 0;
+  }
+  .studio-shell .homework-route button {
+    gap: 3px;
+    padding: 6px 4px;
+    min-height: 52px;
+  }
+  .studio-shell .homework-route button[aria-current='step'] {
+    padding: 5px 3px;
+  }
+  .homework-route button span {
+    font-size: 8px;
+  }
+  .homework-route button strong {
+    font-size: 9px;
+  }
+  .studio-shell .guitar-homework .homework-task-heading {
+    padding-top: 8px;
+  }
+  .studio-shell .guitar-homework h2 {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+  .studio-shell .guitar-homework .region-chip {
+    font-size: 8px;
+    padding: 6px;
+  }
+  .studio-shell .guitar-instruction {
+    font-size: 14px;
+    margin: 7px 0 10px;
+  }
+  .homework-neck-view {
+    order: -1;
+  }
+  .studio-shell .homework-instrument .fret {
+    min-height: 32px;
+  }
+  .instrument-heading {
+    font-size: 9px;
+    padding: 8px;
+  }
+  .instrument-heading > span:first-child {
+    font-size: 8px;
+  }
 }

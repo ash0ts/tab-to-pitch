@@ -29,7 +29,7 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await open(page);
-  await expect(page.getByRole('heading', { name: 'Make the neck feel familiar.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Sound check.' })).toBeVisible();
   await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).click();
   await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Start homework', exact: true })).toBeEnabled();
@@ -109,6 +109,9 @@ test('listening and teaching references are reachable without exposing another t
   await page.getByRole('link', { name: 'Why this exercise?', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'How this teaches', exact: true })).toBeVisible();
   await expect(page.getByText('What it does not establish', { exact: true })).toBeVisible();
+  const guide = await page.locator('#exercise-guide').boundingBox();
+  const lab = await page.locator('#forge-evidence').boundingBox();
+  expect(guide!.y).toBeLessThan(lab!.y);
 });
 test('missing artwork, reduced motion and zoom leave functional navigation', async ({ page }) => {
   await page.route('**/art/**', (route) => route.abort());
@@ -231,4 +234,52 @@ test('a practice round has a visible route, honest feedback, and a saved ending'
   expect(events.filter((e: any) => e.live?.attempt)).toHaveLength(0);
   expect(await data(page, 'attempts')).toHaveLength(0);
   await page.screenshot({ path: `../pixel-practice-${info.project.name}.png` });
+});
+
+test('the room selects one setlist activity and retains optional bandmate preferences', async ({
+  page,
+}) => {
+  await open(page, 'studio');
+  const selection = page.locator('.setlist-choices');
+  await selection.getByRole('button', { name: /One progression, many places/ }).click();
+  await expect(
+    selection.getByRole('button', { name: /One progression, many places/ }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.mission-goal')).toContainText('Move accompaniment');
+  await page.getByRole('button', { name: 'Room settings & weekly intention' }).click();
+  await page.getByLabel('Show the optional AI bandmate').uncheck();
+  await page.getByRole('button', { name: 'Close dialog' }).click();
+  await expect(page.locator('.bandmate-sprite')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Start practicing', exact: true }).click();
+  await expect(page).toHaveURL(/stage\/progression/);
+  await page.getByRole('button', { name: 'Exit to studio' }).click();
+  await page.reload();
+  await expect(page.locator('.bandmate-sprite')).toHaveCount(0);
+  await page.getByRole('link', { name: 'Songs & exercises', exact: true }).click();
+  const card = page.locator('.activity-card').filter({
+    has: page.getByRole('heading', { name: 'One progression, many places', exact: true }),
+  });
+  await card.getByRole('button', { name: 'Remove from set', exact: true }).click();
+  await expect(card.getByRole('button', { name: 'Add to set', exact: true })).toBeEnabled();
+});
+
+test('the Forge lab shows failed qualifications and keeps learning claims separate', async ({
+  page,
+}) => {
+  await open(page, 'research');
+  const lab = page.getByRole('region', { name: 'Forge experiment evidence' });
+  await expect(lab).toContainText('45 / 96');
+  await expect(lab).toContainText('51 local fallbacks');
+  await expect(lab).toContainText('52/60');
+  await expect(lab).toContainText('40% of critical');
+  await expect(lab).toContainText('Candidate not promoted');
+  await expect(lab.getByRole('link', { name: 'Lens · accepted error' })).toHaveAttribute(
+    'href',
+    /conversations\/93c8126f/,
+  );
+  for (const path of ['evidence-audit.md', 'listening-results.md', 'ear-lab-results.md']) {
+    const response = await page.request.get(`/research/notebook/${path}`);
+    expect(response.status()).toBe(200);
+    expect(await response.text()).not.toContain('<div id="root">');
+  }
 });

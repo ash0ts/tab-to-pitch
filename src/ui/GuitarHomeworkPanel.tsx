@@ -364,138 +364,144 @@ export function GuitarHomeworkPanel(props: {
               </button>
             </div>
           )}
-          <div className="guitar-toolbar">
-            <label>
-              Response method
-              <select
-                value={s.method}
-                onChange={(e) => {
-                  stop();
-                  p.change({ method: e.target.value as 'live' | 'self-report' });
-                }}
-              >
-                <option value="self-report">Without an interface · self-report</option>
-                {step.responseMethods.includes('live') && (
-                  <option value="live">USB / MIDI · experimental sound feedback</option>
-                )}
-              </select>
-            </label>
-            <button
-              className="text-button"
-              disabled={p.active}
-              onClick={() => p.change({ labels: !s.labels })}
-            >
-              {s.labels ? 'Try without labels' : 'Show labels · counts as help'}
-            </button>
-          </div>
-          {step.progression.length > 0 && (
-            <nav className="guitar-chords" aria-label="Homework progression">
-              {step.progression.map((c, i) => (
+          <div className="homework-playfield">
+            <div className="homework-play-controls">
+              <div className="guitar-toolbar">
+                <label>
+                  Response method
+                  <select
+                    value={s.method}
+                    onChange={(e) => {
+                      stop();
+                      p.change({ method: e.target.value as 'live' | 'self-report' });
+                    }}
+                  >
+                    <option value="self-report">Without an interface · self-report</option>
+                    {step.responseMethods.includes('live') && (
+                      <option value="live">USB / MIDI · experimental sound feedback</option>
+                    )}
+                  </select>
+                </label>
                 <button
-                  key={i}
-                  className="secondary-button"
-                  aria-pressed={displayedChord === i}
-                  onClick={() => setChordIndex(i)}
+                  className="text-button"
+                  disabled={p.active}
+                  onClick={() => p.change({ labels: !s.labels })}
                 >
-                  {c.symbol}
+                  {s.labels ? 'Try without labels' : 'Show labels · counts as help'}
                 </button>
-              ))}
-            </nav>
-          )}
-          <div className="guitar-actions">
-            <button
-              className="secondary-button"
-              disabled={!h.fresh || !props.audioReady}
-              onClick={() => audition(true)}
-            >
-              <Headphones size={16} /> Hear example
-            </button>
-            <button
-              className="primary-button"
-              disabled={
-                !h.fresh ||
-                !props.audioReady ||
-                p.active ||
-                (s.method === 'live' && guitar.input?.status !== 'listening')
-              }
-              onClick={begin}
-            >
-              <Play size={16} fill="currentColor" /> Play along
-            </button>
-            <button
-              className="secondary-button"
-              disabled={!h.fresh || !props.audioReady}
-              onClick={() => audition(false)}
-            >
-              <Repeat2 size={16} /> Repeat this change
-            </button>
-            {step.progression.length > 2 && (
-              <button
-                className="secondary-button"
-                disabled={p.active || !h.fresh}
-                onClick={() => {
-                  stop();
-                  p.apply({ type: 'playing-homework', operation: 'isolate', stepId: step.id });
-                }}
-              >
-                Isolate the first change
-              </button>
-            )}
-            <button
-              className="primary-button"
-              hidden={!p.active}
-              disabled={!p.active}
-              onClick={finish}
-            >
-              <Check size={16} /> Finish attempt
-            </button>
-            <button
-              className="text-button"
-              hidden={!p.active}
-              disabled={!p.active}
-              onClick={() => {
-                p.interrupt();
-                stop();
-              }}
-            >
-              Cancel attempt
-            </button>
-          </div>
-          <div className="homework-instrument">
-            <div className="instrument-heading">
-              <span>{p.active ? 'PLAYING' : 'YOUR NECK MAP'}</span>
-              <span>{s.labels ? 'Suggested locations' : 'From memory · labels hidden'}</span>
-            </div>
-            <Fretboard
-              tuning={props.tuning}
-              capo={props.capo}
-              minFret={step.region.minFret}
-              maxFret={step.region.maxFret}
-              markers={markers}
-              hideLabels={!s.labels}
-              label="Suggested guitar locations"
-            />
-            {s.labels && chord && (
-              <div className="homework-role-key" aria-label="Chord tone colors">
-                {chord.tones
-                  .filter((tone) =>
-                    shown.some(
-                      (position) =>
-                        noteAt(position, props.tuning, props.capo)! % 12 === tone.pitchClass,
-                    ),
-                  )
-                  .map((tone) => (
-                    <span key={tone.degree} className={toneRole(tone.degree)}>
-                      {tone.degree} {DEGREE_LABELS[tone.degree] ?? tone.degree}
-                    </span>
-                  ))}
               </div>
-            )}
+              {step.progression.length > 0 && (
+                <nav className="guitar-chords" aria-label="Homework progression">
+                  {step.progression.map((c, i) => (
+                    <button
+                      key={i}
+                      className="secondary-button"
+                      aria-pressed={displayedChord === i}
+                      onClick={() => setChordIndex(i)}
+                    >
+                      {c.symbol}
+                    </button>
+                  ))}
+                </nav>
+              )}
+              <div className="guitar-actions">
+                <button
+                  className="secondary-button"
+                  disabled={!h.fresh || !props.audioReady}
+                  onClick={() => audition(true)}
+                >
+                  <Headphones size={16} /> Hear example
+                </button>
+                <button
+                  className="primary-button"
+                  disabled={
+                    !h.fresh ||
+                    !props.audioReady ||
+                    p.active ||
+                    (s.method === 'live' && guitar.input?.status !== 'listening')
+                  }
+                  onClick={begin}
+                >
+                  <Play size={16} fill="currentColor" /> Play along
+                </button>
+                <button
+                  className="secondary-button"
+                  disabled={!h.fresh || !props.audioReady}
+                  onClick={() => audition(false)}
+                >
+                  <Repeat2 size={16} /> Repeat this change
+                </button>
+                {step.progression.length > 2 && (
+                  <button
+                    className="secondary-button"
+                    disabled={p.active || !h.fresh}
+                    onClick={() => {
+                      stop();
+                      p.apply({ type: 'playing-homework', operation: 'isolate', stepId: step.id });
+                    }}
+                  >
+                    Isolate the first change
+                  </button>
+                )}
+                <button
+                  className="primary-button"
+                  hidden={!p.active}
+                  disabled={!p.active}
+                  onClick={finish}
+                >
+                  <Check size={16} /> Finish attempt
+                </button>
+                <button
+                  className="text-button"
+                  hidden={!p.active}
+                  disabled={!p.active}
+                  onClick={() => {
+                    p.interrupt();
+                    stop();
+                  }}
+                >
+                  Cancel attempt
+                </button>
+              </div>
+            </div>
+            <div className="homework-neck-view">
+              <div className="homework-instrument">
+                <div className="instrument-heading">
+                  <span>{p.active ? 'PLAYING' : 'YOUR NECK MAP'}</span>
+                  <span>{s.labels ? 'Suggested locations' : 'From memory · labels hidden'}</span>
+                </div>
+                <Fretboard
+                  tuning={props.tuning}
+                  capo={props.capo}
+                  minFret={step.region.minFret}
+                  maxFret={step.region.maxFret}
+                  markers={markers}
+                  hideLabels={!s.labels}
+                  label="Suggested guitar locations"
+                />
+                {s.labels && chord && (
+                  <div className="homework-role-key" aria-label="Chord tone colors">
+                    {chord.tones
+                      .filter((tone) =>
+                        shown.some(
+                          (position) =>
+                            noteAt(position, props.tuning, props.capo)! % 12 === tone.pitchClass,
+                        ),
+                      )
+                      .map((tone) => (
+                        <span key={tone.degree} className={toneRole(tone.degree)}>
+                          {tone.degree} {DEGREE_LABELS[tone.degree] ?? tone.degree}
+                        </span>
+                      ))}
+                  </div>
+                )}
+              </div>
+              <p className="caption">
+                {s.labels ? 'Suggested positions.' : 'Labels and location markers are hidden.'}{' '}
+                Audio cannot verify the string, fret or CAGED family you used.
+              </p>
+            </div>
           </div>
-          <p className="caption">
-            {s.labels ? 'Suggested positions.' : 'Labels and location markers are hidden.'} Audio
-            cannot verify the string, fret or CAGED family you used.
-          </p>
           {!props.audioReady && <p role="status">Preparing backing audio…</p>}
           {p.active && (
             <p role="status">
