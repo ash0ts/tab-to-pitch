@@ -92,3 +92,61 @@
 .guitar-homework .fret:disabled {
   opacity: 1;
 }
+
+.homework-note-inspector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  padding: 14px 4px;
+  min-height: 58px;
+  font-size: 14px;
+}
+.homework-note-inspector strong {
+  font-size: 26px;
+  color: #ffcd86;
+}
+.homework-connection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #56617b;
+  padding-top: 18px;
+}
+.homework-connection > div {
+  display: grid;
+  gap: 4px;
+}
+.homework-connection > div:first-child {
+  border-left: 3px solid #d7e9f2;
+  padding-left: 12px;
+}
+.homework-connection > div:nth-child(3) {
+  border-left: 3px solid #fae9cc;
+  padding-left: 12px;
+}
+.homework-connection > span {
+  display: grid;
+  text-align: center;
+  font-size: 22px;
+}
+.homework-connection small {
+  font-size: 11px;
+}
+.homework-connection p {
+  flex-basis: 100%;
+  line-height: 1.6;
+  font-size: 14px;
+}
+.homework-retry-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.homework-retry-options > span {
+  flex-basis: 100%;
+  font-weight: 600;
+}

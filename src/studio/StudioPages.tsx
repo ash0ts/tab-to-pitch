@@ -10,9 +10,7 @@ import {
   Play,
   Plus,
   Settings2,
-  Sparkles,
   TrendingUp,
-  X,
 } from 'lucide-react';
 import { ACTIVITIES, activity, REFERENCES, type ActivityId } from './catalog';
 import type { StudioController, Destination } from './useStudio';
@@ -20,6 +18,8 @@ import type { AttemptRecord } from '../engine/types';
 import { reviewDueAt } from '../engine/scheduler';
 import { getLessonData, getMemoryLessonData } from '../storage';
 import type { LessonData } from '../lesson-storage';
+import { Modal } from '../ui/Modal';
+import { ForgeEvidence } from './ForgeEvidence';
 const NAV: { page: Destination; label: string; icon: typeof Home }[] = [
   { page: 'studio', label: 'Studio', icon: Home },
   { page: 'library', label: 'Songs & exercises', icon: Library },
@@ -56,7 +56,7 @@ export function StudioHeader({
         ))}
       </nav>
       <div className="studio-nav-tools">
-        <button className="text-button" onClick={onImport}>
+        <button className="text-button" aria-label="Import tab" onClick={onImport}>
           <Plus size={17} />
           <span>Import tab</span>
         </button>
@@ -85,172 +85,176 @@ export function StudioHome({
     return at !== null && at <= Date.now();
   }).length;
   const resume = studio.set.bookmark;
-  const first = activity(resume?.activity ?? studio.set.activities[0]!);
+  const [selected, setSelected] = useState<ActivityId | null>(null);
+  const [preferences, setPreferences] = useState(false);
+  const choices = [...new Set([...(resume ? [resume.activity] : []), ...studio.set.activities])];
+  const current = activity(selected && choices.includes(selected) ? selected : choices[0]!);
+  const continuing = resume?.activity === current.id;
+  const instructions: Partial<Record<ActivityId, string>> = {
+    homework:
+      'Pick up your guitar. Find a note, connect a shape, then use it in a chord change. We’ll keep one thing on screen at a time.',
+    progression:
+      'Keep the harmony. Change where you play it. Start with one chord, then hear the whole progression in its new position.',
+    listening:
+      'Listen first. Make a guess, then investigate the change you’re unsure about. Replaying is always welcome.',
+    knowledge:
+      'Try a short recall question. Ask for a cue whenever you need one; your first answer stays in the record.',
+  };
   return (
-    <main className="studio-home">
-      <section className="studio-hero">
-        <picture>
-          <source media="(max-width:600px)" srcSet="/art/studio-mobile.jpg" />
-          <img className="studio-room" src="/art/studio.jpg" alt="" />
-        </picture>
-        <div className="room-shade" />
-        <div className="studio-welcome">
-          <span className="studio-kicker">
-            <span /> THE ROOM IS YOURS
-          </span>
-          <h1>
-            A little practice.
-            <br />
-            More music.
-          </h1>
-          <p>
-            Find a note. Hear a change.
-            <br />
-            Make it yours, somewhere else on the neck.
-          </p>
-          <button className="studio-cta" disabled={!ready} onClick={() => onStart(first.id)}>
-            <Play size={18} fill="currentColor" />
-            Continue practicing
-            <ArrowRight size={18} />
-          </button>
-          <span className="resume-line">
-            {resume ? resume.next : first.title} · {studio.set.workload} min set
-          </span>
-        </div>
-        <div className="room-caption">
-          THE REHEARSAL ROOM <span>01</span>
-        </div>
-      </section>
-      <section className="set-section">
-        <div className="section-heading">
+    <main className="studio-home game-lobby">
+      <img className="livehouse-scene" src="/art/live-house.png" alt="" />
+      <div className="livehouse-vignette" />
+      <div className="room-title">
+        <span className="studio-kicker">TABTOPITCH / REHEARSAL ROOM</span>
+        <h1>Sound check.</h1>
+        <p>Your guitar. One good change.</p>
+      </div>
+      <section className="game-setlist" aria-label="Your next practice session">
+        <header className="setlist-heading">
           <div>
-            <span className="studio-kicker">YOUR PRACTICE SET</span>
-            <h2>A few ideas to play with.</h2>
+            <span className="studio-kicker">TONIGHT’S SETLIST</span>
+            <h2>What are we playing?</h2>
           </div>
-          <div className="workload" aria-label="Suggested practice workload">
-            {([5, 15, 30] as const).map((n) => (
-              <button
-                key={n}
-                aria-pressed={studio.set.workload === n}
-                onClick={() => studio.change({ workload: n })}
-              >
-                {n} min
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="set-meta">
-          <span>{resume ? 'Pick up where you left off' : 'Start with what interests you'}</span>
-          <span>Suggested workload. Stop or stay longer.</span>
-        </div>
-        {due > 0 && (
-          <p className="due-review">
-            {due} note or role review{due === 1 ? ' is' : 's are'} available.{' '}
-            <button className="text-button" onClick={() => onStart('knowledge')}>
-              Return to a recall question
-            </button>{' '}
-            · You can choose something else.
-          </p>
-        )}
-        <div className="practice-set">
-          {studio.set.activities.map((id, i) => {
+          <span className="setlist-count">
+            {String(choices.length).padStart(2, '0')}
+            <small>IDEAS</small>
+          </span>
+        </header>
+        <div className="setlist-choices" aria-label="Choose a practice activity">
+          {choices.map((id, i) => {
             const a = activity(id);
             return (
-              <article className={`set-card cover-${id}`} key={`${id}-${i}`}>
-                <div className="set-card-top">
-                  <span className="set-number">0{i + 1}</span>
-                  <span>
-                    {i === 0 ? 'YOUR CHOICE' : i === 1 ? 'RETURN TO AN IDEA' : 'TAKE IT ELSEWHERE'}
-                  </span>
-                  <button
-                    className="icon-button"
-                    aria-label={`Remove ${a.title} from set`}
-                    disabled={studio.set.activities.length === 1}
-                    onClick={() =>
-                      studio.change({ activities: studio.set.activities.filter((_, n) => n !== i) })
-                    }
-                  >
-                    <X size={15} />
-                  </button>
-                </div>
-                <button className="set-launch" disabled={!ready} onClick={() => onStart(id)}>
-                  <div className="cover-art" aria-hidden="true">
-                    <img src="/art/exercise-covers.jpg" alt="" />
-                  </div>
-                  <span className="card-category">{a.category}</span>
-                  <h3>{a.title}</h3>
-                  <p>{a.objective}</p>
-                  <span className="card-start">
-                    Start here <ArrowRight size={17} />
-                  </span>
-                </button>
-                <a href={`#/research/${id}`}>Why this exercise?</a>
-              </article>
+              <button key={id} aria-pressed={id === current.id} onClick={() => setSelected(id)}>
+                <span className="setlist-cursor" aria-hidden="true">
+                  {id === current.id ? '▶' : String(i + 1).padStart(2, '0')}
+                </span>
+                <span>
+                  <strong>{a.title}</strong>
+                  <small>{a.category}</small>
+                </span>
+                {resume?.activity === id && <span className="saved-slot">SAVED</span>}
+              </button>
             );
           })}
         </div>
-        <div className="set-bottom">
-          <button className="text-button" onClick={() => studio.go('library')}>
-            <Plus size={16} />
-            Change the set
-          </button>
-          <span>{source} · On this device</span>
-        </div>
-      </section>
-      <section className="studio-lower">
-        <div className="studio-invitation">
-          <Guitar size={28} />
-          <div>
-            <h3>Bring your guitar.</h3>
-            <p>Plug in a USB interface, or just play along. Screen practice always works.</p>
+        <div className="selected-mission">
+          <div className="mission-label">{continuing ? 'CONTINUE FROM HERE' : 'THE IDEA'}</div>
+          <p className="mission-goal">{continuing ? resume.next : current.objective}</p>
+          <div className="session-size">
+            <span>How much time?</span>
+            <div className="workload" aria-label="Suggested practice workload">
+              {([5, 15, 30] as const).map((n) => (
+                <button
+                  key={n}
+                  aria-pressed={studio.set.workload === n}
+                  onClick={() => studio.change({ workload: n })}
+                >
+                  {n} min
+                </button>
+              ))}
+            </div>
           </div>
-          <button className="secondary-button" disabled={!ready} onClick={() => onStart('live')}>
-            Connect guitar <ArrowRight size={16} />
+          <button className="studio-cta" disabled={!ready} onClick={() => onStart(current.id)}>
+            <Play size={18} fill="currentColor" />
+            {continuing ? 'Continue practicing' : 'Start practicing'}
+            <ArrowRight size={20} />
           </button>
+          <div className="setlist-footer">
+            <span>No countdown. Repeat as much as you like.</span>
+            <a href={`#/research/${current.id}`}>Why this?</a>
+          </div>
         </div>
-        <div className="studio-note">
-          <Sparkles size={22} />
-          <p>
-            Stay with one idea as long as you like.
-            <br />
-            <a href="#/research">
-              See how the practice is designed <ArrowRight size={13} />
-            </a>
-          </p>
+        <button className="setlist-library" onClick={() => studio.go('library')}>
+          <Plus size={16} /> All exercises / edit your set <ChevronRight size={17} />
+        </button>
+      </section>
+      <section
+        className={`room-companion ${studio.set.bandmate ? '' : 'without-character'}`}
+        aria-label="Practice introduction"
+      >
+        {studio.set.bandmate && (
+          <img className="bandmate-sprite" src="/art/pixel-guide.png" alt="" />
+        )}
+        <div className="game-dialogue">
+          <span className="dialogue-name">
+            {studio.set.bandmate ? 'YOUR BANDMATE' : 'YOUR PRACTICE'}
+            <small>{studio.set.bandmate ? 'AI teacher · optional' : 'At your pace'}</small>
+          </span>
+          <p>{instructions[current.id] ?? current.objective}</p>
+          <div className="dialogue-route">
+            <span>01 Hear / find</span>
+            <i>→</i>
+            <span>02 Pick up / play</span>
+            <i>→</i>
+            <span>03 Save a next step</span>
+          </div>
         </div>
       </section>
-      <details className="studio-preferences">
-        <summary>Make the studio yours</summary>
-        <label>
-          <input
-            type="checkbox"
-            checked={studio.set.bandmate}
-            onChange={(e) => studio.change({ bandmate: e.target.checked })}
-          />
-          Show the optional AI bandmate
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={studio.set.staticStage}
-            onChange={(e) => studio.change({ staticStage: e.target.checked })}
-          />
-          Use a static stage
-        </label>
-        <label>
-          My weekly intention (optional)
-          <input
-            maxLength={300}
-            value={studio.set.weeklyIntention}
-            onChange={(e) => studio.change({ weeklyIntention: e.target.value })}
-            placeholder="Make time for a few chord changes"
-          />
-        </label>
-        <p>No streak to lose. No activities to unlock.</p>
-      </details>
+      <footer className="room-console">
+        <div className="loaded-passage">
+          <span className="pixel-signal" />
+          <span>
+            <small>ON THE MUSIC STAND</small>
+            {source}
+          </span>
+        </div>
+        {due > 0 && (
+          <button onClick={() => onStart('knowledge')}>
+            {due} due review{due === 1 ? '' : 's'}
+          </button>
+        )}
+        <button onClick={() => onStart('live')} disabled={!ready}>
+          <Guitar size={17} />
+          Connect guitar <small>optional</small>
+        </button>
+        <a href="#/research">
+          <BookOpen size={17} />
+          Teaching & Forge lab
+        </a>
+        <button aria-label="Room settings & weekly intention" onClick={() => setPreferences(true)}>
+          <Settings2 size={17} />
+          <span>Room settings</span>
+        </button>
+      </footer>
+      <Modal
+        open={preferences}
+        onOpenChange={setPreferences}
+        title="Your room"
+        description="Choose how you want to practice. Nothing is locked behind a streak."
+      >
+        <div className="room-options">
+          <label>
+            <input
+              type="checkbox"
+              checked={studio.set.bandmate}
+              onChange={(e) => studio.change({ bandmate: e.target.checked })}
+            />
+            Show the optional AI bandmate
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={studio.set.staticStage}
+              onChange={(e) => studio.change({ staticStage: e.target.checked })}
+            />
+            Use a static stage
+          </label>
+          <label>
+            My weekly intention (optional)
+            <input
+              className="field-input"
+              maxLength={300}
+              value={studio.set.weeklyIntention}
+              onChange={(e) => studio.change({ weeklyIntention: e.target.value })}
+              placeholder="Play the C to F change without stopping"
+            />
+          </label>
+        </div>
+      </Modal>
     </main>
   );
 }
+
 export function ActivityLibrary({
   studio,
   onStart,
@@ -304,10 +308,21 @@ export function ActivityLibrary({
               </button>
               <button
                 className="text-button"
-                disabled={!a.available || studio.set.activities.length >= 12}
-                onClick={() => studio.change({ activities: [...studio.set.activities, a.id] })}
+                disabled={
+                  !a.available ||
+                  (studio.set.activities.includes(a.id)
+                    ? studio.set.activities.every((id) => id === a.id)
+                    : studio.set.activities.length >= 12)
+                }
+                onClick={() =>
+                  studio.change({
+                    activities: studio.set.activities.includes(a.id)
+                      ? studio.set.activities.filter((id) => id !== a.id)
+                      : [...studio.set.activities, a.id],
+                  })
+                }
               >
-                Add to set
+                {studio.set.activities.includes(a.id) ? 'Remove from set' : 'Add to set'}
               </button>
             </div>
             <a href={`#/research/${a.id}`}>Why this exercise?</a>
@@ -341,6 +356,15 @@ export function ResearchPage({
         <p>What we ask you to do, what your response can show, and what we still need to learn.</p>
       </div>
       <nav className="research-index" aria-label="Teaching library">
+        <a
+          href="#forge-evidence"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('forge-evidence')?.scrollIntoView({ behavior: 'instant' });
+          }}
+        >
+          Forge experiments
+        </a>
         <a
           href="#exercise-guide"
           onClick={(e) => {
@@ -405,6 +429,7 @@ export function ResearchPage({
           </dd>
         </dl>
       </section>
+      <ForgeEvidence />
       <section id="learning-approach">
         <h2>Learning approach</h2>
         <p>
@@ -451,6 +476,8 @@ export function ResearchPage({
           {[
             ['Arrangement agent', 'arrangement-results.md'],
             ['Music teacher', 'teacher-results.md'],
+            ['Listening teacher', 'listening-results.md'],
+            ['Ear Lab', 'ear-lab-results.md'],
             ['Voicing ranking', 'voicing-results.md'],
             ['Practice stage protocol', 'practice-stage.md'],
           ].map(([name, file]) => (
@@ -523,7 +550,9 @@ export function ProgressPage({
       .then((d) => {
         if (active) setData(d);
       })
-      .catch(() => { if (active) setData(getMemoryLessonData()); });
+      .catch(() => {
+        if (active) setData(getMemoryLessonData());
+      });
     return () => {
       active = false;
     };
@@ -582,9 +611,22 @@ export function ProgressPage({
       </div>
       <section className="progress-context">
         <h2>Guitar homework</h2>
-        <p>{data?.lessonEvents.filter(e => e.playing?.kind === 'self-report').length ?? 0} self-reported passes. These describe how playing felt; they are not verified correctness.</p>
-        <p>{data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'match').length ?? 0} supported sound matches · {data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'discrepancy').length ?? 0} supported discrepancies · {data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'unassessed').length ?? 0} unassessed. Input is experimental. No string, fret, technique or precise timing was verified.</p>
-        <button className="secondary-button" onClick={() => studio.go('stage','homework')}>Return to guitar homework</button>
+        <p>
+          {data?.lessonEvents.filter((e) => e.playing?.kind === 'self-report').length ?? 0}{' '}
+          self-reported passes. These describe how playing felt; they are not verified correctness.
+        </p>
+        <p>
+          {data?.lessonEvents.filter((e) => e.live?.attempt?.outcome === 'match').length ?? 0}{' '}
+          supported sound matches ·{' '}
+          {data?.lessonEvents.filter((e) => e.live?.attempt?.outcome === 'discrepancy').length ?? 0}{' '}
+          supported discrepancies ·{' '}
+          {data?.lessonEvents.filter((e) => e.live?.attempt?.outcome === 'unassessed').length ?? 0}{' '}
+          unassessed. Input is experimental. No string, fret, technique or precise timing was
+          verified.
+        </p>
+        <button className="secondary-button" onClick={() => studio.go('stage', 'homework')}>
+          Return to guitar homework
+        </button>
       </section>
       <section className="progress-context">
         <h2>Other evidence stays with its activity</h2>

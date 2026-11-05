@@ -3,7 +3,7 @@ import { syntheticInput, play } from './guitar-input-fixture';
 async function open(page: Page, fromStudio = false) {
   await page.goto(fromStudio ? '/#/studio' : '/#/stage/homework');
   if (fromStudio)
-    await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+    await page.getByRole('button', { name: /^(Start|Continue) practicing$/, exact: true }).click();
   const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
@@ -153,7 +153,9 @@ test('teacher help precedes exposure and uses the v5 homework context', async ({
     .getByRole('textbox', { name: 'Your question', exact: true })
     .fill('Stop quizzing me. I just want to play.');
   await teacher.getByRole('button', { name: 'Ask on-device guide', exact: true }).click();
-  await expect(teacher.getByRole('log')).toContainText(/play|explor/i);
+  await expect(teacher.locator('.teacher-message.assistant').last()).toContainText(
+    /stop quizzing|explore freely/i,
+  );
   await expect(teacher.getByText('The teacher request is invalid', { exact: false })).toHaveCount(
     0,
   );
@@ -232,8 +234,8 @@ test('a bookmark restores the selected region and constraints into the shared wo
     .getByRole('button', { name: 'Save for next time', exact: true })
     .click();
   await page.reload();
-  await expect(page.locator('.resume-line')).toContainText('Find C · frets 5–9');
-  await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+  await expect(page.locator('.mission-goal')).toContainText('Find C · frets 5–9');
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/, exact: true }).click();
   await expect(hw.getByRole('button', { name: 'Play along', exact: true })).toBeEnabled({
     timeout: 30000,
   });
@@ -268,4 +270,80 @@ test('the homework diagram follows the accompaniment clock through the progressi
     { timeout: 10000 },
   );
   await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+});
+
+test('playable map, role explanation and derived connection stay in one musical context', async ({
+  page,
+}, info) => {
+  const hw = await open(page);
+  const board = hw.getByRole('region', { name: 'Suggested guitar locations', exact: true });
+  await board.getByRole('button', { name: 'String 1, fret 0', exact: true }).click();
+  await expect(hw.locator('.homework-note-inspector')).toContainText('E');
+  expect((await data(page)).lessonEvents.some((e: any) => e.playing?.support === 'example')).toBe(
+    true,
+  );
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
+  const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
+  await teacher
+    .getByRole('textbox', { name: 'Your question', exact: true })
+    .fill('Why is E the third of C major? Just explain.');
+  await teacher.getByRole('button', { name: 'Ask on-device guide', exact: true }).click();
+  await expect(teacher.locator('.teacher-message.assistant').last()).toContainText(
+    'E is the major third of C',
+  );
+  await expect(teacher.locator('.teacher-message.assistant').last()).toContainText(
+    'four semitones',
+  );
+  await page.getByRole('button', { name: 'Back to my task', exact: true }).click();
+  await hw.getByText('Choose a different task', { exact: true }).click();
+  await hw.getByRole('button', { name: 'Authored connection · G7 → Cmaj7', exact: true }).click();
+  await expect(
+    hw
+      .getByRole('region', { name: 'Suggested guitar locations', exact: true })
+      .getByRole('button', { name: /, E, third$/ })
+      .first(),
+  ).toBeEnabled();
+  await expect(hw.getByLabel('Seventh to third connection')).toContainText('1 semitone down');
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
+  await teacher
+    .getByRole('textbox', { name: 'Your question', exact: true })
+    .fill('Why does F resolve to E in this change? Just explain.');
+  await teacher.getByRole('button', { name: 'Ask on-device guide', exact: true }).click();
+  const reply = teacher.locator('.teacher-message.assistant').last();
+  await expect(reply).toContainText('G7 → Cmaj7');
+  await expect(reply).toContainText('descend one semitone');
+  await expect(reply).not.toContainText('C → F');
+  if ((page.viewportSize()?.width ?? 0) >= 1200) {
+    const taskBounds = await hw.boundingBox();
+    const teacherBounds = await page.locator('.studio-teacher-drawer').boundingBox();
+    expect(taskBounds!.x + taskBounds!.width).toBeLessThanOrEqual(teacherBounds!.x);
+  }
+  await hw.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `../connected-homework-teacher-${info.project.name}.png` });
+});
+
+test('saving the learner message does not cancel an asynchronous teacher turn', async ({
+  page,
+}) => {
+  const { localTeacher } = await import('../src/engine/teacher');
+  await page.route('**/api/teacher/next', async (route) => {
+    const request = route.request().postDataJSON();
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    await route.fulfill({ json: localTeacher(request) });
+  });
+  await open(page);
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
+  const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
+  await teacher.getByText('Lesson context and cloud access', { exact: true }).click();
+  await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).check();
+  await teacher
+    .getByRole('textbox', { name: 'Your question', exact: true })
+    .fill('Why is E the third of C major? Just explain.');
+  await teacher.getByRole('button', { name: 'Ask teacher', exact: true }).click();
+  await expect(teacher.locator('.teacher-message.assistant').last()).toContainText(
+    'E is the major third of C',
+  );
+  await expect(
+    teacher.getByRole('button', { name: 'Find the major third', exact: true }),
+  ).toBeEnabled();
 });

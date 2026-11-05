@@ -4,6 +4,7 @@ import { midiToSpn } from '../engine/theory';
 import type { HomeworkPlayback } from '../shared/homework-playing';
 import { generateVoicings, parseChordSymbol, type ProgressionVariation } from '../engine/harmony';
 import { timedBeat } from './variation';
+import { CONNECTION_CHORDS } from '../homework/stimulus';
 
 /** A labeled derived exercise. The imported source is never mutated. */
 export function buildHomeworkStudy(options: HomeworkPlayback): model.Score {
@@ -45,7 +46,7 @@ export function buildHomeworkStudy(options: HomeworkPlayback): model.Score {
   } else {
     // An explicitly authored accompaniment; its label distinguishes it from the imported source.
     if (step.objective === 'connection' || step.objective === 'phrase') {
-      for (const symbol of ['G7', 'Cmaj7']) {
+      for (const symbol of CONNECTION_CHORDS) {
         // The former close-position G2–B2–D3–F3 chord cannot occupy
         // four distinct standard-tuning strings. Use validated realizations.
         const voicing = generateVoicings(parseChordSymbol(symbol)!, tuning, capo, {

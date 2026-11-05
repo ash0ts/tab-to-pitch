@@ -19,9 +19,9 @@ For the invitation API, start `npm run dev:server` in another terminal. The loca
 
 ## Play with a guitar
 
-From the Studio, choose **Fretboard homework**. Start a 5, 15 or 30-minute suggested workload, hear an example, then play along or try without labels. Finish with a self-report, or connect a clean USB input in the same task to attach experimental pitch/chord observations. Repeats preserve the first response. Save the current target to resume later.
+From the Studio setlist, choose **Find your way around the neck**. Start a 5, 15 or 30-minute suggested workload, hear an example, then play along or try without labels. Finish with a self-report, or connect a clean USB input in the same task to attach experimental pitch/chord observations. Repeats preserve the first response. Save the current target to resume later.
 
-Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. Watch the [original-song walkthrough](docs/guitar-homework-demo.md) for the complete flow. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
+Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. See the [pixel studio and practice route](docs/pixel-practice-studio.md), or watch the [original-song walkthrough](docs/guitar-homework-demo.md) for the complete playing flow. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
 
 ## What is implemented
 
@@ -85,7 +85,7 @@ The [practice workspace](docs/practice-workspace.md) adds learner goals, graduat
 
 ## Fretboard homework
 
-Open **Studio → Fretboard homework** for playing, note recall, CAGED fragments and progression application. The optional coordinate checks are available inside the activity. See [the activity guide](docs/homework.md), [guitar homework walkthrough](docs/guitar-homework-demo.md) and [evaluation protocol](research/homework-caged/README.md).
+Open **Studio → Find your way around the neck** for playing, note recall, CAGED fragments and progression application. The optional coordinate checks are available inside the activity. See [the activity guide](docs/homework.md), [guitar homework walkthrough](docs/guitar-homework-demo.md) and [evaluation protocol](research/homework-caged/README.md).
 
 ## Experimental ear workspace
 

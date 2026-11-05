@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "checkedAt": "2026-11-05T18:56:49.691Z",
+  "scope": "Read-only hosted reconciliation, archived artifact integrity, and historical spending. No experiment rerun, scorer rerun, model training, or new qualification.",
+  "project": {
+    "name": "wandb/tab-to-pitch-public-data-research",
+    "access": "PRIVATE"
+  },
+  "archive": {
+    "checked": 48,
+    "matched": 48,
+    "failures": []
+  },
+  "lens": [
+    {
+      "campaign": "arrangement-agent-v2",
+      "verified": true,
+      "spans": 1588,
+      "conversations": 260
+    },
+    {
+      "campaign": "listening-agent-003",
+      "verified": true,
+      "spans": 2382,
+      "conversations": 148
+    }
+  ],
+  "weave": [
+    {
+      "campaign": "arrangement-agent-v2/confirmation",
+      "status": "verified",
+      "groups": 3,
+      "rows": 96,
+      "calls": 291,
+      "criteria": 864
+    },
+    {
+      "campaign": "listening-agent-003",
+      "status": "verified",
+      "groups": 14,
+      "rows": 424,
+      "calls": 1286,
+      "criteria": 5512
+    }
+  ],
+  "models": [
+    {
+      "name": "voicing-ranking-v1",
+      "state": "finished",
+      "summary": {
+        "_step": 17,
+        "compact/rr": 0.21049848113216268,
+        "compact/top1": 0.10092228957421019,
+        "compact/top3": 0.20834679107643556,
+        "fold": "05-3",
+        "foldIndex": 17,
+        "folds": 18,
+        "frequency/rr": 0.38634242724737955,
+        "frequency/top1": 0.27774636323089963,
+        "frequency/top3": 0.427882291184114,
+        "learned/rr": 0.6898357096107721,
+        "learned/top1": 0.5437939080205102,
+        "learned/top3": 0.8010393634560926,
+        "movement/rr": 0.39762826111289984,
+        "movement/top1": 0.30503735317656533,
+        "movement/top3": 0.40647804481914307,
+        "optimizerIterations": 23,
+        "productionPromotion": false,
+        "recordings": 168,
+        "rows": 4317,
+        "shadowGatePassed": true,
+        "testEvaluationOnly": true,
+        "trainingObjective": 1.4897394737230698,
+        "trainingRows": 2264,
+        "uniform/rr": 0.04007218824156157,
+        "uniform/top1": 0.002399864493069045,
+        "uniform/top3": 0.021568551811607096
+      }
+    },
+    {
+      "name": "voicing-artifact-replay-v1",
+      "state": "finished",
+      "summary": {
+        "_step": 0,
+        "downloadHashesMatch": true,
+        "matchedPredictions": 4317,
+        "productionPromotion": false
+      }
+    },
+    {
+      "name": "voicing-runtime-fit-v1",
+      "state": "finished",
+      "summary": {
+        "_step": 0,
+        "newHeldoutScore": false,
+        "optimizerIterations": 24,
+        "parityCases": 12,
+        "productionPromotion": false,
+        "recordings": 168,
+        "replayedCandidateScores": 1791,
+        "rows": 4317,
+        "trainingObjective": 1.5798097778442137
+      }
+    },
+    {
+      "name": "arrangement-agent-v2-confirmation",
+      "state": "finished",
+      "summary": {
+        "120b/clarificationCorrect": 0,
+        "120b/completed": 0,
+        "120b/constraintSatisfaction": 0,
+        "120b/factualReferences": 0,
+        "120b/melodyPreserved": 0,
+        "120b/qualified": false,
+        "120b/qualified_for_cloud": false,
+        "120b/requestCorrect": 0,
+        "120b/schemaValid": 0,
+        "120b/sourcePreserved": 0,
+        "120b/usableProposal": 0,
+        "120b/validNotes": 0,
+        "20b/clarificationCorrect": 46,
+        "20b/completed": 64,
+        "20b/constraintSatisfaction": 46,
+        "20b/factualReferences": 56,
+        "20b/melodyPreserved": 56,
+        "20b/qualified": true,
+        "20b/qualified_for_cloud": false,
+        "20b/requestCorrect": 46,
+        "20b/request_accuracy": 0.71875,
+        "20b/schemaValid": 56,
+        "20b/sourcePreserved": 56,
+        "20b/usableProposal": 14,
+        "20b/validNotes": 56,
+        "_runtime": 0,
+        "_step": 0,
+        "_timestamp": 1793381825.554,
+        "accounted_tokens": 104653,
+        "contexts": 8,
+        "estimated_dollars": 0.0073464900000000015,
+        "known_tokens": 104653,
+        "parser/clarificationCorrect": 29,
+        "parser/completed": 32,
+        "parser/constraintSatisfaction": 24,
+        "parser/factualReferences": 32,
+        "parser/melodyPreserved": 32,
+        "parser/qualified": true,
+        "parser/qualified_for_cloud": false,
+        "parser/requestCorrect": 24,
+        "parser/request_accuracy": 0.75,
+        "parser/schemaValid": 32,
+        "parser/sourcePreserved": 32,
+        "parser/usableProposal": 8,
+        "parser/validNotes": 32,
+        "real_learners": 0,
+        "requests": 78,
+        "synthetic": true,
+        "unique_requests": 32,
+        "unknown_usage": 0
+      }
+    },
+    {
+      "name": "listening-agent-003-comparison",
+      "state": "finished",
+      "summary": {
+        "_step": 0,
+        "comparison": {
+          "_type": "table-file",
+          "ncols": 14,
+          "nrows": 688,
+          "path": "media/table/listening-comparison.table.json",
+          "sha256": "2bbd31af2080ef9747416ce74ce34ec1ad4df1492f4230315f8444d0173c61e2",
+          "size": 1242809
+        },
+        "evaluatorFailures": 0,
+        "observedTeacherTurns": 424,
+        "qualified": false,
+        "synthetic": true,
+        "unexecutedTeacherTurns": 264
+      }
+    }
+  ],
+  "registry": [
+    {
+      "alias": "Observed voicing ranker",
+      "verified": true,
+      "access": "PRIVATE",
+      "artifact": {
+        "id": "QXJ0aWZhY3Q6NDI3MjM5ODA1Ng==",
+        "digest": "29247c827da36303bc74c03dfb140bb1"
+      }
+    },
+    {
+      "alias": "Recorded-choice runtime ranker",
+      "verified": true,
+      "access": "PRIVATE",
+      "artifact": {
+        "id": "QXJ0aWZhY3Q6NDI4OTU1NTk5OQ==",
+        "digest": "e651e658b6bc6450bdb7e31d0eed23ef"
+      }
+    }
+  ],
+  "table": {
+    "checkedAt": "2026-11-05T18:56:49.691Z",
+    "status": "verified",
+    "rows": 688,
+    "sha256": "2bbd31af2080ef9747416ce74ce34ec1ad4df1492f4230315f8444d0173c61e2",
+    "sourceReceiptSha256": "2bbd31af2080ef9747416ce74ce34ec1ad4df1492f4230315f8444d0173c61e2",
+    "remoteWrites": 0,
+    "newInferenceCalls": 0
+  },
+  "historicalBudget": {
+    "calls": 1388,
+    "accountedDollars": 0.2200332299999999,
+    "unknownUsageReservations": 57,
+    "sources": 30,
+    "liveSharedLedgerRead": false,
+    "note": "Snapshot of reconciled historical spending; not an invoice or a new allowance."
+  },
+  "newInferenceCalls": 0,
+  "remoteWrites": 0,
+  "initialVerificationFailures": [
+    "Listening replay refused the changed integration lockfile. Preserved guard; compared hosted stored outputs and scores independently without executing a scorer.",
+    "Arrangement verifier defaulted to its v1 scorer name. Preserved failure; the independent readback uses the frozen v2 scorer reference."
+  ],
+  "limitations": [
+    "Rendered private dashboard pages were not visually rechecked.",
+    "Voicing artifact predictions were not recomputed on this pass; the existing replay run and Registry aliases were read back.",
+    "Ear Lab report checked locally; its hosted records were not freshly read back.",
+    "No teacher, detector, or learner-effectiveness qualification follows from this audit."
+  ]
+}

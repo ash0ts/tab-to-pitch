@@ -144,11 +144,16 @@ export const playingContextSchema = z
     assisted: z.boolean(),
     stepId: id,
     objective: playingStepSchema.shape.objective,
+    stimulus: playingStepSchema.optional(),
     method: z.enum(['self-report', 'live']),
     eligible: z.array(z.object({ id, title: id }).strict()).max(20),
     evidence: z.array(playingEventSchema).max(12),
   })
-  .strict();
+  .strict()
+  .refine(
+    (c) => !c.stimulus || (c.stimulus.id === c.stepId && c.stimulus.objective === c.objective),
+    'Homework stimulus must match the selected step.',
+  );
 export const playingActionSchema = z
   .object({
     type: z.literal('playing-homework'),

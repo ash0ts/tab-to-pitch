@@ -39,3 +39,21 @@ it('preserves physical notes, spelling and omissions while dropping repeated voi
   );
   expect(JSON.stringify(projected).length).toBeLessThan(JSON.stringify(result).length);
 });
+
+it('bounds history while preserving current musical facts and separate evidence', async () => {
+  const { teacherContextView } = await import('./teacher-tool-view');
+  const { guitarHomeworkCases } = await import('../research/guitar-homework/cases');
+  const context = guitarHomeworkCases()[0]!.request.context;
+  context.history = Array.from({ length: 8 }, (_, i) => ({
+    role: 'user' as const,
+    text: `Question ${i}: ` + 'x'.repeat(2000),
+  }));
+  const view = teacherContextView(context);
+  expect(view.history).toHaveLength(4);
+  expect(view.history[0]!.text).toContain('Question 4:');
+  expect(view.historyIsExcerpt).toBe(true);
+  expect(view.history.every((m) => m.text.length < 650)).toBe(true);
+  expect(view.music).toEqual(context.music);
+  expect(view.evidence).toEqual(context.evidence);
+  expect(context.history).toHaveLength(8);
+});

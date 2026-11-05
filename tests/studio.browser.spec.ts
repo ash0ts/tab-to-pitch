@@ -29,8 +29,8 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await open(page);
-  await expect(page.getByRole('heading', { name: 'A little practice. More music.' })).toBeVisible();
-  await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await expect(page.getByRole('heading', { name: 'Sound check.' })).toBeVisible();
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).click();
   await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Start homework', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Start homework', exact: true }).click();
@@ -48,7 +48,7 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
     .getByRole('button', { name: 'Save for next time', exact: true })
     .click();
   await page.reload();
-  await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await page.getByRole('button', { name: /^(Start|Continue) practicing$/ }).click();
   await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'Fretboard homework', exact: true }),
@@ -92,7 +92,7 @@ test('timeline uses the existing player and offers static, notation and recovery
   await page.getByTestId('score-viewport').scrollIntoViewIfNeeded();
   await expect(page.locator('.alphatab-host svg').first()).toBeVisible();
   await page.getByRole('button', { name: 'Exit to studio' }).click();
-  await expect(page.getByRole('button', { name: 'Continue practicing' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^(Start|Continue) practicing$/ })).toBeVisible();
 });
 test('listening and teaching references are reachable without exposing another task', async ({
   page,
@@ -109,6 +109,9 @@ test('listening and teaching references are reachable without exposing another t
   await page.getByRole('link', { name: 'Why this exercise?', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'How this teaches', exact: true })).toBeVisible();
   await expect(page.getByText('What it does not establish', { exact: true })).toBeVisible();
+  const guide = await page.locator('#exercise-guide').boundingBox();
+  const lab = await page.locator('#forge-evidence').boundingBox();
+  expect(guide!.y).toBeLessThan(lab!.y);
 });
 test('missing artwork, reduced motion and zoom leave functional navigation', async ({ page }) => {
   await page.route('**/art/**', (route) => route.abort());
@@ -184,4 +187,121 @@ test('backup restores presentation atomically and the research index keeps its r
     'aria-pressed',
     'true',
   );
+});
+
+test('a practice round has a visible route, honest feedback, and a saved ending', async ({
+  page,
+}, info) => {
+  await open(page, 'studio');
+  await page.getByRole('button', { name: '5 min', exact: true }).click();
+  await page.getByRole('button', { name: 'Start practicing', exact: true }).click();
+  const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
+  await expect(hw.getByRole('heading', { name: 'From a note to a progression.' })).toBeVisible();
+  await hw.getByRole('button', { name: 'Start guitar homework', exact: true }).click();
+  const route = hw.getByRole('navigation', { name: 'Homework learning route' });
+  await expect(route.getByRole('button', { name: '01 Find notes' })).toHaveAttribute(
+    'aria-current',
+    'step',
+  );
+  await expect(hw.getByRole('button', { name: 'Play along', exact: true })).toBeEnabled({
+    timeout: 30000,
+  });
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await expect(hw.locator('.homework-feedback')).toBeFocused();
+  await hw.getByRole('button', { name: 'Needs another pass', exact: true }).click();
+  await expect(hw.getByText('You reported: Needs another pass', { exact: true })).toBeVisible();
+  await expect(hw.locator('.homework-participation')).toContainText('1 of');
+  await expect(hw.locator('.homework-participation')).toContainText('not a score');
+  await route.getByRole('button', { name: '03 Play changes' }).click();
+  await expect(hw.getByRole('navigation', { name: 'Homework progression' })).toBeVisible();
+  await route.getByRole('button', { name: '04 Make music' }).click();
+  await expect(hw.getByRole('heading', { name: 'Hear F resolve to E' })).toBeVisible();
+  await hw.getByRole('button', { name: 'Finish session', exact: true }).click();
+  const recap = page.getByRole('dialog');
+  await expect(recap.getByRole('heading', { name: 'Keep your next step.' })).toBeVisible();
+  await recap.getByRole('textbox').fill('Repeat F to E before trying another position.');
+  await recap.getByRole('button', { name: 'Save for next time', exact: true }).click();
+  await expect(page).toHaveURL(/#\/studio$/);
+  await expect(
+    page.getByRole('button', { name: 'Continue practicing', exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Continue practicing', exact: true }).click();
+  await expect(hw.getByRole('heading', { name: 'Hear F resolve to E' })).toBeVisible();
+  const events = await data(page, 'lessonEvents');
+  expect(events.filter((e: any) => e.playing?.kind === 'self-report')).toHaveLength(1);
+  expect(events.filter((e: any) => e.live?.attempt)).toHaveLength(0);
+  expect(await data(page, 'attempts')).toHaveLength(0);
+  await page.screenshot({ path: `../pixel-practice-${info.project.name}.png` });
+});
+
+test('the room selects one setlist activity and retains optional bandmate preferences', async ({
+  page,
+}) => {
+  await open(page, 'studio');
+  const selection = page.locator('.setlist-choices');
+  await selection.getByRole('button', { name: /One progression, many places/ }).click();
+  await expect(
+    selection.getByRole('button', { name: /One progression, many places/ }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.mission-goal')).toContainText('Move accompaniment');
+  await page.getByRole('button', { name: 'Room settings & weekly intention' }).click();
+  await page.getByLabel('Show the optional AI bandmate').uncheck();
+  await page.getByRole('button', { name: 'Close dialog' }).click();
+  await expect(page.locator('.bandmate-sprite')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Start practicing', exact: true }).click();
+  await expect(page).toHaveURL(/stage\/progression/);
+  await page.getByRole('button', { name: 'Exit to studio' }).click();
+  await page.reload();
+  await expect(page.locator('.bandmate-sprite')).toHaveCount(0);
+  await page.getByRole('link', { name: 'Songs & exercises', exact: true }).click();
+  const card = page.locator('.activity-card').filter({
+    has: page.getByRole('heading', { name: 'One progression, many places', exact: true }),
+  });
+  await card.getByRole('button', { name: 'Remove from set', exact: true }).click();
+  await expect(card.getByRole('button', { name: 'Add to set', exact: true })).toBeEnabled();
+});
+
+test('the Forge lab shows failed qualifications and keeps learning claims separate', async ({
+  page,
+}) => {
+  await open(page, 'research');
+  const lab = page.getByRole('region', { name: 'Forge experiment evidence' });
+  await expect(lab).toContainText('11/144');
+  await expect(lab).toContainText('35/144');
+  await expect(
+    lab.getByRole('link', { name: 'Inspect all 72 requests, trials and returned notes' }),
+  ).toHaveAttribute('href', '/research/guitar-teacher/index.html');
+  await expect(lab).toContainText('45 / 96');
+  await expect(lab).toContainText('51 local fallbacks');
+  await expect(lab).toContainText('52/60');
+  await expect(lab).toContainText('40% of critical');
+  await expect(lab).toContainText('Candidate not promoted');
+  await expect(lab).toContainText('1 / 3');
+  await expect(lab).toContainText('two local fallbacks');
+  await expect(lab.getByRole('link', { name: 'Lens · accepted error' })).toHaveAttribute(
+    'href',
+    /conversations\/93c8126f/,
+  );
+  for (const path of [
+    'evidence-audit.md',
+    'listening-results.md',
+    'ear-lab-results.md',
+    'connected-homework.md',
+  ]) {
+    const response = await page.request.get(`/research/notebook/${path}`);
+    expect(response.status()).toBe(200);
+    expect(await response.text()).not.toContain('<div id="root">');
+  }
+  await lab.getByText('Watch the connected homework session', { exact: true }).click();
+  const video = lab.getByLabel('Original homework walkthrough with the on-device guide');
+  await expect(video).toBeVisible();
+  await video.evaluate((element: HTMLVideoElement) => element.load());
+  await expect
+    .poll(() => video.evaluate((element: HTMLVideoElement) => element.videoWidth))
+    .toBeGreaterThan(0);
+  const hosted = await page.request.head('/demos/connected-homework/forge-walkthrough.mp4');
+  expect(hosted.status()).toBe(200);
+  expect(hosted.headers()['content-type']).toContain('video/mp4');
 });

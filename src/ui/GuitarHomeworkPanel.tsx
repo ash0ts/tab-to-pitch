@@ -1,3 +1,6 @@
+import { ArrowRight, Flag, Headphones, Play, Repeat2, Check, Guitar } from 'lucide-react';
+import { HOMEWORK_PHASES, homeworkGuide } from '../homework/presentation';
+import { homeworkConnections, homeworkPositions } from '../homework/stimulus';
 import { positionExposureKey } from '../engine/exposure';
 import { useEffect, useRef, useState } from 'react';
 import type { HomeworkSession } from '../hooks/useHomeworkSession';
@@ -5,9 +8,11 @@ import type { PlayingHomeworkSession } from '../hooks/usePlayingHomework';
 import type { LiveGuitarSession } from '../hooks/useLiveGuitar';
 import type { ProgressionSession } from '../hooks/useProgressionSession';
 import type { HomeworkPlayback } from '../shared/homework-playing';
-import { locations, noteAt } from '../engine/caged';
+import { noteAt } from '../engine/caged';
+import type { FretPosition } from '../engine/types';
 import { formatPitch } from '../engine/exploration';
 import { parseChordSymbol } from '../engine/harmony';
+import { DEGREE_LABELS } from '../engine/harmony-exercises';
 import { Fretboard, type FretboardMarker } from './Fretboard';
 import { LiveGuitarPanel } from './LiveGuitarPanel';
 import './guitar-homework.css';
@@ -17,6 +22,13 @@ const reports = [
   ['not-sure', 'Not sure'],
   ['skipped', 'Skipped'],
 ] as const;
+function toneRole(degree: string): FretboardMarker['role'] {
+  if (degree === '1') return 'root';
+  if (['b3', '3'].includes(degree)) return 'third';
+  if (['b5', '5', '#5'].includes(degree)) return 'fifth';
+  if (['bb7', 'b7', '7'].includes(degree)) return 'seventh';
+  return 'extension';
+}
 export function GuitarHomeworkPanel(props: {
   homework: HomeworkSession;
   playing: PlayingHomeworkSession;
@@ -32,7 +44,9 @@ export function GuitarHomeworkPanel(props: {
   audioPlaying: boolean;
   currentTick: number;
   onPlayback(study: HomeworkPlayback): void;
+  onAudition(pitches: number[]): void;
   onStop(): void;
+  onWrapUp(): void;
   onCoordinates(): void;
   onOriginal(): void;
   listOutputs(): Promise<{ deviceId: string; label: string }[]>;
@@ -44,10 +58,14 @@ export function GuitarHomeworkPanel(props: {
     [notice, setNotice] = useState('');
   const [reflection, setReflection] = useState(h.state?.reflection ?? '');
   const [chordIndex, setChordIndex] = useState(0);
+  const [inspected, setInspected] = useState<FretPosition | null>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  const feedbackRequested = useRef(false);
   useEffect(() => {
     setFinishing(false);
     setNotice('');
     setChordIndex(0);
+    setInspected(null);
   }, [step?.id]);
   function stop() {
     props.onStop();
@@ -79,6 +97,7 @@ export function GuitarHomeworkPanel(props: {
   }
   function finish() {
     if (!p.active) return;
+    feedbackRequested.current = true;
     stop();
     if (s?.method === 'live') p.finish();
     else setFinishing(true);
@@ -145,29 +164,29 @@ export function GuitarHomeworkPanel(props: {
       ? parseChordSymbol(currentChord?.symbol ?? step!.title.split(' major')[0]!)
       : null;
   const shown =
-    currentChord?.positions ??
-    (step?.fragment.length
-      ? step.fragment
-      : step
-        ? locations(step.pitches[0]!, props.tuning, props.capo, step.region, step.exact)
-        : []);
+    currentChord?.positions ?? (step ? homeworkPositions(step, props.tuning, props.capo) : []);
+  const connections = step ? homeworkConnections(step, props.tuning, props.capo) : [];
+  function inspect(position: FretPosition) {
+    if (!h.fresh || !props.audioReady || !s || !step) return;
+    // Auditioning a possible answer is support, even when its marker was already visible.
+    if (!p.help('example')) return;
+    const midi = noteAt(position, props.tuning, props.capo);
+    if (midi === undefined || midi === null) return;
+    p.expose([positionExposureKey(props.tuning, props.capo, position)]);
+    setInspected(position);
+    props.onAudition([midi]);
+  }
+  const inspectedMidi = inspected && s?.labels ? noteAt(inspected, props.tuning, props.capo) : null;
+  const inspectedTone =
+    inspectedMidi == null ? null : chord?.tones.find((t) => t.pitchClass === inspectedMidi % 12);
   const markers: FretboardMarker[] =
     s?.labels && step
       ? shown.map((position) => {
           const midi = noteAt(position, props.tuning, props.capo)!;
           const tone = chord?.tones.find((t) => t.pitchClass === midi % 12);
-          const role =
-            tone?.degree === '1'
-              ? 'root'
-              : tone?.degree.includes('3')
-                ? 'third'
-                : tone?.degree.includes('5')
-                  ? 'fifth'
-                  : tone?.degree.includes('7')
-                    ? 'seventh'
-                    : tone
-                      ? 'extension'
-                      : undefined;
+          const connectionRole =
+            step.objective === 'connection' ? (midi % 12 === 5 ? 'seventh' : 'third') : undefined;
+          const role = tone ? toneRole(tone.degree) : connectionRole;
           return {
             position,
             label: `${formatPitch(midi, false)}${tone ? ` · ${tone.degree}` : ''}`,
@@ -193,43 +212,136 @@ export function GuitarHomeworkPanel(props: {
   const performance = last?.performanceAttemptId
     ? guitar.attempts.find((a) => a.id === last.performanceAttemptId)
     : undefined;
+  useEffect(() => {
+    if (!feedbackRequested.current || (p.active && !finishing)) return;
+    const frame = requestAnimationFrame(() => {
+      feedbackRef.current?.focus({ preventScroll: true });
+      feedbackRef.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    });
+    if (!p.active) feedbackRequested.current = false;
+    return () => cancelAnimationFrame(frame);
+  }, [finishing, p.active, last?.id]);
+  const guide = step ? homeworkGuide(step) : null;
+  const tried = new Set(
+    p.sessionEvents
+      .filter(
+        (e) =>
+          e.kind === 'performance-reference' ||
+          (e.kind === 'self-report' && e.selfReport !== 'skipped'),
+      )
+      .map((e) => e.stepId),
+  );
+  const wrapUp = () => {
+    p.interrupt();
+    stop();
+    props.onWrapUp();
+  };
   return (
-    <section className="guitar-homework" aria-label="Guitar homework">
-      <header>
+    <section
+      className={`guitar-homework ${s ? 'has-assignment' : 'homework-intro'} ${p.active ? 'is-playing' : ''}`}
+      aria-label="Guitar homework"
+    >
+      <div className="homework-session-bar">
+        <span className="mission-label">
+          {s ? `STEP ${s.index + 1} / ${s.steps.length}` : 'YOUR PRACTICE ROUTE'}
+        </span>
+        <span>{h.state?.minutes ?? props.workload} min · at your pace</span>
+        {s && (
+          <button className="text-button" onClick={wrapUp}>
+            <Flag size={14} /> Wrap up session
+          </button>
+        )}
+      </div>
+      <nav className="homework-route" aria-label="Homework learning route">
+        {HOMEWORK_PHASES.map((phase, i) => {
+          const index =
+            s?.steps.findIndex((t) =>
+              (phase.objectives as readonly string[]).includes(t.objective),
+            ) ?? -1;
+          const current =
+            !!step && (phase.objectives as readonly string[]).includes(step.objective);
+          return (
+            <button
+              key={phase.id}
+              disabled={!s || index < 0}
+              aria-current={current ? 'step' : undefined}
+              onClick={() => {
+                stop();
+                p.select(index);
+              }}
+            >
+              <span>{String(i + 1).padStart(2, '0')}</span>
+              <strong>{phase.title}</strong>
+            </button>
+          );
+        })}
+      </nav>
+      <header className="homework-task-heading">
         <div>
-          <span className="eyebrow">Pick up your guitar</span>
-          <h2>{step?.title ?? 'A little homework. Actual playing.'}</h2>
+          <span className="eyebrow">{s ? 'ON YOUR GUITAR' : 'TODAY’S MISSION'}</span>
+          <h2>
+            {step?.objective === 'connection'
+              ? 'Hear F resolve to E'
+              : (step?.title ?? 'From a note to a progression.')}
+          </h2>
         </div>
-        <span>{h.state?.minutes ?? props.workload} min suggested workload</span>
+        {step && (
+          <span className="region-chip">
+            FRETS {step.region.minFret}–{step.region.maxFret}
+          </span>
+        )}
       </header>
       {!s || !step ? (
         <>
-          <p>
-            Find notes, connect small CAGED fragments, then use them in a progression. A USB
-            interface is optional.
+          <p className="guitar-instruction">
+            Pick up your guitar. You’ll find notes, connect small chord shapes, and use them in a
+            progression.
           </p>
-          <button
-            className="primary-button"
-            disabled={!props.ready}
-            onClick={() =>
-              h.startPlaying(
-                props.workload,
-                progression.spans.every((x) => x.confirmation === 'confirmed' && x.chord)
-                  ? progression.spans.map((x) => ({
-                      symbol: x.chord!.symbol,
-                      ticks: x.endTick - x.startTick,
-                      startTick: x.startTick,
-                    }))
-                  : [],
-                progression.homeworkWorkspace(),
-              )
-            }
-          >
-            Start guitar homework
-          </button>
-          <button className="secondary-button" onClick={props.onOriginal}>
-            Use the original C–F–G–C study
-          </button>
+          <div className="homework-brief">
+            <div>
+              <Headphones size={22} />
+              <strong>Hear it</strong>
+              <p>Audition an example whenever you need one.</p>
+            </div>
+            <div>
+              <Guitar size={22} />
+              <strong>Play it</strong>
+              <p>Use the backing, slow down, or repeat a change.</p>
+            </div>
+            <div>
+              <Flag size={22} />
+              <strong>Keep a next step</strong>
+              <p>Reflect on your attempt and save where to return.</p>
+            </div>
+          </div>
+          <p className="homework-input-note">
+            No cable needed. Start with self-reported practice; connect USB input later if you want
+            experimental sound feedback.
+          </p>
+          <div className="guitar-actions intro-actions">
+            <button
+              className="primary-button"
+              disabled={!props.ready}
+              onClick={() =>
+                h.startPlaying(
+                  props.workload,
+                  progression.spans.every((x) => x.confirmation === 'confirmed' && x.chord)
+                    ? progression.spans.map((x) => ({
+                        symbol: x.chord!.symbol,
+                        ticks: x.endTick - x.startTick,
+                        startTick: x.startTick,
+                      }))
+                    : [],
+                  progression.homeworkWorkspace(),
+                )
+              }
+            >
+              Start guitar homework
+            </button>
+            <button className="secondary-button" onClick={props.onOriginal}>
+              Use the original C–F–G–C study
+            </button>
+          </div>
           {progression.spans.some((x) => x.confirmation !== 'confirmed' || !x.chord) && (
             <p>
               Confirm every chord before using this passage for progression homework. Note practice
@@ -244,14 +356,8 @@ export function GuitarHomeworkPanel(props: {
         </>
       ) : (
         <>
-          <p className="caption" role="status">
-            {p.saving
-              ? 'Saving homework…'
-              : p.durable
-                ? 'Homework saved on this device'
-                : 'Homework is available in this session. Export progress if storage is unavailable.'}
-          </p>
-          <p className="guitar-instruction">{step.instruction}</p>
+          <p className="guitar-instruction">{guide?.instruction}</p>
+
           {!h.fresh && (
             <div role="alert">
               The passage or constraints changed. Your attempts remain saved.{' '}
@@ -274,111 +380,193 @@ export function GuitarHomeworkPanel(props: {
               </button>
             </div>
           )}
-          <div className="guitar-toolbar">
-            <label>
-              Response method
-              <select
-                value={s.method}
-                onChange={(e) => {
-                  stop();
-                  p.change({ method: e.target.value as 'live' | 'self-report' });
-                }}
-              >
-                <option value="self-report">Play without an interface · self-report</option>
-                {step.responseMethods.includes('live') && (
-                  <option value="live">USB / MIDI · experimental sound feedback</option>
-                )}
-              </select>
-            </label>
-            <button
-              className="text-button"
-              disabled={p.active}
-              onClick={() => p.change({ labels: !s.labels })}
-            >
-              {s.labels ? 'Try without labels' : 'Show labels · counts as help'}
-            </button>
-          </div>
-          {step.progression.length > 0 && (
-            <nav className="guitar-chords" aria-label="Homework progression">
-              {step.progression.map((c, i) => (
+          <div className="homework-playfield">
+            <div className="homework-play-controls">
+              <div className="guitar-toolbar">
+                <label>
+                  Response method
+                  <select
+                    value={s.method}
+                    onChange={(e) => {
+                      stop();
+                      p.change({ method: e.target.value as 'live' | 'self-report' });
+                    }}
+                  >
+                    <option value="self-report">Without an interface · self-report</option>
+                    {step.responseMethods.includes('live') && (
+                      <option value="live">USB / MIDI · experimental sound feedback</option>
+                    )}
+                  </select>
+                </label>
                 <button
-                  key={i}
-                  className="secondary-button"
-                  aria-pressed={displayedChord === i}
-                  onClick={() => setChordIndex(i)}
+                  className="text-button"
+                  disabled={p.active}
+                  onClick={() => p.change({ labels: !s.labels })}
                 >
-                  {c.symbol}
+                  {s.labels ? 'Try without labels' : 'Show labels · counts as help'}
                 </button>
-              ))}
-            </nav>
-          )}
-          <Fretboard
-            tuning={props.tuning}
-            capo={props.capo}
-            minFret={step.region.minFret}
-            maxFret={step.region.maxFret}
-            markers={markers}
-            hideLabels={!s.labels}
-            label="Suggested guitar locations"
-          />
-          <p className="caption">
-            {s.labels
-              ? 'A proposed realization. These markers are not observations of your hands.'
-              : 'Labels and location markers are hidden.'}{' '}
-            Playing sound does not verify a string, fret or CAGED family.
-          </p>
-          <div className="guitar-actions">
-            <button
-              className="secondary-button"
-              disabled={!h.fresh || !props.audioReady}
-              onClick={() => audition(true)}
-            >
-              Hear example
-            </button>
-            <button
-              className="primary-button"
-              disabled={
-                !h.fresh ||
-                !props.audioReady ||
-                p.active ||
-                (s.method === 'live' && guitar.input?.status !== 'listening')
-              }
-              onClick={begin}
-            >
-              Play along
-            </button>
-            <button
-              className="secondary-button"
-              disabled={!h.fresh || !props.audioReady}
-              onClick={() => audition(false)}
-            >
-              Repeat this change
-            </button>
-            {step.progression.length > 2 && (
-              <button
-                className="secondary-button"
-                disabled={p.active || !h.fresh}
-                onClick={() => {
-                  stop();
-                  p.apply({ type: 'playing-homework', operation: 'isolate', stepId: step.id });
-                }}
-              >
-                Isolate the first change
-              </button>
-            )}
-            <button className="primary-button" disabled={!p.active} onClick={finish}>
-              Finish attempt
-            </button>
-            <button
-              className="text-button"
-              disabled={!p.active}
-              onClick={() => {
-                p.interrupt();
-                stop();
-              }}
-            >
-              Cancel attempt
-            </button>
+              </div>
+              {step.progression.length > 0 && (
+                <nav className="guitar-chords" aria-label="Homework progression">
+                  {step.progression.map((c, i) => (
+                    <button
+                      key={i}
+                      className="secondary-button"
+                      aria-pressed={displayedChord === i}
+                      onClick={() => setChordIndex(i)}
+                    >
+                      {c.symbol}
+                    </button>
+                  ))}
+                </nav>
+              )}
+              <div className="guitar-actions">
+                <button
+                  className="secondary-button"
+                  disabled={!h.fresh || !props.audioReady}
+                  onClick={() => audition(true)}
+                >
+                  <Headphones size={16} /> Hear example
+                </button>
+                <button
+                  className="primary-button"
+                  disabled={
+                    !h.fresh ||
+                    !props.audioReady ||
+                    p.active ||
+                    (s.method === 'live' && guitar.input?.status !== 'listening')
+                  }
+                  onClick={begin}
+                >
+                  <Play size={16} fill="currentColor" /> Play along
+                </button>
+                <button
+                  className="secondary-button"
+                  disabled={!h.fresh || !props.audioReady}
+                  onClick={() => audition(false)}
+                >
+                  <Repeat2 size={16} /> Repeat this change
+                </button>
+                {step.progression.length > 2 && (
+                  <button
+                    className="secondary-button"
+                    disabled={p.active || !h.fresh}
+                    onClick={() => {
+                      stop();
+                      p.apply({ type: 'playing-homework', operation: 'isolate', stepId: step.id });
+                    }}
+                  >
+                    Isolate the first change
+                  </button>
+                )}
+                <button
+                  className="primary-button"
+                  hidden={!p.active}
+                  disabled={!p.active}
+                  onClick={finish}
+                >
+                  <Check size={16} /> Finish attempt
+                </button>
+                <button
+                  className="text-button"
+                  hidden={!p.active}
+                  disabled={!p.active}
+                  onClick={() => {
+                    p.interrupt();
+                    stop();
+                  }}
+                >
+                  Cancel attempt
+                </button>
+              </div>
+            </div>
+            <div className="homework-neck-view">
+              <div className="homework-instrument">
+                <div className="instrument-heading">
+                  <span>{p.active ? 'PLAYING' : 'YOUR NECK MAP'}</span>
+                  <span>{s.labels ? 'Suggested locations' : 'From memory · labels hidden'}</span>
+                </div>
+                <Fretboard
+                  tuning={props.tuning}
+                  capo={props.capo}
+                  minFret={step.region.minFret}
+                  maxFret={step.region.maxFret}
+                  markers={markers}
+                  hideLabels={!s.labels}
+                  selectableAll
+                  onChoose={s.labels && !p.active && props.audioReady ? inspect : undefined}
+                  selectedPositions={s.labels && inspected ? [inspected] : []}
+                  label="Suggested guitar locations"
+                />
+                {s.labels && (
+                  <div className="homework-note-inspector" aria-live="polite">
+                    {inspectedMidi != null && inspected ? (
+                      <>
+                        <strong>{formatPitch(inspectedMidi, false)}</strong>
+                        <span>
+                          String {inspected.string} · fret {inspected.fret}
+                        </span>
+                        <span>
+                          {inspectedTone
+                            ? `${DEGREE_LABELS[inspectedTone.degree]} of ${chord!.symbol}`
+                            : step.objective === 'connection' && [4, 5].includes(inspectedMidi % 12)
+                              ? inspectedMidi % 12 === 5
+                                ? 'Seventh of G7'
+                                : 'Third of Cmaj7'
+                              : chord
+                                ? `Outside ${chord.symbol}`
+                                : 'Listen, then find it on your guitar.'}
+                        </span>
+                      </>
+                    ) : (
+                      <span>
+                        Select any position to hear its note. Then play it on your guitar.
+                      </span>
+                    )}
+                  </div>
+                )}
+                {s.labels && connections.length > 0 && (
+                  <div className="homework-connection" aria-label="Seventh to third connection">
+                    <div>
+                      <strong>G7 · F</strong>
+                      <span>seventh</span>
+                    </div>
+                    <span aria-label="descends one semitone">
+                      →<small>1 semitone down</small>
+                    </span>
+                    <div>
+                      <strong>Cmaj7 · E</strong>
+                      <span>third</span>
+                    </div>
+                    <p>
+                      Try string {connections[0]!.from.string}, fret {connections[0]!.from.fret} →
+                      string {connections[0]!.to.string}, fret {connections[0]!.to.fret}. Both notes
+                      belong to the change; pick each, then hear them with the chords.
+                    </p>
+                  </div>
+                )}
+                {s.labels && chord && (
+                  <div className="homework-role-key" aria-label="Chord tone colors">
+                    {chord.tones
+                      .filter((tone) =>
+                        shown.some(
+                          (position) =>
+                            noteAt(position, props.tuning, props.capo)! % 12 === tone.pitchClass,
+                        ),
+                      )
+                      .map((tone) => (
+                        <span key={tone.degree} className={toneRole(tone.degree)}>
+                          {tone.degree} {DEGREE_LABELS[tone.degree] ?? tone.degree}
+                        </span>
+                      ))}
+                  </div>
+                )}
+              </div>
+              <p className="caption">
+                {s.labels ? 'Suggested positions.' : 'Labels and location markers are hidden.'}{' '}
+                Audio cannot verify the string, fret or CAGED family you used.
+              </p>
+            </div>
           </div>
           {!props.audioReady && <p role="status">Preparing backing audio…</p>}
           {p.active && (
@@ -388,52 +576,133 @@ export function GuitarHomeworkPanel(props: {
                 : 'Play at your own pace. Tell us how the pass felt when you finish.'}
             </p>
           )}
-          {finishing && p.active && s.method === 'self-report' && (
-            <fieldset className="guitar-reflection">
-              <legend>Your report · the app did not hear this performance</legend>
-              {reports.map(([value, label]) => (
-                <button
-                  key={value}
-                  className="secondary-button"
-                  onClick={() => {
-                    p.finish(value);
-                    setFinishing(false);
-                  }}
-                >
-                  {label}
-                </button>
-              ))}
-            </fieldset>
-          )}
-          {!p.active && last && (
-            <div className="guitar-result" role="status">
-              <strong>
-                {performance
-                  ? {
-                      match: 'Supported match',
-                      discrepancy: 'Supported discrepancy',
-                      unassessed: 'Could not assess',
-                      interrupted: 'Attempt interrupted',
-                    }[performance.outcome]
-                  : last.selfReport
-                    ? `You reported: ${reports.find((r) => r[0] === last.selfReport)![1]}`
-                    : 'Attempt interrupted'}
-              </strong>
-              <p>
-                {performance?.reason ??
-                  'Your report is saved separately from note, role and location checks.'}
-              </p>
-              {performance?.outcome === 'unassessed' && (
+          <div className="homework-feedback" ref={feedbackRef} tabIndex={-1}>
+            {finishing && p.active && s.method === 'self-report' && (
+              <fieldset className="guitar-reflection">
+                <legend>Your report · the app did not hear this performance</legend>
+                {reports.map(([value, label]) => (
+                  <button
+                    key={value}
+                    className="secondary-button"
+                    onClick={() => {
+                      p.finish(value);
+                      setFinishing(false);
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </fieldset>
+            )}
+            {!p.active && last && (
+              <div className="guitar-result" role="status">
+                <strong>
+                  {performance
+                    ? {
+                        match: 'Supported match',
+                        discrepancy: 'Supported discrepancy',
+                        unassessed: 'Could not assess',
+                        interrupted: 'Attempt interrupted',
+                      }[performance.outcome]
+                    : last.selfReport
+                      ? `You reported: ${reports.find((r) => r[0] === last.selfReport)![1]}`
+                      : 'Attempt interrupted'}
+                </strong>
                 <p>
-                  Pick the notes individually or choose a fragment task, then return to the change.
-                  Uncertain input is not a wrong answer.
+                  {performance?.reason ??
+                    'Your self-report is saved. It describes how playing felt, not verified correctness.'}
                 </p>
-              )}
-              <small>
-                First response preserved · {s.responseIndex} response(s) in this episode
-              </small>
+                <p className="next-cue">{guide?.check}</p>
+                {(last.selfReport === 'needs-another-pass' ||
+                  last.selfReport === 'not-sure' ||
+                  performance?.outcome === 'discrepancy') && (
+                  <div className="homework-retry-options" aria-label="Choose what to investigate">
+                    <span>What would help this pass?</span>
+                    <button
+                      className="secondary-button"
+                      disabled={!props.audioReady || !h.fresh}
+                      onClick={() => audition(true)}
+                    >
+                      Hear the example again
+                    </button>
+                    <button
+                      className="secondary-button"
+                      disabled={!h.fresh}
+                      onClick={() => {
+                        p.help('labels');
+                        p.change({ labels: true });
+                        setNotice(
+                          'Select a note on the map to hear it, then find it on your guitar.',
+                        );
+                      }}
+                    >
+                      Find the notes first
+                    </button>
+                    <button
+                      className="secondary-button"
+                      disabled={!h.fresh}
+                      onClick={() => {
+                        p.apply({ type: 'playing-homework', operation: 'retry', stepId: step.id });
+                        setNotice(
+                          'Try again at your own pace. Your first response stays in the record.',
+                        );
+                      }}
+                    >
+                      Try again on guitar
+                    </button>
+                  </div>
+                )}
+                {performance?.outcome === 'unassessed' && (
+                  <p>
+                    Pick the notes individually or choose a fragment task, then return to the
+                    change. Uncertain input is not a wrong answer.
+                  </p>
+                )}
+                <small>
+                  First response preserved · {s.responseIndex} response(s) in this episode
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="homework-next">
+            <div>
+              <span className="mission-label">
+                {s.index < s.steps.length - 1 ? 'UP NEXT' : 'END OF THE ROUTE'}
+              </span>
+              <p>{s.steps[s.index + 1]?.title ?? 'Keep a next step for your next practice.'}</p>
             </div>
-          )}
+            {s.index < s.steps.length - 1 ? (
+              <button
+                className="primary-button"
+                disabled={p.active}
+                onClick={() => {
+                  stop();
+                  p.select(s.index + 1);
+                }}
+              >
+                Next musical step <ArrowRight size={17} />
+              </button>
+            ) : (
+              <button className="primary-button" disabled={p.active} onClick={wrapUp}>
+                Finish session <Flag size={16} />
+              </button>
+            )}
+          </div>
+          <p className="homework-participation">
+            {tried.size} of {s.steps.length} steps tried. You can repeat, skip, or finish here. This
+            is practice participation, not a score.
+          </p>
+          <p className="caption homework-save-status" role="status">
+            {p.saving
+              ? 'Saving homework…'
+              : p.durable
+                ? 'Homework saved on this device'
+                : 'Homework is available in this session. Export progress if storage is unavailable.'}
+          </p>
+          <details className="task-purpose">
+            <summary>Why this step?</summary>
+            <p>{guide?.why}</p>
+          </details>
           <details>
             <summary>Count-in, response and rest</summary>
             <div className="guitar-toolbar">
@@ -511,28 +780,23 @@ export function GuitarHomeworkPanel(props: {
               ))}
             </div>
           </details>
-          <div className="guitar-actions">
+          <details>
+            <summary>Check note locations separately</summary>
+            <p>
+              Sound does not tell us which string or fret you used. Use a screen answer for a
+              separate location check.
+            </p>
             <button
               className="secondary-button"
-              disabled={p.active || s.index === s.steps.length - 1}
-              onClick={() => {
-                stop();
-                p.select(s.index + 1);
-              }}
-            >
-              Next musical step
-            </button>
-            <button
-              className="text-button"
               onClick={() => {
                 p.interrupt();
                 stop();
                 props.onCoordinates();
               }}
             >
-              Check note locations separately
+              Open location check
             </button>
-          </div>
+          </details>
           <details>
             <summary>Save what to try next</summary>
             <label>
@@ -563,10 +827,10 @@ export function GuitarHomeworkPanel(props: {
         Explore or check the fretboard
       </button>
       {notice && <p role="alert">{notice}</p>}
-      <p className="caption">
-        Keyboard or keyboard pedal: P play along · R repeat · F finish · Escape cancel. Space
-        controls playback. Nothing starts a paid teacher turn automatically.
-      </p>
+      <details className="homework-shortcuts">
+        <summary>Keyboard & pedal controls</summary>
+        <p>P play along · R repeat · F finish · Escape cancel. Space controls playback.</p>
+      </details>
     </section>
   );
 }

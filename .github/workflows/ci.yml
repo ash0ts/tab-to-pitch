@@ -77,6 +77,8 @@ jobs:
       - run: npm run test:live
       - run: npm run test:guitar-homework
       - run: npm run test:studio
+      - run: node --import tsx research/guitar-teacher-study/verify-report.mjs
+      - run: npx playwright test --config tests/research-study.playwright.config.ts
       - run: npm run test:renderer
       - run: npm run test:offline
       - name: Build production image

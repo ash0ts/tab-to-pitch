@@ -16,8 +16,8 @@ export default defineConfig({
         name: 'TabToPitch',
         short_name: 'TabToPitch',
         description: 'Learn the notes inside the songs you play.',
-        theme_color: '#123d38',
-        background_color: '#f4f3ec',
+        theme_color: '#171319',
+        background_color: '#171319',
         display: 'standalone',
         icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
       },
@@ -31,7 +31,10 @@ export default defineConfig({
   ],
   server: {
     port: 5173,
-    proxy: { '/api': process.env.TTP_API_ORIGIN ?? 'http://127.0.0.1:3000', '/healthz': 'http://127.0.0.1:3000' },
+    proxy: {
+      '/api': process.env.TTP_API_ORIGIN ?? 'http://127.0.0.1:3000',
+      '/healthz': 'http://127.0.0.1:3000',
+    },
   },
   build: { sourcemap: true },
 });

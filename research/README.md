@@ -2,6 +2,7 @@
 
 The public-data studies qualify parts of TabToPitch against recorded observations. The separate practice-intent study uses authored synthetic requests. Neither replaces the product's consented learner pilot or enables learned scheduling.
 
+- [`guitar-teacher-study/`](guitar-teacher-study/README.md) compares current and evidence-first hosted teachers on 72 GuitarSet-derived requests, with two trials each, an unchanged local policy, independent artifact checks, a separate reviewer diagnostic, and exact Forge readback. [The case explorer](../public/research/guitar-teacher/index.html) retains failures and links each result to its trace. It measures symbolic musical tool use, not hearing or learner outcomes.
 - `music-data/` imports GuitarSet annotations and derives conservative pitch/location exercises. The notes come from recordings; the exercises are generated. Frets are inferred from annotated string/pitch and tuning, not independent fingering observations.
 - `coach-benchmark/` runs the existing bounded coaching agent on frozen held-out passages. The local policy and qualified hosted models are evaluated on the same frozen candidates; the two configured models must qualify before testing. There is no learner history in this dataset. Scores measure application contracts and execution reliability, not teaching quality.
 - `recall-benchmark/` tests recall prediction on MIT-declared public Anki review observations. The outcome is self-rated recall in a different domain, not a verified TabToPitch answer.

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: '.',
+  outputDir: '../test-results/live-guitar',
   testMatch: 'live-guitar.spec.ts',
   workers: 1,
   timeout: 60000,

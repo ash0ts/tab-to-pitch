@@ -19,8 +19,8 @@ export function Modal({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="modal-overlay" />
-        <Dialog.Content className="modal-content">
+        <Dialog.Overlay className="modal-overlay pixel-dialog-overlay" />
+        <Dialog.Content className="modal-content pixel-dialog">
           <div className="modal-heading">
             <Dialog.Title>{title}</Dialog.Title>
             <Dialog.Close className="round-button" aria-label="Close dialog">

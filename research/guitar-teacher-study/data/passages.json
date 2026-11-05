@@ -1,0 +1,4794 @@
+[
+  {
+    "split": "development",
+    "recording": "00_Jazz1-130-D_comp",
+    "sourceSha256": "e91e087cc46802634052365b9ca98463e09bf75adac69db23d0b13154c37bf1d",
+    "performer": "00",
+    "style": "Jazz",
+    "family": "1",
+    "tempo": 130.0,
+    "key": "D:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 6,
+      "name": "F#"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 21,
+      "time": 13.215585487528415,
+      "duration": 0.8881632653061615,
+      "fractionalMidi": 66.07234150754148,
+      "midi": 66,
+      "position": {
+        "string": 2,
+        "fret": 7
+      }
+    },
+    "spans": [
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 0,
+        "time": 0.0,
+        "duration": 7.384615384615385,
+        "label": "D:maj"
+      },
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 7.384615384615385,
+        "duration": 3.6923076923076916,
+        "label": "G:maj"
+      },
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 11.076923076923077,
+        "duration": 3.6923076923076934,
+        "label": "D:maj"
+      }
+    ]
+  },
+  {
+    "split": "development",
+    "recording": "00_Rock1-90-C#_comp",
+    "sourceSha256": "fff8d2bbe54d280f139f750c28ed01d114f88a1982a3fea8607e6e9cba4d73bd",
+    "performer": "00",
+    "style": "Rock",
+    "family": "1",
+    "tempo": 90.0,
+    "key": "C#:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 5,
+      "name": "E#"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 70,
+      "time": 20.628115192743763,
+      "duration": 0.3018594104308363,
+      "fractionalMidi": 53.28264498649791,
+      "midi": 53,
+      "position": {
+        "string": 4,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C#",
+        "root": "C#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 16.0,
+        "duration": 5.333333333333332,
+        "label": "C#:maj"
+      },
+      {
+        "symbol": "G#",
+        "root": "G#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "3",
+            "pc": 0,
+            "name": "B#"
+          },
+          {
+            "degree": "5",
+            "pc": 3,
+            "name": "D#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 21.333333333333332,
+        "duration": 2.666666666666668,
+        "label": "G#:maj"
+      },
+      {
+        "symbol": "F#",
+        "root": "F#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 24.0,
+        "duration": 2.6666666666666643,
+        "label": "F#:maj"
+      }
+    ]
+  },
+  {
+    "split": "development",
+    "recording": "00_Jazz1-200-B_comp",
+    "sourceSha256": "6538d534852c90dba8bc7420b84bb1946bfbe1d3760dd3c3915381191bcf1bf6",
+    "performer": "00",
+    "style": "Jazz",
+    "family": "1",
+    "tempo": 200.0,
+    "key": "B:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 10,
+      "name": "A#"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 16,
+      "time": 9.91176145124723,
+      "duration": 0.4585941043084176,
+      "fractionalMidi": 58.1356596721861,
+      "midi": 58,
+      "position": {
+        "string": 4,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "E",
+        "root": "E",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "3",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 4.8,
+        "duration": 2.3999999999999995,
+        "label": "E:maj"
+      },
+      {
+        "symbol": "B",
+        "root": "B",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "3",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 7.199999999999999,
+        "duration": 2.4000000000000004,
+        "label": "B:maj"
+      },
+      {
+        "symbol": "F#",
+        "root": "F#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 9.6,
+        "duration": 1.1999999999999993,
+        "label": "F#:maj"
+      }
+    ]
+  },
+  {
+    "split": "development",
+    "recording": "01_Jazz1-200-B_comp",
+    "sourceSha256": "a46edbacea54722d34283f668978f77e0f7423dba537aefb91213ed63eaff5b6",
+    "performer": "01",
+    "style": "Jazz",
+    "family": "1",
+    "tempo": 200.0,
+    "key": "B:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 10,
+      "name": "A#"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 20,
+      "time": 9.87561632653069,
+      "duration": 0.17414965986392872,
+      "fractionalMidi": 70.1077281941289,
+      "midi": 70,
+      "position": {
+        "string": 2,
+        "fret": 11
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F#",
+        "root": "F#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 9.6,
+        "duration": 1.1999999999999993,
+        "label": "F#:maj"
+      },
+      {
+        "symbol": "E",
+        "root": "E",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "3",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 10.799999999999999,
+        "duration": 1.200000000000001,
+        "label": "E:maj"
+      },
+      {
+        "symbol": "B",
+        "root": "B",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "3",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 12.0,
+        "duration": 2.3999999999999773,
+        "label": "B:maj"
+      }
+    ]
+  },
+  {
+    "split": "development",
+    "recording": "01_SS1-68-E_comp",
+    "sourceSha256": "1bea54e6d3f003e519d0afa5eee57bce7df57a535ef8c218198591fe096a52b8",
+    "performer": "01",
+    "style": "SS",
+    "family": "1",
+    "tempo": 68.0,
+    "key": "E:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 3,
+      "name": "D#"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 42,
+      "time": 29.728807256235825,
+      "duration": 1.5151020408163163,
+      "fractionalMidi": 63.01943435775797,
+      "midi": 63,
+      "position": {
+        "string": 3,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "B",
+        "root": "B",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "3",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 28.235294117647058,
+        "duration": 3.529411764705884,
+        "label": "B:maj"
+      },
+      {
+        "symbol": "A",
+        "root": "A",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "3",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 31.764705882352942,
+        "duration": 3.529411764705884,
+        "label": "A:maj"
+      },
+      {
+        "symbol": "E",
+        "root": "E",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "3",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 35.294117647058826,
+        "duration": 7.052282352941191,
+        "label": "E:maj"
+      }
+    ]
+  },
+  {
+    "split": "development",
+    "recording": "01_SS1-100-C#_comp",
+    "sourceSha256": "556990d214788813d5088d1e8c9a933d6b34e8f64b3bf2747e396c476e3c2aec",
+    "performer": "01",
+    "style": "SS",
+    "family": "1",
+    "tempo": 100.0,
+    "key": "C#:major",
+    "selected": 1,
+    "tone": {
+      "degree": "3",
+      "pc": 10,
+      "name": "A#"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 73,
+      "time": 22.098115192743762,
+      "duration": 0.1277097505669076,
+      "fractionalMidi": 58.048694743767385,
+      "midi": 58,
+      "position": {
+        "string": 3,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "G#",
+        "root": "G#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "3",
+            "pc": 0,
+            "name": "B#"
+          },
+          {
+            "degree": "5",
+            "pc": 3,
+            "name": "D#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 19.2,
+        "duration": 2.3999999999999986,
+        "label": "G#:maj"
+      },
+      {
+        "symbol": "F#",
+        "root": "F#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 21.599999999999998,
+        "duration": 2.400000000000002,
+        "label": "F#:maj"
+      },
+      {
+        "symbol": "C#",
+        "root": "C#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 24.0,
+        "duration": 4.800000000000011,
+        "label": "C#:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_BN2-166-Ab_comp",
+    "sourceSha256": "54b3fd1468233e0a204db50c4b4b9b6863e895e6e1798ec0f46a39b7f48afe80",
+    "performer": "02",
+    "style": "BN",
+    "family": "2",
+    "tempo": 166.0,
+    "key": "Ab:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 4,
+      "name": "E"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 0,
+      "time": 2.003585487528426,
+      "duration": 0.5746938775509989,
+      "fractionalMidi": 64.08713312719675,
+      "midi": 64,
+      "position": {
+        "string": 2,
+        "fret": 5
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F#7",
+        "root": "F#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b7",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 1.4457831325301205,
+        "duration": 1.4457831325301205,
+        "label": "F#:7"
+      },
+      {
+        "symbol": "B",
+        "root": "B",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "3",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 2.891566265060241,
+        "duration": 1.4457831325301203,
+        "label": "B:maj"
+      },
+      {
+        "symbol": "E",
+        "root": "E",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "3",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 4.337349397590361,
+        "duration": 1.4457831325301207,
+        "label": "E:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Rock2-142-D_comp",
+    "sourceSha256": "1b56fc6e736473cf2dd3e3b7a1cfb19a55091138e167bb2c1ceb8304ea8e339c",
+    "performer": "02",
+    "style": "Rock",
+    "family": "2",
+    "tempo": 142.0,
+    "key": "D:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 2,
+      "name": "D"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 41,
+      "time": 21.41412698412698,
+      "duration": 0.17414965986394293,
+      "fractionalMidi": 49.979094130305995,
+      "midi": 50,
+      "position": {
+        "string": 4,
+        "fret": 0
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Em7b5",
+        "root": "E",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b5",
+            "pc": 10,
+            "name": "Bb"
+          },
+          {
+            "degree": "b7",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 20.281690140845072,
+        "duration": 1.6901408450704203,
+        "label": "E:hdim7"
+      },
+      {
+        "symbol": "A7",
+        "root": "A",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "3",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b7",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 21.971830985915492,
+        "duration": 1.6901408450704238,
+        "label": "A:7"
+      },
+      {
+        "symbol": "Dm",
+        "root": "D",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "b3",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 23.661971830985916,
+        "duration": 3.3796281690140866,
+        "label": "D:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_SS2-88-F_comp",
+    "sourceSha256": "34dc22e89e1ce74e2c1c5f80d74a0bff129926ea3253e744db8f65cdfe6dbc48",
+    "performer": "02",
+    "style": "SS",
+    "family": "2",
+    "tempo": 88.0,
+    "key": "F:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 5,
+      "name": "F"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 12,
+      "time": 13.043049433106603,
+      "duration": 0.21478458049887195,
+      "fractionalMidi": 53.027403602741586,
+      "midi": 53,
+      "position": {
+        "string": 4,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Gm7b5",
+        "root": "G",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b3",
+            "pc": 10,
+            "name": "Bb"
+          },
+          {
+            "degree": "b5",
+            "pc": 1,
+            "name": "Db"
+          },
+          {
+            "degree": "b7",
+            "pc": 5,
+            "name": "F"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 10.909090909090908,
+        "duration": 2.7272727272727266,
+        "label": "G:hdim7"
+      },
+      {
+        "symbol": "C7",
+        "root": "C",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b7",
+            "pc": 10,
+            "name": "Bb"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 13.636363636363635,
+        "duration": 2.7272727272727284,
+        "label": "C:7"
+      },
+      {
+        "symbol": "Fm",
+        "root": "F",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "b3",
+            "pc": 8,
+            "name": "Ab"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 16.363636363636363,
+        "duration": 5.454545454545453,
+        "label": "F:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Funk2-108-Eb_comp",
+    "sourceSha256": "b9fe69f52e3734a27d1c3d1d02a9ec87128a5503b7d5155da01d860ebd6f7b28",
+    "performer": "02",
+    "style": "Funk",
+    "family": "2",
+    "tempo": 108.0,
+    "key": "Eb:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 5,
+      "name": "E#"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 1,
+      "time": 21.141597278911604,
+      "duration": 0.14512471655325498,
+      "fractionalMidi": 64.89374608913278,
+      "midi": 65,
+      "position": {
+        "string": 2,
+        "fret": 6
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C#7",
+        "root": "C#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "b7",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 8,
+        "time": 20.0,
+        "duration": 2.2222222222222214,
+        "label": "C#:7"
+      },
+      {
+        "symbol": "F#",
+        "root": "F#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 9,
+        "time": 22.22222222222222,
+        "duration": 2.222222222222225,
+        "label": "F#:maj"
+      },
+      {
+        "symbol": "B",
+        "root": "B",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "3",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 10,
+        "time": 24.444444444444446,
+        "duration": 2.2222222222222214,
+        "label": "B:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Rock2-85-F_comp",
+    "sourceSha256": "9239ece91778cf9a05abf9e326c2a7c069e6605c8dc165e2f0351b5bc960679b",
+    "performer": "02",
+    "style": "Rock",
+    "family": "2",
+    "tempo": 85.0,
+    "key": "F:minor",
+    "selected": 2,
+    "tone": {
+      "degree": "b7",
+      "pc": 5,
+      "name": "F"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 20,
+      "time": 12.715959183673462,
+      "duration": 0.690793650793637,
+      "fractionalMidi": 53.09891212966827,
+      "midi": 53,
+      "position": {
+        "string": 4,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "G#",
+        "root": "G#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "3",
+            "pc": 0,
+            "name": "B#"
+          },
+          {
+            "degree": "5",
+            "pc": 3,
+            "name": "D#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 5.647058823529412,
+        "duration": 2.8235294117647056,
+        "label": "G#:maj"
+      },
+      {
+        "symbol": "C#",
+        "root": "C#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 8.470588235294118,
+        "duration": 2.8235294117647065,
+        "label": "C#:maj"
+      },
+      {
+        "symbol": "Gm7b5",
+        "root": "G",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b3",
+            "pc": 10,
+            "name": "Bb"
+          },
+          {
+            "degree": "b5",
+            "pc": 1,
+            "name": "Db"
+          },
+          {
+            "degree": "b7",
+            "pc": 5,
+            "name": "F"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 11.294117647058824,
+        "duration": 2.8235294117647065,
+        "label": "G:hdim7"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Jazz2-187-F#_comp",
+    "sourceSha256": "dc4ef2a01f21c45aab0cf2466f8df6d2039c66d7709fe0be2b4798b01806ddc1",
+    "performer": "02",
+    "style": "Jazz",
+    "family": "2",
+    "tempo": 187.0,
+    "key": "F#:minor",
+    "selected": 2,
+    "tone": {
+      "degree": "b3",
+      "pc": 2,
+      "name": "D"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 2,
+      "time": 10.937026757369608,
+      "duration": 0.4702040816326871,
+      "fractionalMidi": 62.11304784715852,
+      "midi": 62,
+      "position": {
+        "string": 2,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C#7",
+        "root": "C#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "b7",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 6.4171122994652405,
+        "duration": 1.2834224598930488,
+        "label": "C#:7"
+      },
+      {
+        "symbol": "F#m",
+        "root": "F#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "b3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 7.700534759358289,
+        "duration": 2.566844919786096,
+        "label": "F#:min"
+      },
+      {
+        "symbol": "Bm",
+        "root": "B",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "b3",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 7,
+        "time": 10.267379679144385,
+        "duration": 1.283422459893048,
+        "label": "B:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Jazz3-150-C_comp",
+    "sourceSha256": "9bee8b7b8233df84e1dfbc5f042eb0769f463c36a60a5234d10036ccb5e13e53",
+    "performer": "02",
+    "style": "Jazz",
+    "family": "3",
+    "tempo": 150.0,
+    "key": "C:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 9,
+      "name": "A"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 54,
+      "time": 20.442581405895794,
+      "duration": 0.16253968253965922,
+      "fractionalMidi": 57.169831488122504,
+      "midi": 57,
+      "position": {
+        "string": 3,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 19.200000000000003,
+        "duration": 1.5999999999999979,
+        "label": "F:maj"
+      },
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 20.8,
+        "duration": 1.6000000000000014,
+        "label": "C:maj"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 14,
+        "time": 22.400000000000002,
+        "duration": 1.5999999999999979,
+        "label": "F:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_BN3-119-G_comp",
+    "sourceSha256": "e29cf0c5a0841468c6f40242cf2193766730ef9679d590a0b7f81add6fbeccbb",
+    "performer": "02",
+    "style": "BN",
+    "family": "3",
+    "tempo": 119.0,
+    "key": "G:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 4,
+      "name": "E"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 45,
+      "time": 25.497602721088356,
+      "duration": 0.24380952380954568,
+      "fractionalMidi": 52.14055341308623,
+      "midi": 52,
+      "position": {
+        "string": 4,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 24.201680672268907,
+        "duration": 2.0168067226890756,
+        "label": "C:maj"
+      },
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 26.218487394957982,
+        "duration": 2.0168067226890756,
+        "label": "G:maj"
+      },
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 14,
+        "time": 28.235294117647058,
+        "duration": 2.0168067226890756,
+        "label": "C:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Rock3-117-Bb_comp",
+    "sourceSha256": "cf9bcbfab1d605d0b929a90ce58ef02b95f0343bc50da39c634a8e8911ad0855",
+    "performer": "02",
+    "style": "Rock",
+    "family": "3",
+    "tempo": 117.0,
+    "key": "Bb:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 9,
+      "name": "A"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 12,
+      "time": 32.354234013605435,
+      "duration": 0.21478458049887195,
+      "fractionalMidi": 69.03180364766405,
+      "midi": 69,
+      "position": {
+        "string": 2,
+        "fret": 10
+      }
+    },
+    "spans": [
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 26.666666666666664,
+        "duration": 2.051282051282051,
+        "label": "A#:maj"
+      },
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 14,
+        "time": 28.717948717948715,
+        "duration": 2.051282051282051,
+        "label": "D#:maj"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 15,
+        "time": 30.769230769230766,
+        "duration": 2.0471692307692493,
+        "label": "F:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_SS3-98-C_comp",
+    "sourceSha256": "8ad8f83679796775aadfb269cd92db0ac8d2017febc6784b0ad17bde4e164777",
+    "performer": "02",
+    "style": "SS",
+    "family": "3",
+    "tempo": 98.0,
+    "key": "C:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 11,
+      "name": "B"
+    },
+    "note": {
+      "annotation": 3,
+      "observation": 7,
+      "time": 2.759682539682501,
+      "duration": 0.28444444444443207,
+      "fractionalMidi": 47.05897584527313,
+      "midi": 47,
+      "position": {
+        "string": 5,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 2.4489795918367347,
+        "duration": 2.4489795918367347,
+        "label": "G:maj"
+      },
+      {
+        "symbol": "Am",
+        "root": "A",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "b3",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 4.8979591836734695,
+        "duration": 2.4489795918367347,
+        "label": "A:min"
+      },
+      {
+        "symbol": "Em",
+        "root": "E",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 7.346938775510204,
+        "duration": 2.4489795918367347,
+        "label": "E:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Funk3-98-A_comp",
+    "sourceSha256": "df788d7a5655f1b8a75f6540fef717111748162cddf18fd3275d76143ce81ef3",
+    "performer": "02",
+    "style": "Funk",
+    "family": "3",
+    "tempo": 98.0,
+    "key": "A:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 6,
+      "name": "F#"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 6,
+      "time": 10.774175056689273,
+      "duration": 0.9346031746031258,
+      "fractionalMidi": 54.067201961472435,
+      "midi": 54,
+      "position": {
+        "string": 4,
+        "fret": 4
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F#m",
+        "root": "F#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "b3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 4.8979591836734695,
+        "duration": 2.4489795918367347,
+        "label": "F#:min"
+      },
+      {
+        "symbol": "C#m",
+        "root": "C#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 7.346938775510204,
+        "duration": 2.4489795918367347,
+        "label": "C#:min"
+      },
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 9.795918367346939,
+        "duration": 2.4489795918367356,
+        "label": "D:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "02_Jazz3-137-Eb_comp",
+    "sourceSha256": "28edf15cd04f6365834b95e1ca58365d38ccd7f384297fd18ce4e50bc65e1940",
+    "performer": "02",
+    "style": "Jazz",
+    "family": "3",
+    "tempo": 137.0,
+    "key": "Eb:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 2,
+      "name": "C##"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 24,
+      "time": 13.828683900226793,
+      "duration": 0.11609977324258125,
+      "fractionalMidi": 50.10736222159949,
+      "midi": 50,
+      "position": {
+        "string": 4,
+        "fret": 0
+      }
+    },
+    "spans": [
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 7,
+        "time": 12.262773722627738,
+        "duration": 1.7518248175182478,
+        "label": "A#:maj"
+      },
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 8,
+        "time": 14.014598540145986,
+        "duration": 1.7518248175182478,
+        "label": "D#:maj"
+      },
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 9,
+        "time": 15.766423357664234,
+        "duration": 1.7518248175182478,
+        "label": "A#:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_BN2-131-B_comp",
+    "sourceSha256": "8dfc8eeb83a59920289d0eb9050ec383c84b9c6fab0610073662708e14bf1b3a",
+    "performer": "03",
+    "style": "BN",
+    "family": "2",
+    "tempo": 131.0,
+    "key": "B:minor",
+    "selected": 2,
+    "tone": {
+      "degree": "b7",
+      "pc": 4,
+      "name": "E"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 20,
+      "time": 10.096014512471584,
+      "duration": 0.23800453514741093,
+      "fractionalMidi": 51.663368534780886,
+      "midi": 52,
+      "position": {
+        "string": 4,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 5.4961832061068705,
+        "duration": 1.8320610687022896,
+        "label": "G:maj"
+      },
+      {
+        "symbol": "C#m7b5",
+        "root": "C#",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b5",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b7",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 7.32824427480916,
+        "duration": 1.8320610687022896,
+        "label": "C#:hdim7"
+      },
+      {
+        "symbol": "F#7",
+        "root": "F#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b7",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 9.16030534351145,
+        "duration": 1.8320610687022914,
+        "label": "F#:7"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Rock2-85-F_comp",
+    "sourceSha256": "750844ee46cb08fdec28fd1870f8274b3555cb03533ae5e986b8b36df38d790d",
+    "performer": "03",
+    "style": "Rock",
+    "family": "2",
+    "tempo": 85.0,
+    "key": "F:minor",
+    "selected": 1,
+    "tone": {
+      "degree": "b7",
+      "pc": 10,
+      "name": "Bb"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 44,
+      "time": 37.24292063492062,
+      "duration": 0.13931972789114866,
+      "fractionalMidi": 58.06486578607445,
+      "midi": 58,
+      "position": {
+        "string": 3,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Gm7b5",
+        "root": "G",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b3",
+            "pc": 10,
+            "name": "Bb"
+          },
+          {
+            "degree": "b5",
+            "pc": 1,
+            "name": "Db"
+          },
+          {
+            "degree": "b7",
+            "pc": 5,
+            "name": "F"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 33.88235294117647,
+        "duration": 2.82352941176471,
+        "label": "G:hdim7"
+      },
+      {
+        "symbol": "C7",
+        "root": "C",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b7",
+            "pc": 10,
+            "name": "Bb"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 36.70588235294118,
+        "duration": 2.823529411764703,
+        "label": "C:7"
+      },
+      {
+        "symbol": "Fm",
+        "root": "F",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "b3",
+            "pc": 8,
+            "name": "Ab"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 39.529411764705884,
+        "duration": 5.64378823529411,
+        "label": "F:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_SS2-107-Ab_comp",
+    "sourceSha256": "6066118fc120ee595cea4186c2ba3817b8827f19d34fa42f2616a429a572c9c8",
+    "performer": "03",
+    "style": "SS",
+    "family": "2",
+    "tempo": 107.0,
+    "key": "Ab:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 4,
+      "name": "E"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 3,
+      "time": 2.537881179138367,
+      "duration": 0.476009070294765,
+      "fractionalMidi": 52.10101391350996,
+      "midi": 52,
+      "position": {
+        "string": 4,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F#7",
+        "root": "F#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b7",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 2.2429906542056073,
+        "duration": 2.2429906542056073,
+        "label": "F#:7"
+      },
+      {
+        "symbol": "B",
+        "root": "B",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "3",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 4.485981308411215,
+        "duration": 2.242990654205607,
+        "label": "B:maj"
+      },
+      {
+        "symbol": "E",
+        "root": "E",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "3",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 6.728971962616821,
+        "duration": 2.2429906542056077,
+        "label": "E:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_BN2-166-Ab_comp",
+    "sourceSha256": "f3df6832e216171cb772c60425087a49a1d31a4a6392137ea9767fdde1d931d2",
+    "performer": "03",
+    "style": "BN",
+    "family": "2",
+    "tempo": 166.0,
+    "key": "Ab:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 8,
+      "name": "G#"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 41,
+      "time": 18.270116099773304,
+      "duration": 0.08126984126988646,
+      "fractionalMidi": 56.007321300763216,
+      "midi": 56,
+      "position": {
+        "string": 4,
+        "fret": 6
+      }
+    },
+    "spans": [
+      {
+        "symbol": "A#m7b5",
+        "root": "A#",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "b3",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b5",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b7",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 17.349397590361445,
+        "duration": 1.4457831325301207,
+        "label": "A#:hdim7"
+      },
+      {
+        "symbol": "D#7",
+        "root": "D#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "b7",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 18.795180722891565,
+        "duration": 1.4457831325301207,
+        "label": "D#:7"
+      },
+      {
+        "symbol": "G#m",
+        "root": "G#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "b3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 3,
+            "name": "D#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 20.240963855421686,
+        "duration": 2.8890361445783093,
+        "label": "G#:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Jazz2-110-Bb_comp",
+    "sourceSha256": "62357239080eb2a000e2ea7424bd89b0fa5f7bb8f6bd32287138640b4c930734",
+    "performer": "03",
+    "style": "Jazz",
+    "family": "2",
+    "tempo": 110.0,
+    "key": "Bb:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 3,
+      "name": "Eb"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 11,
+      "time": 11.789325170067968,
+      "duration": 0.43537414965987864,
+      "fractionalMidi": 63.11576989296128,
+      "midi": 63,
+      "position": {
+        "string": 3,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F7",
+        "root": "F",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "b7",
+            "pc": 3,
+            "name": "Eb"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 10.909090909090908,
+        "duration": 2.1818181818181817,
+        "label": "F:7"
+      },
+      {
+        "symbol": "A#m",
+        "root": "A#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "b3",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 13.09090909090909,
+        "duration": 4.363636363636363,
+        "label": "A#:min"
+      },
+      {
+        "symbol": "D#m",
+        "root": "D#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "b3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 7,
+        "time": 17.454545454545453,
+        "duration": 2.18181818181818,
+        "label": "D#:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Jazz2-187-F#_comp",
+    "sourceSha256": "947781eeed8145ee9a861e3b98e28895fe8555b7fdb1b444dde8b66e9b1debcb",
+    "performer": "03",
+    "style": "Jazz",
+    "family": "2",
+    "tempo": 187.0,
+    "key": "F#:minor",
+    "selected": 2,
+    "tone": {
+      "degree": "b7",
+      "pc": 11,
+      "name": "B"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 19,
+      "time": 17.23126712018143,
+      "duration": 0.20317460317460245,
+      "fractionalMidi": 59.14834905204415,
+      "midi": 59,
+      "position": {
+        "string": 3,
+        "fret": 4
+      }
+    },
+    "spans": [
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 10,
+        "time": 14.117647058823529,
+        "duration": 1.2834224598930497,
+        "label": "D:maj"
+      },
+      {
+        "symbol": "G#m7b5",
+        "root": "G#",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "b3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "b5",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "b7",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 15.401069518716579,
+        "duration": 1.2834224598930462,
+        "label": "G#:hdim7"
+      },
+      {
+        "symbol": "C#7",
+        "root": "C#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "b7",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 16.684491978609625,
+        "duration": 1.2834224598930497,
+        "label": "C#:7"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_SS3-98-C_comp",
+    "sourceSha256": "883a78a9f6adebb9761b8a62bb3627b2e0220dfb3cc79837c4b6321d4a51060f",
+    "performer": "03",
+    "style": "SS",
+    "family": "3",
+    "tempo": 98.0,
+    "key": "C:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 9,
+      "name": "A"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 89,
+      "time": 31.551859410430836,
+      "duration": 0.10448979591831176,
+      "fractionalMidi": 56.735835057524014,
+      "midi": 57,
+      "position": {
+        "string": 3,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Am",
+        "root": "A",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "b3",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 10,
+        "time": 24.48979591836735,
+        "duration": 2.448979591836732,
+        "label": "A:min"
+      },
+      {
+        "symbol": "Em",
+        "root": "E",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 26.93877551020408,
+        "duration": 2.4489795918367356,
+        "label": "E:min"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 29.387755102040817,
+        "duration": 2.4489795918367356,
+        "label": "F:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Rock3-117-Bb_comp",
+    "sourceSha256": "90c90c8c7c8ea803aeed0ef9c0df97e269bad2c97e78dc92e391c256841699d2",
+    "performer": "03",
+    "style": "Rock",
+    "family": "3",
+    "tempo": 117.0,
+    "key": "Bb:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 2,
+      "name": "C##"
+    },
+    "note": {
+      "annotation": 3,
+      "observation": 4,
+      "time": 10.760039002267604,
+      "duration": 0.6617687074829917,
+      "fractionalMidi": 50.11654835919321,
+      "midi": 50,
+      "position": {
+        "string": 5,
+        "fret": 5
+      }
+    },
+    "spans": [
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 10.256410256410255,
+        "duration": 2.051282051282051,
+        "label": "A#:maj"
+      },
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 12.307692307692307,
+        "duration": 2.051282051282051,
+        "label": "D#:maj"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 7,
+        "time": 14.358974358974358,
+        "duration": 2.051282051282051,
+        "label": "F:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Jazz3-150-C_comp",
+    "sourceSha256": "f6582b8b45efe6661354788330a64a2f6a148134976d8f7f71a86cdaaddf92b5",
+    "performer": "03",
+    "style": "Jazz",
+    "family": "3",
+    "tempo": 150.0,
+    "key": "C:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 4,
+      "name": "E"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 27,
+      "time": 22.034100680272104,
+      "duration": 0.19156462585033296,
+      "fractionalMidi": 64.04353400524022,
+      "midi": 64,
+      "position": {
+        "string": 2,
+        "fret": 5
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 20.8,
+        "duration": 1.6000000000000014,
+        "label": "C:maj"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 14,
+        "time": 22.400000000000002,
+        "duration": 1.5999999999999979,
+        "label": "F:maj"
+      },
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 15,
+        "time": 24.0,
+        "duration": 1.6000000000000227,
+        "label": "G:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_SS3-84-Bb_comp",
+    "sourceSha256": "39ba0c11ccbe61442e8e4562e1adb21530d06bb2858000e798ac04366c1ac5e2",
+    "performer": "03",
+    "style": "SS",
+    "family": "3",
+    "tempo": 84.0,
+    "key": "Bb:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 7,
+      "name": "F##"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 49,
+      "time": 41.92969795918361,
+      "duration": 0.2554195011338152,
+      "fractionalMidi": 55.08790518999867,
+      "midi": 55,
+      "position": {
+        "string": 4,
+        "fret": 5
+      }
+    },
+    "spans": [
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 34.285714285714285,
+        "duration": 2.857142857142861,
+        "label": "D#:maj"
+      },
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 37.142857142857146,
+        "duration": 2.857142857142854,
+        "label": "A#:maj"
+      },
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 14,
+        "time": 40.0,
+        "duration": 2.857142857142861,
+        "label": "D#:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Funk3-98-A_comp",
+    "sourceSha256": "571587868b827fe53902f5fed72c5c6999929f8afc700608fd49cf68965976a8",
+    "performer": "03",
+    "style": "Funk",
+    "family": "3",
+    "tempo": 98.0,
+    "key": "A:major",
+    "selected": 0,
+    "tone": {
+      "degree": "b3",
+      "pc": 9,
+      "name": "A"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 12,
+      "time": 5.517825850339932,
+      "duration": 0.30185941043077946,
+      "fractionalMidi": 68.9796820799121,
+      "midi": 69,
+      "position": {
+        "string": 2,
+        "fret": 10
+      }
+    },
+    "spans": [
+      {
+        "symbol": "F#m",
+        "root": "F#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "b3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 4.8979591836734695,
+        "duration": 2.4489795918367347,
+        "label": "F#:min"
+      },
+      {
+        "symbol": "C#m",
+        "root": "C#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 7.346938775510204,
+        "duration": 2.4489795918367347,
+        "label": "C#:min"
+      },
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 9.795918367346939,
+        "duration": 2.4489795918367356,
+        "label": "D:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "03_Rock3-148-C_comp",
+    "sourceSha256": "609687bcd7b9dc932d52981cb5f54b91ef004125c8ce36338011a56a3521c036",
+    "performer": "03",
+    "style": "Rock",
+    "family": "3",
+    "tempo": 148.0,
+    "key": "C:major",
+    "selected": 0,
+    "tone": {
+      "degree": "3",
+      "pc": 4,
+      "name": "E"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 26,
+      "time": 13.375580045351455,
+      "duration": 0.8243083900226793,
+      "fractionalMidi": 52.11778248877784,
+      "midi": 52,
+      "position": {
+        "string": 4,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 8,
+        "time": 12.972972972972974,
+        "duration": 1.621621621621621,
+        "label": "C:maj"
+      },
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 9,
+        "time": 14.594594594594595,
+        "duration": 1.6216216216216228,
+        "label": "G:maj"
+      },
+      {
+        "symbol": "Am",
+        "root": "A",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "b3",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          }
+        ],
+        "annotation": 14,
+        "observation": 10,
+        "time": 16.216216216216218,
+        "duration": 1.621621621621621,
+        "label": "A:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Jazz2-110-Bb_comp",
+    "sourceSha256": "f93cdec6210d5c7cdba6b4c61f75d5c641a5c8a6b3ef0cb847cd043c5e3ab13a",
+    "performer": "04",
+    "style": "Jazz",
+    "family": "2",
+    "tempo": 110.0,
+    "key": "Bb:minor",
+    "selected": 2,
+    "tone": {
+      "degree": "b7",
+      "pc": 10,
+      "name": "Bb"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 5,
+      "time": 8.801003174603238,
+      "duration": 1.573151927437607,
+      "fractionalMidi": 58.15022415761873,
+      "midi": 58,
+      "position": {
+        "string": 4,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "C#",
+        "root": "C#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "3",
+            "pc": 5,
+            "name": "E#"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 4.363636363636363,
+        "duration": 2.1818181818181817,
+        "label": "C#:maj"
+      },
+      {
+        "symbol": "F#",
+        "root": "F#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "3",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "5",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 6.545454545454545,
+        "duration": 2.1818181818181817,
+        "label": "F#:maj"
+      },
+      {
+        "symbol": "Cm7b5",
+        "root": "C",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "b3",
+            "pc": 3,
+            "name": "Eb"
+          },
+          {
+            "degree": "b5",
+            "pc": 6,
+            "name": "Gb"
+          },
+          {
+            "degree": "b7",
+            "pc": 10,
+            "name": "Bb"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 8.727272727272727,
+        "duration": 2.1818181818181817,
+        "label": "C:hdim7"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_BN2-131-B_comp",
+    "sourceSha256": "d125f917a574a661fab34c860a71110d81db3d4a5f8c03ea48ac070fbdcc4f2c",
+    "performer": "04",
+    "style": "BN",
+    "family": "2",
+    "tempo": 131.0,
+    "key": "B:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 7,
+      "name": "G"
+    },
+    "note": {
+      "annotation": 5,
+      "observation": 16,
+      "time": 17.424517913832233,
+      "duration": 0.23800453514741093,
+      "fractionalMidi": 55.048816023784255,
+      "midi": 55,
+      "position": {
+        "string": 4,
+        "fret": 5
+      }
+    },
+    "spans": [
+      {
+        "symbol": "A7",
+        "root": "A",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "3",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b7",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 8,
+        "time": 16.48854961832061,
+        "duration": 1.8320610687022878,
+        "label": "A:7"
+      },
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 9,
+        "time": 18.3206106870229,
+        "duration": 1.8320610687022914,
+        "label": "D:maj"
+      },
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 10,
+        "time": 20.15267175572519,
+        "duration": 1.8320610687022914,
+        "label": "G:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_SS2-107-Ab_comp",
+    "sourceSha256": "af25369890af9f973ff2452806a919bbb4db344dbe329c1aad88f29c4d3179de",
+    "performer": "04",
+    "style": "SS",
+    "family": "2",
+    "tempo": 107.0,
+    "key": "Ab:minor",
+    "selected": 0,
+    "tone": {
+      "degree": "b7",
+      "pc": 1,
+      "name": "C#"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 23,
+      "time": 12.798969614512544,
+      "duration": 0.3715192743763964,
+      "fractionalMidi": 61.15392043637078,
+      "midi": 61,
+      "position": {
+        "string": 3,
+        "fret": 6
+      }
+    },
+    "spans": [
+      {
+        "symbol": "D#7",
+        "root": "D#",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "b7",
+            "pc": 1,
+            "name": "C#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 11.214953271028037,
+        "duration": 2.242990654205606,
+        "label": "D#:7"
+      },
+      {
+        "symbol": "G#m",
+        "root": "G#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 8,
+            "name": "G#"
+          },
+          {
+            "degree": "b3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 3,
+            "name": "D#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 13.457943925233643,
+        "duration": 4.4859813084112155,
+        "label": "G#:min"
+      },
+      {
+        "symbol": "C#m",
+        "root": "C#",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "b3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 8,
+            "name": "G#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 7,
+        "time": 17.94392523364486,
+        "duration": 2.242990654205606,
+        "label": "C#:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_SS2-88-F_comp",
+    "sourceSha256": "5228c2f884bf4c55c58579d9a26c0bdcfb99b948038eae203f83e040b0457cd2",
+    "performer": "04",
+    "style": "SS",
+    "family": "2",
+    "tempo": 88.0,
+    "key": "F:minor",
+    "selected": 1,
+    "tone": {
+      "degree": "b7",
+      "pc": 10,
+      "name": "Bb"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 22,
+      "time": 15.482142403628131,
+      "duration": 0.38893424036280067,
+      "fractionalMidi": 58.17423199494625,
+      "midi": 58,
+      "position": {
+        "string": 3,
+        "fret": 3
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Gm7b5",
+        "root": "G",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b3",
+            "pc": 10,
+            "name": "Bb"
+          },
+          {
+            "degree": "b5",
+            "pc": 1,
+            "name": "Db"
+          },
+          {
+            "degree": "b7",
+            "pc": 5,
+            "name": "F"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 10.909090909090908,
+        "duration": 2.7272727272727266,
+        "label": "G:hdim7"
+      },
+      {
+        "symbol": "C7",
+        "root": "C",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b7",
+            "pc": 10,
+            "name": "Bb"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 13.636363636363635,
+        "duration": 2.7272727272727284,
+        "label": "C:7"
+      },
+      {
+        "symbol": "Fm",
+        "root": "F",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "b3",
+            "pc": 8,
+            "name": "Ab"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 16.363636363636363,
+        "duration": 5.454545454545453,
+        "label": "F:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Funk2-119-G_comp",
+    "sourceSha256": "7453b7207b821d89933e7d0e20c5189f284aec5d6736a0669d93ceed96fed578",
+    "performer": "04",
+    "style": "Funk",
+    "family": "2",
+    "tempo": 119.0,
+    "key": "G:minor",
+    "selected": 1,
+    "tone": {
+      "degree": "b7",
+      "pc": 3,
+      "name": "Eb"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 12,
+      "time": 3.69351746031748,
+      "duration": 0.17995464852606347,
+      "fractionalMidi": 63.10002439250136,
+      "midi": 63,
+      "position": {
+        "string": 3,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Cm",
+        "root": "C",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "b3",
+            "pc": 3,
+            "name": "Eb"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 0,
+        "time": 0.0,
+        "duration": 2.0168067226890756,
+        "label": "C:min"
+      },
+      {
+        "symbol": "F7",
+        "root": "F",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "b7",
+            "pc": 3,
+            "name": "Eb"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 2.0168067226890756,
+        "duration": 2.0168067226890756,
+        "label": "F:7"
+      },
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 4.033613445378151,
+        "duration": 2.0168067226890756,
+        "label": "A#:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Rock2-142-D_comp",
+    "sourceSha256": "aaab63931089e7910af048ab49e10f99c2302b83cdfc78d077e74d5c228625ce",
+    "performer": "04",
+    "style": "Rock",
+    "family": "2",
+    "tempo": 142.0,
+    "key": "D:minor",
+    "selected": 1,
+    "tone": {
+      "degree": "b7",
+      "pc": 7,
+      "name": "G"
+    },
+    "note": {
+      "annotation": 9,
+      "observation": 21,
+      "time": 8.908412698412704,
+      "duration": 0.4179591836734744,
+      "fractionalMidi": 67.07323969001136,
+      "midi": 67,
+      "position": {
+        "string": 2,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Em7b5",
+        "root": "E",
+        "quality": "hdim7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "b5",
+            "pc": 10,
+            "name": "Bb"
+          },
+          {
+            "degree": "b7",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 6.76056338028169,
+        "duration": 1.690140845070422,
+        "label": "E:hdim7"
+      },
+      {
+        "symbol": "A7",
+        "root": "A",
+        "quality": "7",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "3",
+            "pc": 1,
+            "name": "C#"
+          },
+          {
+            "degree": "5",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b7",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 8.450704225352112,
+        "duration": 1.6901408450704238,
+        "label": "A:7"
+      },
+      {
+        "symbol": "Dm",
+        "root": "D",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "b3",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 6,
+        "time": 10.140845070422536,
+        "duration": 3.380281690140844,
+        "label": "D:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Rock3-148-C_comp",
+    "sourceSha256": "49b8e1d2ab0ec3cbb1659f8ec357b96629519055a69f86248c8b2ad29698bdf4",
+    "performer": "04",
+    "style": "Rock",
+    "family": "3",
+    "tempo": 148.0,
+    "key": "C:major",
+    "selected": 1,
+    "tone": {
+      "degree": "3",
+      "pc": 9,
+      "name": "A"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 14,
+      "time": 7.531611791383199,
+      "duration": 0.1857596371881982,
+      "fractionalMidi": 57.12436430138686,
+      "midi": 57,
+      "position": {
+        "string": 3,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Em",
+        "root": "E",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 4.864864864864865,
+        "duration": 1.621621621621622,
+        "label": "E:min"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 6.486486486486487,
+        "duration": 1.621621621621622,
+        "label": "F:maj"
+      },
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 8.108108108108109,
+        "duration": 1.621621621621621,
+        "label": "C:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_BN3-119-G_comp",
+    "sourceSha256": "a4fdc1d1f831f0e48dbb7a5e7924d6044f64a1099624e08ac715e086a15f28be",
+    "performer": "04",
+    "style": "BN",
+    "family": "3",
+    "tempo": 119.0,
+    "key": "G:major",
+    "selected": 2,
+    "tone": {
+      "degree": "b3",
+      "pc": 2,
+      "name": "D"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 32,
+      "time": 23.724813605442137,
+      "duration": 0.24380952380954568,
+      "fractionalMidi": 62.121576267963704,
+      "midi": 62,
+      "position": {
+        "string": 3,
+        "fret": 7
+      }
+    },
+    "spans": [
+      {
+        "symbol": "D",
+        "root": "D",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "3",
+            "pc": 6,
+            "name": "F#"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 9,
+        "time": 18.15126050420168,
+        "duration": 2.0168067226890756,
+        "label": "D:maj"
+      },
+      {
+        "symbol": "Em",
+        "root": "E",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 10,
+        "time": 20.168067226890756,
+        "duration": 2.0168067226890756,
+        "label": "E:min"
+      },
+      {
+        "symbol": "Bm",
+        "root": "B",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "b3",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "5",
+            "pc": 6,
+            "name": "F#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 22.18487394957983,
+        "duration": 2.0168067226890756,
+        "label": "B:min"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_SS3-98-C_comp",
+    "sourceSha256": "2ba755b2df047d42ada16e8ed319f149def4fb1116c76739a4abb76988ce8242",
+    "performer": "04",
+    "style": "SS",
+    "family": "3",
+    "tempo": 98.0,
+    "key": "C:major",
+    "selected": 1,
+    "tone": {
+      "degree": "3",
+      "pc": 9,
+      "name": "A"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 48,
+      "time": 29.877120181405814,
+      "duration": 0.38893424036280067,
+      "fractionalMidi": 57.19846807417851,
+      "midi": 57,
+      "position": {
+        "string": 3,
+        "fret": 2
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Em",
+        "root": "E",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "b3",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "5",
+            "pc": 11,
+            "name": "B"
+          }
+        ],
+        "annotation": 14,
+        "observation": 11,
+        "time": 26.93877551020408,
+        "duration": 2.4489795918367356,
+        "label": "E:min"
+      },
+      {
+        "symbol": "F",
+        "root": "F",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "3",
+            "pc": 9,
+            "name": "A"
+          },
+          {
+            "degree": "5",
+            "pc": 0,
+            "name": "C"
+          }
+        ],
+        "annotation": 14,
+        "observation": 12,
+        "time": 29.387755102040817,
+        "duration": 2.4489795918367356,
+        "label": "F:maj"
+      },
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 13,
+        "time": 31.836734693877553,
+        "duration": 2.448979591836732,
+        "label": "C:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Rock3-117-Bb_comp",
+    "sourceSha256": "bbb464dbb554b289221313e631d0b326dc540e70b6f23ce0e1189dfadc66f607",
+    "performer": "04",
+    "style": "Rock",
+    "family": "3",
+    "tempo": 117.0,
+    "key": "Bb:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 2,
+      "name": "C##"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 34,
+      "time": 10.793848526077113,
+      "duration": 0.25541950113378675,
+      "fractionalMidi": 62.14316250035575,
+      "midi": 62,
+      "position": {
+        "string": 3,
+        "fret": 7
+      }
+    },
+    "spans": [
+      {
+        "symbol": "Dm",
+        "root": "D",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 2,
+            "name": "D"
+          },
+          {
+            "degree": "b3",
+            "pc": 5,
+            "name": "F"
+          },
+          {
+            "degree": "5",
+            "pc": 9,
+            "name": "A"
+          }
+        ],
+        "annotation": 14,
+        "observation": 3,
+        "time": 6.153846153846153,
+        "duration": 2.051282051282051,
+        "label": "D:min"
+      },
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 4,
+        "time": 8.205128205128204,
+        "duration": 2.051282051282051,
+        "label": "D#:maj"
+      },
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 5,
+        "time": 10.256410256410255,
+        "duration": 2.051282051282051,
+        "label": "A#:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Jazz3-150-C_comp",
+    "sourceSha256": "ea8ecb9312801e650f8a658c0512e47fa2550ca07cdef95e27a869a69843ddc2",
+    "performer": "04",
+    "style": "Jazz",
+    "family": "3",
+    "tempo": 150.0,
+    "key": "C:major",
+    "selected": 2,
+    "tone": {
+      "degree": "3",
+      "pc": 11,
+      "name": "B"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 28,
+      "time": 15.066753741496655,
+      "duration": 0.3947392290249354,
+      "fractionalMidi": 59.12446947622816,
+      "midi": 59,
+      "position": {
+        "string": 3,
+        "fret": 4
+      }
+    },
+    "spans": [
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 7,
+        "time": 11.200000000000001,
+        "duration": 1.5999999999999996,
+        "label": "G:maj"
+      },
+      {
+        "symbol": "C",
+        "root": "C",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "3",
+            "pc": 4,
+            "name": "E"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 8,
+        "time": 12.8,
+        "duration": 1.5999999999999996,
+        "label": "C:maj"
+      },
+      {
+        "symbol": "G",
+        "root": "G",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 7,
+            "name": "G"
+          },
+          {
+            "degree": "3",
+            "pc": 11,
+            "name": "B"
+          },
+          {
+            "degree": "5",
+            "pc": 2,
+            "name": "D"
+          }
+        ],
+        "annotation": 14,
+        "observation": 9,
+        "time": 14.4,
+        "duration": 1.5999999999999996,
+        "label": "G:maj"
+      }
+    ]
+  },
+  {
+    "split": "evaluation",
+    "recording": "04_Jazz3-137-Eb_comp",
+    "sourceSha256": "f44e4a82822c9ff1c1413582b0676a0a407df39516e35455b5c4abf012f6df7c",
+    "performer": "04",
+    "style": "Jazz",
+    "family": "3",
+    "tempo": 137.0,
+    "key": "Eb:major",
+    "selected": 2,
+    "tone": {
+      "degree": "b3",
+      "pc": 3,
+      "name": "Eb"
+    },
+    "note": {
+      "annotation": 7,
+      "observation": 11,
+      "time": 4.656416326530575,
+      "duration": 0.1973696145124677,
+      "fractionalMidi": 63.06078276080208,
+      "midi": 63,
+      "position": {
+        "string": 3,
+        "fret": 8
+      }
+    },
+    "spans": [
+      {
+        "symbol": "D#",
+        "root": "D#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 3,
+            "name": "D#"
+          },
+          {
+            "degree": "3",
+            "pc": 7,
+            "name": "F##"
+          },
+          {
+            "degree": "5",
+            "pc": 10,
+            "name": "A#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 0,
+        "time": 0.0,
+        "duration": 1.7518248175182483,
+        "label": "D#:maj"
+      },
+      {
+        "symbol": "A#",
+        "root": "A#",
+        "quality": "maj",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 10,
+            "name": "A#"
+          },
+          {
+            "degree": "3",
+            "pc": 2,
+            "name": "C##"
+          },
+          {
+            "degree": "5",
+            "pc": 5,
+            "name": "E#"
+          }
+        ],
+        "annotation": 14,
+        "observation": 1,
+        "time": 1.7518248175182483,
+        "duration": 1.7518248175182483,
+        "label": "A#:maj"
+      },
+      {
+        "symbol": "Cm",
+        "root": "C",
+        "quality": "min",
+        "tones": [
+          {
+            "degree": "1",
+            "pc": 0,
+            "name": "C"
+          },
+          {
+            "degree": "b3",
+            "pc": 3,
+            "name": "Eb"
+          },
+          {
+            "degree": "5",
+            "pc": 7,
+            "name": "G"
+          }
+        ],
+        "annotation": 14,
+        "observation": 2,
+        "time": 3.5036496350364965,
+        "duration": 1.7518248175182487,
+        "label": "C:min"
+      }
+    ]
+  }
+]

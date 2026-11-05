@@ -4,7 +4,7 @@ async function open(page: Page) {
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
-  await page.getByRole('button', {name:'Explore or check the fretboard',exact:true}).click();
+  await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   const hw = page.getByRole('region', { name: 'Fretboard homework', exact: true });
   await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByRole('button', { name: 'Open C–F–G–C study' }).click();
@@ -62,7 +62,7 @@ test('homework masks all cells, records assistance before reveal, keeps first an
   await expect(hw.locator('.selected-cell')).toHaveCount(0);
   await expect(hw.locator('.practice-feedback')).toHaveCount(0);
   await page.reload();
-  await page.getByRole('button', {name:'Explore or check the fretboard',exact:true}).click();
+  await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByRole('button', { name: 'Open C–F–G–C study' }).click();
   await expect
@@ -119,7 +119,7 @@ test('teacher help is marked before conversation becomes available', async ({ pa
   await expect(teacher.getByRole('log')).toContainText('E-family shape can sound G major');
 });
 
-test('keyboard answers remain selectable; returning to Play pauses homework before exposure', async ({
+test('keyboard answers remain selectable; leaving homework pauses it before another activity', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -133,8 +133,16 @@ test('keyboard answers remain selectable; returning to Play pauses homework befo
   await hw.getByRole('button', { name: 'Check answer', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(hw).toContainText('meets the stated musical constraints');
-  await page.getByRole('tab', { name: 'Play', exact: true }).click();
+  await page.getByRole('button', { name: 'Exit to studio', exact: true }).click();
   await expect(hw).toHaveCount(0);
+  await page.getByRole('link', { name: 'Songs & exercises', exact: true }).click();
+  await page
+    .locator('article')
+    .filter({
+      has: page.getByRole('heading', { name: 'Play a little, hear a little', exact: true }),
+    })
+    .getByRole('button', { name: 'Open activity', exact: true })
+    .click();
   await expect(page.locator('canvas')).toBeVisible();
   const saved = await data(page);
   expect(saved.lessons.find((l: any) => l.homework)?.homework.status).toBe('paused');
@@ -145,7 +153,8 @@ test('the teacher starts homework from exploration with the selected workload an
   page,
 }) => {
   const hw = await open(page);
-  if (!(await hw.getByLabel('Suggested workload').isVisible())) await hw.getByText('Workload, neck region & source', { exact: true }).click();
+  if (!(await hw.getByLabel('Suggested workload').isVisible()))
+    await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByLabel('Suggested workload').selectOption('5');
   await hw.getByLabel('Homework neck region').selectOption('5');
   const trigger = page.getByRole('button', { name: 'Open music teacher', exact: true });

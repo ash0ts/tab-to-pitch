@@ -247,6 +247,13 @@ export function usePlayingHomework(
     saving,
     durable,
     events: relevant,
+    sessionEvents: learning.events.flatMap((e) =>
+      e.playing &&
+      e.at >= (h.state?.createdAt ?? Infinity) &&
+      state?.steps.some((s) => s.id === e.playing!.stepId)
+        ? [{ ...e.playing, id: e.id }]
+        : [],
+    ),
     active: state?.status === 'playing',
     masked: state?.status === 'playing' && !state.labels && !state.support.length,
     begin,
@@ -266,6 +273,7 @@ export function usePlayingHomework(
             assisted: state.labels || !!state.support.length || state.responseIndex > 0,
             stepId: step.id,
             objective: step.objective,
+            stimulus: step,
             method: state.method,
             eligible:
               state.status === 'playing'

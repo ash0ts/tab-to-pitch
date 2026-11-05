@@ -106,9 +106,7 @@ for the 18 coefficient sets, normalization constants, split references, and
 predictions. Compare coefficients with their feature definitions and scaling;
 a larger coefficient alone is not a universal musical preference. The
 [runtime model v0](https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/artifacts/model/tabtopitch-voicing-ranker-runtime-v1/v0)
-has one separately fit coefficient set. The browser preserves deterministic
-progression ranking and offers this model only for a bounded, optional one-step
-comparison. Its at-most-64-candidate UI differs from the exhaustive study bank.
+has one separately fit coefficient set. The historical browser experiment used a bounded, optional one-step comparison; its at-most-64-candidate UI differs from the exhaustive study bank. The standalone import excludes model weights, so that comparison is unavailable there. Deterministic ranking remains the default.
 [ML results and limits](../voicing-ranking/results.md),
 [dataset card](../voicing-ranking/dataset-card.md).
 

@@ -1,0 +1,111 @@
+{
+  "arms": {
+    "local": {
+      "primarySuccesses": 0,
+      "executed": 72,
+      "productDeliveryIncludingFallback": 0,
+      "taskSlices": {
+        "role": {
+          "n": 36,
+          "delivered": 0
+        },
+        "move": {
+          "n": 36,
+          "delivered": 0
+        }
+      }
+    },
+    "current": {
+      "primarySuccesses": 11,
+      "executed": 144,
+      "productDeliveryIncludingFallback": 78,
+      "taskSlices": {
+        "role": {
+          "n": 72,
+          "delivered": 2
+        },
+        "move": {
+          "n": 72,
+          "delivered": 9
+        }
+      }
+    },
+    "evidence-first": {
+      "primarySuccesses": 35,
+      "executed": 144,
+      "productDeliveryIncludingFallback": 100,
+      "taskSlices": {
+        "role": {
+          "n": 72,
+          "delivered": 13
+        },
+        "move": {
+          "n": 72,
+          "delivered": 22
+        }
+      }
+    }
+  },
+  "paired": {
+    "recordings": 36,
+    "difference": 0.16666666666666666,
+    "recordingBootstrap95": [
+      0.09027777777777778,
+      0.24305555555555555
+    ],
+    "checkpointTrialOutcomes": {
+      "neither": 101,
+      "current-only": 8,
+      "treatment-only": 32,
+      "both": 3
+    },
+    "performerFamilyDifferences": {
+      "02:2": 0.2916666666666667,
+      "02:3": 0.08333333333333333,
+      "03:2": 0.125,
+      "03:3": 0.20833333333333334,
+      "04:2": 0.125,
+      "04:3": 0.16666666666666666
+    }
+  },
+  "engine": {
+    "successes": 72,
+    "n": 72
+  },
+  "critic": {
+    "executed": 48,
+    "planned": 48,
+    "validReviews": 48,
+    "correct": 48,
+    "unsupportedDetected": 36,
+    "unsupportedTotal": 36,
+    "correctAccepted": 12,
+    "correctTotal": 12,
+    "byKind": {
+      "correct": {
+        "n": 12,
+        "correct": 12,
+        "unavailable": 0
+      },
+      "wrong-role": {
+        "n": 12,
+        "correct": 12,
+        "unavailable": 0
+      },
+      "wrong-position": {
+        "n": 12,
+        "correct": 12,
+        "unavailable": 0
+      },
+      "invented-playing": {
+        "n": 12,
+        "correct": 12,
+        "unavailable": 0
+      }
+    }
+  },
+  "calls": 628,
+  "tableUrl": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/guitar-teacher-evaluation-001-comparison",
+  "weaveUrl": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/weave/calls/01a1adb1-e38e-7fcd-a487-139c446bdd8e",
+  "lensUrl": "https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/aa75d78e-a316-495c-9e55-821485954b23"
+}

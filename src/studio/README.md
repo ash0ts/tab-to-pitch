@@ -1,4 +1,4 @@
-# Illustrated practice studio
+# Pixel practice studio
 
 This layer presents the existing musical tools. `App` retains the single alphaTab controller and canonical source score. `ProgressionWorkspace` retains lesson, homework, listening and live-input hooks; only the active task is rendered. The optional bandmate opens the existing teacher. It is not another agent.
 
@@ -9,11 +9,22 @@ This layer presents the existing musical tools. `App` retains the single alphaTa
 - `StudioPages.tsx`: Studio, activity library, progress and teaching library.
 - `Timeline.tsx` / `timeline-events.ts`: Canvas presentation and repeat-expanded source events.
 - `contracts.ts`: practice-set schema, run references and scoring policy.
-- `studio.css`: presentation tokens and responsive layouts. Musical degree colors remain in the existing fretboard styles.
+- `studio.css`: base layout for the library, evidence views and task surfaces.
+- `pixel-studio.css`: pixel artwork, full-screen room, selectable setlist, high-contrast instrument frame and responsive presentation. Musical degree colors remain in the existing fretboard styles.
 
 Routes contain only destination and a registry activity ID. Private titles, filenames and grading keys never enter URLs. Bookmarks use the local source hash, track, loop and speed. Existing source files remain in IndexedDB. A lesson resumes without opening an audio input.
 
 The studio exposes listening, teaching practice, CAGED, experimental live guitar and Ear Lab. Ear Lab uses the optional local worker; its absence leaves other activities usable. The shell does not fake analysis or acquire recordings.
+
+## Session flow
+
+The Studio is a full-room game scene with a foreground optional bandmate, a setlist menu and one launch action. Selecting an activity updates its objective and the companion’s static introduction. This introduction is authored interface copy, not a model response or a claim about learner progress. The 5/15/30-minute workload remains optional. A fresh session says Start practicing; a saved bookmark says Continue practicing. Activities remain available without unlocks.
+
+Guitar homework shows the actual assignment as four navigable groups: notes, shapes, changes and musical application. The active task supplies the neck region and next step. Absent groups are unavailable, and learners can change direction without completing a group. The display counts steps with recorded attempts since the assignment began, excluding skipped self-reports. This count is participation, not accuracy or mastery.
+
+On desktop, playback and response controls sit beside the neck so all six strings are visible together. On mobile, controls stack before the neck map. Finishing an attempt focuses its feedback area. Wrap up session and Finish session use the existing bookmark/recap flow; they add no grading or second success history. Teacher help is part of the stage toolbar rather than an overlay on the fretboard. Closing the teacher restores focus to its trigger. Its existing assistance and masking rules remain active.
+
+Silkscreen is used for short game labels; instructions and notes retain DM Sans. Original pixel artwork and the licensed font are bundled for offline use. No decorative animation is needed to answer a task.
 
 ## Evidence and scoring
 
@@ -31,6 +42,8 @@ The presentation is stored under `studio-v1` and `stage-runs-v1` in the existing
 
 ## Art and evidence
 
-[Asset provenance](../../public/art/provenance.md) records the original generated artwork. Art is decorative, locally bundled and nonessential to navigation. The research library distinguishes pedagogical sources from historical technical experiments. Public notebook summaries use only original/authored examples and aggregate published research results. Private dashboards still require their existing access. Their historical readbacks are not represented as freshly reverified.
+[Asset provenance](../../public/art/provenance.md) records the original generated artwork. Art is decorative, locally bundled and nonessential to navigation. The research library distinguishes pedagogical sources from historical technical experiments. Public notebook summaries use only original/authored examples and aggregate published research results. Private dashboards still require their existing access. The [5 November audit](../../public/research/notebook/evidence-audit.md) names the objects freshly reread and the artifacts checked only locally. `ForgeEvidence.tsx` exposes denominators, failed qualifications, and private dashboard links directly; fallback success remains separate from actor success.
 
-[practice-stage-v1](../../research/practice-stage/protocol.json) freezes the new presentation cases. [Delivery evidence](../../docs/studio-delivery.md) records checks and pending qualifications. This layer does not claim improved learning, retention or actual guitar performance.
+[practice-stage-v1](../../research/practice-stage/protocol.json) freezes the new presentation cases. [Current presentation](../../docs/pixel-practice-studio.md) describes the pixel revision. [Historical delivery evidence](../../docs/studio-delivery.md) preserves the original worktree checks and pending qualifications. This layer does not claim improved learning, retention or actual guitar performance.
+
+The [controlled GuitarSet teacher comparison](../../research/guitar-teacher-study/README.md) leads the Forge view through `ControlledStudy.tsx`. Its generated summary is exported only after exact Lens, Weave and Table readback. The standalone report at `/research/guitar-teacher/index.html` exposes every request, trial, failed reply, returned musical artifact and source checksum. It uses authored learner requests and licensed recording annotations; it does not report audio perception or learner outcomes. The production teacher prompt is unchanged.
