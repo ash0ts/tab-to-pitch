@@ -64,6 +64,12 @@ async function play(page: Page, notes: number[], seconds = 0.7) {
 test('real worklet and worker capture a connection, mask feedback, preserve attempts and stop on reload', async ({
   page,
 }, info) => {
+  if (process.env.TTP_TEST_CPU_THROTTLE) {
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send('Emulation.setCPUThrottlingRate', {
+      rate: Number(process.env.TTP_TEST_CPU_THROTTLE),
+    });
+  }
   await syntheticInput(page);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
@@ -79,6 +85,17 @@ test('real worklet and worker capture a connection, mask feedback, preserve atte
   await expect(panel.locator('.live-detection')).toHaveCount(0);
   await expect(panel.locator('.live-targets')).toHaveCount(0);
   await panel.getByRole('button', { name: 'Finish response' }).click();
+  await info.attach('committed-connection.json', {
+    body: JSON.stringify(
+      await page.evaluate(async () => {
+        const path = '/src/storage.ts';
+        return (await import(path))
+          .getMemoryLessonData()
+          .lessonEvents.filter((e: { kind: string }) => e.kind === 'live-response');
+      }),
+    ),
+    contentType: 'application/json',
+  });
   await expect(panel.getByText('Supported match', { exact: true })).toBeVisible();
   await play(page, [], 0.15);
   await panel.getByRole('button', { name: 'Start attempt' }).click();

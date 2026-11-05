@@ -20,6 +20,7 @@ export class LiveInputController {
   private node: AudioWorkletNode | null = null;
   private worker: Worker | null = null;
   private cleanupMidi: (() => void) | null = null;
+  private cancelStartup: (() => void) | null = null;
   private session: LiveInputSession | null = null;
   private removeLifecycle: () => void;
   constructor(
@@ -148,11 +149,19 @@ export class LiveInputController {
       const ready = new Promise<void>((resolve) => {
         analysisReady = resolve;
       });
+      let inputReady!: () => void;
+      const captured = new Promise<void>((resolve) => {
+        inputReady = resolve;
+      });
+      this.cancelStartup = () => {
+        analysisReady();
+        inputReady();
+      };
+      const transport = new MessageChannel();
+      node.port.postMessage({ transport: transport.port1 }, [transport.port1]);
       worker.onmessage = (event) => {
         if (!current()) return;
         if (event.data.type === 'ready') analysisReady();
-        if (event.data.type === 'recycle')
-          node.port.postMessage({ buffer: event.data.buffer }, [event.data.buffer]);
         if (event.data.type === 'observation') {
           const parsed = observationSchema.safeParse(event.data.observation);
           if (parsed.success) this.callbacks.observation(parsed.data);
@@ -166,21 +175,27 @@ export class LiveInputController {
       };
       node.port.onmessage = (event) => {
         if (!current()) return;
+        if (event.data.type === 'capture-ready') inputReady();
         if (event.data.type === 'gap') {
           this.fail(
-            'Audio frames or the selected channel were unavailable. Reconnect before another attempt.',
+            event.data.reason === 'channel'
+              ? 'The selected guitar channel was unavailable. Choose its input channel and reconnect.'
+              : 'Audio analysis fell behind and frames were lost. Reconnect before another attempt.',
           );
           return;
         }
-        if (event.data.type === 'audio')
-          worker.postMessage({ ...event.data, receivedMs: performance.now() }, [event.data.buffer]);
       };
-      worker.postMessage({
-        type: 'start',
-        sessionId: this.session.id,
-        sampleRate: context.sampleRate,
-        mode: options.mode,
-      });
+      worker.postMessage(
+        {
+          type: 'start',
+          sessionId: this.session.id,
+          sampleRate: context.sampleRate,
+          mode: options.mode,
+          transport: transport.port2,
+          timeOrigin: performance.timeOrigin,
+        },
+        [transport.port2],
+      );
       let timeout: ReturnType<typeof setTimeout> | undefined;
       try {
         await Promise.race([
@@ -203,7 +218,22 @@ export class LiveInputController {
       context.createMediaStreamSource(stream).connect(node);
       node.connect(context.destination);
       await context.resume();
+      try {
+        await Promise.race([
+          captured,
+          new Promise<never>((_, reject) => {
+            timeout = setTimeout(
+              () =>
+                reject(new Error('No input frames arrived. Check the interface and reconnect.')),
+              3000,
+            );
+          }),
+        ]);
+      } finally {
+        clearTimeout(timeout);
+      }
       if (!current()) return;
+      this.cancelStartup = null;
       this.update({
         status: 'listening',
         sampleRate: context.sampleRate,
@@ -227,6 +257,8 @@ export class LiveInputController {
   }
   stop(interrupted = false) {
     ++this.generation;
+    this.cancelStartup?.();
+    this.cancelStartup = null;
     this.cleanupMidi?.();
     this.cleanupMidi = null;
     this.worker?.terminate();

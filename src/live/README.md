@@ -12,7 +12,7 @@ The output picker controls alphaTab accompaniment. Browser support and operating
 
 ## Audio and evidence
 
-The capture worklet selects one channel and outputs silence. It transfers a fixed pool of 512-sample buffers to the analysis worker after a readiness handshake. The worker returns buffers for reuse. Pool exhaustion or a missing channel stops the input; dropped audio cannot become a grading result. There is no SharedArrayBuffer, cross-origin isolation, server DSP or raw-audio persistence.
+The capture worklet selects one channel and outputs silence. After the worker handshake, a MessageChannel transfers a fixed pool of 512-sample buffers directly between worklet and analysis worker. React and the main-thread event queue do not relay audio blocks. Input becomes ready only after the graph supplies its first channel quantum. An initially unconnected graph is distinct from a wrong or disconnected channel. Pool exhaustion or a missing channel stops the input; dropped audio cannot become a grading result. There is no SharedArrayBuffer, cross-origin isolation, server DSP or raw-audio persistence.
 
 Audio is processed at the AudioContext's actual sample rate, including any browser resampling. Requested echo cancellation, noise suppression and automatic gain control are false; the UI reports when settings do not confirm that. Backgrounding, disconnection, permission cancellation and a suspended audio context stop the session. Reconnection is explicit. Preferences can persist, but reload never opens a device.
 
