@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   testMatch: [
+    'homework.spec.ts',
     'app.spec.ts',
     'exploration.spec.ts',
     'progression.spec.ts',

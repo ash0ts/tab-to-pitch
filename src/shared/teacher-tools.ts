@@ -1,3 +1,4 @@
+import { homeworkActionSchema } from './homework.js';
 import { practiceActionSchema } from './practice.js';
 import { z } from 'zod';
 import { arrangementIntentSchema } from './arrangements.js';
@@ -5,6 +6,8 @@ import { teacherHighlightActionSchema, teacherAuditionActionSchema, teacherTaskR
 
 const emptyArgs = z.object({}).strict();
 export const teacherToolArgumentSchemas = {
+  homework_map: emptyArgs,
+  homework_activity: z.object({ action: homeworkActionSchema }).strict(),
   practice_activity: z.object({ action: practiceActionSchema }).strict(),
   inspect_music: emptyArgs,
   inspect_passage: emptyArgs,

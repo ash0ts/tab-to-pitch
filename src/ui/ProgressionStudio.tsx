@@ -1,6 +1,9 @@
+import { HOMEWORK_SOURCE_ID } from '../player/demo';
+import { useHomeworkSession } from '../hooks/useHomeworkSession';
+import { HomeworkWorkspace } from './HomeworkWorkspace';
 import type { MutableRefObject } from 'react';
 import type { SupportKind } from '../shared/practice';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDesktopLayout } from '../useMediaQuery';
 import { usePracticeSession } from '../hooks/usePracticeSession';
 import { PracticeWorkspace } from './PracticeWorkspace';
@@ -70,6 +73,8 @@ const colorFamilies: ChordQuality[][] = [
 
 export function ProgressionWorkspace(
   props: ProgressionSessionInput & {
+    visible: boolean;
+    teacherFocusRequest: number;
     onListeningMask(masked: boolean): void;
     supportRecorder: MutableRefObject<(kind: SupportKind, episodeId: string) => boolean>;
     initialListeningDifficulty: 'guided' | 'recall' | 'transfer';
@@ -118,42 +123,133 @@ export function ProgressionWorkspace(
       props.supportRecorder.current = () => false;
     };
   }, [learning.record, props.supportRecorder]);
+  const [teacherSheetOpen, setTeacherSheetOpen] = useState(false);
+  const [teacherExpanded, setTeacherExpanded] = useState(false);
+  const [teacherCloud, setTeacherCloud] = useState(false);
+  const [homeworkOpen, setHomeworkOpen] = useState(props.score.hash === HOMEWORK_SOURCE_ID);
+  const homework = useHomeworkSession(
+    learning,
+    session.contextVersion,
+    props.track.tuningMidi,
+    props.track.capo,
+    props.onStopStudy,
+    {
+      symbol:
+        session.span?.confirmation === 'confirmed' ? (session.span.chord?.symbol ?? 'C') : 'C',
+      symbols: session.spans.flatMap((span) =>
+        span.confirmation === 'confirmed' && span.chord ? [span.chord.symbol] : [],
+      ),
+      region: { minFret: session.options.minFret, maxFret: session.options.maxFret },
+    },
+  );
   const practice = usePracticeSession(learning, session.contextVersion, props.onStopStudy);
   useLayoutEffect(() => {
-    props.onListeningMask(listening.masked || practice.masked);
+    props.onListeningMask(listening.masked || practice.masked || homework.masked);
     return () => props.onListeningMask(false);
-  }, [listening.masked, practice.masked, props.onListeningMask]);
+  }, [listening.masked, practice.masked, homework.masked, props.onListeningMask]);
+  useEffect(() => {
+    if (homework.active || practice.active || listening.active || props.teacher.activeQuestion)
+      setTeacherSheetOpen(false);
+  }, [
+    homework.active,
+    practice.active,
+    listening.active,
+    props.teacher.activeQuestion?.exercise.id,
+  ]);
+  useEffect(() => {
+    if (props.teacherFocusRequest) setTeacherSheetOpen(true);
+  }, [props.teacherFocusRequest]);
+  useEffect(() => {
+    if (!props.visible) {
+      homework.pause();
+      practice.interrupt('The learner returned to the player.');
+    }
+  }, [props.visible]);
   const teacher = (
     <TeacherPanel
+      focusRequest={props.teacherFocusRequest}
+      presentation={{
+        expanded: teacherExpanded,
+        setExpanded: setTeacherExpanded,
+        cloud: teacherCloud,
+        setCloud: setTeacherCloud,
+      }}
       learning={learning}
       onTransfer={props.onTransfer}
       practice={practice}
+      homework={homeworkOpen ? homework : undefined}
       listening={passage ? listening : undefined}
       onReplay={props.onReplay}
       score={props.score}
       track={props.track}
       progression={session}
       {...props.teacher}
-      exploring={props.active && !practice.masked}
+      exploring={props.active && !practice.masked && !homework.masked}
       onOpenStudy={props.onOpenStudy}
       onListen={props.onAudition}
     />
   );
+  if (!props.visible) return null;
   return (
     <div className="learning-layout">
       <div className="learning-task-column">
-        <PracticeWorkspace
-          session={practice}
-          ready={
-            !!learning.lesson &&
-            !learning.externalRevision &&
-            !listening.active &&
-            !props.teacher.activeQuestion
-          }
-          onPlay={props.onStudy}
-          onStop={props.onStopStudy}
-        />
-        {!practice.active && passage && (
+        <nav className="homework-entry" aria-label="Learning activity">
+          <button
+            className="secondary-button"
+            aria-pressed={!homeworkOpen}
+            onClick={() => {
+              homework.pause();
+              setHomeworkOpen(false);
+            }}
+          >
+            Musical intentions
+          </button>
+          <button
+            className="secondary-button"
+            aria-pressed={homeworkOpen}
+            disabled={listening.active || !!props.teacher.activeQuestion}
+            onClick={() => {
+              practice.interrupt('The learner selected fretboard homework.');
+              setHomeworkOpen(true);
+            }}
+          >
+            Fretboard homework
+          </button>
+        </nav>
+        {homeworkOpen ? (
+          <HomeworkWorkspace
+            homework={homework}
+            progression={session}
+            tuning={props.track.tuningMidi}
+            capo={props.track.capo}
+            ready={
+              !!learning.lesson &&
+              !learning.externalRevision &&
+              !listening.active &&
+              !props.teacher.activeQuestion
+            }
+            onListen={props.onAudition}
+            onStop={props.onStopStudy}
+            onOriginal={() => {
+              homework.pause();
+              props.onOpenHomework?.();
+            }}
+            showOctaves={props.showOctaves}
+          />
+        ) : (
+          <PracticeWorkspace
+            session={practice}
+            ready={
+              !!learning.lesson &&
+              !learning.externalRevision &&
+              !listening.active &&
+              !props.teacher.activeQuestion
+            }
+            onPlay={props.onStudy}
+            onStop={props.onStopStudy}
+          />
+        )}
+        {!homeworkOpen && !practice.active && passage && (
           <ListeningPanel
             onTransfer={props.onTransfer}
             session={listening}
@@ -169,16 +265,32 @@ export function ProgressionWorkspace(
             }}
           />
         )}
-        {!listening.masked && !practice.masked && (
+        {!homeworkOpen && !listening.masked && !practice.masked && (
           <ProgressionStudio {...props} session={session} />
         )}
       </div>
-      <aside
-        className={desktop ? 'learning-teacher-column' : 'learning-teacher-mobile'}
-        aria-label="Teacher"
-      >
-        {teacher}
-      </aside>
+      {desktop ? (
+        <aside className="learning-teacher-column" aria-label="Teacher">
+          {teacher}
+        </aside>
+      ) : (
+        <Dialog.Root open={teacherSheetOpen} onOpenChange={setTeacherSheetOpen}>
+          <Dialog.Trigger asChild>
+            <button className="primary-button teacher-sheet-trigger">Open music teacher</button>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="teacher-sheet-overlay" />
+            <Dialog.Content className="teacher-sheet">
+              <Dialog.Title>Music teacher</Dialog.Title>
+              <Dialog.Description>
+                Ask about the current task or choose a different approach.
+              </Dialog.Description>
+              <Dialog.Close className="text-button">Return to my task</Dialog.Close>
+              {teacher}
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+      )}
     </div>
   );
 }

@@ -17,24 +17,33 @@ test('song list to listening feedback to the shared fretboard, with masked first
   const lesson = page.getByRole('region', { name: 'Listening lesson' });
   await lesson.getByLabel('Listening difficulty').selectOption('recall');
   await lesson.getByRole('button', { name: 'Try a listening question' }).click();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+    await page.evaluate(() => innerWidth),
+  );
   await expect(page.locator('.music-workspace')).toBeHidden();
   await expect(page.locator('.progression-studio')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(await page.evaluate(() => document.documentElement.clientWidth));
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
+  const mobileTeacher = page.getByRole('button', { name: 'Open music teacher', exact: true });
+  if (await mobileTeacher.isVisible()) await mobileTeacher.click();
   await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await expect(teacher.getByRole('log')).toHaveCount(0);
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
+  const back = page.getByRole('button', { name: 'Return to my task', exact: true });
+  if (await back.isVisible()) await back.click();
   for (const [i, value] of ['D', 'G7', 'Cmaj7', 'Am7'].entries())
     await lesson.getByLabel(`Chord at change ${i + 1}`).selectOption(value);
+  await lesson
+    .getByRole('button', { name: 'Check progression' })
+    .evaluate((node) => node.scrollIntoView({ block: 'center' }));
   await lesson.getByRole('button', { name: 'Check progression' }).click();
   await expect(lesson).toContainText('The root matches; compare the chord quality.');
   await expect(page.locator('.music-workspace')).toBeHidden();
   await lesson.getByRole('button', { name: 'Show the full explanation' }).click();
   await lesson.getByRole('button', { name: 'Find this progression on the neck' }).click();
   await expect(page.getByRole('region', { name: 'Progression studio', exact: true })).toBeVisible();
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
+  if (await mobileTeacher.isVisible()) await mobileTeacher.click();
+  const open = teacher.getByRole('button', { name: 'Open teacher', exact: true });
+  if (await open.isVisible()) await open.click();
   await teacher
     .getByRole('textbox', { name: 'Your question', exact: true })
     .fill('Help me understand my missed chord quality.');
@@ -66,11 +75,42 @@ test('teacher help is recorded before revealing answers; reload preserves eviden
   await page.getByRole('button', { name: 'Four chords, one key' }).click();
   const lesson = page.getByRole('region', { name: 'Listening lesson' });
   await lesson.getByRole('button', { name: 'Try a listening question' }).click();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+    await page.evaluate(() => innerWidth),
+  );
   await lesson.getByRole('button', { name: 'Give me an attention cue' }).click();
   await expect(lesson).toContainText('This answer will count as assisted');
   await lesson.getByLabel('Chord at change 1').selectOption('Dm7');
+  await lesson
+    .getByRole('button', { name: 'Check progression' })
+    .evaluate((node) => node.scrollIntoView({ block: 'center' }));
   await lesson.getByRole('button', { name: 'Check progression' }).click();
   await expect(lesson).toContainText('The progression matches');
+  await expect
+    .poll(() =>
+      page.evaluate(async () => {
+        const database = await new Promise<IDBDatabase>((resolve, reject) => {
+          const request = indexedDB.open('tabtopitch');
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+        return new Promise<number>((resolve, reject) => {
+          const request = database
+            .transaction('listeningAttempts')
+            .objectStore('listeningAttempts')
+            .count();
+          request.onsuccess = () => {
+            database.close();
+            resolve(request.result);
+          };
+          request.onerror = () => {
+            database.close();
+            reject(request.error);
+          };
+        });
+      }),
+    )
+    .toBe(1);
   await page.reload();
   await page.getByRole('button', { name: 'Choose a song' }).click();
   await page.getByRole('button', { name: 'Four chords, one key' }).click();

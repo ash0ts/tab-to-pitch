@@ -20,6 +20,8 @@ interface Props {
   showOctaves?: boolean;
   onChoose?(position: FretPosition): void;
   hideLabels?: boolean;
+  selectableAll?: boolean;
+  selectedPositions?: FretPosition[];
   label?: string;
 }
 
@@ -35,6 +37,8 @@ export function Fretboard({
   showOctaves = false,
   onChoose,
   hideLabels = false,
+  selectableAll = false,
+  selectedPositions = [],
   label = 'Guitar fretboard',
 }: Props) {
   const first = Math.max(0, Math.min(24, Math.floor(minFret)));
@@ -72,24 +76,26 @@ export function Fretboard({
             </span>
             {frets.map((fret) => {
               const marker = byPosition.get(`${string}:${fret}`);
-              if (!marker)
+              if (!marker && !selectableAll)
                 return (
                   <span className={`fret ${fret === 0 ? 'nut' : ''}`} aria-hidden="true" key={fret}>
                     <span>{[3, 5, 7, 9, 12, 15, 17, 19, 21, 24].includes(fret) ? '·' : ''}</span>
                   </span>
                 );
+              const chosen = selectedPositions.some((p) => p.string === string && p.fret === fret);
               const current = currentPosition?.string === string && currentPosition.fret === fret;
               const pitch =
                 marker?.label ?? formatPitch(tuning[string - 1]! + capo + fret, showOctaves);
               return (
                 <button
                   key={fret}
-                  className={`fret ${marker ? 'marked' : ''} ${marker?.role ? `role-${marker.role}` : ''} ${current ? 'source-position' : ''} ${fret === 0 ? 'nut' : ''}`}
+                  className={`fret ${marker ? 'marked' : ''} ${!hideLabels && marker?.role ? `role-${marker.role}` : ''} ${chosen ? 'selected-cell' : ''} ${current ? 'source-position' : ''} ${fret === 0 ? 'nut' : ''}`}
+                  aria-pressed={onChoose ? chosen : undefined}
                   onClick={() => onChoose?.({ string, fret })}
                   disabled={!onChoose}
-                  aria-label={`String ${string}, fret ${fret}${hideLabels ? '' : `, ${pitch}${marker?.role ? `, ${marker.role}` : ''}`}${current ? ', source position' : ''}`}
+                  aria-label={`String ${string}, fret ${fret}${hideLabels || !marker ? '' : `, ${pitch}${marker?.role ? `, ${marker.role}` : ''}`}${current ? ', source position' : ''}`}
                 >
-                  <span>{!hideLabels ? pitch : '·'}</span>
+                  <span>{!hideLabels && marker ? pitch : chosen ? '●' : '·'}</span>
                 </button>
               );
             })}

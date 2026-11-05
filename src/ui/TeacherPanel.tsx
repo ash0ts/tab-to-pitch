@@ -1,3 +1,6 @@
+import type { HomeworkSession } from '../hooks/useHomeworkSession';
+import { HOMEWORK_VERSION } from '../shared/homework';
+import { HOMEWORK_TEACHER_VERSION } from '../shared/teacher';
 import type { PracticeSession } from '../hooks/usePracticeSession';
 import { PRACTICE_VERSION } from '../shared/practice';
 import { PRACTICE_TEACHER_VERSION } from '../shared/teacher';
@@ -38,8 +41,16 @@ import { Fretboard, type FretboardMarker } from './Fretboard';
 import './teacher.css';
 
 export interface TeacherPanelProps {
+  focusRequest?: number;
+  presentation: {
+    expanded: boolean;
+    setExpanded(value: boolean): void;
+    cloud: boolean;
+    setCloud(value: boolean): void;
+  };
   learning: LearningSession;
   practice?: PracticeSession;
+  homework?: HomeworkSession;
   listening?: ListeningSession;
   onReplay(bassOnly?: boolean): void;
   onTransfer(): void;
@@ -96,9 +107,11 @@ export function TeacherPanel(props: TeacherPanelProps) {
   const learning = props.learning;
   const listening = props.listening;
   const { lesson, events, record } = learning;
-  const [expanded, setExpanded] = useState(false);
+  const { expanded, setExpanded, cloud, setCloud } = props.presentation;
+  useEffect(() => {
+    if (props.focusRequest) setExpanded(true);
+  }, [props.focusRequest]);
   const [draft, setDraft] = useState('');
-  const [cloud, setCloud] = useState(false);
   const [qualification, setQualification] = useState('unqualified');
   useEffect(() => {
     const abort = new AbortController();
@@ -198,6 +211,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
+      props.homework?.masked ||
       document.hidden
     )
       return;
@@ -306,11 +320,13 @@ export function TeacherPanel(props: TeacherPanelProps) {
       }
     }
     const request = {
-      schemaVersion: props.practice
-        ? PRACTICE_TEACHER_VERSION
-        : listening
-          ? LISTENING_TEACHER_VERSION
-          : TEACHER_VERSION,
+      schemaVersion: props.homework
+        ? HOMEWORK_TEACHER_VERSION
+        : props.practice
+          ? PRACTICE_TEACHER_VERSION
+          : listening
+            ? LISTENING_TEACHER_VERSION
+            : TEACHER_VERSION,
       requestId: crypto.randomUUID(),
       lessonId: lesson.id,
       turnId: crypto.randomUUID(),
@@ -318,6 +334,31 @@ export function TeacherPanel(props: TeacherPanelProps) {
       request: text,
       context: {
         objective: lesson.objective,
+        ...(props.homework
+          ? {
+              homework: {
+                capability: HOMEWORK_VERSION,
+                revision: lesson.revision,
+                active: props.homework.active,
+                assisted:
+                  (props.homework.state?.support.length ?? 0) > 0 ||
+                  (props.homework.state?.responses.length ?? 0) > 0,
+                goal:
+                  props.homework.state?.goal ?? 'Find notes and use chord tones across the neck',
+                taskKind: props.homework.active ? (props.homework.task?.kind ?? null) : null,
+                family: props.homework.family,
+                symbol: props.homework.active
+                  ? props.homework.task!.symbol
+                  : props.homework.setup.symbol,
+                region: props.homework.active
+                  ? props.homework.task!.region
+                  : props.homework.setup.region,
+                evidence: props.homework.observations
+                  .slice(-12)
+                  .map(({ response: _response, ...e }) => e),
+              },
+            }
+          : {}),
         ...(props.practice
           ? {
               practice: {
@@ -453,6 +494,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
+      props.homework?.masked ||
       !lesson ||
       learning.externalRevision
     )
@@ -555,6 +597,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
+      props.homework?.masked ||
       proposal.validContextVersion !== contextRef.current ||
       learning.externalRevision
     )
@@ -575,6 +618,10 @@ export function TeacherPanel(props: TeacherPanelProps) {
           ? 'Earlier exposure is unknown. Ask to practice this question; it cannot be counted as reserved.'
           : 'This action no longer matches the selected music or its exposure history. Ask for an updated step.',
       );
+      return;
+    }
+    if (action.type === 'homework') {
+      props.homework?.apply(action);
       return;
     }
     if (
@@ -686,7 +733,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       </div>
       {expanded && (
         <>
-          {!activeQuestion && !listening?.masked && !props.practice?.active && (
+          {!activeQuestion && !listening?.masked && !props.practice?.active && !props.homework?.masked && (
             <>
               <div className="teacher-intents" aria-label="How should the teacher help?">
                 {['Explain', 'Demonstrate', 'Let me try', 'Change approach', 'Just explore'].map(
@@ -726,7 +773,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
               </div>
             </>
           )}
-          {activeQuestion || listening?.masked || props.practice?.active ? (
+          {activeQuestion || listening?.masked || props.practice?.active || props.homework?.masked ? (
             <div className="teacher-recall" role="status">
               <strong>Your question is active.</strong>
               <p>
@@ -737,7 +784,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
               <button
                 className="secondary-button"
                 onClick={() => {
-                  if (props.practice?.active) props.practice.help('answer');
+                  if (props.homework?.masked) props.homework.help('answer');
+                  else if (props.practice?.active) props.practice.help('answer');
                   else if (listening?.masked) listening.reveal();
                   else props.onHelp();
                 }}
@@ -836,7 +884,13 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       disabled={busy || !!learning.externalRevision}
                       onClick={() => useAction(action)}
                     >
-                      {action.type === 'practice' ? (
+                      {action.type === 'homework' ? (
+                        action.operation === 'task' ? (
+                          `Try ${action.kind} homework`
+                        ) : (
+                          `Compare ${action.family} family`
+                        )
+                      ) : action.type === 'practice' ? (
                         action.operation === 'strategy' ? (
                           'Consider this approach'
                         ) : action.operation === 'reflection' ? (

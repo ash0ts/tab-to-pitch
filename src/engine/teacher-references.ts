@@ -45,6 +45,15 @@ export const TEACHING_REFERENCES: readonly TeachingReference[] = [
       'A curriculum coverage framework, not evidence that this application improves learning.',
   },
   {
+    id: 'caged-landmarks',
+    title: 'Fender: CAGED parent shapes',
+    url: 'https://www.fender.com/articles/scales/major-guitar-scales',
+    guidance:
+      'Use C, A, G, E and D parent major shapes as movable landmarks. Separate shape family from sounding harmony. Prefer small chord fragments, note names and actual chord degrees. A neck position does not change the mode.',
+    limitation:
+      'Instructional reference, not evidence that CAGED or this application improves recall or playing.',
+  },
+  {
     id: 'gordon-context',
     title: 'Gordon: sound, context, and symbols',
     url: 'https://giml.org/mlt/methodology/',

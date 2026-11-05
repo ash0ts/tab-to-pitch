@@ -4,7 +4,9 @@ import type { ServerConfig } from './config.js';
 import { ForgeFailure } from './forge-agent.js';
 import type { AgentTrace } from './tracing.js';
 import { decodeTeacherAction } from './teacher-transport.js';
-import { teacherActorStepSchema } from '../src/shared/teacher.js';
+import { teacherActorStepSchema, teacherActionSchema } from '../src/shared/teacher.js';
+import { practiceActionSchema } from '../src/shared/practice.js';
+import { homeworkActionSchema } from '../src/shared/homework.js';
 import { teacherToolArgumentSchemas } from '../src/shared/teacher-tools.js';
 import { teacherToolDescriptions } from '../src/engine/teacher.js';
 import {
@@ -109,7 +111,12 @@ export class TeacherProvider {
     )
       throw new ForgeFailure('unavailable', 0);
   }
-  async complete(role: 'actor' | 'critic', messages: Record<string, unknown>[], schema: z.ZodType) {
+  async complete(
+    role: 'actor' | 'critic',
+    messages: Record<string, unknown>[],
+    schema: z.ZodType,
+    capabilities: { homework?: boolean; practice?: boolean; listening?: boolean } = {},
+  ) {
     this.signal.throwIfAborted();
     if (
       (role === 'actor' && this.actors >= TEACHER_MAX_ACTOR_CALLS) ||
@@ -118,6 +125,24 @@ export class TeacherProvider {
       throw new ForgeFailure('invalid-response', this.chargedTokens);
     const name = role === 'actor' ? 'teacher_step' : 'review_teacher_reply';
     const model = role === 'actor' ? this.config.forgeModel : this.config.teacherCriticModel;
+    const tools = Object.entries(teacherToolArgumentSchemas).filter(([name]) =>
+      name.startsWith('homework_')
+        ? capabilities.homework
+        : name === 'practice_activity'
+          ? capabilities.practice && !capabilities.homework
+          : ['inspect_passage', 'listening_activity'].includes(name)
+            ? capabilities.listening
+            : true,
+    );
+    const actionOptions = teacherActionSchema.options.filter((option) => {
+      if (option === practiceActionSchema) return capabilities.practice && !capabilities.homework;
+      if (option === homeworkActionSchema) return capabilities.homework;
+      if (!('shape' in option)) return false;
+      return option.shape.type.value !== 'listening' || capabilities.listening;
+    });
+    const finalSchema = teacherActorStepSchema.options[1]!.extend({
+      actions: z.array(z.union(actionOptions)).max(4),
+    });
     const body = JSON.stringify({
       model,
       messages,
@@ -131,15 +156,13 @@ export class TeacherProvider {
                 ? 'Request musical tools or return a final teacher reply.'
                 : 'Review the entire teacher reply against verified evidence.',
             parameters: teacherProviderSchema(
-              role === 'actor' && schema === teacherActorStepSchema
-                ? teacherActorStepSchema.options[1]!
-                : schema,
+              role === 'actor' && schema === teacherActorStepSchema ? finalSchema : schema,
             ),
             strict: true,
           },
         },
         ...(role === 'actor'
-          ? Object.entries(teacherToolArgumentSchemas).map(([toolName, args]) => ({
+          ? tools.map(([toolName, args]) => ({
               type: 'function',
               function: {
                 name: toolName,

@@ -1,3 +1,9 @@
+import { validFrozenHomeworkTask } from './engine/homework';
+import {
+  homeworkAssignmentSchema,
+  homeworkObservationSchema,
+  homeworkTaskSchema,
+} from './shared/homework';
 import { practiceStateSchema, practiceObservationSchema } from './shared/practice';
 import { listeningExerciseSchema, listeningAttemptSchema } from './songs/listening';
 import { z } from 'zod';
@@ -59,9 +65,19 @@ export const lessonSessionSchema = z
     messages: z.array(lessonMessageSchema).max(200),
     pendingTaskId: text.nullable(),
     practice: practiceStateSchema.optional(),
+    homework: homeworkAssignmentSchema
+      .refine(
+        (a) => a.tasks.every(t => t.variant === null || validFrozenHomeworkTask(t)),
+        'Homework stimulus or grading contract was changed.',
+      )
+      .optional(),
   })
   .strict()
-  .refine((value) => value.updatedAt >= value.createdAt, 'Lesson timestamps are inconsistent.');
+  .refine((value) => value.updatedAt >= value.createdAt, 'Lesson timestamps are inconsistent.')
+  .refine(
+    (value) => !value.homework || value.homework.lessonId === value.id,
+    'Homework belongs to another lesson.',
+  );
 export type LessonSession = z.infer<typeof lessonSessionSchema>;
 
 export const lessonEventSchema = z
@@ -84,6 +100,7 @@ export const lessonEventSchema = z
       'listening-replay',
       'listening-assistance',
       'source-changed',
+      'homework',
       'practice-goal',
       'practice-strategy',
       'practice-support',
@@ -97,6 +114,10 @@ export const lessonEventSchema = z
     exposureKeys: z.array(text).max(512),
     detail: text.optional(),
     practice: practiceObservationSchema.optional(),
+    homework: homeworkObservationSchema.optional(),
+    homeworkDefinition: homeworkTaskSchema
+      .refine(t => t.variant === null || validFrozenHomeworkTask(t), 'Invalid frozen homework definition.')
+      .optional(),
   })
   .strict();
 export type LessonEvent = z.infer<typeof lessonEventSchema>;

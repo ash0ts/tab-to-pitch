@@ -7,7 +7,13 @@ import * as alphaTab from '@coderline/alphatab';
 import { adaptScore, hashSource, parseScoreBytes, sourceNoteId } from '../engine/adapter';
 import { applyPitchLabels, type LabelMode } from '../engine/presentation';
 import type { NoteEvent, ScoreDocument } from '../engine/types';
-import { DEMO_ALPHATEX, DEMO_SOURCE_ID, progressionStudy } from './demo';
+import {
+  HOMEWORK_ALPHATEX,
+  HOMEWORK_SOURCE_ID,
+  DEMO_ALPHATEX,
+  DEMO_SOURCE_ID,
+  progressionStudy,
+} from './demo';
 import { measurePlaybackRange, notePlaybackTick } from './timeline';
 import { buildVariationScore } from './variation';
 import type { ProgressionVariation } from '../engine/harmony';
@@ -274,6 +280,15 @@ export class PlayerController {
     return this.installScore(
       alphaTab.importer.ScoreLoader.loadAlphaTex(study.alphaTex),
       study.sourceId,
+    );
+  }
+
+  loadHomeworkDemo(): ScoreDocument {
+    if (this.disposed) throw new Error('The player has been destroyed.');
+    this.cancelPendingLoad();
+    return this.installScore(
+      alphaTab.importer.ScoreLoader.loadAlphaTex(HOMEWORK_ALPHATEX),
+      HOMEWORK_SOURCE_ID,
     );
   }
 

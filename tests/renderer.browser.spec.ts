@@ -147,3 +147,32 @@ test('real worker renders SPN and stable masks; audio transport starts; mobile s
   await page.screenshot({ path: '../renderer-mobile.png' });
   expect(errors).toEqual([]);
 });
+
+test('rapid score replacements discard obsolete worker bounds', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/tests/renderer.fixture.html');
+  await expect(page.locator('#score svg')).not.toHaveCount(0);
+  await page.evaluate(() => {
+    const w = window as unknown as { testPlayer: { loadDemo(): void; loadHomeworkDemo(): void } };
+    for (let i = 0; i < 8; i++) {
+      w.testPlayer.loadDemo();
+      w.testPlayer.loadHomeworkDemo();
+    }
+  });
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (window as unknown as { testDocument: { title: string } }).testDocument.title,
+      ),
+    )
+    .toBe('A familiar chord, a wider neck');
+  await expect(page.locator('#status')).toContainText('\"rendered\":true');
+  await expect(page.locator('#score svg text').filter({ hasText: /^C3$/ }).first()).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('#score svg')).not.toHaveCount(0);
+  expect(errors).toEqual([]);
+  expect(
+    await page.evaluate(() => (window as unknown as { rendererErrors: string[] }).rendererErrors),
+  ).toEqual([]);
+});

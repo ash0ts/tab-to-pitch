@@ -3,6 +3,18 @@ import { localTeacher } from '../src/engine/teacher';
 import { executeArrangementIntent } from '../src/shared/arrangements';
 import type { TeacherRequest } from '../src/shared/teacher';
 
+async function showTeacher(page: Page) {
+  const trigger = page.getByRole('button', { name: 'Open music teacher', exact: true });
+  if (await trigger.isVisible()) await trigger.click();
+  const open = page
+    .getByRole('region', { name: 'Music teacher', exact: true })
+    .getByRole('button', { name: 'Open teacher', exact: true });
+  if (await open.isVisible()) await open.click();
+}
+async function showTask(page: Page) {
+  const close = page.getByRole('button', { name: 'Return to my task', exact: true });
+  if (await close.isVisible()) await close.click();
+}
 async function study(page: Page) {
   await page.goto('/');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
@@ -17,11 +29,12 @@ async function study(page: Page) {
   await studio.getByRole('button', { name: 'Frets 5–9', exact: true }).click();
   await expect(studio.locator('.shape-navigation')).toContainText('variation 1');
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
-  await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
+  await showTeacher(page);
   return { teacher, studio };
 }
 
 async function ask(page: Page, text: string) {
+  await showTeacher(page);
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
   await teacher.getByRole('textbox', { name: 'Your question', exact: true }).fill(text);
   await teacher.getByRole('button', { name: /^(Ask on-device guide|Ask teacher)$/ }).click();
@@ -98,7 +111,7 @@ test('hides conversation and diagrams during recall; help records assistance bef
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
   await expect(teacher.getByRole('textbox')).toHaveCount(0);
   await expect(page.locator('.progression-studio')).toHaveCount(0);
-  expect(await page.locator('.teacher-panel').textContent()).not.toContain('minor third');
+  expect(await page.locator('.teacher-panel').allTextContents()).not.toContain('minor third');
   expect(await page.locator('body').ariaSnapshot()).not.toContain('minor third');
   await page
     .getByTestId('exercise-card')
@@ -121,7 +134,7 @@ test('hides conversation and diagrams during recall; help records assistance bef
   await page.reload();
   await page.getByRole('tab', { name: 'Understand', exact: true }).click();
   await page.getByRole('button', { name: 'Open ii–V–I study' }).click();
-  await teacher.getByRole('button', { name: 'Open teacher' }).click();
+  await showTeacher(page);
   await expect(teacher.locator('.teacher-message.user')).toContainText(
     'Help me name the chord roles.',
   );
@@ -168,6 +181,7 @@ test('validated teacher preview uses the same controls, player, save and undo as
   await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).check();
   await ask(page, 'Move this progression to frets 9 to 13.');
   await teacher.getByRole('button', { name: 'Preview this voicing' }).click();
+  await showTask(page);
   await studio.locator('summary').filter({ hasText: 'Customize' }).click();
   await expect(studio.getByRole('spinbutton', { name: 'Minimum fret', exact: true })).toHaveValue(
     '9',
@@ -303,17 +317,17 @@ test('ignores a pending cloud response when the neck constraints change', async 
     .fill('Give me a question here.');
   await teacher.getByRole('button', { name: 'Ask teacher', exact: true }).click();
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toBeVisible();
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
+  await showTask(page);
   await studio.getByRole('button', { name: 'Frets 9–12', exact: true }).click();
   if (test.info().project.name === 'mobile')
     await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   release();
   await finished;
+  await showTeacher(page);
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toHaveCount(0);
   await expect(teacher.locator('.teacher-message.assistant')).toHaveCount(0);
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
-  if (test.info().project.name === 'mobile')
+  if ((await teacher.locator('.teacher-settings').getAttribute('open')) === null)
     await teacher.locator('.teacher-settings summary').click();
   await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).uncheck();
   await ask(page, 'Help me understand this position.');
@@ -352,12 +366,10 @@ test('grounds explanations in the current derived harmony and clears stale sourc
     await route.fulfill({ json: localTeacher(request) });
   });
   const { teacher, studio } = await study(page);
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
+  await showTask(page);
   await studio.getByRole('button', { name: 'Add color', exact: true }).click();
   await studio.getByRole('combobox', { name: 'Chord color', exact: true }).selectOption('m9');
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
+  await showTeacher(page);
   await expect(teacher.locator('.teacher-context')).toContainText('Dm9');
   await teacher.locator('.teacher-settings summary').click();
   await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).check();
@@ -368,11 +380,9 @@ test('grounds explanations in the current derived harmony and clears stale sourc
     sourceSymbols: ['Dm7', 'G7', 'Cmaj7', 'Am7'],
   });
   expect(seen.at(-1)?.context.selectedNotes?.[0]?.id).toBe('n0');
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Close conversation', exact: true }).click();
+  await showTask(page);
   await studio.getByRole('button', { name: 'Preview variation', exact: true }).click();
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
+  await showTeacher(page);
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
   await ask(page, 'Explain this variation in the player.');
   await expect.poll(() => seen.length).toBe(2);

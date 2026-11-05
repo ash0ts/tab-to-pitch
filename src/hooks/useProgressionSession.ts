@@ -20,7 +20,12 @@ import {
   type ArrangementConstraints,
 } from '../shared/arrangements';
 import { listVariations, saveVariation, type SavedVariation } from '../storage';
-import { progressionStudy, progressionStudyTonic } from '../player/demo';
+import {
+  HOMEWORK_SOURCE_ID,
+  HOMEWORK_SYMBOLS,
+  progressionStudy,
+  progressionStudyTonic,
+} from '../player/demo';
 
 const contextId = (text: string) => {
   let hash = 2166136261;
@@ -42,6 +47,7 @@ export interface ProgressionSessionInput {
   onExercises(exercises: ExerciseDefinition[]): void;
   onPractice(kind: ExerciseKind): void;
   onOpenStudy(tonic?: string): void;
+  onOpenHomework?(): void;
   onAuditionScale(tonic: number, pitches: number[]): void;
   onAudition(pitches: number[]): void;
   onSelectNote(id: string): void;
@@ -130,15 +136,23 @@ export function useProgressionSession(props: ProgressionSessionInput) {
           })
         : buildHarmonySpans(track, start, end);
     return spans.map((span) => {
-      const authored = progressionStudyTonic(score.hash)
-        ? progressionStudy(progressionStudyTonic(score.hash)!).symbols[
-            score.measures.findIndex(
-              (measure) =>
-                span.startTick >= measure.startTicks &&
-                span.startTick < measure.startTicks + measure.durationTicks,
-            )
-          ]
-        : undefined;
+      const authored =
+        score.hash === HOMEWORK_SOURCE_ID
+          ? HOMEWORK_SYMBOLS[
+              score.measures.findIndex(
+                (m) =>
+                  span.startTick >= m.startTicks && span.startTick < m.startTicks + m.durationTicks,
+              )
+            ]
+          : progressionStudyTonic(score.hash)
+            ? progressionStudy(progressionStudyTonic(score.hash)!).symbols[
+                score.measures.findIndex(
+                  (measure) =>
+                    span.startTick >= measure.startTicks &&
+                    span.startTick < measure.startTicks + measure.durationTicks,
+                )
+              ]
+            : undefined;
       const imported = track.chordSymbols
         ?.filter((item) => item.startTick <= span.startTick)
         .at(-1)?.symbol;

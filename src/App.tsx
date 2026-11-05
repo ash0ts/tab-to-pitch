@@ -106,6 +106,7 @@ export default function App() {
   const desktop = useDesktopLayout();
   const [modal, setModal] = useState<'library' | 'settings' | 'mixer' | null>(null);
   const [foreground, setForeground] = useState(!document.hidden);
+  const [teacherFocusRequest, setTeacherFocusRequest] = useState(0);
   const [mobilePanel, setMobilePanel] = useState(false),
     [dragging, setDragging] = useState(false),
     [loading, setLoading] = useState(false);
@@ -515,6 +516,7 @@ export default function App() {
   function nextQuestion() {
     finishInterrupted();
     if (teacherTask && selection?.exercise.id === teacherTask.id) {
+      setTeacherFocusRequest((value) => value + 1);
       setSelection(null);
       setTeacherTask(null);
       workspace.setMode('understand');
@@ -598,6 +600,7 @@ export default function App() {
   }
   function askTeacherForHelp() {
     reveal();
+    setTeacherFocusRequest((value) => value + 1);
     setMobilePanel(false);
     requestAnimationFrame(() =>
       document.querySelector('.teacher-panel')?.scrollIntoView({ block: 'start' }),
@@ -1126,6 +1129,7 @@ export default function App() {
               controller.current?.previewPracticeStudy(study);
             }}
             onStopStudy={() => {
+              stopAudition();
               controller.current?.pause();
               controller.current?.previewVariation(null, track.index);
             }}
@@ -1134,6 +1138,8 @@ export default function App() {
             firstBar={loopStart}
             lastBar={loopEnd}
             active={mode === 'understand'}
+            visible={mode !== 'play'}
+            teacherFocusRequest={teacherFocusRequest}
             compact={!desktop}
             showOctaves={showOctaves}
             currentTick={player.currentTick}
@@ -1141,6 +1147,18 @@ export default function App() {
             onPreview={previewVariation}
             onExercises={setHarmonyBank}
             onPractice={practiceHarmony}
+            onOpenHomework={() => {
+              finishInterrupted();
+              playback.stopAll();
+              loadGeneration.current++;
+              controller.current?.loadHomeworkDemo();
+              workspace.setMode('understand');
+              workspace.setLoop(0, 3, true);
+              setSelection(null);
+              setResult(null);
+              setRevealed(false);
+              setError('');
+            }}
             onOpenStudy={openProgressionStudy}
             onAudition={listen}
             onAuditionScale={listenScale}

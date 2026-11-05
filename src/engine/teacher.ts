@@ -1,3 +1,6 @@
+import { instrumentExposureId, positionExposureKey } from './exposure.js';
+import { cagedPlacements } from './caged.js';
+import { makeHomeworkTask, solution } from './homework.js';
 import { musicianshipTask } from './musicianship.js';
 import { curatedHarmony } from '../songs/catalog.js';
 import { scaleTones } from './harmony.js';
@@ -40,6 +43,11 @@ import { rankVoicingsWithModel, validateVoicingRankerModel } from './voicing-ran
 import rankerArtifact from '../research-data/voicing-ranker-v1.json' with { type: 'json' };
 
 export const teacherToolDescriptions = {
+  homework_map:
+    'args {}. Inspect the selected CAGED map, parent versus sounding chord, root anchors and playable fragments. Requires homework capability and no unassisted question. Conventional shapes require standard string intervals. General note and chord exercises still support other tunings.',
+  homework_activity:
+    'args {action:{type:homework,operation:task,kind:locate|name|roots|complete|voicing|neighbor|connection|target,family:C|A|G|E|D}|{type:homework,operation:compare,family:C|A|G|E|D}}. Prepare an eligible deterministic homework task or a family comparison. No answer key is supplied by the model. Shape families are not chord names; extensions are derived chord interpretations, not canonical parent shapes. Playing remains self-reported.',
+
   practice_activity:
     'args {action:{type:practice,operation:strategy,approach,rationale}|{type:practice,operation:activity,activity:rhythm|phrase|expression,variant:0..3,assessment:practice|reserved}|{type:practice,operation:reflection}}. Requires practice capability. Propose an approach for learner acceptance, open an original two-bar G7 to Cmaj7 study, or invite optional self-reflection. Tasks grade symbolic constraints, not playing or artistic quality. Reserved IDs must come from read_learner. No mandatory sequence.',
   inspect_passage:
@@ -96,9 +104,9 @@ function positionsFor(request: TeacherRequest, pc: number): FretPosition[] {
   }).filter((p) => c.strings.includes(p.string) && (c.allowOpenStrings || p.fret !== 0));
 }
 const instrumentKey = (request: TeacherRequest) =>
-  hash({ tuning: request.context.music.tuning, capo: request.context.music.capo });
+  instrumentExposureId(request.context.music.tuning, request.context.music.capo);
 const positionExposure = (request: TeacherRequest, p: FretPosition) =>
-  `position:${instrumentKey(request)}:${p.string}:${p.fret}`;
+  positionExposureKey(request.context.music.tuning, request.context.music.capo, p);
 /** Client-side score observations share the same coordinate identity as generated questions. */
 export function teacherPositionExposureKeys(
   request: TeacherRequest,
@@ -276,6 +284,17 @@ export function exposureKeysForTeacherTurn(request: TeacherRequest, turn: Teache
     return [];
   // Conservatively include every displayed region position and chord role, even if the actor omits references.
   const keys = musicExposureKeys(request);
+  if (request.context.homework) {
+    const { region } = request.context.homework;
+    for (let fret = region.minFret; fret <= region.maxFret; fret++)
+      for (let string = 1; string <= request.context.music.tuning.length; string++)
+        keys.push(
+          positionExposureKey(request.context.music.tuning, request.context.music.capo, {
+            string,
+            fret,
+          }),
+        );
+  }
   for (const a of turn.actions) {
     if (a.type === 'question' && a.recipe.kind === 'changed-tone')
       keys.push(
@@ -451,6 +470,46 @@ export function resolveTeacherAction(
   if (!p.success) return null;
   const a = p.data,
     exposureKeys = musicExposureKeys(request);
+  const homework = request.context.homework;
+  if (homework?.active && !homework.assisted) return null;
+  if (a.type === 'homework') {
+    if (!homework) return null;
+    const music = request.context.music;
+    const chord = parseChordSymbol(homework.symbol);
+    if (!chord) return null;
+    if (a.operation === 'task') {
+      const task = makeHomeworkTask(
+        a.kind,
+        homework.symbol,
+        a.family,
+        homework.region,
+        music.tuning,
+        music.capo,
+      );
+      if (!task || !solution(task).length) return null;
+    } else if (
+      !cagedPlacements(chord.rootName, music.tuning, music.capo).some(
+        (p) =>
+          p.family === a.family &&
+          p.fragments.some((f) =>
+            f.positions.every(
+              (pos) => pos.fret >= homework.region.minFret && pos.fret <= homework.region.maxFret,
+            ),
+          ),
+      )
+    )
+      return null;
+    return {
+      facts: [
+        {
+          id: 'homework-boundary',
+          kind: 'boundary',
+          text: 'CAGED family describes the parent major shape, not the sounding chord. Small fragments can have multiple family affiliations. Constructed answers are engine graded; playing and technique have not been assessed.',
+        },
+      ],
+      exposureKeys: [],
+    };
+  }
   if (a.type === 'practice') {
     const practice = request.context.practice;
     if (!practice || practice.active) return null;
@@ -560,6 +619,68 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
     actions,
     execute(call: TeacherToolCall): TeacherToolResult {
       try {
+        if (call.name === 'homework_map') {
+          toolArgs.homework_map.parse(call.args);
+          const h = request.context.homework;
+          if (!h || (h.active && !h.assisted))
+            return {
+              status: 'unavailable',
+              facts: [],
+              actions: [],
+              reason: 'Homework context and recorded assistance before a reveal are required.',
+            };
+          const chord = parseChordSymbol(h.symbol)!;
+          const placements = cagedPlacements(
+            chord.rootName,
+            request.context.music.tuning,
+            request.context.music.capo,
+          ).filter(
+            (p) =>
+              p.family === h.family &&
+              p.fragments.some((f) =>
+                f.positions.every(
+                  (pos) => pos.fret >= h.region.minFret && pos.fret <= h.region.maxFret,
+                ),
+              ),
+          );
+          return accept({
+            status: 'ok',
+            facts: [
+              {
+                id: 'homework-map',
+                kind: 'music',
+                text: JSON.stringify(
+                  placements.map((p) => ({
+                    family: p.family,
+                    soundingChord: p.chord.symbol,
+                    notes: p.notes,
+                    roots: p.roots,
+                  })),
+                ),
+              },
+              {
+                id: 'homework-limits',
+                kind: 'boundary',
+                text: 'These are major parent maps. Minor and extended chords must be checked by their actual degrees. Note, role, location and self-reported playing evidence are distinct. CAGED availability does not establish comfort or learner fluency.',
+              },
+            ],
+            actions: [],
+            data: { placements, evidence: h.evidence },
+          });
+        }
+        if (call.name === 'homework_activity') {
+          const { action } = toolArgs.homework_activity.parse(call.args);
+          const resolved = resolveTeacherAction(request, action);
+          return resolved
+            ? accept({ status: 'ok', facts: resolved.facts, actions: [action] })
+            : {
+                status: 'unavailable',
+                facts: [],
+                actions: [],
+                reason:
+                  'No eligible homework action under this context. The learner can change approach or choose a different region.',
+              };
+        }
         if (call.name === 'inspect_music') {
           toolArgs[call.name].parse(call.args);
           return {
@@ -590,6 +711,7 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
             data: {
               objective: request.context.objective,
               practice: request.context.practice,
+              homework: request.context.homework,
               evidence: request.context.evidence,
               history: request.context.history,
               exposures: request.context.exposures,
@@ -812,6 +934,7 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
     t.actions.length &&
     ((request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
       (request.context.practice?.active && !request.context.practice.active.assisted) ||
+      (request.context.homework?.active && !request.context.homework.assisted) ||
       (request.context.listening?.activeQuestion &&
         !request.context.listening.activeQuestion.assisted))
   )
@@ -1070,9 +1193,42 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
       'This app has no microphone or camera assessment. I can use your screen answers or a playing result you report yourself, but I cannot hear your guitar or assess your technique. Describe the part that felt unclear and we can inspect its notes or chord movement.';
     actions.length = 0;
   }
+  const hw = request.context.homework;
+  if (hw) {
+    actions.length = 0;
+    message = `CAGED names five parent major shapes. An E-family shape can sound G major; the family and chord names answer different questions. Use a small fragment, name its notes, then apply those notes in the progression. Your screen answers and self-reported playing remain separate.`;
+    referenceIds.push('caged-landmarks');
+    if (/stop|no quiz|just explor|change approach/.test(text))
+      message =
+        'We can explore without a quiz. Compare neighboring family maps, listen to the fragment, and choose what you want to investigate next. Changing position does not change the selected mode.';
+    else if (/heard|clean chord|technique|played well/.test(text))
+      message =
+        'I cannot hear or assess your playing. Your guitar result is self-reported. I can check a selected note, chord role, or constructed voicing on screen.';
+    else if (!hw.active) {
+      const action: TeacherAction = {
+        type: 'homework',
+        operation: 'task',
+        kind: /seventh|connect.*chord|resolv/.test(text)
+          ? 'connection'
+          : /voicing|build/.test(text)
+            ? 'voicing'
+            : /root/.test(text)
+              ? 'roots'
+              : 'locate',
+        family: hw.family,
+      };
+      if (resolveTeacherAction(request, action)) actions.push(action);
+    }
+    const recent = hw.evidence.filter((e) => e.kind === 'answer').at(-1);
+    if (recent && !recent.correct)
+      message +=
+        ' The last recorded screen answer did not meet its constraints. We can check the note name and chord role separately; that response alone does not explain why it was missed.';
+  }
   if (
     (request.context.practice?.active && !request.context.practice.active.assisted) ||
     (request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
+    (request.context.homework?.active && !request.context.homework.assisted) ||
+    (request.context.practice?.active && !request.context.practice.active.assisted) ||
     (request.context.listening?.activeQuestion &&
       !request.context.listening.activeQuestion.assisted)
   ) {

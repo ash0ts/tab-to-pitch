@@ -346,6 +346,7 @@ button svg {
 }
 .score-toolbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -374,6 +375,7 @@ button svg {
 }
 .label-switch {
   display: flex;
+  flex-shrink: 0;
   gap: 0;
   border: 1px solid #dfe4d6;
   border-radius: 5px;
@@ -2133,4 +2135,12 @@ button svg {
 
 [hidden] {
   display: none !important;
+}
+
+/* Keep keyboard-focused controls clear of the persistent transport. */
+html {
+  scroll-padding-block: 24px 170px;
+}
+.learning-layout :is(button, input, select, textarea) {
+  scroll-margin-block: 100px;
 }
