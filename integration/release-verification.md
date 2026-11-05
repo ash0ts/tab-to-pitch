@@ -4,7 +4,7 @@ This record applies to the integrated standalone application. Per-worktree test 
 
 ## Automated evidence
 
-The final local application checks passed TypeScript, NodeNext server compilation, the production build, 465 unit/contract checks and 17 accounting/publication guards. Two database checks require the isolated CI PostgreSQL service. The unit total includes seven compatibility checks using authored backups serialized by the six frozen source schemas.
+The final local application checks passed TypeScript, NodeNext server compilation, the production build, 466 unit/contract checks and 17 accounting/publication guards. Two database checks require the isolated CI PostgreSQL service. The unit total includes seven compatibility checks using authored backups serialized by the six frozen source schemas.
 
 The guitar-homework browser suite passed all 16 checks across desktop and mobile, including playback-driven chord changes, hidden-score startup and restored bookmarks. The complete union of browser, renderer, offline, Python and container/recovery suites is enforced by [Validate](../.github/workflows/ci.yml). Its result on each exact PR head is the merge gate; earlier worktree counts do not qualify this integration.
 
@@ -25,7 +25,7 @@ The guitar-homework browser suite covers both desktop and mobile: unplugged self
 
 ## Research
 
-`guitar-homework-v1` has a separate frozen authored suite. Its local policy results are recorded; hosted actors, critics and remote publication are unexecuted. Historical campaigns and their retained failures are preserved. The integration made no paid calls and did not promote a research model.
+`guitar-homework-v1` has a separate frozen authored suite. Its local policy results are recorded; hosted actors, critics and remote publication are unexecuted. Historical campaigns and their retained failures are preserved. The integration made no paid calls and did not promote a research model. Trained ranking parameters are excluded; the optional ranker returns an unavailable result while its source, authored arithmetic tests and Registry provenance remain.
 
 ## Demonstration
 

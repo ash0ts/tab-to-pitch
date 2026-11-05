@@ -29,7 +29,7 @@ Overlapping shell, lesson, teacher and player files were reconciled by behavior.
 
 ## Defaults and remaining qualification
 
-Local teaching and unplugged homework work without credentials. Invited cloud teaching has separate enablement and qualification controls. Live detection is experimental, timing stays ungraded, Ear Lab is optional, and Toraneko remains available until its migration gate passes. Failed research candidates are not promoted. Commercial-song annotations awaiting review remain unavailable for grading.
+Local teaching and unplugged homework work without credentials. Invited cloud teaching has separate enablement and qualification controls. Live detection is experimental, timing stays ungraded, Ear Lab is optional, and Toraneko remains available until its migration gate passes. Failed research candidates are not promoted. The two runtime ranker JSON files are provenance-only references; trained parameters remain in Registry and the preserved original archive. Snapshot manifests record their captured source hashes, not approval to bundle those parameters. Commercial-song annotations awaiting review remain unavailable for grading.
 
 The integration makes no learning-effectiveness claim. Physical Mac/Chrome USB testing, perceptual audio checks and a consented learner study require evidence beyond automated browser fixtures.
 
