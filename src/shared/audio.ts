@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { parseChordSymbol } from '../engine/harmony';
+import { parseChordSymbol } from '../engine/harmony.js';
 export const AUDIO_VERSION = 'ear-lab-v1';
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
 export const audioStageSchema = z.enum(['transcribe', 'separate', 'timing', 'corroborate']);

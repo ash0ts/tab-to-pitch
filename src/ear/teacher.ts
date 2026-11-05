@@ -1,7 +1,7 @@
-import { midiToSpn } from '../engine/theory';
-import { parseChordSymbol } from '../engine/harmony';
-import type { EarContext, EarAction } from '../shared/audio';
-import type { TeacherFact } from '../shared/teacher';
+import { midiToSpn } from '../engine/theory.js';
+import { parseChordSymbol } from '../engine/harmony.js';
+import type { EarContext, EarAction } from '../shared/audio.js';
+import type { TeacherFact } from '../shared/teacher.js';
 export function earFacts(context: EarContext | undefined): TeacherFact[] {
   if (!context) return [];
   return [
