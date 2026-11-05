@@ -58,15 +58,18 @@ test('teaches roles, exact chord connections and extensions through the shared p
   const { teacher } = await study(page);
   await ask(page, 'Help me name the chord roles.');
   await teacher.getByRole('button', { name: 'Try this question', exact: true }).click();
+  await showTask(page);
   const card = page.getByTestId('exercise-card');
   await expect(card).toContainText('What role does F have in Dm7?');
   await card.getByRole('textbox', { name: 'Type your answer', exact: true }).fill('minor third');
   await card.getByRole('button', { name: 'Submit typed answer' }).click();
   await expect(card).toContainText('Correct.');
   await card.getByRole('button', { name: 'Continue with teacher' }).click();
+  await showTeacher(page);
   await teacher.getByRole('button', { name: 'Connect the chords', exact: true }).click();
   await ask(page, 'Show me how G7 resolves to Cmaj7.');
   await teacher.getByRole('button', { name: 'Try this question', exact: true }).click();
+  await showTask(page);
   await expect(card).toContainText('down 1 semitone');
   await card
     .getByRole('textbox', { name: 'Type starting string:fret to ending string:fret' })
@@ -74,16 +77,19 @@ test('teaches roles, exact chord connections and extensions through the shared p
   await card.getByRole('button', { name: 'Submit typed answer' }).click();
   await expect(card).toContainText('Correct.');
   await card.getByRole('button', { name: 'Continue with teacher' }).click();
+  await showTeacher(page);
   await teacher
     .getByRole('button', { name: 'Extensions and rootless chords', exact: true })
     .click();
   await ask(page, 'What does adding a ninth change?');
   await teacher.getByRole('button', { name: 'Try this question', exact: true }).click();
+  await showTask(page);
   await expect(card).toContainText('Dm9');
   await card.getByRole('textbox', { name: 'Type a note name', exact: true }).fill('E');
   await card.getByRole('button', { name: 'Submit typed answer' }).click();
   await expect(card).toContainText('Correct.');
   await card.getByRole('button', { name: 'Continue with teacher' }).click();
+  await showTeacher(page);
   await ask(page, 'Explain a rootless voicing over the bass.');
   await expect(teacher.getByRole('button', { name: 'Hear the upper shape alone' })).toBeVisible();
   await expect(teacher.getByRole('button', { name: 'Hear with the bass' })).toBeVisible();
@@ -111,12 +117,16 @@ test('hides conversation and diagrams during recall; help records assistance bef
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
   await expect(teacher.getByRole('textbox')).toHaveCount(0);
   await expect(page.locator('.progression-studio')).toHaveCount(0);
-  expect(await page.locator('.teacher-panel').allTextContents()).not.toContain('minor third');
+  expect((await page.locator('.teacher-panel').allTextContents()).join(' ')).not.toContain(
+    'minor third',
+  );
   expect(await page.locator('body').ariaSnapshot()).not.toContain('minor third');
+  await showTask(page);
   await page
     .getByTestId('exercise-card')
     .getByRole('button', { name: 'Ask teacher for help', exact: true })
     .click();
+  await showTeacher(page);
   await expect(teacher.locator('.teacher-conversation')).toBeVisible();
   await expect
     .poll(() => records(page))
@@ -211,6 +221,7 @@ test('keeps teacher questions and history in memory when browser storage fails',
   await ask(page, 'Help me name the chord roles.');
   await expect(teacher.locator('.teacher-storage-warning')).toContainText('kept in memory');
   await teacher.getByRole('button', { name: 'Try this question' }).click();
+  await showTask(page);
   await page
     .getByTestId('exercise-card')
     .getByRole('textbox', { name: 'Type your answer' })
@@ -269,6 +280,7 @@ test('reserves a new neck position without exposing actor explanations before th
   expect(await teacher.textContent()).not.toContain(rawExplanation);
   expect(await teacher.ariaSnapshot()).not.toContain('string 1 fret 13');
   await teacher.getByRole('button', { name: 'Try this question' }).click();
+  await showTask(page);
   const card = page.getByTestId('exercise-card');
   await expect(card).toContainText('Held-back question');
   await card.getByRole('textbox', { name: 'Type string:fret', exact: true }).fill('1:13');
@@ -383,6 +395,10 @@ test('grounds explanations in the current derived harmony and clears stale sourc
   await studio.getByRole('button', { name: 'Preview variation', exact: true }).click();
   await showTeacher(page);
   await expect(teacher.locator('.teacher-actions')).toHaveCount(0);
+  if (test.info().project.name === 'mobile') {
+    await teacher.locator('.teacher-settings summary').click();
+    await teacher.getByRole('checkbox', { name: 'Use the experimental Forge teacher' }).check();
+  }
   await ask(page, 'Explain this variation in the player.');
   await expect.poll(() => seen.length).toBe(2);
   expect(seen.at(-1)?.context.workspace?.view).toBe('preview');

@@ -1,0 +1,39 @@
+{
+  "version": "live-guitar-v1",
+  "purpose": "Determine which live input capabilities can be offered without turning detector uncertainty into learner errors.",
+  "status": "engineering fixtures only; physical interface and recorded-guitar qualification pending",
+  "conditions": [
+    "browser-notes",
+    "browser-chords",
+    "qualified-midi-converter",
+    "independent-reference"
+  ],
+  "splitUnit": "recording group; keep all excerpts and transformations together; hold out performers and instruments where possible",
+  "priorInspectedMaterial": "development or regression only",
+  "signalConditions": [
+    "clean",
+    "wrong-note",
+    "missing-third",
+    "missing-seventh",
+    "extra-string",
+    "slow-strum",
+    "repeated-attack",
+    "ambiguous",
+    "silence",
+    "clipping",
+    "distortion",
+    "backing-leakage"
+  ],
+  "qualificationTargets": {
+    "notes": { "precision": 0.99, "coverage": 0.9, "visibleFeedbackP95Ms": 150 },
+    "chords": { "precision": 0.95, "coverage": 0.8, "visibleFeedbackP95Ms": 500 },
+    "criticalAcceptedViolations": 0
+  },
+  "qualificationEvidence": "Real independently annotated guitar, physical onset measurement and display capture. Generated tones and virtual browser input cannot qualify hardware or musical generalization.",
+  "gradingErrors": "Report false corrections and false successes separately from classification precision. An interrupted or unknown response is never incorrect.",
+  "latency": "Measure physical monitoring, onset-to-display, and accompaniment alignment separately. Offline replay delay is only the number of supplied audio samples before detection.",
+  "intervals": "Wilson 95% intervals for fixture proportions; recording-group bootstrap for a recorded cohort, with recording-macro metrics and register/family/input slices.",
+  "paidCalls": "No fresh budget. Require reconciled historical spending and shared atomic reservations across every active worktree before any actor, critic, qualification or judge call.",
+  "publication": "Retain original failures; Weave replay never repeats actor inference. Reconcile remote row hashes, outputs, scores, Lens conversation/turn IDs and usage. Unexecuted arms remain unavailable.",
+  "privacy": "Only authored/public eligible evidence may enter research publication. Private audio, device names and continuous observations stay local."
+}

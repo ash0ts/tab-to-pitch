@@ -9,3 +9,5 @@ DM Sans and Libre Caslon Display are distributed under their SIL Open Font Licen
 The original TabToPitch study in `src/player/demo.ts` and original score fixtures authored for this repository are dedicated to the public domain under CC0-1.0. Imported user arrangements retain their own rights and are never bundled automatically.
 
 Other dependencies retain the licenses distributed in their packages. No ownership or license for third-party arrangements is implied by support for their file formats.
+
+Pitchy 4.1.0 (Ian Prime and contributors) is licensed under 0BSD. fft.js 4.0.4 (Fedor Indutny and contributors) is licensed under MIT. Their license texts are preserved under `public/vendor/live-input/` and ship with the built application. Live DSP does not bundle a Jam Origin product or transcription-model weights.

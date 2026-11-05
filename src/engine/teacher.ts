@@ -27,7 +27,7 @@ import {
   type TeacherToolResult,
   type TeacherTurn,
 } from '../shared/teacher.js';
-import { findNotePositions } from './exploration.js';
+import { findNotePositions, formatPitch } from './exploration.js';
 import {
   defineChord,
   generateVoicings,
@@ -43,10 +43,10 @@ import { rankVoicingsWithModel, validateVoicingRankerModel } from './voicing-ran
 import rankerArtifact from '../research-data/voicing-ranker-v1.json' with { type: 'json' };
 
 export const teacherToolDescriptions = {
-  homework_map:
-    'args {}. Inspect the selected CAGED map, parent versus sounding chord, root anchors and playable fragments. Requires homework capability and no unassisted question. Conventional shapes require standard string intervals. General note and chord exercises still support other tunings.',
-  homework_activity:
-    'args {action:{type:homework,operation:task,kind:locate|name|roots|complete|voicing|neighbor|connection|target,family:C|A|G|E|D}|{type:homework,operation:compare,family:C|A|G|E|D}}. Prepare an eligible deterministic homework task or a family comparison. No answer key is supplied by the model. Shape families are not chord names; extensions are derived chord interpretations, not canonical parent shapes. Playing remains self-reported.',
+  inspect_live_input: 'args {}. Inspect local input availability and bounded experimental performance evidence. Detection can support pitches, never a string, fret, grip, hand technique, mastery, or precise timing. Unknown is not incorrect. No raw audio reaches you.',
+  live_activity: 'args {action:{type:live,taskId}}. Select an eligible task returned by inspect_live_input. The learner must explicitly start capture and the attempt. No invented targets or answer keys. Do not start another task during a response.',
+  homework_map: 'args {}. Inspect the selected CAGED map, parent versus sounding chord, root anchors and playable fragments. Requires homework capability and no unassisted question. Conventional shapes require standard string intervals. General note and chord exercises still support other tunings.',
+  homework_activity: 'args {action:{type:homework,operation:task,kind:locate|name|roots|complete|voicing|neighbor|connection|target,family:C|A|G|E|D}|{type:homework,operation:compare,family:C|A|G|E|D}}. Prepare an eligible deterministic homework task or a family comparison. No answer key is supplied by the model. Shape families are not chord names; extensions are derived chord interpretations, not canonical parent shapes. Playing remains self-reported.',
 
   practice_activity:
     'args {action:{type:practice,operation:strategy,approach,rationale}|{type:practice,operation:activity,activity:rhythm|phrase|expression,variant:0..3,assessment:practice|reserved}|{type:practice,operation:reflection}}. Requires practice capability. Propose an approach for learner acceptance, open an original two-bar G7 to Cmaj7 study, or invite optional self-reflection. Tasks grade symbolic constraints, not playing or artistic quality. Reserved IDs must come from read_learner. No mandatory sequence.',
@@ -188,6 +188,7 @@ function listeningFacts(request: TeacherRequest): TeacherFact[] {
 function musicalFacts(request: TeacherRequest): TeacherFact[] {
   const facts: TeacherFact[] = [
     ...listeningFacts(request),
+    ...(request.context.live ? [{id:'live-boundary',kind:'boundary' as const,text:'Live observations are experimental local detector hypotheses. No string, fret, CAGED grip, hand technique, timing, or mastery was verified. Unknown is not incorrect.'},...request.context.live.evidence.map(e=>({id:`live:${e.id}`,kind:'observation' as const,text:JSON.stringify(e)}))] : []),
     {
       id: 'instrument',
       kind: 'music',
@@ -470,6 +471,12 @@ export function resolveTeacherAction(
   if (!p.success) return null;
   const a = p.data,
     exposureKeys = musicExposureKeys(request);
+  const live=request.context.live;
+  if(live?.active && !live.assisted)return null;
+  if(a.type==='live'){
+    if(!live || live.active || !live.eligible.some(t=>t.id===a.taskId))return null;
+    return {facts:musicalFacts(request).filter(f=>f.id==='live-boundary'),exposureKeys:[]};
+  }
   const homework = request.context.homework;
   if (homework?.active && !homework.assisted) return null;
   if (a.type === 'homework') {
@@ -619,6 +626,16 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
     actions,
     execute(call: TeacherToolCall): TeacherToolResult {
       try {
+        if(call.name==='inspect_live_input'){
+          toolArgs.inspect_live_input.parse(call.args);
+          const live=request.context.live;
+          return accept({status:live?'ok':'unavailable',facts:facts.filter(f=>f.id.startsWith('live')),actions:[],data:live??null});
+        }
+        if(call.name==='live_activity'){
+          const {action}=toolArgs.live_activity.parse(call.args);
+          const resolved=resolveTeacherAction(request,action);
+          return resolved?accept({status:'ok',facts:resolved.facts,actions:[action]}):{status:'unavailable',facts:[],actions:[],reason:'This live task is unavailable or another response is active.'};
+        }
         if (call.name === 'homework_map') {
           toolArgs.homework_map.parse(call.args);
           const h = request.context.homework;
@@ -711,6 +728,7 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
             data: {
               objective: request.context.objective,
               practice: request.context.practice,
+              live: request.context.live,
               homework: request.context.homework,
               evidence: request.context.evidence,
               history: request.context.history,
@@ -935,6 +953,7 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
     ((request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
       (request.context.practice?.active && !request.context.practice.active.assisted) ||
       (request.context.homework?.active && !request.context.homework.assisted) ||
+    (request.context.live?.active && !request.context.live.assisted) ||
       (request.context.listening?.activeQuestion &&
         !request.context.listening.activeQuestion.assisted))
   )
@@ -1224,10 +1243,38 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
       message +=
         ' The last recorded screen answer did not meet its constraints. We can check the note name and chord role separately; that response alone does not explain why it was missed.';
   }
+  const live = request.context.live;
+  if (live) {
+    actions.length = 0;
+    factRefs.push('live-boundary');
+    const last = live.evidence.at(-1);
+    const result = { match: 'a supported match', discrepancy: 'a supported difference', unassessed: 'insufficient evidence', interrupted: 'an interruption' };
+    message = last
+      ? `The detector reported ${result[last.outcome]} for this response.`
+      : 'Connect your clean guitar input, choose a task, then start a response. I can use bounded local detection summaries; I do not receive your audio.';
+    if (last) {
+      factRefs.push(`live:${last.id}`);
+      if (last.detectedPitches.length && last.kind !== 'chords')
+        message += ` The detected notes were ${last.detectedPitches.slice(0, 8).map(p => formatPitch(Math.round(p), false)).join(' → ')}.`;
+      message += ' This is experimental sound evidence. It does not establish which fret or grip you used, clean technique, or timing.';
+      if (last.assisted || !last.firstResponse)
+        message += ' Help or a previous response was recorded, so this remains separate from unassisted first attempts.';
+    }
+    if (last?.outcome === 'unassessed' || last?.outcome === 'interrupted')
+      message += ' No incorrect answer is inferred. Check the input level, or pick the chord tones separately.';
+    else if (last?.outcome === 'discrepancy')
+      message += ' Isolate one change, compare its notes, then try again. The first response remains recorded.';
+    if (!live.active && !/stop|no quiz|just explain/.test(text)) {
+      const oneNote = /(?:one|single) note/.test(text);
+      const task = live.eligible.find(t => t.id === (!oneNote && last?.kind === 'chords' && last.outcome !== 'match' ? 'live-arpeggio' : 'live-note'));
+      if (task) actions.push({ type: 'live', taskId: task.id });
+    }
+  }
   if (
     (request.context.practice?.active && !request.context.practice.active.assisted) ||
     (request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
     (request.context.homework?.active && !request.context.homework.assisted) ||
+    (request.context.live?.active && !request.context.live.assisted) ||
     (request.context.practice?.active && !request.context.practice.active.assisted) ||
     (request.context.listening?.activeQuestion &&
       !request.context.listening.activeQuestion.assisted)

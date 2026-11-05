@@ -70,6 +70,7 @@ jobs:
       - run: npm run eval:replay -- --output evals/artifacts/ci.json
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
+      - run: npm run test:live
       - run: npm run test:renderer
       - run: npm run test:offline
       - name: Build production image
