@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "guitarset-observed-choice-v1",
+  "kind": "experimental-observed-choice-ranker",
+  "features": [
+    "fretted_span",
+    "fret_center",
+    "open_strings",
+    "string_span",
+    "skipped_strings",
+    "bass_movement",
+    "top_movement",
+    "sorted_voice_movement",
+    "hand_center_movement",
+    "unchanged_positions"
+  ],
+  "weights": [
+    -1.2333363219992952,
+    -0.9340454385142786,
+    -0.8011300058035699,
+    -0.411318696508219,
+    -0.4410911422237372,
+    -0.149084398643401,
+    -0.24507937696574833,
+    -0.6512384846082895,
+    -1.178562630333808,
+    1.2868258651312325
+  ],
+  "mean": [
+    2.6162788522980533,
+    12.602843019601819,
+    0.5688231535308511,
+    3.985747237504481,
+    1.1916509514829419,
+    7.92224958309306,
+    10.049943113632468,
+    8.650762822815112,
+    8.762140849608198,
+    0.3630347708180727
+  ],
+  "std": [
+    1.193822035373065,
+    6.185623189397258,
+    0.7346200991575159,
+    0.9366850881506829,
+    0.8734614065348976,
+    6.183224743679807,
+    7.118271692896381,
+    5.353164427243533,
+    5.8740554993723295,
+    0.7155878169808602
+  ],
+  "constraints": {
+    "tuningMidi": [
+      64,
+      59,
+      55,
+      50,
+      45,
+      40
+    ],
+    "capo": 0,
+    "voices": [
+      3,
+      6
+    ],
+    "pitchClassCounts": [
+      3,
+      4
+    ],
+    "maxFret": 24,
+    "maxFrettedSpan": 4,
+    "exactPitchClassMultiset": true
+  },
+  "trainingRows": 4317,
+  "trainingRecordings": 168,
+  "target": "Observed next shape given actual previous shape and requested pitch-class multiset",
+  "heldoutReportSha256": "73e45434e4b4c24c1d90b6ea3808423dc404d792cca149de3cc84abd09da9b85",
+  "serving": "Explicit optional research ordering only; deterministic ordering is the default",
+  "license": "CC-BY-4.0",
+  "attribution": "Qingyang Xi et al., GuitarSet: A Dataset for Guitar Transcription, ISMIR 2018, DOI 10.5281/zenodo.3371780",
+  "newHeldoutScore": false
+}

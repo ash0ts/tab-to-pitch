@@ -1,0 +1,11 @@
+node_modules
+dist
+.server-build
+test-results
+playwright-report
+public
+package-lock.json
+evals/artifacts
+.cache-audit.json
+# Preserve the published model bytes; a parity test checks the public copy.
+src/research-data/voicing-ranker-v1.json

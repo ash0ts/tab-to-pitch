@@ -1,0 +1,49 @@
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: tab-to-pitch
+    runtime: docker
+    plan: 0.5c-512mb
+    region: oregon
+    numInstances: 1
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: 'off'
+    preDeployCommand: node scripts/migrate.js
+    healthCheckPath: /healthz
+    maxShutdownDelaySeconds: 45
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: '3000'
+      - key: PUBLIC_ORIGIN
+        fromService:
+          type: web
+          name: tab-to-pitch
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tab-to-pitch-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: CLOUD_COACH_ENABLED
+        value: 'false'
+      - key: FORGE_TRACING_ENABLED
+        value: 'false'
+      - key: FORGE_MODEL
+        value: openai/gpt-oss-20b
+      - key: FORGE_DAILY_TOKEN_LIMIT
+        value: '1000000'
+databases:
+  - name: tab-to-pitch-db
+    plan: 0.1c-256mb
+    region: oregon
+    postgresMajorVersion: '16'
+    databaseName: tabtopitch
+    user: tabtopitch
+    diskSizeGB: 1
+    ipAllowList: []

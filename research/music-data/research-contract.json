@@ -1,0 +1,87 @@
+{
+  "experiment": "tabtopitch-guitarset-annotation-contract-v1",
+  "question": "Can conservative real-performance annotation conversion produce traceable, correctly graded pitch and position tasks for the bounded coach?",
+  "decision": "Qualify real music contexts for a live coach contract evaluation, without claiming teaching efficacy or transcription accuracy.",
+  "source": {
+    "dataset": "GuitarSet v1.1.0",
+    "doi": "10.5281/zenodo.3371780",
+    "archiveSha256": "8daa02e6417ccca1685feb44b135e95928ad7037e5032ecb326b5791856fda99",
+    "archiveMd5": "b39b78e63d3446f2e54ddb7a54df9b10",
+    "license": "CC-BY-4.0",
+    "accessDate": "2026-10-29"
+  },
+  "unit": "One source recording for split membership and one first eligible measure per recording for coaching. Individual note questions are dependent observations within a recording.",
+  "split": {
+    "train": "performers 00-03, progression family 1",
+    "validation": "performer 04, progression family 2",
+    "test": "performer 05, progression family 3",
+    "crossGroup": "All remaining combinations excluded from these primary cohorts",
+    "knownErrata": "Three official affected recordings excluded from question generation"
+  },
+  "fixtureRevision": "guitarset-observed-pitch-v1",
+  "controls": [
+    "Independent exhaustive enumeration of alternate strings and frets",
+    "Pitch answers computed with an independent 12-class name table",
+    "Synthetic boundary unit fixtures kept separate from the real dataset"
+  ],
+  "actor": "Existing deterministic TabToPitch exercise generator and grader; no inference in this stage",
+  "judge": "Explicit code invariants; no language-model judge",
+  "measures": [
+    {
+      "name": "eligibility",
+      "numerator": "Notes with zero exclusion reasons",
+      "denominator": "Every source note_midi observation",
+      "unit": "note",
+      "missingness": "Reject malformed source records; no dropped rows without a reason",
+      "aggregation": "Counts in build.ts",
+      "scope": "adapter"
+    },
+    {
+      "name": "pitchAnswerContract",
+      "numerator": "Independently computed pitch labels accepted by the application grader",
+      "denominator": "Generated pitch questions",
+      "unit": "question",
+      "missingness": "Any grading discrepancy stops publication",
+      "aggregation": "Counts in build.ts",
+      "scope": "grader"
+    },
+    {
+      "name": "alternatePositionContract",
+      "numerator": "Valid alternative locations accepted by the grader",
+      "denominator": "All independently enumerated positions for generated location questions",
+      "unit": "position answer",
+      "missingness": "Any position-set or grading discrepancy stops publication",
+      "aggregation": "Counts in build.ts",
+      "scope": "grader"
+    }
+  ],
+  "confounders": [
+    "Frets derived from pitch and tuning rather than separately observed",
+    "Note and contour annotations share the same recorded source and are not independent labels",
+    "Experimental stability filters can reject genuine notes and do not prove absence of harmonics",
+    "Only one performer and one progression family in the strict test cohort",
+    "Pitch/location families only; no coverage claim for other exercise families"
+  ],
+  "collectionRetryPolicy": "Pinned read-only acquisition may retry. Preserve all source bytes. Missing or malformed records stop the builder; no replacement test examples after observing model output.",
+  "stopGates": [
+    "Source checksum differs",
+    "Source file count differs",
+    "Frozen test cohort does not contain all 20 recordings",
+    "Split overlap",
+    "Answer-contract failure"
+  ],
+  "privacyBoundary": "Public licensed music annotations only. No user Guitar Pro attachment, audio, user filenames, learner history, credentials, or synthetic learner outcomes.",
+  "reproduction": "README.md#reproduce",
+  "publicationIdentities": "Per-run provenance.json and the parent live-campaign manifest own cloud dataset and call IDs. This builder makes no cloud writes.",
+  "claims": [
+    {
+      "source": "GuitarSet official Zenodo release",
+      "locator": "Source DOI and archive digest",
+      "observed": "Human-performed guitar has pitch, time and string annotations",
+      "inferred": "Stable normalized notes can support deterministic pitch questions",
+      "confidence": "Measured contract validity; source annotation accuracy not independently measured",
+      "limitation": "No learner outcomes",
+      "publicSafety": "CC BY 4.0 attribution required"
+    }
+  ]
+}

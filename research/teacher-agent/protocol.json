@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "experiment": "freeform-music-teacher-v1",
+  "decision": "Whether a free-form tool-using teacher merits an explicitly experimental opt-in alongside the authored local teacher",
+  "synthetic": true,
+  "realLearners": 0,
+  "fixtures": {
+    "development": 36,
+    "fixedHistory": 96,
+    "contexts": 24,
+    "boundary": 24,
+    "episodes": 24,
+    "maxEpisodeTurns": 6,
+    "trials": 2,
+    "judgeClaims": 120,
+    "judgeDevelopment": 60,
+    "judgeHoldout": 60,
+    "judgeDialogues": 24
+  },
+  "arms": [
+    "authored-local",
+    "openai/gpt-oss-20b",
+    "qualified-openai/gpt-oss-120b",
+    "qualified-20b-history-withheld-fixed-only"
+  ],
+  "agent": {
+    "maxActorCallsPerTurn": 4,
+    "maxRuntimeCriticCallsPerTurn": 1,
+    "maxToolCallsPerTurn": 8,
+    "deadlineMs": 60000,
+    "maxActorOutputTokens": 4096,
+    "maxCriticOutputTokens": 2048,
+    "maxInputBytes": 32768,
+    "completionRetries": 0
+  },
+  "judge": {
+    "maxInputBytes": 49152,
+    "maxOutputTokens": 2048,
+    "passes": 2,
+    "deadlineMs": 60000,
+    "minimumHeldoutAccuracy": 0.95,
+    "minimumCriticalRecall": 0.9,
+    "minimumDialogueAccuracy": 0.9,
+    "initialSmokeCases": 2,
+    "stopAfterBothSmokeCasesUnavailable": true,
+    "noInstructionTakeover": true,
+    "actorIdentityHidden": true,
+    "sameFamilyLimit": "Separate judge calls and prompts do not make GPT-OSS model errors independent."
+  },
+  "budget": {
+    "cumulativeCeilingDollars": 25,
+    "campaignCeilingDollars": 15,
+    "reserveBeforeSend": true,
+    "missingUsage": "Retain full reservation; never zero",
+    "pricingSource": "https://coreweave.com/forge-pricing/inference-agents",
+    "pricingVerifiedAt": "2026-10-30",
+    "pricesPerMillion": {
+      "openai/gpt-oss-20b": { "input": 0.03, "output": 0.13 },
+      "openai/gpt-oss-120b": { "input": 0.03, "output": 0.17 }
+    }
+  },
+  "qualification": {
+    "turnsPerModel": 12,
+    "minimumUsable": 11,
+    "acceptedStructuralViolations": 0,
+    "stopAfterConsecutiveUnavailable": 2
+  },
+  "evaluation": {
+    "maxConcurrentIndependentAttempts": 4,
+    "unit": "Musical context; repeated trials are correlated observations",
+    "fixedHistory": "Identical observable histories; expected goals and forbidden claims, not an exact next action",
+    "episodes": "Conditional scripted learner responses test orchestration, not learning",
+    "scoring": "Deterministic structural criteria and separately qualified free-prose judges",
+    "missing": "Retain all started failures; unstarted arms unavailable; planned denominators and coverage always shown",
+    "latency": "Actual actor and judge execution separate from replay"
+  },
+  "release": {
+    "experimentalOnly": true,
+    "acceptedStructuralViolations": 0,
+    "ordinaryAcceptableRate": 0.9,
+    "episodeAcceptableRate": 0.9,
+    "criticalJudgeDefects": 0,
+    "completeReadback": true,
+    "humanPedagogyValidated": false,
+    "learningEffectivenessValidated": false
+  },
+  "forge": {
+    "project": "wandb/tab-to-pitch-public-data-research",
+    "visibility": "PRIVATE",
+    "lens": "Actual SDK model/tool/validation spans with lesson and turn correlation",
+    "weave": "Recorded-output replay with deterministic and model-judge criteria separate",
+    "models": "Static campaign accounting only; no invented training curve",
+    "registry": "No new model artifact without actual justified training"
+  },
+  "privacy": {
+    "allowed": "Authored dialogue, normalized original musical examples, synthetic attempt summaries, versioned outputs and scores",
+    "excluded": [
+      "user Guitar Pro files",
+      "filenames",
+      "lyrics",
+      "real practice history",
+      "credentials"
+    ]
+  },
+  "stopRules": [
+    "Source or fixture hash drift",
+    "Privacy drift",
+    "Budget exhaustion",
+    "Unresolved completion attempt on resume",
+    "Unknown publication write outcome",
+    "Unqualified judge used as release evidence"
+  ]
+}

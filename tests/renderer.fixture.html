@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Measured renderer verification</title>
+    <style>
+      body {
+        font: 16px system-ui;
+        margin: 24px;
+        color: #143d37;
+        background: #f4f3ec;
+      }
+      #viewport {
+        max-width: 1100px;
+        overflow: auto;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+      }
+      #score {
+        min-width: 280px;
+      }
+      button {
+        padding: 12px;
+        margin: 12px 8px 12px 0;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .at-cursor-bar {
+        background: rgba(20, 100, 80, 0.08);
+      }
+      .at-cursor-beat {
+        background: rgba(20, 100, 80, 0.4);
+        width: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Measured in-place pitch labels</h1>
+    <p>
+      Original four-bar CC0 study. This page exercises the real renderer worker and audio worklet.
+    </p>
+    <button id="play">Play / pause</button><button id="hybrid">Show fret hints</button
+    ><button id="mask">Hide answers</button><button id="pitch">Reveal pitch</button>
+    <div id="viewport"><div id="score"></div></div>
+    <p id="status">Loading</p>
+    <script type="module">
+      import { PlayerController } from '/src/player/PlayerController.ts';
+      window.rendererErrors = [];
+      window.testPlayer = new PlayerController(document.querySelector('#score'), {
+        onDocument: (doc) => (window.testDocument = doc),
+        onState: (state) => {
+          window.testState = state;
+          document.querySelector('#status').textContent = JSON.stringify(state);
+        },
+        onError: (message) => window.rendererErrors.push(message),
+      });
+      window.testPlayer.setPresentation({ mode: 'pitch', showOctaves: true });
+      window.testPlayer.loadDemo();
+      document.querySelector('#play').onclick = () => window.testPlayer.playPause();
+      document.querySelector('#hybrid').onclick = () => {
+        window.testPlayer.setMaskedNotes([]);
+        window.testPlayer.setPresentation({ mode: 'pitch', fretHint: true, showOctaves: true });
+      };
+      document.querySelector('#pitch').onclick = () => {
+        window.testPlayer.setMaskedNotes([]);
+        window.testPlayer.setPresentation({ mode: 'pitch', showOctaves: true });
+      };
+      document.querySelector('#mask').onclick = () =>
+        window.testPlayer.setMaskedNotes(window.testDocument.tracks[0].notes.map((n) => n.id));
+    </script>
+  </body>
+</html>

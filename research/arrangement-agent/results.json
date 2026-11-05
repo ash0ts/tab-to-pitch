@@ -1,0 +1,704 @@
+{
+  "schemaVersion": 1,
+  "authoredSynthetic": true,
+  "realLearners": 0,
+  "cloudArrangementGate": "failed",
+  "summaries": {
+    "original": {
+      "version": "arrangement-agent-v1",
+      "synthetic": true,
+      "realLearners": 0,
+      "contexts": 24,
+      "uniqueRequests": 96,
+      "repetitionsAreNotIndependentTasks": true,
+      "arms": [
+        {
+          "arm": "deterministic-parser",
+          "qualified": true,
+          "planned": 96,
+          "completed": 96,
+          "missing": 0,
+          "criteria": {
+            "schemaValid": 96,
+            "requestCorrect": 74,
+            "constraintSatisfaction": 74,
+            "validNotes": 96,
+            "sourcePreserved": 96,
+            "melodyPreserved": 96,
+            "clarificationCorrect": 84,
+            "factualReferences": 96,
+            "usableProposal": 22
+          },
+          "requestAccuracy": 0.7708333333333334,
+          "providerSucceeded": null,
+          "p50ms": 0.12250000000005912,
+          "p95ms": 20.77237500000001,
+          "categories": {
+            "literal": {
+              "correct": 24,
+              "total": 24
+            },
+            "paraphrase": {
+              "correct": 2,
+              "total": 24
+            },
+            "boundary": {
+              "correct": 24,
+              "total": 24
+            },
+            "adversarial": {
+              "correct": 24,
+              "total": 24
+            }
+          },
+          "qualifiedForCloudPreview": false
+        },
+        {
+          "arm": "openai/gpt-oss-20b",
+          "qualified": true,
+          "planned": 192,
+          "completed": 192,
+          "missing": 0,
+          "criteria": {
+            "schemaValid": 79,
+            "requestCorrect": 51,
+            "constraintSatisfaction": 58,
+            "validNotes": 79,
+            "sourcePreserved": 79,
+            "melodyPreserved": 79,
+            "clarificationCorrect": 55,
+            "factualReferences": 79,
+            "usableProposal": 10
+          },
+          "requestAccuracy": 0.265625,
+          "providerSucceeded": 79,
+          "p50ms": 2309.668791999982,
+          "p95ms": 6422.998875000019,
+          "categories": {
+            "literal": {
+              "correct": 7,
+              "total": 48
+            },
+            "paraphrase": {
+              "correct": 4,
+              "total": 48
+            },
+            "boundary": {
+              "correct": 25,
+              "total": 48
+            },
+            "adversarial": {
+              "correct": 15,
+              "total": 48
+            }
+          },
+          "qualifiedForCloudPreview": false
+        },
+        {
+          "arm": "openai/gpt-oss-120b",
+          "qualified": false,
+          "planned": 192,
+          "completed": 0,
+          "missing": 192,
+          "criteria": {
+            "schemaValid": 0,
+            "requestCorrect": 0,
+            "constraintSatisfaction": 0,
+            "validNotes": 0,
+            "sourcePreserved": 0,
+            "melodyPreserved": 0,
+            "clarificationCorrect": 0,
+            "factualReferences": 0,
+            "usableProposal": 0
+          },
+          "requestAccuracy": null,
+          "providerSucceeded": 0,
+          "p50ms": null,
+          "p95ms": null,
+          "categories": {
+            "literal": {
+              "correct": 0,
+              "total": 0
+            },
+            "paraphrase": {
+              "correct": 0,
+              "total": 0
+            },
+            "boundary": {
+              "correct": 0,
+              "total": 0
+            },
+            "adversarial": {
+              "correct": 0,
+              "total": 0
+            }
+          },
+          "qualifiedForCloudPreview": false
+        }
+      ],
+      "paired": [
+        {
+          "arm": "openai/gpt-oss-20b",
+          "both": 47,
+          "modelOnly": 4,
+          "parserOnly": 101,
+          "neither": 40
+        },
+        {
+          "arm": "openai/gpt-oss-120b",
+          "both": 0,
+          "modelOnly": 0,
+          "parserOnly": 0,
+          "neither": 0
+        }
+      ],
+      "calls": 226,
+      "tokens": 330347,
+      "dollars": 0.020372849999999994,
+      "knownTokens": 238817,
+      "unknownUsage": 18,
+      "maxDollars": 25,
+      "maxTokens": 2000000,
+      "maxCalls": 800,
+      "pricing": {
+        "source": "https://coreweave.com/products/serverless-inference",
+        "verifiedAt": "2026-10-29",
+        "perMillion": {
+          "openai/gpt-oss-20b": {
+            "input": 0.03,
+            "output": 0.13
+          },
+          "openai/gpt-oss-120b": {
+            "input": 0.03,
+            "output": 0.17
+          }
+        }
+      }
+    },
+    "regression": {
+      "version": "arrangement-agent-v2",
+      "synthetic": true,
+      "realLearners": 0,
+      "contexts": 24,
+      "uniqueRequests": 96,
+      "repetitionsAreNotIndependentTasks": true,
+      "arms": [
+        {
+          "arm": "deterministic-parser",
+          "qualified": true,
+          "planned": 96,
+          "completed": 96,
+          "missing": 0,
+          "criteria": {
+            "schemaValid": 96,
+            "requestCorrect": 74,
+            "constraintSatisfaction": 74,
+            "validNotes": 96,
+            "sourcePreserved": 96,
+            "melodyPreserved": 96,
+            "clarificationCorrect": 84,
+            "factualReferences": 96,
+            "usableProposal": 22
+          },
+          "requestAccuracy": 0.7708333333333334,
+          "providerSucceeded": null,
+          "p50ms": 0.12816700000001902,
+          "p95ms": 20.577332999999953,
+          "categories": {
+            "literal": {
+              "correct": 24,
+              "total": 24
+            },
+            "paraphrase": {
+              "correct": 2,
+              "total": 24
+            },
+            "boundary": {
+              "correct": 24,
+              "total": 24
+            },
+            "adversarial": {
+              "correct": 24,
+              "total": 24
+            }
+          },
+          "qualifiedForCloudPreview": false
+        },
+        {
+          "arm": "openai/gpt-oss-20b",
+          "qualified": true,
+          "planned": 192,
+          "completed": 192,
+          "missing": 0,
+          "criteria": {
+            "schemaValid": 165,
+            "requestCorrect": 105,
+            "constraintSatisfaction": 117,
+            "validNotes": 165,
+            "sourcePreserved": 165,
+            "melodyPreserved": 165,
+            "clarificationCorrect": 109,
+            "factualReferences": 165,
+            "usableProposal": 19
+          },
+          "requestAccuracy": 0.546875,
+          "providerSucceeded": 165,
+          "p50ms": 3279.682458000025,
+          "p95ms": 12656.946582999983,
+          "categories": {
+            "literal": {
+              "correct": 13,
+              "total": 48
+            },
+            "paraphrase": {
+              "correct": 12,
+              "total": 48
+            },
+            "boundary": {
+              "correct": 32,
+              "total": 48
+            },
+            "adversarial": {
+              "correct": 48,
+              "total": 48
+            }
+          },
+          "qualifiedForCloudPreview": false
+        },
+        {
+          "arm": "openai/gpt-oss-120b",
+          "qualified": false,
+          "planned": 192,
+          "completed": 0,
+          "missing": 192,
+          "criteria": {
+            "schemaValid": 0,
+            "requestCorrect": 0,
+            "constraintSatisfaction": 0,
+            "validNotes": 0,
+            "sourcePreserved": 0,
+            "melodyPreserved": 0,
+            "clarificationCorrect": 0,
+            "factualReferences": 0,
+            "usableProposal": 0
+          },
+          "requestAccuracy": null,
+          "providerSucceeded": 0,
+          "p50ms": null,
+          "p95ms": null,
+          "categories": {
+            "literal": {
+              "correct": 0,
+              "total": 0
+            },
+            "paraphrase": {
+              "correct": 0,
+              "total": 0
+            },
+            "boundary": {
+              "correct": 0,
+              "total": 0
+            },
+            "adversarial": {
+              "correct": 0,
+              "total": 0
+            }
+          },
+          "qualifiedForCloudPreview": false
+        }
+      ],
+      "paired": [
+        {
+          "arm": "openai/gpt-oss-20b",
+          "both": 93,
+          "modelOnly": 12,
+          "parserOnly": 55,
+          "neither": 32
+        },
+        {
+          "arm": "openai/gpt-oss-120b",
+          "both": 0,
+          "modelOnly": 0,
+          "parserOnly": 0,
+          "neither": 0
+        }
+      ],
+      "calls": 214,
+      "tokens": 306548,
+      "dollars": 0.022811539999999998,
+      "knownTokens": 289302,
+      "unknownUsage": 2,
+      "maxDollars": 25,
+      "maxTokens": 5000000,
+      "maxCalls": 1000,
+      "pricing": {
+        "source": "https://coreweave.com/products/serverless-inference",
+        "verifiedAt": "2026-10-29",
+        "perMillion": {
+          "openai/gpt-oss-20b": {
+            "input": 0.03,
+            "output": 0.13
+          },
+          "openai/gpt-oss-120b": {
+            "input": 0.03,
+            "output": 0.17
+          }
+        }
+      },
+      "costScope": "regression requests only; qualification and prior campaigns are reported in the combined campaign"
+    },
+    "confirmation": {
+      "version": "arrangement-agent-v2",
+      "synthetic": true,
+      "realLearners": 0,
+      "contexts": 8,
+      "uniqueRequests": 32,
+      "repetitionsAreNotIndependentTasks": true,
+      "arms": [
+        {
+          "arm": "deterministic-parser",
+          "qualified": true,
+          "planned": 32,
+          "completed": 32,
+          "missing": 0,
+          "criteria": {
+            "schemaValid": 32,
+            "requestCorrect": 24,
+            "constraintSatisfaction": 24,
+            "validNotes": 32,
+            "sourcePreserved": 32,
+            "melodyPreserved": 32,
+            "clarificationCorrect": 29,
+            "factualReferences": 32,
+            "usableProposal": 8
+          },
+          "requestAccuracy": 0.75,
+          "providerSucceeded": null,
+          "p50ms": 0.18479200000001583,
+          "p95ms": 56.18329199999994,
+          "categories": {
+            "literal": {
+              "correct": 8,
+              "total": 8
+            },
+            "paraphrase": {
+              "correct": 0,
+              "total": 8
+            },
+            "boundary": {
+              "correct": 8,
+              "total": 8
+            },
+            "adversarial": {
+              "correct": 8,
+              "total": 8
+            }
+          },
+          "qualifiedForCloudPreview": false
+        },
+        {
+          "arm": "openai/gpt-oss-20b",
+          "qualified": true,
+          "planned": 64,
+          "completed": 64,
+          "missing": 0,
+          "criteria": {
+            "schemaValid": 56,
+            "requestCorrect": 46,
+            "constraintSatisfaction": 46,
+            "validNotes": 56,
+            "sourcePreserved": 56,
+            "melodyPreserved": 56,
+            "clarificationCorrect": 46,
+            "factualReferences": 56,
+            "usableProposal": 14
+          },
+          "requestAccuracy": 0.71875,
+          "providerSucceeded": 56,
+          "p50ms": 2602.609792000003,
+          "p95ms": 14310.15983400002,
+          "categories": {
+            "literal": {
+              "correct": 9,
+              "total": 16
+            },
+            "paraphrase": {
+              "correct": 5,
+              "total": 16
+            },
+            "boundary": {
+              "correct": 16,
+              "total": 16
+            },
+            "adversarial": {
+              "correct": 16,
+              "total": 16
+            }
+          },
+          "qualifiedForCloudPreview": false
+        },
+        {
+          "arm": "openai/gpt-oss-120b",
+          "qualified": false,
+          "planned": 64,
+          "completed": 0,
+          "missing": 64,
+          "criteria": {
+            "schemaValid": 0,
+            "requestCorrect": 0,
+            "constraintSatisfaction": 0,
+            "validNotes": 0,
+            "sourcePreserved": 0,
+            "melodyPreserved": 0,
+            "clarificationCorrect": 0,
+            "factualReferences": 0,
+            "usableProposal": 0
+          },
+          "requestAccuracy": null,
+          "providerSucceeded": 0,
+          "p50ms": null,
+          "p95ms": null,
+          "categories": {
+            "literal": {
+              "correct": 0,
+              "total": 0
+            },
+            "paraphrase": {
+              "correct": 0,
+              "total": 0
+            },
+            "boundary": {
+              "correct": 0,
+              "total": 0
+            },
+            "adversarial": {
+              "correct": 0,
+              "total": 0
+            }
+          },
+          "qualifiedForCloudPreview": false
+        }
+      ],
+      "paired": [
+        {
+          "arm": "openai/gpt-oss-20b",
+          "both": 41,
+          "modelOnly": 5,
+          "parserOnly": 7,
+          "neither": 11
+        },
+        {
+          "arm": "openai/gpt-oss-120b",
+          "both": 0,
+          "modelOnly": 0,
+          "parserOnly": 0,
+          "neither": 0
+        }
+      ],
+      "calls": 78,
+      "tokens": 104653,
+      "dollars": 0.0073464900000000015,
+      "knownTokens": 104653,
+      "unknownUsage": 0,
+      "maxDollars": 25,
+      "maxTokens": 5000000,
+      "maxCalls": 1000,
+      "pricing": {
+        "source": "https://coreweave.com/products/serverless-inference",
+        "verifiedAt": "2026-10-29",
+        "perMillion": {
+          "openai/gpt-oss-20b": {
+            "input": 0.03,
+            "output": 0.13
+          },
+          "openai/gpt-oss-120b": {
+            "input": 0.03,
+            "output": 0.17
+          }
+        }
+      },
+      "costScope": "confirmation requests only; qualification and prior campaigns are reported in the combined campaign"
+    }
+  },
+  "totalInference": {
+    "calls": 528,
+    "tokens": 783709,
+    "knownTokens": 640541,
+    "unknownUsage": 24,
+    "dollars": 0.05436666999999998
+  },
+  "verifiedPublications": {
+    "original": {
+      "modelsUrl": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/arrangement-agent-v1",
+      "modelsVerifiedAt": "2026-10-30T17:27:33.911Z",
+      "weave": {
+        "refs": {
+          "dataset": "weave:///wandb/tab-to-pitch-public-data-research/object/arrangement-synthetic96-aecc7af2dd62:m2XX7IIwaYTU1haWUS0VAv6sqtr40cYI9pVxXtWqhsA",
+          "scorer": "weave:///wandb/tab-to-pitch-public-data-research/op/arrangement-request-and-music-v1:F5jtiP1m7NRXiMCSUeFr6ONhKXj7r5UT7F4Lf0eJIzM",
+          "evaluation": "weave:///wandb/tab-to-pitch-public-data-research/object/arrangement-6e6ca7e6ddc6:n5ahzXjQEa8f9MnZkVH7CHKmBdyHpCYORfJ8SbIwLVs"
+        },
+        "verifiedAt": "2026-10-29T23:51:30.801Z",
+        "evaluations": [
+          {
+            "arm": "deterministic-parser::trial-0",
+            "callId": "01a18a13-3467-79e8-b1fd-585de9a000c2",
+            "traceId": "01a18a13-3467-79e8-b1fd-585efcddbb7d"
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-1",
+            "callId": "01a18a13-4533-7b16-ab58-9d22b1590477",
+            "traceId": "01a18a13-4533-7b16-ab58-9d23e7462b5d"
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-2",
+            "callId": "01a18a13-5461-743d-a0d4-aa69973a9cf0",
+            "traceId": "01a18a13-5461-743d-a0d4-aa6acdc5416c"
+          }
+        ],
+        "readback": [
+          {
+            "arm": "deterministic-parser::trial-0",
+            "calls": 289,
+            "tasks": 96,
+            "criteria": 864
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-1",
+            "calls": 289,
+            "tasks": 96,
+            "criteria": 864
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-2",
+            "calls": 289,
+            "tasks": 96,
+            "criteria": 864
+          }
+        ]
+      }
+    },
+    "regression": {
+      "modelsUrl": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/arrangement-agent-v2-regression",
+      "modelsVerifiedAt": "2026-10-30T17:38:20.980Z",
+      "weave": {
+        "refs": {
+          "dataset": "weave:///wandb/tab-to-pitch-public-data-research/object/arrangement-synthetic96-aecc7af2dd62:7mGICgweKxqsLbVZnv3t2ySw1mdtNpIm6qSQOkfubUk",
+          "scorer": "weave:///wandb/tab-to-pitch-public-data-research/op/arrangement-request-and-music-v2-regression:F5jtiP1m7NRXiMCSUeFr6ONhKXj7r5UT7F4Lf0eJIzM",
+          "evaluation": "weave:///wandb/tab-to-pitch-public-data-research/object/arrangement-43bd0df53315:clyGHrN3YMOkR0PAkTUsEoGgKjNrXgur9XzwtfMzB5E"
+        },
+        "verifiedAt": "2026-10-30T17:37:25.237Z",
+        "evaluations": [
+          {
+            "arm": "deterministic-parser::trial-0",
+            "callId": "01a18de3-1af3-7c79-bc0d-8f2ccd0d06d0",
+            "traceId": "01a18de3-1af4-724d-93df-1c960969c78b"
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-1",
+            "callId": "01a18de3-2ace-74a0-a0eb-3b2ac5ba1ffe",
+            "traceId": "01a18de3-2ace-74a0-a0eb-3b2b30490543"
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-2",
+            "callId": "01a18de3-371c-7cd4-9de2-0f1c7c63bc68",
+            "traceId": "01a18de3-371c-7cd4-9de2-0f1d50e38244"
+          }
+        ],
+        "readback": [
+          {
+            "arm": "deterministic-parser::trial-0",
+            "calls": 289,
+            "tasks": 96,
+            "criteria": 864
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-1",
+            "calls": 289,
+            "tasks": 96,
+            "criteria": 864
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-2",
+            "calls": 289,
+            "tasks": 96,
+            "criteria": 864
+          }
+        ]
+      }
+    },
+    "confirmation": {
+      "modelsUrl": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/arrangement-agent-v2-confirmation",
+      "modelsVerifiedAt": "2026-10-30T17:38:17.012Z",
+      "weave": {
+        "refs": {
+          "dataset": "weave:///wandb/tab-to-pitch-public-data-research/object/arrangement-synthetic32-6325ff219bac:XJh0l0LrUdk6Xf7fegSES1YXXPqFaFTdPWU9XoRwD84",
+          "scorer": "weave:///wandb/tab-to-pitch-public-data-research/op/arrangement-request-and-music-v2-confirmation:F5jtiP1m7NRXiMCSUeFr6ONhKXj7r5UT7F4Lf0eJIzM",
+          "evaluation": "weave:///wandb/tab-to-pitch-public-data-research/object/arrangement-43bd0df53315:etX0sNi8QmReLBI4Fjp9vxqeVuu7b4L7zEyi6dWMTFM"
+        },
+        "verifiedAt": "2026-10-30T17:37:23.976Z",
+        "evaluations": [
+          {
+            "arm": "deterministic-parser::trial-0",
+            "callId": "01a18de3-1c1a-762e-a8b3-2aded10ba244",
+            "traceId": "01a18de3-1c1b-7271-ab91-667f9aaf0323"
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-1",
+            "callId": "01a18de3-269c-7b54-81d1-c34a3ab02697",
+            "traceId": "01a18de3-269c-7b54-81d1-c34b45672279"
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-2",
+            "callId": "01a18de3-3063-7f8b-8d0c-4378b5e5494e",
+            "traceId": "01a18de3-3063-7f8b-8d0c-43795ca3175b"
+          }
+        ],
+        "readback": [
+          {
+            "arm": "deterministic-parser::trial-0",
+            "calls": 97,
+            "tasks": 32,
+            "criteria": 288
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-1",
+            "calls": 97,
+            "tasks": 32,
+            "criteria": 288
+          },
+          {
+            "arm": "openai/gpt-oss-20b::trial-2",
+            "calls": 97,
+            "tasks": 32,
+            "criteria": 288
+          }
+        ]
+      }
+    }
+  },
+  "agentLens": {
+    "original": {
+      "conversations": 196,
+      "spans": 733,
+      "verifiedAt": "2026-10-30T17:30:20.118Z",
+      "sourceCampaignHash": "196dbf85801f8ef1bd585bef72d8e09ac8057986afdd685a78f153bf9eb60540"
+    },
+    "v2-development": {
+      "conversations": 4,
+      "spans": 17,
+      "verifiedAt": "2026-10-30T17:37:19.831Z",
+      "sourceCampaignHash": "b65fd869330b14d901c806377e89c8c940876f7e518885775c639fe5794ffe4f"
+    },
+    "v2-complete": {
+      "conversations": 260,
+      "spans": 1588,
+      "verifiedAt": "2026-10-30T17:39:54.106Z",
+      "sourceCampaignHash": "3411eda086904881b15fe670e4ea552382d729c6b4d39b5f10462933551e57ed"
+    }
+  },
+  "demonstration": {
+    "caseId": "fresh-1-literal",
+    "traceId": "01a18ddf-1b8f-79f9-953a-3235fda19a25",
+    "sourceManifest": "43bd0df53315f4a0f7b8924ff4f816d5519f4a3c53ca21ca4c9110280eafed96"
+  }
+}
