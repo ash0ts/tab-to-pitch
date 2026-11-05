@@ -178,8 +178,11 @@ test('production cache supports offline score, audio and durable practice withou
     studio.getByRole('region', { name: 'Validated recorded Forge voicing' }).getByRole('button'),
   ).toHaveCount(4);
 
-  await page.getByRole('button', { name: 'Fretboard homework', exact: true }).click();
+  await page.evaluate(() => { location.hash = '/stage/homework'; });
+  const coordinateView = page.getByRole('button', { name: 'Explore or check the fretboard', exact: true });
+  if (await coordinateView.isVisible()) await coordinateView.click();
   const homework = page.getByRole('region', { name: 'Fretboard homework', exact: true });
+  await homework.getByText('Workload, neck region & source', { exact: true }).click();
   await homework.getByRole('button', { name: 'Open C–F–G–C study' }).click();
   await homework.getByText('Choose a specific task', { exact: true }).click();
   await homework.getByRole('button', { name: 'Find a note', exact: true }).click();
@@ -188,9 +191,9 @@ test('production cache supports offline score, audio and durable practice withou
   await expect(homework).toContainText('meets the stated musical constraints');
   await homework.getByRole('button', { name: 'Pause homework' }).click();
   await page.reload();
-  await ready(page);
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Fretboard homework', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({ timeout: 30000 });
+  if (await coordinateView.isVisible()) await coordinateView.click();
+  await homework.getByText('Workload, neck region & source', { exact: true }).click();
   await homework.getByRole('button', { name: 'Open C–F–G–C study' }).click();
   await expect(homework.getByRole('button', { name: 'Resume saved assignment' })).toBeEnabled();
   await homework.getByRole('button', { name: 'Resume saved assignment' }).click();
