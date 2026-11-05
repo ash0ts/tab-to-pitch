@@ -1,3 +1,4 @@
+import { playingContextSchema, playingActionSchema } from './homework-playing.js';
 import { liveContextSchema, liveActionSchema, LIVE_TEACHER_VERSION } from './live-guitar.js';
 import { homeworkActionSchema, homeworkContextSchema } from './homework.js';
 import { practiceActionSchema, practiceContextSchema } from './practice.js';
@@ -77,6 +78,7 @@ export const teacherRequestSchema = z
         objective: teacherObjectiveSchema,
         practice: practiceContextSchema.optional(),
         homework: homeworkContextSchema.optional(),
+        playingHomework: playingContextSchema.optional(),
         presentation: z
           .object({
             goal: z.string().max(500).optional(),
@@ -193,6 +195,8 @@ export const teacherRequestSchema = z
   })
   .strict()
   .superRefine((request, ctx) => {
+    if (request.context.playingHomework && request.schemaVersion !== INTEGRATED_TEACHER_VERSION)
+      ctx.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'Playing homework requires teacher-v5.' });
     if (request.schemaVersion === INTEGRATED_TEACHER_VERSION) {
       const capabilities = request.capabilities;
       if (!capabilities || new Set(capabilities).size !== capabilities.length)
@@ -208,6 +212,7 @@ export const teacherRequestSchema = z
         ['live', 'teacher-live-v1'],
         ['ear', 'ear-lab-v1'],
         ['presentation', 'practice-stage-v1'],
+        ['playingHomework', 'homework-playing-v1'],
       ] as const) {
         if (Boolean(request.context[field]) !== Boolean(capabilities?.includes(capability)))
           ctx.addIssue({
@@ -408,6 +413,7 @@ export const teacherAuditionActionSchema = z
 export const teacherActionSchema = z.discriminatedUnion('type', [
   practiceActionSchema,
   homeworkActionSchema,
+  playingActionSchema,
   liveActionSchema,
   earActionSchema,
   z
@@ -460,6 +466,8 @@ const finalFields = {
 export const teacherToolNames = [
   'inspect_live_input',
   'live_activity',
+  'inspect_playing_homework',
+  'playing_homework_activity',
   'homework_map',
   'homework_activity',
   'practice_activity',

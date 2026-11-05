@@ -1,3 +1,4 @@
+import type { PlayingHomeworkSession } from '../hooks/usePlayingHomework';
 import type { EarSession } from '../ear/useEarSession';
 import { INTEGRATED_TEACHER_VERSION } from '../shared/teacher';
 import type { LiveGuitarSession } from '../hooks/useLiveGuitar';
@@ -40,6 +41,7 @@ import { Fretboard, type FretboardMarker } from './Fretboard';
 import './teacher.css';
 
 export interface TeacherPanelProps {
+  playingHomework?: PlayingHomeworkSession;
   onReturnToTask?(): void;
   ear?: EarSession;
   focusRequest?: number;
@@ -161,7 +163,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
   const selectedToken = selectedNote
     ? `${selectedNote.onsetTicks}:${selectedNote.position?.string}:${selectedNote.position?.fret}:${selectedNote.soundingMidi}`
     : 'none';
-  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision ?? 0}:l${listening?.revision ?? 0}:stage${props.presentation?.activity ?? ''}:${props.presentation?.mode ?? ''}:ear${ear?.state?.revision ?? 'none'}:${ear?.job?.status ?? 'none'}`;
+  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision ?? 0}:${props.playingHomework?.context?.revision ?? 0}:l${listening?.revision ?? 0}:stage${props.presentation?.activity ?? ''}:${props.presentation?.mode ?? ''}:ear${ear?.state?.revision ?? 'none'}:${ear?.job?.status ?? 'none'}`;
   const versionFor = (revision: number) =>
     `${baseVersion}:r${revision}:${activeQuestion?.support ?? 'none'}:x${learning.externalRevision}`;
   const contextVersion = versionFor(lesson?.revision ?? 0);
@@ -193,6 +195,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       props.practice?.masked ||
       props.homework?.masked ||
       props.live?.masked ||
+      props.playingHomework?.masked ||
       earMasked
     )
       return;
@@ -226,6 +229,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       props.practice?.masked ||
       props.homework?.masked ||
       props.live?.masked ||
+      props.playingHomework?.masked ||
       earMasked ||
       document.hidden
     )
@@ -343,6 +347,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
         ...(props.live ? ['teacher-live-v1'] : []),
         ...(ear?.context ? ['ear-lab-v1'] : []),
         ...(props.presentation ? ['practice-stage-v1'] : []),
+        ...(props.playingHomework?.context ? ['homework-playing-v1'] : []),
       ],
       requestId: crypto.randomUUID(),
       lessonId: lesson.id,
@@ -361,6 +366,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
           }
         : {}),
       context: {
+        ...(props.playingHomework?.context ? { playingHomework: props.playingHomework.context } : {}),
         ...(ear?.context ? { ear: ear.context } : {}),
         ...(props.presentation ? { presentation: props.presentation } : {}),
         objective: lesson.objective,
@@ -527,6 +533,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       props.practice?.masked ||
       props.homework?.masked ||
       props.live?.masked ||
+      props.playingHomework?.masked ||
       earMasked ||
       !lesson ||
       learning.externalRevision
@@ -633,6 +640,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       props.practice?.masked ||
       props.homework?.masked ||
       props.live?.masked ||
+      props.playingHomework?.masked ||
       earMasked ||
       proposal.validContextVersion !== contextRef.current ||
       learning.externalRevision
@@ -664,6 +672,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
       props.live?.apply(action);
       return;
     }
+    if (action.type === 'playing-homework') { props.playingHomework?.apply(action); props.onReturnToTask?.(); return; }
     if (action.type === 'homework') {
       props.homework?.apply(action);
       props.onReturnToTask?.();
@@ -782,7 +791,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
             !listening?.masked &&
             !props.practice?.active &&
             !props.homework?.masked &&
-            !props.live?.masked &&
+            !props.live?.masked && !props.playingHomework?.masked &&
             !earMasked && (
               <>
                 <div className="teacher-intents" aria-label="How should the teacher help?">
@@ -828,6 +837,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
           props.practice?.active ||
           props.homework?.masked ||
           props.live?.masked ||
+      props.playingHomework?.masked ||
           earMasked ? (
             <div className="teacher-recall" role="status">
               <strong>Your question is active.</strong>
@@ -839,7 +849,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
               <button
                 className="secondary-button"
                 onClick={() => {
-                  if (earMasked) ear?.assist();
+                  if (props.playingHomework?.masked) props.playingHomework.help('teacher');
+                  else if (earMasked) ear?.assist();
                   else if (props.live?.masked) props.live.help('teacher');
                   else if (props.homework?.masked) props.homework.help('answer');
                   else if (props.practice?.active) props.practice.help('answer');
@@ -954,6 +965,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
                         }[action.operation]
                       ) : action.type === 'live' ? (
                         'Prepare this guitar task'
+                      ) : action.type === 'playing-homework' ? (
+                        action.operation === 'isolate' ? 'Isolate this change' : action.operation === 'select' ? 'Choose this playing step' : 'Prepare another pass'
                       ) : action.type === 'homework' ? (
                         action.operation === 'task' ? (
                           `Try ${action.kind} homework`

@@ -1,3 +1,4 @@
+import { playingEventSchema } from './shared/homework-playing';
 import { liveBookmarkSchema, liveLessonEventSchema } from './shared/live-guitar';
 import { validFrozenHomeworkTask } from './engine/homework';
 import {
@@ -111,6 +112,7 @@ export const lessonEventSchema = z
       'listening-assistance',
       'source-changed',
       'homework',
+      'homework-playing',
       'practice-goal',
       'practice-strategy',
       'practice-support',
@@ -142,6 +144,7 @@ export const lessonEventSchema = z
     detail: text.optional(),
     practice: practiceObservationSchema.optional(),
     homework: homeworkObservationSchema.optional(),
+    playing: playingEventSchema.optional(),
     homeworkDefinition: homeworkTaskSchema
       .refine(t => t.variant === null || validFrozenHomeworkTask(t), 'Invalid frozen homework definition.')
       .optional(),

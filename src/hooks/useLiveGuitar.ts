@@ -131,6 +131,7 @@ export function useLiveGuitar(
     }
     setResult(attempt);
     setRevision((n) => n + 1);
+    return attempt;
   }
   const finishRef = useRef(finish);
   finishRef.current = finish;
@@ -201,7 +202,7 @@ export function useLiveGuitar(
     lastObservation.current = null;
     setObservation(null);
   }
-  function begin() {
+  function begin(reservation?: { episodeId: string; responseIndex: number; assisted: boolean }) {
     if (
       blocked ||
       !learning.lesson ||
@@ -214,8 +215,8 @@ export function useLiveGuitar(
     const same = previous?.task.id === task.id && previous.task.sourceRevision === contextVersion;
     const bookmark = {
       task: structuredClone(task),
-      episodeId: same ? previous.episodeId : crypto.randomUUID(),
-      responseIndex: same ? previous.responseIndex : 0,
+      episodeId: reservation?.episodeId ?? (same ? previous.episodeId : crypto.randomUUID()),
+      responseIndex: reservation?.responseIndex ?? (same ? previous.responseIndex : 0),
     };
     const pending = {
       inputSessionId: inputRef.current.id,
@@ -232,11 +233,17 @@ export function useLiveGuitar(
     )
       return;
     armedAfter.current = lastObservation.current?.attackId ?? 0;
-    running.current = { ...bookmark, ...pending, supports: [], observations: [] };
+    running.current = {
+      ...bookmark,
+      ...pending,
+      supports: reservation?.assisted ? ['example'] : [],
+      observations: [],
+    };
     setActive(true);
-    setAssisted(false);
+    setAssisted(!!reservation?.assisted);
     setResult(null);
     setRevision((n) => n + 1);
+    return true;
   }
   function help(kind: PerformanceAttempt['supports'][number]) {
     const run = running.current;

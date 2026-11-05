@@ -18,7 +18,7 @@ import { ACTIVITIES, activity, REFERENCES, type ActivityId } from './catalog';
 import type { StudioController, Destination } from './useStudio';
 import type { AttemptRecord } from '../engine/types';
 import { reviewDueAt } from '../engine/scheduler';
-import { getLessonData } from '../storage';
+import { getLessonData, getMemoryLessonData } from '../storage';
 import type { LessonData } from '../lesson-storage';
 const NAV: { page: Destination; label: string; icon: typeof Home }[] = [
   { page: 'studio', label: 'Studio', icon: Home },
@@ -523,7 +523,7 @@ export function ProgressPage({
       .then((d) => {
         if (active) setData(d);
       })
-      .catch(() => {});
+      .catch(() => { if (active) setData(getMemoryLessonData()); });
     return () => {
       active = false;
     };
@@ -580,6 +580,12 @@ export function ProgressPage({
           );
         })}
       </div>
+      <section className="progress-context">
+        <h2>Guitar homework</h2>
+        <p>{data?.lessonEvents.filter(e => e.playing?.kind === 'self-report').length ?? 0} self-reported passes. These describe how playing felt; they are not verified correctness.</p>
+        <p>{data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'match').length ?? 0} supported sound matches · {data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'discrepancy').length ?? 0} supported discrepancies · {data?.lessonEvents.filter(e => e.live?.attempt?.outcome === 'unassessed').length ?? 0} unassessed. Input is experimental. No string, fret, technique or precise timing was verified.</p>
+        <button className="secondary-button" onClick={() => studio.go('stage','homework')}>Return to guitar homework</button>
+      </section>
       <section className="progress-context">
         <h2>Other evidence stays with its activity</h2>
         <p>

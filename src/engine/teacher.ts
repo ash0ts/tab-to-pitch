@@ -46,6 +46,8 @@ import rankerArtifact from '../research-data/voicing-ranker-v1.json' with { type
 export const teacherToolDescriptions = {
   inspect_live_input: 'args {}. Inspect local input availability and bounded experimental performance evidence. Detection can support pitches, never a string, fret, grip, hand technique, mastery, or precise timing. Unknown is not incorrect. No raw audio reaches you.',
   live_activity: 'args {action:{type:live,taskId}}. Select an eligible task returned by inspect_live_input. The learner must explicitly start capture and the attempt. No invented targets or answer keys. Do not start another task during a response.',
+  inspect_playing_homework: 'args {}. Inspect the selected playing objective and distinct self-report and performance-reference evidence. No audio, fingering or technique is verified by a self-report.',
+  playing_homework_activity: 'args {action:{type:playing-homework,operation:select|isolate|retry,stepId}}. Choose an eligible step, isolate its first chord change, or prepare a retry. Never activate a device or a paid follow-up automatically.',
   homework_map: 'args {}. Inspect the selected CAGED map, parent versus sounding chord, root anchors and playable fragments. Requires homework capability and no unassisted question. Conventional shapes require standard string intervals. General note and chord exercises still support other tunings.',
   homework_activity: 'args {action:{type:homework,operation:task,kind:locate|name|roots|complete|voicing|neighbor|connection|target,family:C|A|G|E|D}|{type:homework,operation:compare,family:C|A|G|E|D}}. Prepare an eligible deterministic homework task or a family comparison. No answer key is supplied by the model. Shape families are not chord names; extensions are derived chord interpretations, not canonical parent shapes. Playing remains self-reported.',
 
@@ -194,6 +196,7 @@ function listeningFacts(request: TeacherRequest): TeacherFact[] {
 function musicalFacts(request: TeacherRequest): TeacherFact[] {
   const facts: TeacherFact[] = [
     ...listeningFacts(request),
+    ...(request.context.playingHomework ? [{ id:'playing-boundary', kind:'boundary' as const, text:'Homework completion and self-reported playing are not verified success. Coordinates, chord roles and detected audio remain separate. An uncertain detector result is not an incorrect answer.' }, ...request.context.playingHomework.evidence.map((e,i) => ({ id:`playing:${i}`, kind:'observation' as const, text:JSON.stringify(e) }))] : []),
     ...(request.context.live ? [{id:'live-boundary',kind:'boundary' as const,text:'Live observations are experimental local detector hypotheses. No string, fret, CAGED grip, hand technique, timing, or mastery was verified. Unknown is not incorrect.'},...request.context.live.evidence.map(e=>({id:`live:${e.id}`,kind:'observation' as const,text:JSON.stringify(e)}))] : []),
     {
       id: 'instrument',
@@ -477,6 +480,12 @@ export function resolveTeacherAction(
   if (!p.success) return null;
   const a = p.data,
     exposureKeys = musicExposureKeys(request);
+  const playing = request.context.playingHomework;
+  if (playing?.active && !playing.assisted) return null;
+  if (a.type === 'playing-homework') {
+    if (!playing || playing.active || !playing.eligible.some(t => t.id === a.stepId) || (a.operation !== 'select' && a.stepId !== playing.stepId)) return null;
+    return { facts: musicalFacts(request).filter(f => f.id === 'playing-boundary'), exposureKeys: [] };
+  }
   const live=request.context.live;
   if(live?.active && !live.assisted)return null;
   if(a.type==='live'){
@@ -636,6 +645,15 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
     actions,
     execute(call: TeacherToolCall): TeacherToolResult {
       try {
+        if (call.name === 'inspect_playing_homework') {
+          toolArgs.inspect_playing_homework.parse(call.args);
+          return accept({ status: request.context.playingHomework ? 'ok' : 'unavailable', facts: facts.filter(f => f.id.startsWith('playing')), actions: [], data: request.context.playingHomework ?? null });
+        }
+        if (call.name === 'playing_homework_activity') {
+          const {action} = toolArgs.playing_homework_activity.parse(call.args);
+          const resolved = resolveTeacherAction(request, action);
+          return resolved ? accept({status:'ok',facts:resolved.facts,actions:[action]}) : {status:'unavailable',facts:[],actions:[],reason:'This step is stale, absent, or a response is active.'};
+        }
         if(call.name==='inspect_live_input'){
           toolArgs.inspect_live_input.parse(call.args);
           const live=request.context.live;
@@ -765,6 +783,7 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
               practice: request.context.practice,
               live: request.context.live,
               homework: request.context.homework,
+              playingHomework: request.context.playingHomework,
               evidence: request.context.evidence,
               history: request.context.history,
               exposures: request.context.exposures,
@@ -1331,7 +1350,25 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
       if (task) actions.push({ type: 'live', taskId: task.id });
     }
   }
+  const playing = request.context.playingHomework;
+  if (playing) {
+    actions.length = 0;
+    factRefs.push('playing-boundary');
+    const last = playing.evidence.filter(e => e.kind === 'self-report' || e.kind === 'performance-reference').at(-1);
+    if (last?.selfReport) message = `You reported “${last.selfReport.replaceAll('-', ' ')}”. That tells us how the pass felt; it does not verify the notes or position. `;
+    else if (!request.context.live?.evidence.length) message = 'Pick up the guitar and try one small musical idea. You can use the controls without plugging in. ';
+    message += /stop|no quiz|just play|just explor/.test(text)
+      ? 'We can stop quizzing. Repeat the passage or explore freely, and save what you want to revisit.'
+      : 'Try one change slowly, then return it to the progression. A coordinate check is available separately if you want to check the location.';
+    if (/string|fret|caged|clean|technique|timing/.test(text)) message = 'A sounding C does not establish its string, fret, CAGED family, clean technique or timing. Select a coordinate separately if location is the goal. You can still play and report how the pass felt.';
+    if (/could not assess|uncertain/.test(text)) message = 'That result is unassessed, not incorrect. Pick the intended notes individually, check the input level, then return to the chord change. I cannot conclude which note was missing from uncertain audio.';
+    if (/goal/.test(text)) message = 'Change the goal in the stage header, then choose a matching playing step. The active response will be interrupted and its first response preserved. We can focus on hearing a seventh before returning to the progression.';
+    if (!playing.active && !/stop|no quiz|just explain|just play|just explor|goal/.test(text)) {
+      actions.push({type:'playing-homework', operation:/isolat|change/.test(text) && playing.objective==='progression' ? 'isolate' : 'retry', stepId:playing.stepId});
+    }
+  }
   if (
+    (request.context.playingHomework?.active && !request.context.playingHomework.assisted) ||
     (request.context.practice?.active && !request.context.practice.active.assisted) ||
     (request.context.ear?.activeQuestion && !request.context.ear.assisted) ||
     (request.context.activeQuestion && !request.context.activeQuestion.assisted) ||

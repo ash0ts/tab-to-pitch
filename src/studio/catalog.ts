@@ -29,7 +29,7 @@ export const ACTIVITIES: ActivityDescriptor[] = [
     category: 'Fretboard · CAGED',
     objective: 'Connect note names, chord tones and neighboring shapes.',
     renderer: 'fretboard',
-    inputs: ['Screen answers', 'Self-reported playing'],
+    inputs: ['Guitar playing · self-report', 'Optional experimental USB / MIDI', 'Separate coordinate answers'],
     demonstrates:
       'Selected note locations, root landmarks and constructed fragments under the stated constraints.',
     unmeasured: 'Hand technique, clean playing and fluency across the whole neck.',

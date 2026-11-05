@@ -5,7 +5,7 @@ import {
 } from '../shared/live-guitar';
 import { parseChordSymbol } from '../engine/harmony';
 import type { HomeworkTask } from '../shared/homework';
-import { solution } from '../engine/homework';
+import { homeworkLiveTask } from '../homework/planner';
 
 // Allow brief attack/decay transitions, but do not grade only the recognizable
 // portion of an otherwise uncertain response. This is a versioned heuristic,
@@ -69,7 +69,11 @@ export function assessPerformance(
       reason:
         'There was not enough stable input to assess the whole response. Try picking the notes separately.',
     };
-  const matches = responses.slice(0, expectedCount).map((o, i) => {
+  const normalize = (n: number) => task.exactOctave ? Math.round(n) : Math.round(n) % 12;
+  const unordered = task.order === 'any' && task.kind !== 'chords';
+  const expected = unordered ? task.pitches.map(normalize).sort((a,b) => a-b) : task.pitches;
+  const compared = unordered ? [...responses.slice(0, expectedCount)].sort((a,b) => normalize(a.pitches[0] ?? 0)-normalize(b.pitches[0] ?? 0)) : responses.slice(0, expectedCount);
+  const matches = compared.map((o, i) => {
     if (task.kind === 'chords') {
       if (o.kind !== 'chord' || o.chords.length !== 1) return null;
       return (
@@ -79,7 +83,7 @@ export function assessPerformance(
     }
     if (o.kind !== 'note' || o.pitches.length !== 1) return null;
     const note = Math.round(o.pitches[0]!);
-    return task.exactOctave ? note === task.pitches[i] : note % 12 === task.pitches[i]! % 12;
+    return task.exactOctave ? note === expected[i] : note % 12 === expected[i]! % 12;
   });
   if (matches.includes(null))
     return {
@@ -192,19 +196,8 @@ export function liveTasks(
       ),
     );
   if (homework) {
-    // Audio can confirm a sounding note sequence, never the coordinate answer.
-    const coordinates = solution(homework);
-    const pitches = coordinates.map((p) => homework.tuning[p.string - 1]! + homework.capo + p.fret);
-    if (pitches.length && pitches.length <= 6)
-      tasks.push(
-        task(
-          'live-homework',
-          sourceRevision,
-          'Pick this homework fragment one note at a time. Its positions remain unverified by audio.',
-          pitches,
-          homework.exact,
-        ),
-      );
+    const playing = homeworkLiveTask(homework, sourceRevision);
+    if (playing) tasks.push(playing);
   }
   if (phrase.length && phrase.length <= 16)
     tasks.push(

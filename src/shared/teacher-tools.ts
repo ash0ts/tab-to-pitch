@@ -1,3 +1,4 @@
+import { playingActionSchema } from './homework-playing.js';
 import { liveActionSchema } from './live-guitar.js';
 import { homeworkActionSchema } from './homework.js';
 import { practiceActionSchema } from './practice.js';
@@ -8,6 +9,8 @@ import { teacherHighlightActionSchema, teacherAuditionActionSchema, teacherTaskR
 
 const emptyArgs = z.object({}).strict();
 export const teacherToolArgumentSchemas = {
+  inspect_playing_homework: emptyArgs,
+  playing_homework_activity: z.object({ action: playingActionSchema }).strict(),
   inspect_live_input: emptyArgs,
   live_activity: z.object({action:liveActionSchema}).strict(),
   homework_map: emptyArgs,

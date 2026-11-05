@@ -31,6 +31,7 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
   await open(page);
   await expect(page.getByRole('heading', { name: 'A little practice. More music.' })).toBeVisible();
   await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Start homework', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Start homework', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Check answer', exact: true })).toBeVisible();
@@ -48,6 +49,7 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
     .click();
   await page.reload();
   await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await page.getByRole('button', { name: 'Explore or check the fretboard', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'Fretboard homework', exact: true }),
   ).toBeVisible();
@@ -120,7 +122,11 @@ test('missing artwork, reduced motion and zoom leave functional navigation', asy
   await expect(
     page.getByRole('heading', { name: 'Play with my guitar', exact: true }),
   ).toBeVisible();
-  await page.getByRole('button', { name: 'Open activity', exact: true }).click();
+  await page
+    .locator('article')
+    .filter({ has: page.getByRole('heading', { name: 'Play with my guitar', exact: true }) })
+    .getByRole('button', { name: 'Open activity', exact: true })
+    .click();
   await expect(page.getByRole('button', { name: 'Try a knowledge challenge' })).toHaveCount(0);
   await expect(page.locator('.live-guitar-panel')).toBeVisible();
   expect(
