@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "guitarset-observed-choice-v1",
+  "kind": "model-reference",
+  "bundled": false,
+  "artifact": "tabtopitch-voicing-ranker-runtime-v1:v0",
+  "modelSha256": "64e24a350e4cb9c6b5c759523f7f8b8766821d09df778f78d7736bf7947cf46b",
+  "reason": "Trained model parameters are excluded from this source distribution. Deterministic movement ordering remains available."
+}

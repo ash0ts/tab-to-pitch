@@ -1,0 +1,91 @@
+name: Validate
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ml-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.11.27'
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: ml/uv.lock
+      - run: uv --no-config run --locked --extra train python -m unittest discover -s tests -v
+        working-directory: ml
+  public-data-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: '0.11.27'
+          python-version: '3.12'
+      - run: uv --no-config venv .research-venv
+      - run: uv --no-config pip install --python .research-venv/bin/python -r research/recall-benchmark/requirements.txt
+      - run: .research-venv/bin/python -m unittest discover -s research/recall-benchmark -p 'test_*.py' -v
+      - run: .research-venv/bin/python -m unittest discover -s research/forge -p '*_test.py' -v
+      - run: uv --no-config venv .voicing-venv
+      - run: uv --no-config pip install --python .voicing-venv/bin/python -r research/voicing-ranking/requirements.txt
+      - run: .voicing-venv/bin/python -m unittest discover -s research/voicing-ranking -p 'test_*.py' -v
+  application:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: tabtopitch
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: tabtopitch_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tabtopitch -d tabtopitch_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      TEST_DATABASE_URL: postgresql://tabtopitch:ci-only-password@localhost:5432/tabtopitch_test
+      PLAYWRIGHT_CHANNEL: chromium
+      CLOUD_COACH_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: node --import tsx --test research/forge/*.test.mjs
+      - run: npm run build
+      - run: npm run eval:replay -- --output evals/artifacts/ci.json
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - run: npm run test:renderer
+      - run: npm run test:offline
+      - name: Build production image
+        run: docker build --tag tab-to-pitch:ci .
+      - name: Check production assets and offline reload
+        run: |
+          docker run --detach --name tab-to-pitch-ci --publish 127.0.0.1:3199:3000 tab-to-pitch:ci
+          node server/check-production.mjs http://127.0.0.1:3199
+      - name: Rehearse database recovery
+        run: node server/check-recovery.mjs tab-to-pitch:ci
+      - name: Collect failure diagnostics
+        if: failure()
+        run: docker logs tab-to-pitch-ci || true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-failures
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+      - name: Stop smoke container
+        if: always()
+        run: docker rm --force tab-to-pitch-ci || true

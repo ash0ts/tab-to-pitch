@@ -1,0 +1,244 @@
+.teacher-panel {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 0 40px 20px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+}
+.teacher-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.teacher-heading > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.teacher-heading .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.teacher-heading h2 {
+  margin: 8px 0 0;
+  font:
+    27px/1.2 'Libre Caslon Display',
+    Georgia,
+    serif;
+}
+.teacher-heading > button {
+  flex-shrink: 0;
+  min-height: 42px;
+}
+.teacher-objectives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0;
+}
+.teacher-objectives button {
+  border: 1px solid #ccd8c5;
+  border-radius: 6px;
+  padding: 10px 12px;
+  min-height: 44px;
+  background: #f5f7ed;
+  color: #35523e;
+  font: inherit;
+  font-size: 13px;
+}
+.teacher-objectives button[aria-pressed='true'] {
+  background: #274e3d;
+  color: #fffef7;
+  border-color: #274e3d;
+}
+.teacher-introduction {
+  max-width: 780px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.teacher-starters,
+.teacher-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.teacher-conversation {
+  display: grid;
+  gap: 14px;
+  max-height: 520px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  margin: 16px 0;
+  padding: 2px;
+}
+.teacher-message {
+  border-left: 3px solid #8da873;
+  padding: 12px 18px;
+  background: #f3f6e9;
+  border-radius: 0 8px 8px 0;
+  overflow-wrap: anywhere;
+}
+.teacher-message.user {
+  margin-left: 8%;
+  background: #f8f6ee;
+  border-color: #b7b49e;
+}
+.teacher-speaker {
+  font-size: 11px;
+  font-weight: 600;
+  color: #58704f;
+}
+.teacher-message p {
+  white-space: pre-wrap;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 5px 0 0;
+  max-width: 860px;
+}
+.teacher-composer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+.teacher-composer label {
+  width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+}
+.teacher-composer textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 90px;
+  background: #fffefa;
+  border: 1px solid #c8d3be;
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.teacher-composer .primary-button {
+  min-height: 44px;
+}
+.teacher-settings {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  font-size: 13px;
+}
+.teacher-settings summary,
+.teacher-trace summary {
+  cursor: pointer;
+  padding: 12px 0;
+}
+.teacher-settings label:not(.check-label) {
+  display: grid;
+  gap: 8px;
+  max-width: 380px;
+}
+.teacher-settings select {
+  min-height: 42px;
+  padding: 8px;
+  font: inherit;
+  background: #fffefa;
+  border: 1px solid #c8d3be;
+  border-radius: 6px;
+}
+.teacher-trace {
+  width: 100%;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.teacher-evidence-note {
+  font-size: 12px;
+  color: #697861;
+  margin: 20px 0 0;
+}
+.teacher-recall {
+  padding: 18px;
+  background: #edf2e2;
+  border: 1px solid #cbd8ba;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+.teacher-recall p {
+  max-width: 680px;
+}
+.teacher-storage-warning {
+  padding: 12px;
+  background: #fbf0d8;
+  font-size: 13px;
+}
+.teacher-panel .exploration-board {
+  margin-top: 18px;
+}
+@media (max-width: 900px) {
+  .teacher-panel {
+    margin: 0 24px 20px;
+  }
+}
+@media (max-width: 700px) {
+  .teacher-panel {
+    margin: 0 12px 18px;
+    padding: 18px 14px;
+  }
+  .teacher-heading {
+    align-items: start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .teacher-heading h2 {
+    font-size: 23px;
+  }
+  .teacher-heading > button {
+    flex-basis: 100px;
+    padding: 8px;
+    font-size: 11px;
+  }
+  .teacher-objectives {
+    gap: 6px;
+  }
+  .teacher-objectives button {
+    flex: 1 1 130px;
+    font-size: 12px;
+  }
+  .teacher-message {
+    padding: 12px;
+  }
+  .teacher-message.user {
+    margin-left: 4%;
+  }
+  .teacher-message p {
+    font-size: 14px;
+  }
+}
+
+.teacher-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  font-size: 12px;
+  color: #58704f;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.teacher-context strong {
+  font-size: 15px;
+  color: var(--ink);
+}
+.teacher-context small {
+  flex-basis: 100%;
+}
+.exercise-card .teacher-help-button {
+  display: flex;
+  min-height: 44px;
+  margin-top: 4px;
+}

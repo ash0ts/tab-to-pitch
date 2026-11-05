@@ -1,0 +1,89 @@
+{
+  "study": "arrangement-agent-v2",
+  "sourceHash": "43bd0df53315f4a0f7b8924ff4f816d5519f4a3c53ca21ca4c9110280eafed96",
+  "datasetHash": "e55dbf4f74f1e4f43866e575342e4d66a73307292e6df766f17ad7efd5f790a3",
+  "traceUrl": "https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/01a18ddf-1b8f-79f9-953a-3235fda19a25",
+  "request": {
+    "requestId": "10000000-0000-4000-8000-000000000001",
+    "contextVersion": "fresh-harmony-1",
+    "request": "Revoice at frets 2 to 9. Avoid open strings.",
+    "context": {
+      "tuning": [62, 57, 55, 50, 45, 38],
+      "capo": 0,
+      "key": {
+        "tonic": "D",
+        "mode": "ionian"
+      },
+      "selectedSpan": 0,
+      "spans": [
+        {
+          "symbol": "D",
+          "confirmed": true,
+          "startTick": 0,
+          "endTick": 2880,
+          "melody": []
+        },
+        {
+          "symbol": "Gmaj7",
+          "confirmed": true,
+          "startTick": 2880,
+          "endTick": 5760,
+          "melody": []
+        },
+        {
+          "symbol": "A7",
+          "confirmed": true,
+          "startTick": 5760,
+          "endTick": 8640,
+          "melody": []
+        }
+      ]
+    },
+    "constraints": {
+      "minFret": 0,
+      "maxFret": 14,
+      "strings": [1, 2, 3, 4, 5, 6],
+      "voiceCount": 4,
+      "maxSpan": 4,
+      "allowOpenStrings": true,
+      "omitFifth": true,
+      "rootless": false,
+      "bass": "any",
+      "preserveMelody": false
+    }
+  },
+  "response": {
+    "source": "forge",
+    "status": "proposal",
+    "contextVersion": "fresh-harmony-1",
+    "intent": {
+      "action": "propose",
+      "reason": "requested",
+      "operation": "move",
+      "constraints": {
+        "minFret": 2,
+        "maxFret": 9,
+        "strings": [1, 2, 3, 4, 5, 6],
+        "voiceCount": 4,
+        "maxSpan": 4,
+        "allowOpenStrings": false,
+        "omitFifth": true,
+        "rootless": false,
+        "bass": "any",
+        "preserveMelody": false
+      },
+      "targetQuality": null,
+      "substituteSymbol": null
+    },
+    "candidateId": "harmony-v1:variation:d2a8578e",
+    "evidenceRefs": ["path0"],
+    "explanation": "Variation 1 has 3 events and 3 retained common tones; movement cost 9.32 is a geometric heuristic.",
+    "versions": {
+      "policy": "arrangement-v1",
+      "prompt": "arrangement-tools-v2-json",
+      "model": "openai/gpt-oss-20b"
+    },
+    "traceId": "01a18ddf-1b8f-79f9-953a-3235fda19a25"
+  },
+  "disclosure": "Recorded research response. This example passed deterministic validation; the full model evaluation failed the cloud release gate."
+}

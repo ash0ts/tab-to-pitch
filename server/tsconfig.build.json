@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": false,
+    "rootDir": "..",
+    "outDir": "../.server-build",
+    "types": ["node"],
+    "sourceMap": false
+  },
+  "include": ["./**/*.ts", "../scripts/*.ts", "../src/shared/coach.ts"],
+  "exclude": ["./**/*.test.ts", "./test-repository.ts"]
+}

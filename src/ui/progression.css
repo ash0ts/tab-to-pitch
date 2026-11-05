@@ -1,0 +1,599 @@
+.workspace > .song-header,
+.workspace > .mode-tabs {
+  grid-column: 1 / -1;
+}
+.progression-studio {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding: 26px 30px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+}
+.progression-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.progression-heading h2 {
+  margin: 7px 0 6px;
+  font:
+    38px/1.1 'Libre Caslon Display',
+    Georgia,
+    serif;
+}
+.progression-heading p {
+  margin: 0;
+  color: #68766a;
+  font-size: 13px;
+}
+.progression-studio label:not(.check-label),
+.progression-sheet label:not(.check-label) {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: #53654f;
+}
+.progression-studio select,
+.progression-sheet select,
+.progression-studio input:not([type='checkbox']),
+.arrangement-prompt textarea {
+  border: 1px solid #d0d9c8;
+  color: var(--ink);
+  background: #fffef9;
+  border-radius: 6px;
+  min-height: 42px;
+  padding: 8px 10px;
+  min-width: 0;
+  max-width: 100%;
+  font: inherit;
+}
+.passage-picker {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 22px 0 16px;
+}
+.passage-picker .check-label {
+  margin: 0 0 8px auto;
+}
+.passage-picker .caption {
+  margin-bottom: 12px;
+}
+.progression-strip {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 4px 0 10px;
+  overscroll-behavior: contain;
+}
+.progression-strip button {
+  position: relative;
+  flex: 1 0 108px;
+  border: 1px solid #d5decb;
+  border-radius: 8px;
+  background: #f3f5ec;
+  text-align: left;
+  padding: 12px 16px;
+  min-height: 100px;
+}
+.progression-strip button[aria-pressed='true'] {
+  border-color: #487854;
+  background: #e8efd9;
+  box-shadow: inset 0 -3px #487854;
+}
+.progression-strip button.sounding::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #377d66;
+}
+.progression-strip button span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b785f;
+  font-size: 11px;
+}
+.progression-strip strong {
+  display: block;
+  font:
+    30px/1.3 'Libre Caslon Display',
+    Georgia,
+    serif;
+  color: #234b37;
+}
+.progression-strip small {
+  color: #5c7051;
+  font-size: 11px;
+}
+.harmony-confirmation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+  padding: 10px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+.harmony-confirmation input {
+  width: 180px;
+}
+.harmony-confirmation .caption {
+  margin: 0 0 12px;
+}
+.progression-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 28px;
+  margin-top: 6px;
+}
+.progression-main,
+.progression-context {
+  min-width: 0;
+}
+.progression-main .exploration-switch {
+  margin-top: 16px;
+}
+.progression-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr 1.5fr;
+  gap: 10px;
+}
+.progression-controls input {
+  width: 100%;
+}
+.neck-presets {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 16px 0 12px;
+}
+.neck-presets button,
+.fifths-controls button {
+  min-height: 38px;
+  border: 1px solid #d9e1cd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #f6f7ef;
+  font-size: 12px;
+}
+.neck-presets button[aria-pressed='true'] {
+  background: #234e3d;
+  border-color: #234e3d;
+  color: #fffef7;
+}
+.advanced-voicings {
+  margin: 16px 0;
+  font-size: 12px;
+  color: #53664e;
+}
+.advanced-voicings summary,
+.progression-context summary,
+.arrangement-prompt summary,
+.saved-variations summary {
+  cursor: pointer;
+  padding: 10px 0;
+  min-height: 40px;
+}
+.advanced-voicings fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin: 10px 0;
+  padding: 10px;
+}
+.advanced-voicings fieldset label {
+  display: flex !important;
+  align-items: center;
+}
+.advanced-voicings .check-label {
+  margin: 10px 0;
+}
+.variation-operation {
+  padding: 12px 14px;
+  border-left: 3px solid #9cb46a;
+  background: #f3f6ea;
+}
+.variation-operation .caption {
+  margin: 8px 0 0;
+}
+.variation-detail {
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+}
+.variation-detail .shape-navigation {
+  margin: 4px 0 10px;
+}
+.variation-detail .shape-navigation strong {
+  font-size: 34px;
+}
+.progression-context {
+  margin: 18px 0;
+  padding: 18px;
+  border-radius: 8px;
+  background: #f1f4e9;
+}
+.progression-context h3 {
+  font-size: 15px;
+}
+.progression-context > label {
+  margin-bottom: 12px;
+}
+.scale-note-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+.scale-note-list span {
+  display: grid;
+  gap: 5px;
+  text-align: center;
+  padding: 5px;
+  min-width: 30px;
+}
+.scale-note-list strong {
+  font-size: 16px;
+}
+.scale-note-list small {
+  font-size: 11px;
+  color: #6f7e62;
+}
+.function-explanation {
+  padding-top: 15px;
+  margin-top: 16px;
+  border-top: 1px solid #dae1ce;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #657359;
+}
+.function-explanation strong {
+  color: #355538;
+  font-size: 20px;
+}
+.fifths-controls {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.comparison-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 8px;
+}
+.comparison-controls button {
+  min-height: 44px;
+  justify-content: center;
+}
+.comparison-controls .secondary-button[aria-pressed='true'] {
+  border-color: #4f7956;
+  background: #eaf1dd;
+}
+.progression-studio .secondary-button {
+  font-size: 12px;
+  min-height: 42px;
+}
+.progression-studio .primary-button {
+  font-size: 12px;
+}
+.arrangement-prompt {
+  margin-top: 18px;
+  padding: 4px 16px 10px;
+  border: 1px solid #d9e2d0;
+  background: #f7f8f1;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.arrangement-prompt summary {
+  font-weight: 600;
+}
+.arrangement-prompt summary svg {
+  vertical-align: middle;
+  margin-right: 7px;
+}
+.arrangement-prompt textarea {
+  width: 100%;
+  resize: vertical;
+  line-height: 1.6;
+}
+.proposal-result {
+  background: #eaf1df;
+  padding: 15px;
+  border-radius: 7px;
+  margin-top: 12px;
+  line-height: 1.65;
+}
+.proposal-result strong {
+  font-size: 13px;
+}
+.proposal-result p {
+  margin: 8px 0;
+}
+.saved-variations {
+  margin-top: 16px;
+  font-size: 12px;
+}
+.saved-variation {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #d9e2d0;
+  border-radius: 6px;
+  background: #f7f8f1;
+}
+.exploration-board .fret.marked.role-seventh span,
+.chord-role-key .role-seventh {
+  color: #28566d;
+  background: #d7e9f2;
+  border-color: #a7c8d8;
+}
+.exploration-board .fret.marked.role-extension span,
+.chord-role-key .role-extension {
+  color: #824f43;
+  background: #f5e0d9;
+  border-color: #d7b5a9;
+}
+.exploration-board .fret.marked.role-scale span {
+  color: #718260;
+  background: #f1f4e8;
+  font-weight: 400;
+  border: 1px solid #d3ddc5;
+}
+.exploration-board .fret.marked.role-target span {
+  color: #2d6053;
+  background: #e2f0e6;
+  outline: 2px solid #56856b;
+}
+@media (max-width: 900px) {
+  .progression-layout {
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 16px;
+  }
+  .progression-studio {
+    padding: 22px;
+  }
+}
+@media (max-width: 700px) {
+  .progression-studio {
+    padding: 18px 14px;
+    border-radius: 9px;
+  }
+  .progression-heading {
+    display: block;
+  }
+  .progression-heading h2 {
+    font-size: 31px;
+  }
+  .progression-heading > button {
+    margin-top: 14px;
+  }
+  .progression-layout {
+    display: block;
+  }
+  .progression-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+  .progression-strip {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: var(--paper);
+    padding-top: 8px;
+  }
+  .progression-strip button {
+    flex-basis: 92px;
+    padding: 9px 12px;
+    min-height: 91px;
+  }
+  .passage-picker {
+    gap: 10px;
+  }
+  .passage-picker .check-label {
+    margin-left: 0;
+  }
+  .passage-picker .caption {
+    margin: 0;
+  }
+  .harmony-confirmation input {
+    width: 150px;
+  }
+  .harmony-confirmation .caption {
+    width: 100%;
+  }
+  .comparison-controls button {
+    flex: 1 1 130px;
+  }
+  .progression-context {
+    margin-top: 16px;
+  }
+  .progression-studio .exploration-switch button {
+    font-size: 11px;
+  }
+}
+
+.workspace > .song-header {
+  margin: 26px 40px 18px;
+}
+.workspace > .mode-tabs {
+  margin: 0 40px 20px;
+}
+.progression-studio {
+  margin: 0 40px 24px;
+  padding: 20px 24px;
+}
+.progression-heading h2 {
+  font-size: 30px;
+}
+.passage-picker {
+  margin: 14px 0 10px;
+}
+.progression-strip {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: var(--paper);
+}
+.progression-strip button {
+  min-height: 76px;
+  padding: 8px 14px;
+}
+.progression-strip strong {
+  font-size: 26px;
+}
+.harmony-source {
+  color: #53654f;
+  font-size: 12px;
+}
+.harmony-source summary {
+  padding: 8px 0;
+  cursor: pointer;
+}
+.scale-note-list {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+.scale-note-list span {
+  min-width: 0;
+  padding: 3px 0;
+}
+.scale-note-list strong {
+  font-size: 14px;
+}
+.progression-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: #162c2466;
+  z-index: 80;
+}
+.progression-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 81;
+  max-height: 85dvh;
+  overflow: auto;
+  margin: 0;
+  padding: 24px;
+  border-radius: 18px 18px 0 0;
+}
+.context-sheet-trigger {
+  width: 100%;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+@media (max-width: 900px) {
+  .workspace > .song-header {
+    margin: 22px 24px 18px;
+  }
+  .workspace > .mode-tabs {
+    margin: 0 24px 18px;
+  }
+  .progression-studio {
+    margin: 0 24px 20px;
+  }
+  .progression-layout {
+    display: block;
+  }
+}
+@media (max-width: 700px) {
+  .workspace > .song-header {
+    margin: 20px 16px 18px;
+  }
+  .workspace > .mode-tabs {
+    margin: 0 16px 18px;
+  }
+  .progression-studio {
+    margin: 0 12px 18px;
+    padding: 18px 14px;
+  }
+}
+
+.recorded-choice {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 12px;
+}
+.recorded-choice summary {
+  cursor: pointer;
+  font-size: 12px;
+  padding: 10px 0;
+}
+.recorded-choice .exploration-board {
+  max-width: 900px;
+  margin: 14px 0;
+}
+
+.passage-config {
+  margin: 14px 0 8px;
+  font-size: 12px;
+  color: #53654f;
+}
+.passage-config summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+.progression-heading h2 {
+  font-size: 26px;
+}
+.progression-controls {
+  margin: 12px 0;
+}
+@media (max-width: 700px) {
+  .progression-heading {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+  }
+  .progression-heading h2 {
+    font-size: 23px;
+    margin-top: 0;
+  }
+  .progression-heading p {
+    font-size: 12px;
+  }
+  .progression-heading > button {
+    flex: 0 0 104px;
+    margin-top: 0;
+    font-size: 10px;
+    padding: 7px;
+  }
+  .workspace > .song-header .eyebrow {
+    display: none;
+  }
+  .workspace > .song-header h1 {
+    font-size: 29px;
+  }
+}
+
+.recorded-arrangement {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+.recorded-arrangement summary {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 12px;
+}
+.recorded-arrangement .exploration-board {
+  max-width: 920px;
+}
+.recorded-arrangement blockquote {
+  margin: 14px 0;
+  padding-left: 16px;
+  border-left: 3px solid #8fa777;
+  font-size: 18px;
+}
