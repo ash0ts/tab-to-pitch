@@ -18,7 +18,7 @@ The adapter processed 360 recordings, six performers, and 62,476 notes. A versio
 
 Train uses performers 00–03/progression family 1; validation 04/2; test 05/3. Performers, progression families, and lead sheets are disjoint. Test generalization is limited to one performer/family. Three recordings with [timing](https://github.com/marl/GuitarSet/issues/5) or [duplicate-note](https://github.com/marl/GuitarSet/issues/4) errata remain intact but excluded. Frets are inferred from rounded pitch and standard tuning. Contour filtering does not diagnose technique. Missing spelling/articulation evidence excludes interval and triad-role questions.
 
-Evidence: [provenance](../../tabtopitch-real-data/guitarset/provenance.json), [integrity](../../tabtopitch-real-data/guitarset/integrity-report.json), [frozen cases](../../tabtopitch-real-data/guitarset/campaign-test-cases.json), [adapter](music-data/README.md).
+Evidence: [provenance (archived reference)](../integration/historical-evidence.md#artifact-2a233350e07f), [integrity (archived reference)](../integration/historical-evidence.md#artifact-4f46a1612c5f), [frozen cases (archived reference)](../integration/historical-evidence.md#artifact-fb0d915cbb38), [adapter](music-data/README.md).
 
 ## Hosted coaching: protocol conformance
 
@@ -36,7 +36,7 @@ Four invalid 20b responses triggered local fallback. Every final proposal matche
 
 Recovery used 41 completion requests and 18,613 provider-reported tokens. Including the original two requests gives 43 requests and 22,075 accounted tokens: 18,613 known plus 3,462 conservative unknown-usage reservations. Accounting is not billing. No completion was automatically retried, and no test passage was replaced.
 
-An [independent reconciliation](../../tabtopitch-real-data/coach-recovery/article-independent-audit.json) checked frozen identities, request attribution, usage, candidate references, projections, and baseline agreement against the [campaign receipt](../../tabtopitch-real-data/coach-recovery/campaign.json).
+An [independent reconciliation (archived reference)](../integration/historical-evidence.md#artifact-3fa45cfde2f9) checked frozen identities, request attribution, usage, candidate references, projections, and baseline agreement against the [campaign receipt (archived reference)](../integration/historical-evidence.md#artifact-201f353d2cf1).
 
 ## Recall prediction
 
@@ -61,15 +61,15 @@ Logistic-minus-history Brier is −0.005285 temporally, paired 95% interval [−
 
 Independent reconstruction reconciled all 81,320 evaluation predictions, aggregate metrics, and calibration within `3.34e-16`. Earlier runs preserve the temporal-membership correction and removal of an exact source timestamp from publication files.
 
-Evidence: [report](../../tabtopitch-real-data/recall/run-003/report.json), [audit](../../tabtopitch-real-data/recall/run-003/independent-audit-local.json), [lineage](../../tabtopitch-real-data/recall/run-003/run-manifest.json), [protocol](recall-benchmark/README.md).
+Evidence: [report (archived reference)](../integration/historical-evidence.md#artifact-d383cffacb41), [audit (archived reference)](../integration/historical-evidence.md#artifact-fd5d374f1abb), [lineage (archived reference)](../integration/historical-evidence.md#artifact-0196726e3772), [protocol](recall-benchmark/README.md).
 
 ## Verified Forge use
 
 Open the [private dashboard tour](forge/dashboard-tour.md) for the verified views and their evidence.
 
-Inference receipts establish actual requests. [Agent Lens readback](../../tabtopitch-real-data/forge/lens-recovery/lens-readback.json) matches all 23 recovery conversations and 99 captured spans, including qualification. [Weave readback](../../tabtopitch-real-data/forge/coach-replay-recovery-v1.json) verifies both arms against one 20-row dataset/scorer: 61 complete calls, 20 outputs, and 120 criteria per arm. Four fallbacks remain; provider success is 16/20. Replay makes no inference calls; replay latency is not provider latency.
+Inference receipts establish actual requests. [Agent Lens readback (archived reference)](../integration/historical-evidence.md#artifact-9b8f80b75c12) matches all 23 recovery conversations and 99 captured spans, including qualification. [Weave readback (archived reference)](../integration/historical-evidence.md#artifact-329696631a11) verifies both arms against one 20-row dataset/scorer: 61 complete calls, 20 outputs, and 120 criteria per arm. Four fallbacks remain; provider success is 16/20. Replay makes no inference calls; replay latency is not provider latency.
 
-The [finished Models run](../../tabtopitch-real-data/forge/recall-public-v1.readback.json) has 63 metrics matching local aggregates and one history point. [Artifact upload](../../tabtopitch-real-data/forge/artifacts/attempt-001/receipt.json) failed before writing; model coefficients/manifests remain local. Tracking is verified, hosted artifact lineage unfinished. No Registry promotion occurred. User songs, private practice history, and raw review identifiers stay local.
+The [finished Models run (archived reference)](../integration/historical-evidence.md#artifact-4cc95c3ee8c5) has 63 metrics matching local aggregates and one history point. [Artifact upload (archived reference)](../integration/historical-evidence.md#artifact-caa1ffc8e527) failed before writing; model coefficients/manifests remain local. Tracking is verified, hosted artifact lineage unfinished. No Registry promotion occurred. User songs, private practice history, and raw review identifiers stay local.
 
 ## Reproduce
 

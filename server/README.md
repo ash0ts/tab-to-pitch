@@ -240,9 +240,9 @@ HTTP integration and deterministic trace identity, not PostgreSQL persistence or
 teacher quality. The separate Postgres integration tests require an isolated
 `TEST_DATABASE_URL`; it was not configured for this check.
 
-The [probe receipt](../../teacher-trace-probe/campaign.json),
-[Agent Lens readback](../../teacher-trace-probe/publication/lens-readback.json),
-and [captured source](../../teacher-trace-probe/source/probe-v1.ts) retain the
+The [probe receipt (archived reference)](../integration/historical-evidence.md#artifact-cd2a684b4acf),
+[Agent Lens readback (archived reference)](../integration/historical-evidence.md#artifact-7a4a55531caf),
+and [captured source (archived reference)](../integration/historical-evidence.md#artifact-82e266a12d34) retain the
 observed run. From the application root, reproduce into a fresh output directory:
 
 ```sh

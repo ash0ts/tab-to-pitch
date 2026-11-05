@@ -1,5 +1,7 @@
 # Verification record
 
+This is the preserved verification history of earlier implementations. For the consolidated application and its exact release gates, use the [combined verification record](../integration/release-verification.md). Historical totals and cloud settings below do not describe a newly qualified release.
+
 Local verification on October 29, 2026 used Node 24, pinned dependencies, Google Chrome, and isolated PostgreSQL 16 containers. These are implementation checks, not learner-outcome evidence.
 
 | Check                   | Result                                                                                                                                                                                                                                                                                    |

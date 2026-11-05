@@ -21,7 +21,7 @@ For the invitation API, start `npm run dev:server` in another terminal. The loca
 
 From the Studio, choose **Fretboard homework**. Start a 5, 15 or 30-minute suggested workload, hear an example, then play along or try without labels. Finish with a self-report, or connect a clean USB input in the same task to attach experimental pitch/chord observations. Repeats preserve the first response. Save the current target to resume later.
 
-Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
+Detection does not verify a string, fret, CAGED family, clean technique or precise timing. Coordinate checks remain separate. Watch the [original-song walkthrough](docs/guitar-homework-demo.md) for the complete flow. See the [homework contract](src/homework/README.md), [live input guide](src/live/README.md) and [evaluation status](research/live-guitar-v1/README.md).
 
 ## What is implemented
 
@@ -41,11 +41,15 @@ Detection does not verify a string, fret, CAGED family, clean technique or preci
 npm run check
 npx playwright install chromium
 PLAYWRIGHT_CHANNEL=chromium npm run test:browser
+PLAYWRIGHT_CHANNEL=chromium npm run test:live
+PLAYWRIGHT_CHANNEL=chromium npm run test:ear
+PLAYWRIGHT_CHANNEL=chromium npm run test:studio
+PLAYWRIGHT_CHANNEL=chromium npm run test:guitar-homework
 PLAYWRIGHT_CHANNEL=chromium npm run test:renderer
 PLAYWRIGHT_CHANNEL=chromium npm run test:offline
 ```
 
-On a Mac with Google Chrome installed, omit `PLAYWRIGHT_CHANNEL`; browser tests default to that channel. The offline suite runs the production build. Postgres integration and ML verification are documented in their domain guides.
+On a Mac with Google Chrome installed, omit `PLAYWRIGHT_CHANNEL`; browser tests default to that channel. Run browser suites sequentially; they share a diagnostics directory. The offline suite runs the production build. Postgres integration and ML verification are documented in their domain guides.
 
 The automated checks cover deterministic musical correctness, masking and answer evidence, browser flows, worker/audio transport startup, and backend contracts. Browser audio startup is not a perceptual audio-quality check. Real Safari/iOS and Chromium/Android testing, a licensed import corpus, deployment-specific Forge qualification, and a learner pilot remain release gates. Trained ranking parameters are excluded from this distribution; its research lineage and deterministic movement ordering remain available. No improved-learning claim is made.
 

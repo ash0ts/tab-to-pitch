@@ -2,7 +2,7 @@
 
 The release unit is a Node 24 OCI image containing the Fastify service, compiled
 administration commands, migrations, and the Vite build. It runs as the `node`
-user on port 3000. There is no persistent application disk: scores and practice
+user on port 3000. The default hosted service needs no persistent application disk: scores and practice
 history stay in the browser; PostgreSQL holds invitation/session hashes and
 token accounting. The cloud API contract is in [the server guide](../server/README.md).
 
@@ -17,6 +17,10 @@ npm test
 npm run build
 npx playwright install chromium
 PLAYWRIGHT_CHANNEL=chromium npm run test:browser
+PLAYWRIGHT_CHANNEL=chromium npm run test:ear
+PLAYWRIGHT_CHANNEL=chromium npm run test:live
+PLAYWRIGHT_CHANNEL=chromium npm run test:guitar-homework
+PLAYWRIGHT_CHANNEL=chromium npm run test:studio
 PLAYWRIGHT_CHANNEL=chromium npm run test:renderer
 PLAYWRIGHT_CHANNEL=chromium npm run test:offline
 docker build --tag tab-to-pitch:release .
@@ -40,6 +44,13 @@ environment files and backup dumps. Store the approved release image in your
 registry under an immutable digest and retain the previous working digest.
 The Node base tag follows Node 24 security updates, so rebuilding a source
 commit can produce a different image; rollback uses the recorded digest.
+
+The optional [Ear Lab worker](../audio_worker/README.md) runs locally and owns its
+explicitly imported audio/artifact directory. It is not provisioned by the hosted
+Blueprint. With no worker, ordinary lessons, unplugged homework and browser
+guitar input remain available. Live input requires a secure browser origin and
+explicit device activation; deployment does not qualify its detection or timing.
+Run browser suites sequentially because they share diagnostic output directories.
 
 ## Render setup
 

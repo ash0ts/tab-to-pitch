@@ -17,6 +17,8 @@ TabToPitch is consolidated in the private `ash0ts/tab-to-pitch` repository. `mai
 
 The adjacent source manifests record file hashes and exclusions. Earlier per-layer verification records describe checks at those layers; they are not a combined release result. [Release verification](release-verification.md) records the integrated checks.
 
+The [historical evidence inventory](historical-evidence.md) records hashes for local artifacts referenced by earlier reports. Those raw files remain in the original archive; a clean checkout includes the reports and access-controlled dashboard links, not datasets, model weights or unrestricted traces.
+
 Overlapping shell, lesson, teacher and player files were reconciled by behavior. The studio does not replace the later CAGED planner, live lifecycle or Ear Lab authority rules. The measured alphaTab patch includes render-revision checks so old worker output cannot update a newer score.
 
 ## Shared owners and compatibility

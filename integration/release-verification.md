@@ -4,7 +4,9 @@ This record applies to the integrated standalone application. Per-worktree test 
 
 ## Automated evidence
 
-Type checking, the production build and 451 unit/contract checks passed locally, with two PostgreSQL checks awaiting the isolated CI service. Seven additional compatibility checks passed against authored backups serialized by all six frozen source schemas. The full combined browser, renderer, offline and container checks are in progress; CI is the merge gate.
+The final local application checks passed TypeScript, NodeNext server compilation, the production build, 465 unit/contract checks and 17 accounting/publication guards. Two database checks require the isolated CI PostgreSQL service. The unit total includes seven compatibility checks using authored backups serialized by the six frozen source schemas.
+
+The guitar-homework browser suite passed all 16 checks across desktop and mobile, including playback-driven chord changes, hidden-score startup and restored bookmarks. The complete union of browser, renderer, offline, Python and container/recovery suites is enforced by [Validate](../.github/workflows/ci.yml). Its result on each exact PR head is the merge gate; earlier worktree counts do not qualify this integration.
 
 The guitar-homework browser suite covers both desktop and mobile: unplugged self-report, synthetic input through the real worklet, uncertainty, assistance order, method changes and interruption/resume. The source-preserving player fixtures verify backing tracks, harmonic timing and immutable imported arrangements.
 
@@ -24,3 +26,7 @@ The guitar-homework browser suite covers both desktop and mobile: unplugged self
 ## Research
 
 `guitar-homework-v1` has a separate frozen authored suite. Its local policy results are recorded; hosted actors, critics and remote publication are unexecuted. Historical campaigns and their retained failures are preserved. The integration made no paid calls and did not promote a research model.
+
+## Demonstration
+
+The [original-song walkthrough](../docs/guitar-homework-demo.md) uses an isolated Chromium browser. The learner actions and guitar input are simulated and labeled. It retains an unassessed first response before a supported F→E retry, shows both C–F–G–C regions, and reloads the bookmark. This is software evidence, not a recording of a learner or a hardware qualification.

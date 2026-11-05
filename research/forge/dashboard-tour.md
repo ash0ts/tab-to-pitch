@@ -38,8 +38,8 @@ use the tool results for the checked musical facts.
 These are actual authored research requests. The app's recorded-proposal view
 replays the saved successful response and revalidates it locally; it does not
 make another inference call or enable the failed live qualification gate.
-[Exact demo record](../../../tabtopitch-real-data/arrangement-agent-v2/demonstration-record.json),
-[Lens readback](../../../tabtopitch-real-data/arrangement-agent-v2/publication/lens/lens-readback.json).
+[Exact demo record (archived reference)](../../integration/historical-evidence.md#artifact-2750b2305535),
+[Lens readback (archived reference)](../../integration/historical-evidence.md#artifact-5fd6f60eb8c4).
 
 ## 2. Weave: compare the same requests, including failures
 
@@ -69,7 +69,7 @@ passed its applicable musical and evidence checks, including accepted responses
 that misunderstood the request. Replay latency is not model inference latency.
 [Dataset context](../arrangement-agent/dataset-card-v2.md),
 [criterion definitions](../arrangement-agent/contract.ts),
-[Weave readback](../../../tabtopitch-real-data/arrangement-agent-v2/confirmation/publication/weave.json).
+[Weave readback (archived reference)](../../integration/historical-evidence.md#artifact-c779332c304c).
 
 The original 96 requests are a separate regression set. Its v2 call IDs are
 `01a18de3-1af3-7c79-bc0d-8f2ccd0d06d0` (parser),
@@ -128,8 +128,8 @@ Both aliases belong to entity `wandb32`, project `wandb-registry-TabToPitch Rese
 The research alias does not deploy a model or establish learner benefit. These
 Registry links follow `globalRegistry` in the application source; alias identity
 is API-verified while rendered navigation remains unreviewed.
-[Cross-validation final readback](../../../tabtopitch-real-data/voicing-ranking-v1/finalization-004/finalization.json),
-[runtime publication readback](../../../tabtopitch-real-data/voicing-ranking-v1/runtime-publication-001/publication.json).
+[Cross-validation final readback (archived reference)](../../integration/historical-evidence.md#artifact-6ee57bd5fdb4),
+[runtime publication readback (archived reference)](../../integration/historical-evidence.md#artifact-46510a9838a4).
 
 ## Inference accounting for the current studies
 
@@ -172,11 +172,11 @@ Both use the same 24-row synthetic dataset and five-criterion scorer. API readba
 
 The [finished Models aggregate run](https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/fretboard-intent-v2) records these counts as one measured point. All aggregate fields, the history point and the finished state are independently verified. No predictor was trained or promoted for this experiment. The inference ledger contains 26 total requests and 25,069 reported tokens, including qualification.
 
-[Weave readback](../../../tabtopitch-real-data/practice-intent-v2/publication/weave-recovery.json), [Lens readback](../../../tabtopitch-real-data/practice-intent-v2/publication/lens/lens-readback.json), and [Models readback](../../../tabtopitch-real-data/practice-intent-v2/publication/models-recovery.json) preserve the evidence separately. The successful Weave publication reused the existing dataset after resolving a failed file upload by content-hash readback. Failed preflights and the original upload receipt remain available. These recorded contents are API-verified; their rendered dashboard appearance has not been reviewed in this revision.
+[Weave readback (archived reference)](../../integration/historical-evidence.md#artifact-eab9ef05d7ad), [Lens readback (archived reference)](../../integration/historical-evidence.md#artifact-561d945c74c0), and [Models readback (archived reference)](../../integration/historical-evidence.md#artifact-3e0215bf0aa8) preserve the evidence separately. The successful Weave publication reused the existing dataset after resolving a failed file upload by content-hash readback. Failed preflights and the original upload receipt remain available. These recorded contents are API-verified; their rendered dashboard appearance has not been reviewed in this revision.
 
 ### Agent Lens: follow an actual coaching request
 
-Open [the project in Agent Lens](https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research). Recovery produced **23 conversations and 99 spans**, including qualification. Follow a model call into `inspect_practice` and `choose_drill`, then inspect a rejected response. The [readback](../../../tabtopitch-real-data/forge/lens-recovery/lens-readback.json) matches the captured span identities and campaign hash. Traces describe execution, not guitar-learning outcomes.
+Open [the project in Agent Lens](https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research). Recovery produced **23 conversations and 99 spans**, including qualification. Follow a model call into `inspect_practice` and `choose_drill`, then inspect a rejected response. The [readback (archived reference)](../../integration/historical-evidence.md#artifact-9b8f80b75c12) matches the captured span identities and campaign hash. Traces describe execution, not guitar-learning outcomes.
 
 ### Weave: compare recorded outputs
 
@@ -189,14 +189,14 @@ Open the [canonical Evals list](https://forge.coreweave.com/wandb/wandb/tab-to-p
 
 The list route was observed in the UI, but the page remained blank or retained Models content during browser review. A comparison deep link is not verified; the constructed route redirected to Models. The evaluation contents are independently verified by API readback. Select these calls rather than an older attempt.
 
-Both arms use the same 20-row dataset and six-criterion scorer. Readback verifies 61 complete calls, 20 outputs, and 120 criteria per arm. All application checks pass. **Provider success is 16/20**, with four local fallbacks retained. The larger model failed qualification and has no test-set result. Replay adds no inference requests; its latency measures replay. [Evaluation receipt](../../../tabtopitch-real-data/forge/coach-replay-recovery-v1.json).
+Both arms use the same 20-row dataset and six-criterion scorer. Readback verifies 61 complete calls, 20 outputs, and 120 criteria per arm. All application checks pass. **Provider success is 16/20**, with four local fallbacks retained. The larger model failed qualification and has no test-set result. Replay adds no inference requests; its latency measures replay. [Evaluation receipt (archived reference)](../../integration/historical-evidence.md#artifact-329696631a11).
 
 ### Models: inspect recall prediction
 
-Open [the finished recall experiment](https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/recall-public-v1). Its 63 metrics match the local experiment and one history point; this static evaluation has no training curve. Compare temporal Brier error with reserved-collection Brier error. The candidate improves the temporal score but has a worse reserved-collection point estimate, with an interval crossing zero. [Metrics readback](../../../tabtopitch-real-data/forge/recall-public-v1.readback.json).
+Open [the finished recall experiment](https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/runs/recall-public-v1). Its 63 metrics match the local experiment and one history point; this static evaluation has no training curve. Compare temporal Brier error with reserved-collection Brier error. The candidate improves the temporal score but has a worse reserved-collection point estimate, with an interval crossing zero. [Metrics readback (archived reference)](../../integration/historical-evidence.md#artifact-4cc95c3ee8c5).
 
 ### Inference and unfinished artifact lineage
 
-The [request ledger](../../../tabtopitch-real-data/coach-recovery/campaign.json) records 41 recovery completion requests and 18,613 provider-reported tokens. Including the [original failures](../../../tabtopitch-real-data/coach/campaign.json) gives 43 requests and 22,075 accounted tokens, including 3,462 unknown-usage reservations. This is accounting, not billing.
+The [request ledger (archived reference)](../../integration/historical-evidence.md#artifact-201f353d2cf1) records 41 recovery completion requests and 18,613 provider-reported tokens. Including the [original failures (archived reference)](../../integration/historical-evidence.md#artifact-fdce6f65bde3) gives 43 requests and 22,075 accounted tokens, including 3,462 unknown-usage reservations. This is accounting, not billing.
 
-[Model-artifact publication](../../../tabtopitch-real-data/forge/artifacts/attempt-001/receipt.json) and a [second bounded attempt](../../../tabtopitch-real-data/forge/artifacts/attempt-002/receipt.json) both timed out during preflight, before writing. The [coefficients](../../../tabtopitch-real-data/recall/run-003/model.json), [dataset manifest](../../../tabtopitch-real-data/recall/run-003/dataset-manifest.json), and [experiment lineage](../../../tabtopitch-real-data/recall/run-003/run-manifest.json) remain local. Models tracking is verified; hosted artifact lineage and Registry promotion are absent. See the [publication status](../../../tabtopitch-real-data/forge/publication-status.json) for separate receipts and preserved failures.
+[Model-artifact publication (archived reference)](../../integration/historical-evidence.md#artifact-caa1ffc8e527) and a [second bounded attempt (archived reference)](../../integration/historical-evidence.md#artifact-aa10c8a198a9) both timed out during preflight, before writing. The [coefficients (archived reference)](../../integration/historical-evidence.md#artifact-b29dc644c688), [dataset manifest (archived reference)](../../integration/historical-evidence.md#artifact-a5c7a7caf681), and [experiment lineage (archived reference)](../../integration/historical-evidence.md#artifact-0196726e3772) remain local. Models tracking is verified; hosted artifact lineage and Registry promotion are absent. See the [publication status (archived reference)](../../integration/historical-evidence.md#artifact-06f420cc6fc8) for separate receipts and preserved failures.

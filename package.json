@@ -30,7 +30,8 @@
     "test:live": "playwright test --config tests/live-guitar.playwright.config.ts",
     "test:ear": "playwright test --config tests/ear.playwright.config.ts",
     "test:studio": "playwright test --config tests/studio.playwright.config.ts",
-    "test:guitar-homework": "playwright test --config tests/guitar-homework.playwright.config.ts"
+    "test:guitar-homework": "playwright test --config tests/guitar-homework.playwright.config.ts",
+    "demo:homework": "node scripts/run-homework-capture.mjs"
   },
   "dependencies": {
     "@coderline/alphatab": "1.8.4",
@@ -60,6 +61,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "5.2.0",
+    "esbuild": "0.28.2",
     "prettier": "3.6.2",
     "tsx": "4.23.15",
     "typescript": "5.9.3",
