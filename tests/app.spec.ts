@@ -5,12 +5,10 @@ import { localCoach } from '../src/shared/coach';
 import { readFile } from 'node:fs/promises';
 
 const panel = (page: Page) =>
-  page.locator('.learning-panel:visible, .inline-practice:visible').first();
+  page.locator('.stage-question:visible, .learning-panel:visible').first();
 async function open(page: Page) {
-  await page.goto('/');
-  await expect(
-    page.getByRole('heading', { name: 'A shape, two meanings', exact: true }),
-  ).toBeVisible();
+  await page.goto('/#/stage/notation');
+  await expect(page.getByText('A shape, two meanings', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
@@ -41,13 +39,13 @@ test('playback, loops, mixer and keyboard note inspection work', async ({ page }
   page.on('pageerror', (e) => errors.push(e.message));
   await open(page);
   const initialTick = Number(
-    await page.getByRole('slider', { name: 'Playback position' }).inputValue(),
+    await page.locator('input[aria-label="Playback position"]').inputValue(),
   );
   await page.getByRole('button', { name: 'Play score', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pause playback', exact: true })).toBeVisible();
   await expect
     .poll(async () =>
-      Number(await page.getByRole('slider', { name: 'Playback position' }).inputValue()),
+      Number(await page.locator('input[aria-label="Playback position"]').inputValue()),
     )
     .toBeGreaterThan(initialTick + 120);
   await page.getByRole('button', { name: 'Pause playback', exact: true }).click();
@@ -99,13 +97,9 @@ test('guided answer becomes masked recall; reveal and self-report persist separa
   await expect(page.locator('.tuning-strip')).toContainText('Tuning names hidden for recall');
   await expect(page.locator('.alphatab-host')).not.toContainText('Standard Tuning');
   await expect(visible.getByRole('textbox', { name: 'Type a note name' })).toHaveValue('');
-  await page.getByTestId('score-viewport').scrollIntoViewIfNeeded();
-  await expect(
-    page.locator('.alphatab-host svg text').filter({ hasText: /^[A-G][#b]?(?:\d)?(?:·\d+)?$/ }),
-  ).toHaveCount(0);
-  await expect(
-    page.locator('.alphatab-host svg text').filter({ hasText: /^\?$/ }).first(),
-  ).toBeVisible();
+  // Recall uses its own task surface; hidden notation cannot reveal the answer.
+  await expect(page.getByTestId('score-viewport')).toBeHidden();
+  expect(await page.locator('body').ariaSnapshot()).not.toContain('Standard Tuning');
   await visible.getByRole('button', { name: 'Show me the answer', exact: true }).click();
   await visible.getByRole('button', { name: 'I tried it', exact: true }).click();
   await expect.poll(async () => (await attempts(page)).length).toBe(3);
@@ -144,29 +138,24 @@ test('valid import survives reload; malformed replacement preserves the current 
     mimeType: 'application/octet-stream',
     buffer: Buffer.from(bytes),
   });
-  await expect(
-    page.getByRole('heading', { name: 'My original fixture', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('My original fixture', { exact: true })).toBeVisible();
   await expect(page.getByText('Imported and saved on this device.', { exact: true })).toBeVisible();
   await page.reload();
-  await page.getByRole('button', { name: 'Open your library' }).click();
+  await page.getByRole('link', { name: 'Songs & exercises', exact: true }).click();
+  await page.getByRole('button', { name: 'My imported scores & studies' }).click();
   await page
     .getByRole('dialog')
     .getByRole('button', { name: /original.gp/ })
     .first()
     .click();
-  await expect(
-    page.getByRole('heading', { name: 'My original fixture', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('My original fixture', { exact: true })).toBeVisible();
   await page.getByLabel('Import Guitar Pro file', { exact: true }).setInputFiles({
     name: 'broken.gp',
     mimeType: 'application/octet-stream',
     buffer: Buffer.from('malformed'),
   });
   await expect(page.getByRole('alert')).toBeVisible();
-  await expect(
-    page.getByRole('heading', { name: 'My original fixture', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('My original fixture', { exact: true })).toBeVisible();
 });
 
 test('local recommendation opens an eligible exercise', async ({ page }) => {
@@ -273,21 +262,16 @@ test('responsive panels own one coach and one question at a time', async ({ page
     await page.getByRole('button', { name: 'Close dialog' }).click();
   await page.getByRole('tab', { name: 'Practice', exact: true }).click();
   await expect(page.getByTestId('exercise-card')).toHaveCount(1);
-  if (test.info().project.name === 'mobile') {
-    await page.getByRole('textbox', { name: 'Type a note name' }).fill('B');
-    await page.getByRole('button', { name: 'Open practice details' }).click();
-    await expect(page.getByTestId('exercise-card')).toHaveCount(1);
-    await expect(page.getByRole('dialog').getByTestId('exercise-card')).toBeVisible();
-    await expect(page.getByRole('textbox', { name: 'Type a note name' })).toHaveValue('B');
-    await page.getByRole('button', { name: 'Close dialog' }).click();
-    await expect(page.getByRole('textbox', { name: 'Type a note name' })).toHaveValue('B');
-  } else {
-    await page.getByRole('button', { name: 'Practice guide', exact: true }).click();
-    await expect(page.getByTestId('exercise-card')).toHaveCount(0);
-    await expect.poll(async () => (await attempts(page)).length).toBe(1);
-    await page.getByRole('tab', { name: 'Play', exact: true }).click();
-    expect((await attempts(page)).map((attempt) => attempt.outcome)).toEqual(['interrupted']);
-  }
+  await page.getByRole('textbox', { name: 'Type a note name' }).fill('B');
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
+  await expect(page.getByRole('dialog').getByTestId('exercise-card')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Back to my task', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Type a note name' })).toHaveValue('B');
+  await page.getByRole('tab', { name: 'Play', exact: true }).click();
+  await expect(page.getByTestId('exercise-card')).toHaveCount(0);
+  await expect
+    .poll(async () => (await attempts(page)).map((a) => a.outcome))
+    .toEqual(['interrupted']);
 });
 
 test('a delayed earlier file read cannot replace the latest import', async ({ page }) => {
@@ -340,7 +324,7 @@ test('a delayed earlier file read cannot replace the latest import', async ({ pa
     mimeType: 'application/octet-stream',
     buffer: file('Latest selection'),
   });
-  await expect(page.getByRole('heading', { name: 'Latest selection', exact: true })).toBeVisible();
+  await expect(page.getByText('Latest selection', { exact: true })).toBeVisible();
   await page.evaluate(() =>
     (window as typeof window & { releaseRead?: () => void }).releaseRead?.(),
   );
@@ -351,7 +335,7 @@ test('a delayed earlier file read cannot replace the latest import', async ({ pa
       ),
     )
     .toBe(true);
-  await expect(page.getByRole('heading', { name: 'Latest selection', exact: true })).toBeVisible();
+  await expect(page.getByText('Latest selection', { exact: true })).toBeVisible();
   await expect(page.getByText('Imported and saved on this device.', { exact: true })).toBeVisible();
 });
 

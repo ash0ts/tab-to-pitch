@@ -60,6 +60,7 @@ export function HomeworkWorkspace({
   onStop,
   onOriginal,
   showOctaves,
+  workload = 15,
 }: {
   homework: HomeworkSession;
   progression: ProgressionSession;
@@ -70,8 +71,12 @@ export function HomeworkWorkspace({
   onStop(): void;
   onOriginal(): void;
   showOctaves: boolean;
+  workload?: 5 | 15 | 30;
 }) {
   const { minutes, setMinutes } = h;
+  useEffect(() => {
+    if (!h.state) setMinutes(workload);
+  }, [workload, h.state?.id]);
   const { family, setFamily } = h;
   const region = h.setup.region;
   const [selected, setSelected] = useState<FretPosition[]>([]);
@@ -219,48 +224,51 @@ export function HomeworkWorkspace({
           )}
         </div>
       )}
-      <div className="homework-setup" hidden={h.active}>
-        <label>
-          Suggested workload
-          <select
-            value={minutes}
-            onChange={(e) => setMinutes(Number(e.target.value) as 5 | 15 | 30)}
-          >
-            {[5, 15, 30].map((n) => (
-              <option key={n} value={n}>
-                {n} minutes
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Neck region
-          <select
-            aria-label="Homework neck region"
-            value={`${region.minFret}`}
-            disabled={h.active}
-            onChange={(e) => {
-              const min = Number(e.target.value);
-              p.changeOptions({ ...p.options, minFret: min, maxFret: min === 0 ? 5 : min + 4 });
-            }}
-          >
-            {[0, 3, 5, 8, 10, 12, 15, 20].map((n) => (
-              <option value={n} key={n}>
-                Frets {n}–{n === 0 ? 5 : n + 4}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button className="secondary-button" disabled={!ready || h.active} onClick={onOriginal}>
-          Open C–F–G–C study
-        </button>
-      </div>
-      <p className="caption">
-        {symbol
-          ? `Selected harmony: ${symbol}. `
-          : 'Confirm the selected passage’s harmony for chord tasks. Note recall remains available. '}
-        Suggested work, no countdown. Pause and resume whenever you need.
-      </p>
+      <details className="homework-configuration" hidden={h.active}>
+        <summary>Workload, neck region & source</summary>
+        <div className="homework-setup">
+          <label>
+            Suggested workload
+            <select
+              value={minutes}
+              onChange={(e) => setMinutes(Number(e.target.value) as 5 | 15 | 30)}
+            >
+              {[5, 15, 30].map((n) => (
+                <option key={n} value={n}>
+                  {n} minutes
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Neck region
+            <select
+              aria-label="Homework neck region"
+              value={`${region.minFret}`}
+              disabled={h.active}
+              onChange={(e) => {
+                const min = Number(e.target.value);
+                p.changeOptions({ ...p.options, minFret: min, maxFret: min === 0 ? 5 : min + 4 });
+              }}
+            >
+              {[0, 3, 5, 8, 10, 12, 15, 20].map((n) => (
+                <option value={n} key={n}>
+                  Frets {n}–{n === 0 ? 5 : n + 4}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button className="secondary-button" disabled={!ready || h.active} onClick={onOriginal}>
+            Open C–F–G–C study
+          </button>
+        </div>
+        <p className="caption">
+          {symbol
+            ? `Selected harmony: ${symbol}. `
+            : 'Confirm the selected passage’s harmony for chord tasks. Note recall remains available. '}
+          Suggested work, no countdown. Pause and resume whenever you need.
+        </p>
+      </details>
       {!supported && (
         <p className="teaching-cue">
           This tuning changes the conventional CAGED intervals. Note and chord tasks use your actual

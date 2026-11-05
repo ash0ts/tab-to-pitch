@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function study(page: Page) {
-  await page.goto('/');
+  await page.goto('/#/stage/progression');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
@@ -41,10 +41,12 @@ test('revoices seventh chords and ninth extensions without replacing the source;
   await expect(page.getByRole('button', { name: 'Pause playback', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Pause playback', exact: true }).click();
   await studio.getByRole('button', { name: 'Original score', exact: true }).click();
+  await page.goto('/#/stage/notation');
   await page.locator('.alphatab-host').scrollIntoViewIfNeeded();
   await expect(
     page.locator('.alphatab-host svg text').filter({ hasText: /^F·1$/ }).first(),
   ).toBeVisible();
+  await page.goto('/#/stage/progression');
   await page.reload();
   await page.getByRole('tab', { name: 'Understand', exact: true }).click();
   await page.getByRole('button', { name: 'Open ii–V–I study' }).click();

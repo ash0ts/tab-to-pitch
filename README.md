@@ -83,3 +83,15 @@ Open **Understand → Fretboard homework** for note recall, CAGED fragments and 
 ## Experimental ear workspace
 
 [Work it out by ear](src/ear/README.md) adds local audio, reviewable hypotheses, learner corrections and derived accompaniment. [Worker setup](audio_worker/README.md), [demonstration](docs/ear-lab-demo.md), and [retained research failures](research/ear-lab/results.md) describe its optional local operation and qualification limits.
+
+## Illustrated practice studio
+
+The app now opens in an original illustrated rehearsal room. Choose a personal
+practice set, resume a bookmark, or open every activity from Songs & exercises.
+The practice stage keeps one task central, with the existing player below it and
+an optional AI teacher drawer. Note-following offers a moving or static timeline;
+untimed CAGED, listening and construction tasks retain their own controls.
+
+See the [studio contracts](src/studio/README.md), [art provenance](public/art/provenance.md)
+and [delivery evidence](docs/studio-delivery.md). Experimental live input remains
+unqualified for challenge scoring. Ear Lab is available with the optional local worker.

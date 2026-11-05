@@ -1,16 +1,13 @@
 import { test, expect, type Page } from '@playwright/test';
 async function open(page: Page) {
-  await page.goto('/');
+  await page.goto('/#/stage/homework');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Fretboard homework', exact: true }).click();
   const hw = page.getByRole('region', { name: 'Fretboard homework', exact: true });
+  await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByRole('button', { name: 'Open C–F–G–C study' }).click();
-  await expect(
-    page.getByRole('heading', { name: 'A familiar chord, a wider neck', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('A familiar chord, a wider neck', { exact: true })).toBeVisible();
   await expect(hw.getByRole('button', { name: 'Start homework', exact: true })).toBeEnabled();
   return hw;
 }
@@ -64,8 +61,7 @@ test('homework masks all cells, records assistance before reveal, keeps first an
   await expect(hw.locator('.selected-cell')).toHaveCount(0);
   await expect(hw.locator('.practice-feedback')).toHaveCount(0);
   await page.reload();
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Fretboard homework', exact: true }).click();
+  await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByRole('button', { name: 'Open C–F–G–C study' }).click();
   await expect
     .poll(
@@ -107,7 +103,6 @@ test('teacher help is marked before conversation becomes available', async ({ pa
   const mobileTeacher = page.getByRole('button', { name: 'Open music teacher', exact: true });
   if (await mobileTeacher.isVisible()) await mobileTeacher.click();
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
-  await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await expect(teacher.getByRole('textbox', { name: 'Your question', exact: true })).toHaveCount(0);
   await teacher.getByRole('button', { name: 'Ask for help and show the conversation' }).click();
   expect(
@@ -138,7 +133,7 @@ test('keyboard answers remain selectable; returning to Play pauses homework befo
   await expect(hw).toContainText('meets the stated musical constraints');
   await page.getByRole('tab', { name: 'Play', exact: true }).click();
   await expect(hw).toHaveCount(0);
-  await expect(page.locator('.music-workspace')).toBeVisible();
+  await expect(page.locator('canvas')).toBeVisible();
   const saved = await data(page);
   expect(saved.lessons.find((l: any) => l.homework)?.homework.status).toBe('paused');
   expect(saved.lessonEvents.some((e: any) => e.homework?.kind === 'interrupted')).toBe(true);
@@ -148,12 +143,12 @@ test('the teacher starts homework from exploration with the selected workload an
   page,
 }) => {
   const hw = await open(page);
+  await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByLabel('Suggested workload').selectOption('5');
   await hw.getByLabel('Homework neck region').selectOption('5');
   const trigger = page.getByRole('button', { name: 'Open music teacher', exact: true });
   if (await trigger.isVisible()) await trigger.click();
   const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
-  await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
   await teacher
     .getByRole('textbox', { name: 'Your question', exact: true })
     .fill('Help me find C.');

@@ -1,8 +1,6 @@
 import { test, expect } from '@playwright/test';
 async function open(page: import('@playwright/test').Page) {
-  await page.goto('/');
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Work it out by ear', exact: true }).click();
+  await page.goto('/#/stage/ear-lab');
   await page.getByRole('button', { name: 'Open original listening study', exact: true }).click();
   return page.getByRole('region', { name: 'Work it out by ear' });
 }
@@ -60,8 +58,6 @@ test('help precedes exposure and reload retains the local audio source', async (
   await ear.getByRole('button', { name: 'Check my proposal' }).click();
   await expect(ear).toContainText('Answer saved locally.');
   await page.reload();
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Work it out by ear', exact: true }).click();
   await expect(ear.getByLabel('Your chord 1', { exact: true })).toHaveValue('G7');
   const stored = await page.evaluate(async () => {
     const path = '/src/storage.ts';

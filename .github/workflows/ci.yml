@@ -74,6 +74,7 @@ jobs:
       - run: npm run test:ear
       - run: npm run test:browser
       - run: npm run test:live
+      - run: npm run test:studio
       - run: npm run test:renderer
       - run: npm run test:offline
       - name: Build production image

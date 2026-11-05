@@ -1,11 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
 async function open(page: Page) {
-  await page.goto('/');
+  await page.goto('/#/stage/live');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Play with my guitar', exact: true }).click();
   return page.getByRole('region', { name: 'Play with my guitar', exact: true });
 }
 async function syntheticInput(page: Page) {
@@ -130,8 +128,6 @@ test('real worklet and worker capture a connection, mask feedback, preserve atte
   await panel.scrollIntoViewIfNeeded();
   await page.screenshot({ path: `../live-guitar-${info.project.name}.png` });
   await page.reload();
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Play with my guitar', exact: true }).click();
   await expect(panel.getByText('Input stopped', { exact: true })).toBeVisible();
   await expect(panel.getByText('Session evidence (2)', { exact: true })).toBeVisible();
   expect(errors).toEqual([]);
@@ -182,8 +178,6 @@ test('reload reserves the first response and restores a stopped task', async ({ 
   await panel.getByRole('button', { name: 'Start attempt' }).click();
   await play(page, [65]);
   await page.reload();
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
-  await page.getByRole('button', { name: 'Play with my guitar', exact: true }).click();
   panel = page.getByRole('region', { name: 'Play with my guitar', exact: true });
   await expect(panel.getByLabel('Playing task')).toHaveValue('live-connection');
   await expect(panel.getByText('Input stopped', { exact: true })).toBeVisible();
@@ -201,16 +195,20 @@ test('spectral chords remain experimental and unknown voicings stay unassessed',
   page,
 }) => {
   await syntheticInput(page);
-  await page.goto('/');
+  await page.goto('/#/stage/live');
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
+  await page.evaluate(() => {
+    location.hash = '#/stage/progression';
+  });
   await page.getByRole('button', { name: 'Open ii–V–I study' }).click();
   await expect(
     page.getByRole('heading', { name: 'One progression, many places', exact: true }),
   ).toBeVisible();
-  await page.getByRole('button', { name: 'Play with my guitar', exact: true }).click();
+  await page.evaluate(() => {
+    location.hash = '#/stage/live';
+  });
   const panel = page.getByRole('region', { name: 'Play with my guitar', exact: true });
   await panel.getByLabel('Playing task').selectOption('live-progression');
   await panel.getByRole('button', { name: 'Connect guitar', exact: true }).click();

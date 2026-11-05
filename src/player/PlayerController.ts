@@ -242,10 +242,20 @@ export class PlayerController {
     }
   }
 
+  refreshLayout(): void {
+    if (!this.disposed && this.score && this.viewportReady) this.requestRender();
+  }
+
   private update(update: Partial<PlayerState>): void {
     if (this.disposed) return;
     this.state = { ...this.state, ...update };
-    this.clock.observe(this.state.currentTick,this.state.currentTime,this.state.speed,this.state.playing,performance.now());
+    this.clock.observe(
+      this.state.currentTick,
+      this.state.currentTime,
+      this.state.speed,
+      this.state.playing,
+      performance.now(),
+    );
     this.callbacks.onState?.(this.state);
   }
 

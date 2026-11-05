@@ -40,14 +40,13 @@ import { Fretboard, type FretboardMarker } from './Fretboard';
 import './teacher.css';
 
 export interface TeacherPanelProps {
+  onReturnToTask?(): void;
   ear?: EarSession;
   focusRequest?: number;
-  presentation: {
-    expanded: boolean;
-    setExpanded(value: boolean): void;
-    cloud: boolean;
-    setCloud(value: boolean): void;
-  };
+  cloudEnabled?: boolean;
+  onCloudChange?: (enabled: boolean) => void;
+  presentationRevision?: string;
+  presentation?: TeacherRequest['context']['presentation'];
   learning: LearningSession;
   live?: LiveGuitarSession;
   practice?: PracticeSession;
@@ -110,11 +109,14 @@ export function TeacherPanel(props: TeacherPanelProps) {
   const ear = props.ear;
   const earMasked = !!ear?.masked;
   const { lesson, events, record } = learning;
-  const { expanded, setExpanded, cloud, setCloud } = props.presentation;
+  const [expanded, setExpanded] = useState(true);
   useEffect(() => {
     if (props.focusRequest) setExpanded(true);
   }, [props.focusRequest]);
   const [draft, setDraft] = useState('');
+  const [localCloud, setLocalCloud] = useState(false);
+  const cloud = props.cloudEnabled ?? localCloud;
+  const setCloud = props.onCloudChange ?? setLocalCloud;
   const [qualification, setQualification] = useState('unqualified');
   useEffect(() => {
     const abort = new AbortController();
@@ -159,7 +161,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
   const selectedToken = selectedNote
     ? `${selectedNote.onsetTicks}:${selectedNote.position?.string}:${selectedNote.position?.fret}:${selectedNote.soundingMidi}`
     : 'none';
-  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision??0}:l${listening?.revision ?? 0}:ear${ear?.state?.revision ?? "none"}:${ear?.job?.status ?? "none"}`;
+  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision ?? 0}:l${listening?.revision ?? 0}:stage${props.presentation?.activity ?? ''}:${props.presentation?.mode ?? ''}:ear${ear?.state?.revision ?? 'none'}:${ear?.job?.status ?? 'none'}`;
   const versionFor = (revision: number) =>
     `${baseVersion}:r${revision}:${activeQuestion?.support ?? 'none'}:x${learning.externalRevision}`;
   const contextVersion = versionFor(lesson?.revision ?? 0);
@@ -185,7 +187,15 @@ export function TeacherPanel(props: TeacherPanelProps) {
   }, [lesson?.messages.length, expanded, questionId]);
 
   useEffect(() => {
-    if (!lesson || listening?.masked || props.practice?.masked || props.homework?.masked || props.live?.masked || earMasked) return;
+    if (
+      !lesson ||
+      listening?.masked ||
+      props.practice?.masked ||
+      props.homework?.masked ||
+      props.live?.masked ||
+      earMasked
+    )
+      return;
     const request = requestFor('Index source positions made available in the score.');
     if (!request) return;
     const positions = track.notes.flatMap((note) => (note.position ? [note.position] : []));
@@ -214,7 +224,9 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
-      props.homework?.masked || props.live?.masked || earMasked ||
+      props.homework?.masked ||
+      props.live?.masked ||
+      earMasked ||
       document.hidden
     )
       return;
@@ -252,7 +264,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
     setBusy(false);
     setProposal(null);
     setMarkers([]);
-  }, [cloud, questionId]);
+  }, [cloud, questionId, props.presentationRevision]);
   useEffect(
     () => () => {
       generation.current++;
@@ -330,20 +342,29 @@ export function TeacherPanel(props: TeacherPanelProps) {
         ...(props.homework ? ['homework-caged-v1'] : []),
         ...(props.live ? ['teacher-live-v1'] : []),
         ...(ear?.context ? ['ear-lab-v1'] : []),
+        ...(props.presentation ? ['practice-stage-v1'] : []),
       ],
       requestId: crypto.randomUUID(),
       lessonId: lesson.id,
       turnId: crypto.randomUUID(),
       contextVersion,
       request: text,
-      ...(ear?.state && ear.analysisReady ? {localAudio: {
-        assetId: ear.state.asset.id, start: ear.state.start, end: ear.state.end,
-        stages: ['transcribe', 'timing'] as const, contextRevision: ear.state.revision,
-      }} : {}),
+      ...(ear?.state && ear.analysisReady
+        ? {
+            localAudio: {
+              assetId: ear.state.asset.id,
+              start: ear.state.start,
+              end: ear.state.end,
+              stages: ['transcribe', 'timing'] as const,
+              contextRevision: ear.state.revision,
+            },
+          }
+        : {}),
       context: {
         ...(ear?.context ? { ear: ear.context } : {}),
+        ...(props.presentation ? { presentation: props.presentation } : {}),
         objective: lesson.objective,
-        ...(props.live ? {live:props.live.context} : {}),
+        ...(props.live ? { live: props.live.context } : {}),
         ...(props.homework
           ? {
               homework: {
@@ -504,7 +525,9 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
-      props.homework?.masked || props.live?.masked || earMasked ||
+      props.homework?.masked ||
+      props.live?.masked ||
+      earMasked ||
       !lesson ||
       learning.externalRevision
     )
@@ -608,7 +631,9 @@ export function TeacherPanel(props: TeacherPanelProps) {
       activeQuestion ||
       listening?.masked ||
       props.practice?.masked ||
-      props.homework?.masked || props.live?.masked || earMasked ||
+      props.homework?.masked ||
+      props.live?.masked ||
+      earMasked ||
       proposal.validContextVersion !== contextRef.current ||
       learning.externalRevision
     )
@@ -631,10 +656,17 @@ export function TeacherPanel(props: TeacherPanelProps) {
       );
       return;
     }
-    if(action.type==='ear'){ear?.action(action);return;}
-    if(action.type==='live'){props.live?.apply(action);return;}
+    if (action.type === 'ear') {
+      ear?.action(action);
+      return;
+    }
+    if (action.type === 'live') {
+      props.live?.apply(action);
+      return;
+    }
     if (action.type === 'homework') {
       props.homework?.apply(action);
+      props.onReturnToTask?.();
       return;
     }
     if (
@@ -746,47 +778,57 @@ export function TeacherPanel(props: TeacherPanelProps) {
       </div>
       {expanded && (
         <>
-          {!activeQuestion && !listening?.masked && !props.practice?.active && !props.homework?.masked && !props.live?.masked && !earMasked && (
-            <>
-              <div className="teacher-intents" aria-label="How should the teacher help?">
-                {['Explain', 'Demonstrate', 'Let me try', 'Change approach', 'Just explore'].map(
-                  (intent) => (
+          {!activeQuestion &&
+            !listening?.masked &&
+            !props.practice?.active &&
+            !props.homework?.masked &&
+            !props.live?.masked &&
+            !earMasked && (
+              <>
+                <div className="teacher-intents" aria-label="How should the teacher help?">
+                  {['Explain', 'Demonstrate', 'Let me try', 'Change approach', 'Just explore'].map(
+                    (intent) => (
+                      <button
+                        key={intent}
+                        className="text-button"
+                        onClick={() =>
+                          setDraft(
+                            intent === 'Just explore'
+                              ? 'Just explore with me. Do not quiz me.'
+                              : intent,
+                          )
+                        }
+                      >
+                        {intent}
+                      </button>
+                    ),
+                  )}
+                </div>
+                <div className="teacher-objectives" aria-label="Lesson focus">
+                  {objectives.map((objective) => (
                     <button
-                      key={intent}
-                      className="text-button"
-                      onClick={() =>
-                        setDraft(
-                          intent === 'Just explore'
-                            ? 'Just explore with me. Do not quiz me.'
-                            : intent,
-                        )
+                      key={objective.id}
+                      disabled={
+                        !!activeQuestion || !!listening?.masked || !!props.practice?.masked || busy
                       }
+                      aria-pressed={lesson.objective === objective.id}
+                      onClick={() => {
+                        learning.changeObjective(objective.id);
+                        setDraft(objective.prompt);
+                      }}
                     >
-                      {intent}
+                      {objective.title}
                     </button>
-                  ),
-                )}
-              </div>
-              <div className="teacher-objectives" aria-label="Lesson focus">
-                {objectives.map((objective) => (
-                  <button
-                    key={objective.id}
-                    disabled={
-                      !!activeQuestion || !!listening?.masked || !!props.practice?.masked || busy
-                    }
-                    aria-pressed={lesson.objective === objective.id}
-                    onClick={() => {
-                      learning.changeObjective(objective.id);
-                      setDraft(objective.prompt);
-                    }}
-                  >
-                    {objective.title}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-          {activeQuestion || listening?.masked || props.practice?.active || props.homework?.masked || props.live?.masked || earMasked ? (
+                  ))}
+                </div>
+              </>
+            )}
+          {activeQuestion ||
+          listening?.masked ||
+          props.practice?.active ||
+          props.homework?.masked ||
+          props.live?.masked ||
+          earMasked ? (
             <div className="teacher-recall" role="status">
               <strong>Your question is active.</strong>
               <p>
@@ -899,7 +941,20 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       disabled={busy || !!learning.externalRevision}
                       onClick={() => useAction(action)}
                     >
-                      {action.type === 'ear' ? ({replay:'Replay the fragment',analyze:'Start local analysis',draft:'Reveal draft',compare:'Compare my proposal','compare-note':'Hear my note proposal',correct:'Apply my draft correction',question:'Try an ear question',workspace:'Open accompaniment'}[action.operation]) : action.type === 'live' ? 'Prepare this guitar task' : action.type === 'homework' ? (
+                      {action.type === 'ear' ? (
+                        {
+                          replay: 'Replay the fragment',
+                          analyze: 'Start local analysis',
+                          draft: 'Reveal draft',
+                          compare: 'Compare my proposal',
+                          'compare-note': 'Hear my note proposal',
+                          correct: 'Apply my draft correction',
+                          question: 'Try an ear question',
+                          workspace: 'Open accompaniment',
+                        }[action.operation]
+                      ) : action.type === 'live' ? (
+                        'Prepare this guitar task'
+                      ) : action.type === 'homework' ? (
                         action.operation === 'task' ? (
                           `Try ${action.kind} homework`
                         ) : (
@@ -1045,11 +1100,13 @@ export function TeacherPanel(props: TeacherPanelProps) {
                 </p>
                 <p className="caption">
                   Cloud teaching sends your question, recent conversation, selected normalized
-                  music, chosen goal and strategy, optional reflection, and recent answer summaries, including experimental live-input summaries,
-                  to the application server and Forge. Ear lessons send bounded hypotheses, their authority and opaque job references. Raw audio, estimated stems, filenames, device names, your file, song metadata and full practice
-                  history stay local. Configured traces record approved lifecycle metadata. Use your
-                  invitation in Practice guide. Data contribution for training is separate and is
-                  not enabled.
+                  music, chosen goal and strategy, optional reflection, and recent answer summaries,
+                  including experimental live-input summaries, to the application server and Forge.
+                  Ear lessons send bounded hypotheses, their authority and opaque job references.
+                  Raw audio, estimated stems, filenames, device names, your file, song metadata and
+                  full practice history stay local. Configured traces record approved lifecycle
+                  metadata. Use your invitation in Practice guide. Data contribution for training is
+                  separate and is not enabled.
                 </p>
               </details>
             </>
@@ -1065,8 +1122,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
             </p>
           )}
           <p className="teacher-evidence-note">
-            Screen answers and self-reported playing are separate. This teacher cannot hear your
-            guitar.
+            Screen answers, detected pitch and self-reported playing are separate. The teacher
+            receives bounded musical evidence, not raw audio or verified fingering.
           </p>
         </>
       )}

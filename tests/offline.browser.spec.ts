@@ -29,9 +29,7 @@ async function attempts(page: Page): Promise<SavedAttempt[]> {
 }
 
 async function ready(page: Page) {
-  await expect(
-    page.getByRole('heading', { name: 'A shape, two meanings', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('A shape, two meanings', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30_000,
   });
@@ -57,7 +55,7 @@ test('production cache supports offline score, audio and durable practice withou
   await cdp.send('Network.enable');
   await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
 
-  await page.goto('/');
+  await page.goto('/#/stage/notation');
   await ready(page);
   await page.evaluate(async () => {
     await navigator.serviceWorker.ready;
@@ -84,12 +82,14 @@ test('production cache supports offline score, audio and durable practice withou
   expect(cachedPaths.some(path=>/^\/assets\/capture\.worklet-[\w-]+\.js$/.test(path))).toBe(true);
   expect(cachedPaths.some(path=>/^\/assets\/analysis\.worker-[\w-]+\.js$/.test(path))).toBe(true);
   expect(cachedPaths).toContain('/index.html');
+  expect(cachedPaths).toContain('/art/studio.jpg');
+  expect(cachedPaths).toContain('/art/bandmate.png');
   expect(cachedPaths).toContain('/soundfont/sonivox.sf2');
   expect(cachedPaths).toContain('/research/voicing-ranker-v1.json');
   expect(cachedPaths.some((path) => /^\/(?:api(?:\/|$)|healthz(?:\/|$))/.test(path))).toBe(false);
 
   await page.getByRole('tab', { name: 'Practice', exact: true }).click();
-  const panel = page.locator('.learning-panel:visible');
+  const panel = page.locator('.stage-question:visible');
   const cue = await panel.locator('.teaching-cue strong').innerText();
   await panel.getByRole('textbox', { name: 'Type a note name' }).fill(cue);
   await panel.getByRole('button', { name: 'Submit typed answer' }).click();
@@ -97,9 +97,12 @@ test('production cache supports offline score, audio and durable practice withou
   const onlineHistory = await attempts(page);
   expect(onlineHistory[0]).toMatchObject({ outcome: 'correct', assisted: true, response: cue });
 
+  await page.getByRole('tab', { name: 'Play', exact: true }).click();
+  await page.goto('/#/stage/notation');
   await context.setOffline(true);
   const navigation = await page.reload();
   expect(navigation?.fromServiceWorker()).toBe(true);
+  await page.goto('/#/stage/notation');
   await ready(page);
   expect(await attempts(page)).toEqual(onlineHistory);
 
@@ -154,12 +157,14 @@ test('production cache supports offline score, audio and durable practice withou
   expect(offlineHistory).toEqual(expect.arrayContaining(onlineHistory));
   expect(offlineHistory.filter((attempt) => attempt.outcome === 'revealed')).toHaveLength(1);
 
+  await page.getByRole('tab', { name: 'Play', exact: true }).click();
+  await page.goto('/#/stage/notation');
   await page.reload();
   await ready(page);
   expect(await attempts(page)).toEqual(offlineHistory);
-  await expect(page.locator('.learning-panel')).toContainText('1 revealed');
+  expect((await attempts(page)).filter((a) => a.outcome === 'revealed')).toHaveLength(1);
 
-  await page.getByRole('tab', { name: 'Understand', exact: true }).click();
+  await page.goto('/#/stage/progression');
   await page.getByRole('button', { name: 'Open ii–V–I study' }).click();
   const studio = page.getByRole('region', { name: 'Progression studio', exact: true });
   await studio.locator('.progression-strip button').nth(2).click();
