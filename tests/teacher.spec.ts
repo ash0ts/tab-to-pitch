@@ -319,8 +319,7 @@ test('ignores a pending cloud response when the neck constraints change', async 
   await expect(teacher.getByRole('button', { name: 'Working with the music…' })).toBeVisible();
   await showTask(page);
   await studio.getByRole('button', { name: 'Frets 9–12', exact: true }).click();
-  if (test.info().project.name === 'mobile')
-    await teacher.getByRole('button', { name: 'Open teacher', exact: true }).click();
+  await showTeacher(page);
   release();
   await finished;
   await showTeacher(page);
