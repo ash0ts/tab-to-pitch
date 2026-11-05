@@ -273,6 +273,7 @@ export function usePlayingHomework(
             assisted: state.labels || !!state.support.length || state.responseIndex > 0,
             stepId: step.id,
             objective: step.objective,
+            stimulus: step,
             method: state.method,
             eligible:
               state.status === 'playing'

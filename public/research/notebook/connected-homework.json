@@ -1,0 +1,101 @@
+{
+  "protocol": "connected-homework-demo-v1",
+  "checkedAt": "2026-11-05",
+  "qualification": "unqualified",
+  "developmentOnly": true,
+  "learningOutcomesMeasured": false,
+  "runs": [
+    {
+      "run": "connected-homework-demo-002",
+      "campaignSha256": "60527ba07ab6cbd52a553713770edbe618660ba4e49020557cc920fd63008895",
+      "executedTurns": 3,
+      "actorCalls": 2,
+      "criticCalls": 0,
+      "hostedReplies": 0,
+      "fallbacks": 3,
+      "criticalAcceptedErrorObserved": false,
+      "usageCostUSD": 0.0006338299999999999,
+      "lens": {
+        "verified": true,
+        "expectedSpans": 7,
+        "observedSpans": 7,
+        "conversationIds": [
+          "d1afccd6-2a8b-4108-8439-93c9994a3f1b"
+        ]
+      },
+      "weave": {
+        "rows": 3,
+        "calls": 10,
+        "criteria": 24,
+        "sourceOutputAndScoresMatch": true
+      },
+      "weaveURL": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/weave/calls/01a1ad5f-093a-7b46-9151-d2ad88c7c9a6"
+    },
+    {
+      "run": "connected-homework-demo-003",
+      "campaignSha256": "04329030c25ffe231c57eee20545549b9ea41dc526fee02e8c521535f53292dc",
+      "executedTurns": 1,
+      "actorCalls": 1,
+      "criticCalls": 1,
+      "hostedReplies": 1,
+      "fallbacks": 0,
+      "criticalAcceptedErrorObserved": true,
+      "usageCostUSD": 0.00045403999999999996,
+      "lens": {
+        "verified": true,
+        "expectedSpans": 8,
+        "observedSpans": 8,
+        "conversationIds": [
+          "79178780-d911-40be-a291-b59dc71c20d0"
+        ]
+      },
+      "weave": {
+        "rows": 1,
+        "calls": 4,
+        "criteria": 8,
+        "sourceOutputAndScoresMatch": true
+      },
+      "weaveURL": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/weave/calls/01a1ad65-d3b4-77d7-b126-375748c09c27"
+    },
+    {
+      "run": "connected-homework-demo-004",
+      "campaignSha256": "1b6c70ba1dabe960b1e7fc8ec7ab6db6f470de7c0cc3b17cdba712acbaaca830",
+      "executedTurns": 3,
+      "actorCalls": 3,
+      "criticCalls": 1,
+      "hostedReplies": 1,
+      "fallbacks": 2,
+      "criticalAcceptedErrorObserved": false,
+      "usageCostUSD": 0.00149154,
+      "lens": {
+        "verified": true,
+        "expectedSpans": 16,
+        "observedSpans": 16,
+        "conversationIds": [
+          "ff9b2e5e-f499-4b84-ad00-2d419ccb4cb1"
+        ]
+      },
+      "weave": {
+        "rows": 3,
+        "calls": 10,
+        "criteria": 24,
+        "sourceOutputAndScoresMatch": true
+      },
+      "weaveURL": "https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-data-research/weave/calls/01a1ad69-9d3e-7ca2-86ed-fd86f566bb90"
+    }
+  ],
+  "table": {
+    "rows": 9,
+    "observedTurns": 7,
+    "unexecutedTurns": 2,
+    "sha256": "67e8f4d48673b13baa1bdca41165b842835f1d3d74d9a59a61cceb01df53a6c5",
+    "downloadMatched": true
+  },
+  "accounting": {
+    "estimatedNewUsageUSD": 0.00257941,
+    "roundedNewLedgerChargeUSD": 0.002584,
+    "reconciledTotalUSD": 0.222618,
+    "originalAuthorizationUSD": 25,
+    "unsettledNewReservations": 0
+  }
+}

@@ -244,7 +244,7 @@ test('keeps teacher questions and history in memory when browser storage fails',
 test('reserves a new neck position without exposing actor explanations before the answer', async ({
   page,
 }) => {
-  const rawExplanation = 'The hidden answer is F on string 1 fret 13.';
+  const rawExplanation = 'The hidden answer is F, the minor third of D minor.';
   await page.route('**/api/teacher/next', async (route) => {
     const request = route.request().postDataJSON() as TeacherRequest;
     await route.fulfill({
@@ -278,7 +278,7 @@ test('reserves a new neck position without exposing actor explanations before th
     'A reserved question is ready.',
   );
   expect(await teacher.textContent()).not.toContain(rawExplanation);
-  expect(await teacher.ariaSnapshot()).not.toContain('string 1 fret 13');
+  expect(await teacher.ariaSnapshot()).not.toContain(rawExplanation);
   await teacher.getByRole('button', { name: 'Try this question' }).click();
   await showTask(page);
   const card = page.getByTestId('exercise-card');

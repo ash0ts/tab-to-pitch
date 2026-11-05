@@ -109,6 +109,21 @@ function modelFetcher(values: unknown[], bodies: unknown[] = []) {
   });
 }
 
+it('withholds unstructured fret coordinates even when a model critic would approve them', async () => {
+  const fetcher = modelFetcher([
+    { ...final, message: 'E4 is on the 2nd string, 2nd fret or the 3rd string, 4th fret.' },
+    accepted,
+  ]);
+  const result = await new ForgeTeacherAgent(config, fetcher).run(
+    teacherFixture(),
+    AbortSignal.timeout(2000),
+  );
+  expect(result.failure).toBe('invalid-response');
+  expect(result.response.source).toBe('local');
+  expect(result.response.message).not.toContain('2nd fret');
+  expect(result.calls.map((call) => call.role)).toEqual(['actor']);
+});
+
 it('runs free-form teaching with deterministic inspection followed by an independent critic', async () => {
   const bodies: unknown[] = [];
   const fetcher = modelFetcher(
@@ -366,15 +381,23 @@ it('keeps a voicing continuation inside the bounded request envelope', async () 
   expect(bodies.every((body) => Buffer.byteLength(JSON.stringify(body)) <= 32768)).toBe(true);
 });
 
-
 it('negotiates integrated capabilities without changing legacy requests', () => {
   const legacy = teacherFixture();
   expect(teacherRequestSchema.safeParse(legacy).success).toBe(true);
   const integrated = { ...legacy, schemaVersion: 'teacher-v5', capabilities: [] };
   expect(teacherRequestSchema.safeParse(integrated).success).toBe(true);
-  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: undefined }).success).toBe(false);
-  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: ['listening-v1'] }).success).toBe(false);
-  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: ['practice-stage-v1', 'practice-stage-v1'] }).success).toBe(false);
+  expect(teacherRequestSchema.safeParse({ ...integrated, capabilities: undefined }).success).toBe(
+    false,
+  );
+  expect(
+    teacherRequestSchema.safeParse({ ...integrated, capabilities: ['listening-v1'] }).success,
+  ).toBe(false);
+  expect(
+    teacherRequestSchema.safeParse({
+      ...integrated,
+      capabilities: ['practice-stage-v1', 'practice-stage-v1'],
+    }).success,
+  ).toBe(false);
 });
 
 it('keeps live help behind assistance and advertises eligible live tools within the existing request budget', async () => {
@@ -490,4 +513,32 @@ it('rejects a stale local analysis binding before any model or worker call', () 
     contextRevision: 'stale',
   };
   expect(teacherRequestSchema.safeParse(request).success).toBe(false);
+});
+
+it('repairs malformed JSON once within the actor limit and still requires factual review', async () => {
+  let calls = 0;
+  const fetcher: typeof fetch = async (url) => {
+    if (String(url).endsWith('/models'))
+      return Response.json({ data: [{ id: config.forgeModel }] });
+    calls++;
+    if (calls === 1)
+      return Response.json({
+        choices: [
+          { finish_reason: 'stop', message: { content: '{"kind":"final","kind":"final"}' } },
+        ],
+        usage: { prompt_tokens: 100, completion_tokens: 50, total_tokens: 150 },
+      });
+    return completion(calls === 2 ? final : accepted);
+  };
+  const result = await new ForgeTeacherAgent(config, fetcher).run(
+    teacherFixture(),
+    AbortSignal.timeout(2000),
+  );
+  expect(result.response.source).toBe('forge');
+  expect(result.calls.map((c) => [c.role, c.status])).toEqual([
+    ['actor', 'failed'],
+    ['actor', 'received'],
+    ['critic', 'received'],
+  ]);
+  expect(result.chargedTokens).toBe(450);
 });

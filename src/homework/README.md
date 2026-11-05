@@ -13,3 +13,11 @@ Note-finding play-along uses an unpitched percussion pulse through the same alph
 Teacher-v5 negotiates `homework-playing-v1`. Tools select an eligible step, isolate a change or prepare a retry. Device activation, saving arrangements and paid turns remain explicit learner actions. During a label-free attempt, unrelated teacher history remains hidden until help is recorded.
 
 The suggested workload reserves roughly four-fifths for playing or listening-and-playing. This is an editable product default, not an enforced timer or a measured teaching result. Coordinate checks remain a separate optional surface. See [the frozen behavior checks](../../research/guitar-homework/README.md) and [integration verification](../../integration/verification.md).
+
+## Playable explanations
+
+`stimulus.ts` projects the frozen homework step into the teacher's harmonic context. A G7→Cmaj7 connection therefore reaches the teacher as that progression, even when the imported score contains C–F–G–C. Derived examples do not inherit imported note IDs or bass claims. Candidate F→E pairs preserve signed pitch movement and the selected tuning/capo. Both endpoints are shown.
+
+In exploration, every displayed fretboard cell can be selected and auditioned through the existing player. The inspector distinguishes the note name from its chord role. Support is recorded before audition; label-free or active attempts hide the inspector and disable revealing audition. A difficult self-reported pass offers an example, note isolation, or another playing attempt. It does not turn the report into a graded error.
+
+The desktop teacher shares the screen with the task; narrower displays keep the existing sheet. The request version acknowledges the learner's own message save once, so saving that message cannot cancel its pending cloud response. Changes to the actual source, task, or constraints still invalidate it. [The walkthrough and retained failures](../../public/research/notebook/connected-homework.md) document the integration check.

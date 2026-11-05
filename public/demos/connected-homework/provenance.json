@@ -1,0 +1,49 @@
+{
+  "capturedAt": "2026-11-05",
+  "music": "Original redistributable authored study",
+  "teacher": "local-guide.mp4 and walkthrough.gif use the on-device guide; forge-walkthrough.mp4 uses actual recorded Forge requests from demo-004",
+  "visualOnly": true,
+  "input": "Synthetic browser input; no physical-interface qualification",
+  "editing": "GIF excerpts are in chronological order, with waiting time omitted; videos retain full captured flow",
+  "sourceVideos": [
+    {
+      "name": "connected-homework-local-final-v2/capture/*.webm",
+      "sha256": "43ec46912130f0b520d0c891465ae37168bae6e1b7b14dba258c7a539175bdc1"
+    },
+    {
+      "name": "connected-homework-demo-004/capture/*.webm",
+      "sha256": "dade8ca9ca2eab04d09fa64b9eb34c0f1866d33d01de846c316d776f4df40b76"
+    }
+  ],
+  "clips": [
+    [
+      "02-hear-a-note",
+      2.8
+    ],
+    [
+      "04-teacher-action-0",
+      3.5
+    ],
+    [
+      "09-progression-0",
+      4
+    ],
+    [
+      "09-progression-5",
+      3
+    ],
+    [
+      "06-teacher-action-1",
+      4
+    ],
+    [
+      "11-uncertain-simulated-input",
+      3
+    ],
+    [
+      "12-recap",
+      2.5
+    ]
+  ],
+  "art": "Original bundled studio assets; see ../../art/provenance.md"
+}

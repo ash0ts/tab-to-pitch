@@ -30,7 +30,7 @@ export const teacherCapabilitySchema = z.enum([
   'practice-stage-v1',
   'homework-playing-v1',
 ]);
-export const TEACHER_PROMPT_VERSION = 'teacher-tools-v8-integrated';
+export const TEACHER_PROMPT_VERSION = 'teacher-tools-v11-verified-position-display';
 export const HOMEWORK_TEACHER_VERSION = 'teacher-v4';
 export const PRACTICE_TEACHER_VERSION = 'teacher-v3';
 export const EAR_TEACHER_VERSION = 'teacher-v3';
@@ -196,7 +196,11 @@ export const teacherRequestSchema = z
   .strict()
   .superRefine((request, ctx) => {
     if (request.context.playingHomework && request.schemaVersion !== INTEGRATED_TEACHER_VERSION)
-      ctx.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'Playing homework requires teacher-v5.' });
+      ctx.addIssue({
+        code: 'custom',
+        path: ['schemaVersion'],
+        message: 'Playing homework requires teacher-v5.',
+      });
     if (request.schemaVersion === INTEGRATED_TEACHER_VERSION) {
       const capabilities = request.capabilities;
       if (!capabilities || new Set(capabilities).size !== capabilities.length)

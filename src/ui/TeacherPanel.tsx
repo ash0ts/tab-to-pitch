@@ -8,6 +8,7 @@ import type { PracticeSession } from '../hooks/usePracticeSession';
 import { PRACTICE_VERSION } from '../shared/practice';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Eye, MessageCircle, Volume2 } from 'lucide-react';
+import { TeacherMessage } from './TeacherMessage';
 import {
   CURRICULUM_VERSION,
   teacherRequestSchema,
@@ -39,6 +40,8 @@ import { executeArrangementIntent } from '../shared/arrangements';
 import { getMemoryLessonData } from '../storage';
 import { Fretboard, type FretboardMarker } from './Fretboard';
 import './teacher.css';
+import { homeworkHarmony } from '../homework/stimulus';
+import { DEGREE_LABELS } from '../engine/harmony-exercises';
 
 export interface TeacherPanelProps {
   playingHomework?: PlayingHomeworkSession;
@@ -163,7 +166,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
   const selectedToken = selectedNote
     ? `${selectedNote.onsetTicks}:${selectedNote.position?.string}:${selectedNote.position?.fret}:${selectedNote.soundingMidi}`
     : 'none';
-  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision ?? 0}:${props.playingHomework?.context?.revision ?? 0}:l${listening?.revision ?? 0}:stage${props.presentation?.activity ?? ''}:${props.presentation?.mode ?? ''}:ear${ear?.state?.revision ?? 'none'}:${ear?.job?.status ?? 'none'}`;
+  const baseVersion = `${progression.contextVersion}:n${selectedToken}:${workspaceView}:p${progression.path}:${lesson?.objective ?? 'foundations'}:${relevantAttempts.at(-1)?.id.slice(-36) ?? 'new'}:${bassTrack}:g${props.live?.revision ?? 0}:l${listening?.revision ?? 0}:stage${props.presentation?.activity ?? ''}:${props.presentation?.mode ?? ''}:ear${ear?.state?.revision ?? 'none'}:${ear?.job?.status ?? 'none'}`;
   const versionFor = (revision: number) =>
     `${baseVersion}:r${revision}:${activeQuestion?.support ?? 'none'}:x${learning.externalRevision}`;
   const contextVersion = versionFor(lesson?.revision ?? 0);
@@ -318,6 +321,14 @@ export function TeacherPanel(props: TeacherPanelProps) {
 
   function requestFor(text: string): TeacherRequest | null {
     if (!lesson) return null;
+    const playingStep = props.playingHomework?.step;
+    const studyHarmony = playingStep ? homeworkHarmony(playingStep) : [];
+    let studyTick = 0;
+    const studySpans = studyHarmony.map((chord) => {
+      const startTick = studyTick;
+      studyTick += chord.ticks;
+      return { symbol: chord.symbol, confirmed: true, startTick, endTick: studyTick, melody: [] };
+    });
     const backing = score.tracks.find(
       (item) => item.id === bassTrack && item.id !== track.id && !item.isPercussion,
     );
@@ -366,7 +377,9 @@ export function TeacherPanel(props: TeacherPanelProps) {
           }
         : {}),
       context: {
-        ...(props.playingHomework?.context ? { playingHomework: props.playingHomework.context } : {}),
+        ...(props.playingHomework?.context
+          ? { playingHomework: props.playingHomework.context }
+          : {}),
         ...(ear?.context ? { ear: ear.context } : {}),
         ...(props.presentation ? { presentation: props.presentation } : {}),
         objective: lesson.objective,
@@ -445,20 +458,23 @@ export function TeacherPanel(props: TeacherPanelProps) {
           tuning: track.tuningMidi,
           capo: track.capo,
           key: progression.context,
-          selectedSpan: progression.selectedIndex,
-          spans: progression.spans.map((span) => ({
-            symbol: span.chord?.symbol ?? null,
-            confirmed: span.confirmation === 'confirmed',
-            startTick: span.startTick,
-            endTick: span.endTick,
-            melody: (span.melodyAnchors ?? []).map(({ startTick, endTick, midi }) => ({
-              startTick,
-              endTick,
-              midi,
-            })),
-          })),
+          selectedSpan: studySpans.length ? 0 : progression.selectedIndex,
+          spans: studySpans.length
+            ? studySpans
+            : progression.spans.map((span) => ({
+                symbol: span.chord?.symbol ?? null,
+                confirmed: span.confirmation === 'confirmed',
+                startTick: span.startTick,
+                endTick: span.endTick,
+                melody: (span.melodyAnchors ?? []).map(({ startTick, endTick, midi }) => ({
+                  startTick,
+                  endTick,
+                  midi,
+                })),
+              })),
         },
         selectedNotes:
+          !studySpans.length &&
           selectedNote &&
           (!selectedNote.position ||
             track.tuningMidi[selectedNote.position.string - 1]! +
@@ -478,12 +494,16 @@ export function TeacherPanel(props: TeacherPanelProps) {
                 },
               ]
             : [],
-        workspace: {
-          view: workspaceView,
-          sourceSymbols: progression.sourceSpans.map((span) => span.chord?.symbol ?? null),
-        },
-        constraints: progression.options,
-        bass,
+        ...(!studySpans.length
+          ? {
+              workspace: {
+                view: workspaceView,
+                sourceSymbols: progression.sourceSpans.map((span) => span.chord?.symbol ?? null),
+              },
+            }
+          : {}),
+        constraints: { ...progression.options, ...(playingStep?.region ?? {}) },
+        bass: studySpans.length ? [] : bass,
         evidence: relevantAttempts.slice(-12).map((attempt, index) => ({
           id: `answer-${index}`,
           kind: attempt.kind,
@@ -672,7 +692,11 @@ export function TeacherPanel(props: TeacherPanelProps) {
       props.live?.apply(action);
       return;
     }
-    if (action.type === 'playing-homework') { props.playingHomework?.apply(action); props.onReturnToTask?.(); return; }
+    if (action.type === 'playing-homework') {
+      props.playingHomework?.apply(action);
+      props.onReturnToTask?.();
+      return;
+    }
     if (action.type === 'homework') {
       props.homework?.apply(action);
       props.onReturnToTask?.();
@@ -791,7 +815,8 @@ export function TeacherPanel(props: TeacherPanelProps) {
             !listening?.masked &&
             !props.practice?.active &&
             !props.homework?.masked &&
-            !props.live?.masked && !props.playingHomework?.masked &&
+            !props.live?.masked &&
+            !props.playingHomework?.masked &&
             !earMasked && (
               <>
                 <div className="teacher-intents" aria-label="How should the teacher help?">
@@ -837,7 +862,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
           props.practice?.active ||
           props.homework?.masked ||
           props.live?.masked ||
-      props.playingHomework?.masked ||
+          props.playingHomework?.masked ||
           earMasked ? (
             <div className="teacher-recall" role="status">
               <strong>Your question is active.</strong>
@@ -878,21 +903,28 @@ export function TeacherPanel(props: TeacherPanelProps) {
             <>
               <div className="teacher-context">
                 <span>
-                  {props.practice?.task
-                    ? 'Original activity · synthesized study'
-                    : workspaceView === 'preview'
-                      ? 'Variation in the player'
-                      : workspaceView === 'proposal'
-                        ? 'Variation proposal'
-                        : 'Selected passage'}
+                  {props.playingHomework?.step
+                    ? 'Derived homework · ' + props.playingHomework.step.title
+                    : props.practice?.task
+                      ? 'Original activity · synthesized study'
+                      : workspaceView === 'preview'
+                        ? 'Variation in the player'
+                        : workspaceView === 'proposal'
+                          ? 'Variation proposal'
+                          : 'Selected passage'}
                 </span>
                 <strong>
-                  {props.practice?.task
-                    ? 'G7 → Cmaj7'
-                    : progression.spans.map((span) => span.chord?.symbol ?? '?').join(' → ')}
+                  {props.playingHomework?.step && homeworkHarmony(props.playingHomework.step).length
+                    ? homeworkHarmony(props.playingHomework.step)
+                        .map((c) => c.symbol)
+                        .join(' → ')
+                    : props.practice?.task
+                      ? 'G7 → Cmaj7'
+                      : progression.spans.map((span) => span.chord?.symbol ?? '?').join(' → ')}
                 </strong>
                 <span>
-                  Frets {progression.options.minFret}–{progression.options.maxFret}
+                  Frets {props.playingHomework?.step?.region.minFret ?? progression.options.minFret}
+                  –{props.playingHomework?.step?.region.maxFret ?? progression.options.maxFret}
                 </span>
                 {workspaceView !== 'source' && (
                   <small>
@@ -939,7 +971,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
                           ? 'Teacher · Forge'
                           : 'On-device guide'}
                     </span>
-                    <p>{message.text}</p>
+                    <TeacherMessage text={message.text} />
                   </article>
                 ))}
               </div>
@@ -966,7 +998,13 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       ) : action.type === 'live' ? (
                         'Prepare this guitar task'
                       ) : action.type === 'playing-homework' ? (
-                        action.operation === 'isolate' ? 'Isolate this change' : action.operation === 'select' ? 'Choose this playing step' : 'Prepare another pass'
+                        action.operation === 'isolate' ? (
+                          'Isolate this change'
+                        ) : action.operation === 'select' ? (
+                          'Choose this playing step'
+                        ) : (
+                          'Prepare another pass'
+                        )
                       ) : action.type === 'homework' ? (
                         action.operation === 'task' ? (
                           `Try ${action.kind} homework`
@@ -995,7 +1033,7 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       ) : action.type === 'preview' ? (
                         'Preview this voicing'
                       ) : action.type === 'highlight' ? (
-                        'Show these notes'
+                        `Find the ${DEGREE_LABELS[action.degree] ?? action.degree}`
                       ) : (
                         <>
                           <Volume2 size={15} />{' '}
@@ -1008,19 +1046,27 @@ export function TeacherPanel(props: TeacherPanelProps) {
                       )}
                     </button>
                   ))}
-                  {proposal.turn.source === 'forge' && (
+                  {(proposal.turn.source === 'forge' || proposal.turn.traceId) && (
                     <details className="teacher-trace">
                       <summary>How this response was checked</summary>
                       <p>
-                        Music and actions are checked by the engine. The explanation also received a
-                        model review; that review can miss errors.
+                        {proposal.turn.source === 'forge'
+                          ? 'The engine checked the actions and a model reviewed the explanation. A passing review can still miss errors.'
+                          : 'The cloud teacher did not complete a valid reply. This is the local fallback; the failed call remains in the trace.'}
                       </p>
                       <p>
                         {proposal.turn.versions.model} · review: {proposal.turn.review.status}
                       </p>
                       {proposal.turn.traceId && (
                         <p>
-                          Agent Lens conversation <code>{proposal.turn.traceId}</code>
+                          <a
+                            href={`https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research/conversations/${encodeURIComponent(proposal.turn.traceId)}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Open Agent Lens conversation ↗
+                          </a>{' '}
+                          · private project
                         </p>
                       )}
                     </details>
@@ -1032,8 +1078,12 @@ export function TeacherPanel(props: TeacherPanelProps) {
                   tuning={track.tuningMidi}
                   capo={track.capo}
                   markers={markers}
-                  minFret={progression.options.minFret}
-                  maxFret={progression.options.maxFret}
+                  minFret={
+                    props.playingHomework?.step?.region.minFret ?? progression.options.minFret
+                  }
+                  maxFret={
+                    props.playingHomework?.step?.region.maxFret ?? progression.options.maxFret
+                  }
                   label="Teacher demonstration"
                   onChoose={(position) =>
                     props.onListen([

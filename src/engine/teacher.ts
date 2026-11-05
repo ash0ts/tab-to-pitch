@@ -1,4 +1,6 @@
 import { instrumentExposureId, positionExposureKey } from './exposure.js';
+import { asksAboutConnection, explainHomework } from '../homework/explain.js';
+import { hasProseCoordinates } from './teacher-prose.js';
 import { cagedPlacements } from './caged.js';
 import { makeHomeworkTask, solution } from './homework.js';
 import { musicianshipTask } from './musicianship.js';
@@ -44,12 +46,18 @@ import { rankVoicingsWithModel, validateVoicingRankerModel } from './voicing-ran
 import rankerArtifact from '../research-data/voicing-ranker-v1.json' with { type: 'json' };
 
 export const teacherToolDescriptions = {
-  inspect_live_input: 'args {}. Inspect local input availability and bounded experimental performance evidence. Detection can support pitches, never a string, fret, grip, hand technique, mastery, or precise timing. Unknown is not incorrect. No raw audio reaches you.',
-  live_activity: 'args {action:{type:live,taskId}}. Select an eligible task returned by inspect_live_input. The learner must explicitly start capture and the attempt. No invented targets or answer keys. Do not start another task during a response.',
-  inspect_playing_homework: 'args {}. Inspect the selected playing objective and distinct self-report and performance-reference evidence. No audio, fingering or technique is verified by a self-report.',
-  playing_homework_activity: 'args {action:{type:playing-homework,operation:select|isolate|retry,stepId}}. Choose an eligible step, isolate its first chord change, or prepare a retry. Never activate a device or a paid follow-up automatically.',
-  homework_map: 'args {}. Inspect the selected CAGED map, parent versus sounding chord, root anchors and playable fragments. Requires homework capability and no unassisted question. Conventional shapes require standard string intervals. General note and chord exercises still support other tunings.',
-  homework_activity: 'args {action:{type:homework,operation:task,kind:locate|name|roots|complete|voicing|neighbor|connection|target,family:C|A|G|E|D}|{type:homework,operation:compare,family:C|A|G|E|D}}. Prepare an eligible deterministic homework task or a family comparison. No answer key is supplied by the model. Shape families are not chord names; extensions are derived chord interpretations, not canonical parent shapes. Playing remains self-reported.',
+  inspect_live_input:
+    'args {}. Inspect local input availability and bounded experimental performance evidence. Detection can support pitches, never a string, fret, grip, hand technique, mastery, or precise timing. Unknown is not incorrect. No raw audio reaches you.',
+  live_activity:
+    'args {action:{type:live,taskId}}. Select an eligible task returned by inspect_live_input. The learner must explicitly start capture and the attempt. No invented targets or answer keys. Do not start another task during a response.',
+  inspect_playing_homework:
+    'args {}. Inspect the selected playing objective and distinct self-report and performance-reference evidence. No audio, fingering or technique is verified by a self-report.',
+  playing_homework_activity:
+    'args {action:{type:playing-homework,operation:select|isolate|retry,stepId}}. Choose an eligible step, isolate its first chord change, or prepare a retry. Never activate a device or a paid follow-up automatically.',
+  homework_map:
+    'args {}. Inspect the selected CAGED map, parent versus sounding chord, root anchors and playable fragments. Requires homework capability and no unassisted question. Conventional shapes require standard string intervals. General note and chord exercises still support other tunings.',
+  homework_activity:
+    'args {action:{type:homework,operation:task,kind:locate|name|roots|complete|voicing|neighbor|connection|target,family:C|A|G|E|D}|{type:homework,operation:compare,family:C|A|G|E|D}}. Prepare an eligible deterministic homework task or a family comparison. No answer key is supplied by the model. Shape families are not chord names; extensions are derived chord interpretations, not canonical parent shapes. Playing remains self-reported.',
 
   practice_activity:
     'args {action:{type:practice,operation:strategy,approach,rationale}|{type:practice,operation:activity,activity:rhythm|phrase|expression,variant:0..3,assessment:practice|reserved}|{type:practice,operation:reflection}}. Requires practice capability. Propose an approach for learner acceptance, open an original two-bar G7 to Cmaj7 study, or invite optional self-reflection. Tasks grade symbolic constraints, not playing or artistic quality. Reserved IDs must come from read_learner. No mandatory sequence.',
@@ -196,8 +204,43 @@ function listeningFacts(request: TeacherRequest): TeacherFact[] {
 function musicalFacts(request: TeacherRequest): TeacherFact[] {
   const facts: TeacherFact[] = [
     ...listeningFacts(request),
-    ...(request.context.playingHomework ? [{ id:'playing-boundary', kind:'boundary' as const, text:'Homework completion and self-reported playing are not verified success. Coordinates, chord roles and detected audio remain separate. An uncertain detector result is not an incorrect answer.' }, ...request.context.playingHomework.evidence.map((e,i) => ({ id:`playing:${i}`, kind:'observation' as const, text:JSON.stringify(e) }))] : []),
-    ...(request.context.live ? [{id:'live-boundary',kind:'boundary' as const,text:'Live observations are experimental local detector hypotheses. No string, fret, CAGED grip, hand technique, timing, or mastery was verified. Unknown is not incorrect.'},...request.context.live.evidence.map(e=>({id:`live:${e.id}`,kind:'observation' as const,text:JSON.stringify(e)}))] : []),
+    ...(request.context.playingHomework?.stimulus
+      ? [
+          {
+            id: 'playing-stimulus',
+            kind: 'music' as const,
+            text: `Authored derived homework ${request.context.playingHomework.stimulus.stimulusId}: ${request.context.playingHomework.stimulus.instruction} Region ${request.context.playingHomework.stimulus.region.minFret}–${request.context.playingHomework.stimulus.region.maxFret}. These are task targets, not detected playing or imported source-note identities.`,
+          },
+        ]
+      : []),
+    ...(request.context.playingHomework
+      ? [
+          {
+            id: 'playing-boundary',
+            kind: 'boundary' as const,
+            text: 'Homework completion and self-reported playing are not verified success. Coordinates, chord roles and detected audio remain separate. An uncertain detector result is not an incorrect answer.',
+          },
+          ...request.context.playingHomework.evidence.map((e, i) => ({
+            id: `playing:${i}`,
+            kind: 'observation' as const,
+            text: JSON.stringify(e),
+          })),
+        ]
+      : []),
+    ...(request.context.live
+      ? [
+          {
+            id: 'live-boundary',
+            kind: 'boundary' as const,
+            text: 'Live observations are experimental local detector hypotheses. No string, fret, CAGED grip, hand technique, timing, or mastery was verified. Unknown is not incorrect.',
+          },
+          ...request.context.live.evidence.map((e) => ({
+            id: `live:${e.id}`,
+            kind: 'observation' as const,
+            text: JSON.stringify(e),
+          })),
+        ]
+      : []),
     {
       id: 'instrument',
       kind: 'music',
@@ -228,6 +271,15 @@ function musicalFacts(request: TeacherRequest): TeacherFact[] {
         id: `tone:${i}:${t.degree}`,
         kind: 'music',
         text: `In ${chord!.symbol}, ${t.noteName} is ${DEGREE_LABELS[t.degree]} (degree ${t.degree}).`,
+      });
+    const next = chordAt(request, i + 1);
+    const seventh = chord?.tones.find((t) => t.degree === 'b7');
+    const third = next?.tones.find((t) => t.degree === '3');
+    if (seventh && third && (third.pitchClass - seventh.pitchClass + 12) % 12 === 11)
+      facts.push({
+        id: `connection:${i}`,
+        kind: 'music',
+        text: `${seventh.noteName}, the minor seventh of ${chord!.symbol}, can descend one semitone to ${third.noteName}, the major third of ${next!.symbol}. This is a possible directed voice-leading example, not an observation of the learner's performance.`,
       });
   });
   const workspace = request.context.workspace;
@@ -482,15 +534,29 @@ export function resolveTeacherAction(
     exposureKeys = musicExposureKeys(request);
   const playing = request.context.playingHomework;
   if (playing?.active && !playing.assisted) return null;
+  // Homework studies have a separate source; do not apply a derived proposal to the imported score.
+  if (playing?.stimulus && a.type === 'preview') return null;
   if (a.type === 'playing-homework') {
-    if (!playing || playing.active || !playing.eligible.some(t => t.id === a.stepId) || (a.operation !== 'select' && a.stepId !== playing.stepId)) return null;
-    return { facts: musicalFacts(request).filter(f => f.id === 'playing-boundary'), exposureKeys: [] };
+    if (
+      !playing ||
+      playing.active ||
+      !playing.eligible.some((t) => t.id === a.stepId) ||
+      (a.operation !== 'select' && a.stepId !== playing.stepId)
+    )
+      return null;
+    return {
+      facts: musicalFacts(request).filter((f) => f.id === 'playing-boundary'),
+      exposureKeys: [],
+    };
   }
-  const live=request.context.live;
-  if(live?.active && !live.assisted)return null;
-  if(a.type==='live'){
-    if(!live || live.active || !live.eligible.some(t=>t.id===a.taskId))return null;
-    return {facts:musicalFacts(request).filter(f=>f.id==='live-boundary'),exposureKeys:[]};
+  const live = request.context.live;
+  if (live?.active && !live.assisted) return null;
+  if (a.type === 'live') {
+    if (!live || live.active || !live.eligible.some((t) => t.id === a.taskId)) return null;
+    return {
+      facts: musicalFacts(request).filter((f) => f.id === 'live-boundary'),
+      exposureKeys: [],
+    };
   }
   const homework = request.context.homework;
   if (homework?.active && !homework.assisted) return null;
@@ -647,22 +713,46 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
       try {
         if (call.name === 'inspect_playing_homework') {
           toolArgs.inspect_playing_homework.parse(call.args);
-          return accept({ status: request.context.playingHomework ? 'ok' : 'unavailable', facts: facts.filter(f => f.id.startsWith('playing')), actions: [], data: request.context.playingHomework ?? null });
+          return accept({
+            status: request.context.playingHomework ? 'ok' : 'unavailable',
+            facts: facts.filter((f) => f.id.startsWith('playing')),
+            actions: [],
+            data: request.context.playingHomework ?? null,
+          });
         }
         if (call.name === 'playing_homework_activity') {
-          const {action} = toolArgs.playing_homework_activity.parse(call.args);
+          const { action } = toolArgs.playing_homework_activity.parse(call.args);
           const resolved = resolveTeacherAction(request, action);
-          return resolved ? accept({status:'ok',facts:resolved.facts,actions:[action]}) : {status:'unavailable',facts:[],actions:[],reason:'This step is stale, absent, or a response is active.'};
+          return resolved
+            ? accept({ status: 'ok', facts: resolved.facts, actions: [action] })
+            : {
+                status: 'unavailable',
+                facts: [],
+                actions: [],
+                reason: 'This step is stale, absent, or a response is active.',
+              };
         }
-        if(call.name==='inspect_live_input'){
+        if (call.name === 'inspect_live_input') {
           toolArgs.inspect_live_input.parse(call.args);
-          const live=request.context.live;
-          return accept({status:live?'ok':'unavailable',facts:facts.filter(f=>f.id.startsWith('live')),actions:[],data:live??null});
+          const live = request.context.live;
+          return accept({
+            status: live ? 'ok' : 'unavailable',
+            facts: facts.filter((f) => f.id.startsWith('live')),
+            actions: [],
+            data: live ?? null,
+          });
         }
-        if(call.name==='live_activity'){
-          const {action}=toolArgs.live_activity.parse(call.args);
-          const resolved=resolveTeacherAction(request,action);
-          return resolved?accept({status:'ok',facts:resolved.facts,actions:[action]}):{status:'unavailable',facts:[],actions:[],reason:'This live task is unavailable or another response is active.'};
+        if (call.name === 'live_activity') {
+          const { action } = toolArgs.live_activity.parse(call.args);
+          const resolved = resolveTeacherAction(request, action);
+          return resolved
+            ? accept({ status: 'ok', facts: resolved.facts, actions: [action] })
+            : {
+                status: 'unavailable',
+                facts: [],
+                actions: [],
+                reason: 'This live task is unavailable or another response is active.',
+              };
         }
         if (call.name === 'homework_map') {
           toolArgs.homework_map.parse(call.args);
@@ -809,7 +899,10 @@ export function createTeacherToolRuntime(request: TeacherRequest) {
           };
         }
         if (call.name === 'listening_activity') {
-          const action = { type: 'listening' as const, ...toolArgs.listening_activity.parse(call.args) };
+          const action = {
+            type: 'listening' as const,
+            ...toolArgs.listening_activity.parse(call.args),
+          };
           const resolved = resolveTeacherAction(request, action);
           return resolved
             ? accept({ status: 'ok', facts: resolved.facts, actions: [action] })
@@ -987,6 +1080,7 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
   )
     return null;
   if (t.source === 'forge' && t.review.status !== 'passed') return null;
+  if (t.source === 'forge' && hasProseCoordinates(t.message)) return null;
   if (
     t.source === 'local' &&
     (t.versions.model !== 'authored-adaptive-v1' || t.review.status === 'passed')
@@ -1012,7 +1106,7 @@ export function validateTeacherTurn(value: unknown, request: TeacherRequest): Te
     ((request.context.activeQuestion && !request.context.activeQuestion.assisted) ||
       (request.context.practice?.active && !request.context.practice.active.assisted) ||
       (request.context.homework?.active && !request.context.homework.assisted) ||
-    (request.context.live?.active && !request.context.live.assisted) ||
+      (request.context.live?.active && !request.context.live.assisted) ||
       (request.context.ear?.activeQuestion && !request.context.ear.assisted) ||
       (request.context.listening?.activeQuestion &&
         !request.context.listening.activeQuestion.assisted))
@@ -1059,9 +1153,17 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
   const index = request.context.music.selectedSpan,
     chord = chordAt(request, index);
   const text = request.request.toLowerCase();
+  const playingClaim =
+    /hear me|heard me|how did i play|my technique|did i use|played well|clean chord/.test(text);
+  const conceptual =
+    !playingClaim &&
+    !/detection|detector|input signal/.test(text) &&
+    /why|explain|compare|difference|\brole\b|third|fifth|caged|shape famil|neighbor.*shape/.test(
+      text,
+    );
   const objective = /rootless|extension|ninth|add.?9/.test(text)
     ? 'extensions'
-    : /connect|resolv|voice.?lead|next chord/.test(text)
+    : asksAboutConnection(text)
       ? 'connections'
       : request.context.objective;
   let message = chord
@@ -1118,6 +1220,10 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
           arrival = to.tones.find((t) => t.degree === '3')!;
         message = `In ${from.symbol} → ${to.symbol}, ${departure.noteName} (${DEGREE_LABELS[departure.degree]}) can descend one semitone to ${arrival.noteName} (${DEGREE_LABELS[arrival.degree]}). Find both positions, then hear the connection in the full progression.`;
         factRefs.push(`harmony:${i}`, `harmony:${i + 1}`);
+        actions.push(
+          { type: 'highlight', spanIndex: i, degree: 'b7' },
+          { type: 'highlight', spanIndex: i + 1, degree: '3' },
+        );
         break;
       }
     }
@@ -1287,13 +1393,13 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
       )
         actions.splice(i, 1);
   }
-  if (/hear me|heard me|my playing|how did i play|my technique/.test(text)) {
+  if (playingClaim) {
     message =
       'This app has no microphone or camera assessment. I can use your screen answers or a playing result you report yourself, but I cannot hear your guitar or assess your technique. Describe the part that felt unclear and we can inspect its notes or chord movement.';
     actions.length = 0;
   }
   const hw = request.context.homework;
-  if (hw) {
+  if (hw && !conceptual) {
     actions.length = 0;
     message = `CAGED names five parent major shapes. An E-family shape can sound G major; the family and chord names answer different questions. Use a small fragment, name its notes, then apply those notes in the progression. Your screen answers and self-reported playing remain separate.`;
     referenceIds.push('caged-landmarks');
@@ -1324,47 +1430,93 @@ export function localTeacher(request: TeacherRequest, reason = 'offline'): Teach
         ' The last recorded screen answer did not meet its constraints. We can check the note name and chord role separately; that response alone does not explain why it was missed.';
   }
   const live = request.context.live;
-  if (live) {
+  if (live && !conceptual) {
     actions.length = 0;
     factRefs.push('live-boundary');
     const last = live.evidence.at(-1);
-    const result = { match: 'a supported match', discrepancy: 'a supported difference', unassessed: 'insufficient evidence', interrupted: 'an interruption' };
+    const result = {
+      match: 'a supported match',
+      discrepancy: 'a supported difference',
+      unassessed: 'insufficient evidence',
+      interrupted: 'an interruption',
+    };
     message = last
       ? `The detector reported ${result[last.outcome]} for this response.`
       : 'Connect your clean guitar input, choose a task, then start a response. I can use bounded local detection summaries; I do not receive your audio.';
     if (last) {
       factRefs.push(`live:${last.id}`);
       if (last.detectedPitches.length && last.kind !== 'chords')
-        message += ` The detected notes were ${last.detectedPitches.slice(0, 8).map(p => formatPitch(Math.round(p), false)).join(' → ')}.`;
-      message += ' This is experimental sound evidence. It does not establish which fret or grip you used, clean technique, or timing.';
+        message += ` The detected notes were ${last.detectedPitches
+          .slice(0, 8)
+          .map((p) => formatPitch(Math.round(p), false))
+          .join(' → ')}.`;
+      message +=
+        ' This is experimental sound evidence. It does not establish which fret or grip you used, clean technique, or timing.';
       if (last.assisted || !last.firstResponse)
-        message += ' Help or a previous response was recorded, so this remains separate from unassisted first attempts.';
+        message +=
+          ' Help or a previous response was recorded, so this remains separate from unassisted first attempts.';
     }
     if (last?.outcome === 'unassessed' || last?.outcome === 'interrupted')
-      message += ' No incorrect answer is inferred. Check the input level, or pick the chord tones separately.';
+      message +=
+        ' No incorrect answer is inferred. Check the input level, or pick the chord tones separately.';
     else if (last?.outcome === 'discrepancy')
-      message += ' Isolate one change, compare its notes, then try again. The first response remains recorded.';
+      message +=
+        ' Isolate one change, compare its notes, then try again. The first response remains recorded.';
     if (!live.active && !/stop|no quiz|just explain/.test(text)) {
       const oneNote = /(?:one|single) note/.test(text);
-      const task = live.eligible.find(t => t.id === (!oneNote && last?.kind === 'chords' && last.outcome !== 'match' ? 'live-arpeggio' : 'live-note'));
+      const task = live.eligible.find(
+        (t) =>
+          t.id ===
+          (!oneNote && last?.kind === 'chords' && last.outcome !== 'match'
+            ? 'live-arpeggio'
+            : 'live-note'),
+      );
       if (task) actions.push({ type: 'live', taskId: task.id });
     }
   }
   const playing = request.context.playingHomework;
-  if (playing) {
+  if (playing && !conceptual) {
     actions.length = 0;
     factRefs.push('playing-boundary');
-    const last = playing.evidence.filter(e => e.kind === 'self-report' || e.kind === 'performance-reference').at(-1);
-    if (last?.selfReport) message = `You reported “${last.selfReport.replaceAll('-', ' ')}”. That tells us how the pass felt; it does not verify the notes or position. `;
-    else if (!request.context.live?.evidence.length) message = 'Pick up the guitar and try one small musical idea. You can use the controls without plugging in. ';
+    const last = playing.evidence
+      .filter((e) => e.kind === 'self-report' || e.kind === 'performance-reference')
+      .at(-1);
+    if (last?.selfReport)
+      message = `You reported “${last.selfReport.replaceAll('-', ' ')}”. That tells us how the pass felt; it does not verify the notes or position. `;
+    else if (!request.context.live?.evidence.length)
+      message =
+        'Pick up the guitar and try one small musical idea. You can use the controls without plugging in. ';
     message += /stop|no quiz|just play|just explor/.test(text)
       ? 'We can stop quizzing. Repeat the passage or explore freely, and save what you want to revisit.'
       : 'Try one change slowly, then return it to the progression. A coordinate check is available separately if you want to check the location.';
-    if (/string|fret|caged|clean|technique|timing/.test(text)) message = 'A sounding C does not establish its string, fret, CAGED family, clean technique or timing. Select a coordinate separately if location is the goal. You can still play and report how the pass felt.';
-    if (/could not assess|uncertain/.test(text)) message = 'That result is unassessed, not incorrect. Pick the intended notes individually, check the input level, then return to the chord change. I cannot conclude which note was missing from uncertain audio.';
-    if (/goal/.test(text)) message = 'Change the goal in the stage header, then choose a matching playing step. The active response will be interrupted and its first response preserved. We can focus on hearing a seventh before returning to the progression.';
+    if (playingClaim)
+      message =
+        'A sounding C does not establish its string, fret, CAGED family, clean technique or timing. Select a coordinate separately if location is the goal. You can still play and report how the pass felt.';
+    if (/could not assess|uncertain/.test(text))
+      message =
+        'That result is unassessed, not incorrect. Pick the intended notes individually, check the input level, then return to the chord change. I cannot conclude which note was missing from uncertain audio.';
+    if (/goal/.test(text))
+      message =
+        'Change the goal in the stage header, then choose a matching playing step. The active response will be interrupted and its first response preserved. We can focus on hearing a seventh before returning to the progression.';
     if (!playing.active && !/stop|no quiz|just explain|just play|just explor|goal/.test(text)) {
-      actions.push({type:'playing-homework', operation:/isolat|change/.test(text) && playing.objective==='progression' ? 'isolate' : 'retry', stepId:playing.stepId});
+      actions.push({
+        type: 'playing-homework',
+        operation:
+          /isolat|change/.test(text) && playing.objective === 'progression' ? 'isolate' : 'retry',
+        stepId: playing.stepId,
+      });
+    }
+  }
+  if (conceptual && (playing || hw)) {
+    const explanation = explainHomework(request);
+    if (explanation) {
+      message = explanation.message;
+      actions.splice(0, actions.length, ...explanation.actions);
+      factRefs.splice(0, factRefs.length, ...explanation.factRefs);
+    }
+    if (!/quiz|question|test me/.test(text)) {
+      for (let i = actions.length - 1; i >= 0; i--)
+        if (actions[i]!.type === 'question') actions.splice(i, 1);
     }
   }
   if (

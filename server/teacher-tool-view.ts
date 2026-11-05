@@ -1,5 +1,22 @@
 import type { VoicingNote } from '../src/engine/harmony.js';
-import type { TeacherToolResult } from '../src/shared/teacher.js';
+import type { TeacherRequest, TeacherToolResult } from '../src/shared/teacher.js';
+
+/** Keep musical facts and evidence intact; bound conversational prose separately. */
+export function teacherContextView(context: TeacherRequest['context']) {
+  const history = context.history.slice(-4).map((message) => ({
+    ...message,
+    text:
+      message.text.length > 600
+        ? `${message.text.slice(0, 600)} [message truncated]`
+        : message.text,
+  }));
+  return {
+    ...context,
+    history,
+    historyIsExcerpt:
+      context.history.length > 4 || context.history.some((m) => m.text.length > 600),
+  };
+}
 
 /** The trace retains complete engine output; the model gets the same musical values without repeated model metadata. */
 export function teacherToolView(name: string, result: TeacherToolResult) {

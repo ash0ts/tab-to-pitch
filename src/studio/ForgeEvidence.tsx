@@ -3,6 +3,26 @@ const project = 'https://forge.coreweave.com/wandb/wandb/tab-to-pitch-public-dat
 const lens = 'https://forge.coreweave.com/agent-lens/wandb/tab-to-pitch-public-data-research';
 const studies = [
   {
+    id: 'connected-homework',
+    title: 'Does the teacher stay with the task you are playing?',
+    status: 'Development demo · unqualified',
+    metric: '1 / 3',
+    measure: 'Reviewed hosted replies in the final walkthrough · two local fallbacks',
+    context:
+      'A scripted original-song session: inspect a note, connect CAGED shapes, play two regions, investigate F→E, encounter uncertain input and save a return point. All three requests reached the real teacher endpoint.',
+    limit:
+      'An earlier critic-approved reply contained two wrong fret coordinates. That error is retained. These development examples are not held-out qualification or learner evidence; a local fallback is not an actor success.',
+    links: [
+      ['Walkthrough and interaction references', '/research/notebook/connected-homework.md'],
+      ['Lens · three actual turns', `${lens}/conversations/ff9b2e5e-f499-4b84-ad00-2d419ccb4cb1`],
+      ['Weave · recorded outcomes', `${project}/weave/calls/01a1ad69-9d3e-7ca2-86ed-fd86f566bb90`],
+      [
+        'Tables · retained failures',
+        `${project}/runs/connected-homework-development-v1-comparison`,
+      ],
+    ],
+  },
+  {
     id: 'voicing',
     title: 'Can a model recover a recorded voicing?',
     status: 'Research candidate',
@@ -99,6 +119,29 @@ export function ForgeEvidence() {
           </article>
         ))}
       </div>
+      <details className="evidence-walkthrough">
+        <summary>Watch the connected homework session</summary>
+        <p>
+          Original study, scripted learner, synthetic input. This silent walkthrough uses the
+          on-device guide. The separate Forge recording retains its waiting time and failed replies.
+        </p>
+        <video
+          controls
+          preload="none"
+          poster="/demos/connected-homework/poster.png"
+          aria-label="Original homework walkthrough with the on-device guide"
+        >
+          <source src="/demos/connected-homework/local-guide.mp4" type="video/mp4" />
+          <a href="/demos/connected-homework/local-guide.mp4">Open the local-guide video</a>
+        </video>
+        <p>
+          Find a note → compare a CAGED fragment → play two progression regions → hear F→E → inspect
+          an unassessed input → save and resume.
+        </p>
+        <a href="/demos/connected-homework/forge-walkthrough.mp4" target="_blank" rel="noreferrer">
+          Watch the full real Forge run, including two fallbacks ↗
+        </a>
+      </details>
       <div className="evidence-footnote">
         <strong>What hasn’t run</strong>
         <p>
@@ -111,7 +154,8 @@ export function ForgeEvidence() {
         </a>
         <p>
           Dashboards are private and require project access. No learner recording or private score
-          was uploaded for this redesign. No new inference calls.
+          was uploaded for this work. The connected-homework demonstration used eight new
+          actor/critic calls across three development runs; its report reconciles the shared budget.
         </p>
       </div>
     </section>

@@ -273,13 +273,30 @@ test('the Forge lab shows failed qualifications and keeps learning claims separa
   await expect(lab).toContainText('52/60');
   await expect(lab).toContainText('40% of critical');
   await expect(lab).toContainText('Candidate not promoted');
+  await expect(lab).toContainText('1 / 3');
+  await expect(lab).toContainText('two local fallbacks');
   await expect(lab.getByRole('link', { name: 'Lens · accepted error' })).toHaveAttribute(
     'href',
     /conversations\/93c8126f/,
   );
-  for (const path of ['evidence-audit.md', 'listening-results.md', 'ear-lab-results.md']) {
+  for (const path of [
+    'evidence-audit.md',
+    'listening-results.md',
+    'ear-lab-results.md',
+    'connected-homework.md',
+  ]) {
     const response = await page.request.get(`/research/notebook/${path}`);
     expect(response.status()).toBe(200);
     expect(await response.text()).not.toContain('<div id="root">');
   }
+  await lab.getByText('Watch the connected homework session', { exact: true }).click();
+  const video = lab.getByLabel('Original homework walkthrough with the on-device guide');
+  await expect(video).toBeVisible();
+  await video.evaluate((element: HTMLVideoElement) => element.load());
+  await expect
+    .poll(() => video.evaluate((element: HTMLVideoElement) => element.videoWidth))
+    .toBeGreaterThan(0);
+  const hosted = await page.request.head('/demos/connected-homework/forge-walkthrough.mp4');
+  expect(hosted.status()).toBe(200);
+  expect(hosted.headers()['content-type']).toContain('video/mp4');
 });

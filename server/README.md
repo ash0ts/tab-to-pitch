@@ -265,3 +265,11 @@ requested catalog name, not a provider-guaranteed immutable model revision.
 Listening tools inspect curated passage facts and prepare replay, tonic reference, questions, synthesized bass, fretboard handoff, and related examples. The client applies these through the shared lesson/player controller. No playlist or recording bytes enter the endpoint. The [listening contract](../docs/listening.md) owns source identity and assistance semantics.
 
 The [practice capability](../docs/practice-workspace.md) adds bounded goals, strategies, reflections and distinct evidence. Qualification additionally binds `TEACHER_QUALIFIED_PROMPT`, `TEACHER_QUALIFIED_CRITIC`, `TEACHER_QUALIFIED_MODEL` and `TEACHER_QUALIFIED_CRITIC_MODEL` to the current configuration. The revised prompt is unqualified until a measured campaign passes; prior results do not carry over.
+
+### Homework context and provider failures
+
+Frozen `homework-playing-v1` stimuli supply their own confirmed harmony to the teacher. Imported selected-note and source-symbol facts are omitted for those derived studies. Arrangement preview tools are unavailable inside a frozen playing step; a proposal cannot target the unrelated imported arrangement.
+
+The model receives at most four recent conversation excerpts of 600 characters each, explicitly marked as excerpts, alongside the bounded musical facts and evidence. One completed malformed JSON response with known usage can consume another actor call for protocol repair. The repair shares the existing four-actor-call and 60-second limits; unknown-usage and network failures are not retried. The critic remains a separately accounted model call.
+
+Numerical string/fret instructions belong in verified diagram actions. `teacher-prose.ts` rejects common English coordinate forms in hosted prose, including the incorrect coordinates retained in the connected-homework demo. This is a deliberately narrow guard, not a complete factual verifier. The critic still checks the full explanation, and its historical false approvals remain evidence against qualification. Verified local demonstrations survive a cloud fallback; disputed model prose does not.

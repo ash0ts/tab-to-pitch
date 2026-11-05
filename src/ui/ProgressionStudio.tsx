@@ -111,6 +111,15 @@ export function ProgressionWorkspace(
     >;
   },
 ) {
+  const [teacherBesideTask, setTeacherBesideTask] = useState(
+    () => window.matchMedia('(min-width: 1200px)').matches,
+  );
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1200px)');
+    const update = () => setTeacherBesideTask(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
   const session = useProgressionSession({ ...props, derivedSymbols: props.earSeed?.proposal });
 
   const passage = passageForSource(props.score.hash);
@@ -297,7 +306,9 @@ export function ProgressionWorkspace(
     />
   );
   return (
-    <div className="learning-layout">
+    <div
+      className={`learning-layout ${props.teacherOpen && teacherBesideTask ? 'teacher-beside-task' : ''}`}
+    >
       <div className="learning-task-column">
         {props.stageVisible && (
           <>
@@ -331,6 +342,7 @@ export function ProgressionWorkspace(
                 audioPlaying={props.playing}
                 currentTick={props.currentTick ?? 0}
                 onPlayback={props.onHomeworkPlayback}
+                onAudition={props.onAudition}
                 onWrapUp={props.onHomeworkWrapUp}
                 onStop={props.onStopStudy}
                 onCoordinates={() => {
@@ -411,11 +423,18 @@ export function ProgressionWorkspace(
           </>
         )}
       </div>
-      <Dialog.Root open={props.teacherOpen} onOpenChange={props.onTeacherOpenChange}>
+      <Dialog.Root
+        open={props.teacherOpen}
+        onOpenChange={props.onTeacherOpenChange}
+        modal={!teacherBesideTask}
+      >
         <Dialog.Portal>
           <Dialog.Overlay className="teacher-sheet-overlay" />
           <Dialog.Content
             className="studio-teacher-drawer"
+            onInteractOutside={(event) => {
+              if (teacherBesideTask) event.preventDefault();
+            }}
             onCloseAutoFocus={(event) => {
               event.preventDefault();
               document.getElementById('stage-teacher-button')?.focus();

@@ -1794,3 +1794,139 @@ body .studio-teacher-drawer > p {
     font-size: 8px;
   }
 }
+
+/* Keep the teacher and instrument usable together on a wide practice stage. */
+@media (min-width: 1200px) {
+  .learning-layout.teacher-beside-task {
+    width: calc(100% - 440px);
+    padding-right: 0;
+  }
+  .teacher-beside-task .homework-playfield {
+    grid-template-columns: 1fr;
+  }
+  .studio-shell .teacher-beside-task .homework-play-controls .guitar-toolbar,
+  .studio-shell .teacher-beside-task .homework-play-controls .guitar-actions {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .studio-shell .teacher-beside-task .homework-play-controls .guitar-toolbar label {
+    flex: 1 1 220px;
+  }
+  .studio-shell .teacher-beside-task .homework-play-controls .guitar-actions button {
+    flex: 1 1 140px;
+  }
+  body .studio-teacher-drawer {
+    width: 420px;
+    top: 62px;
+    bottom: 82px;
+    padding: 20px;
+  }
+}
+body .studio-teacher-drawer {
+  --ink: #f1f1ed;
+  --paper: #20283b;
+  --line: #657089;
+  background: #20283b;
+  color: #f1f1ed;
+  border-color: #657089;
+}
+body .studio-teacher-drawer > h2,
+.studio-teacher-drawer .teacher-heading h2 {
+  color: #f1f1ed;
+}
+body .studio-teacher-drawer > p,
+.studio-teacher-drawer :is(.teacher-speaker, .caption, .small-muted, .teacher-context, .eyebrow) {
+  color: #c4ccde;
+}
+.studio-teacher-drawer .teacher-panel {
+  margin: 18px 0 0;
+}
+.studio-teacher-drawer .teacher-heading {
+  gap: 8px;
+  align-items: start;
+}
+.studio-teacher-drawer .teacher-heading > button {
+  display: none;
+}
+.studio-teacher-drawer .teacher-objectives {
+  gap: 6px;
+  margin: 12px 0;
+}
+.studio-teacher-drawer
+  :is(
+    .teacher-objectives button,
+    .secondary-button,
+    textarea,
+    select,
+    input:not([type='checkbox'])
+  ) {
+  background: #29344a;
+  color: #f1f1ed;
+  border: 1px solid #76829b;
+}
+.studio-teacher-drawer .teacher-objectives button[aria-pressed='true'] {
+  background: #435f60;
+}
+.studio-teacher-drawer .teacher-message {
+  background: #2c394d;
+  border-radius: 0;
+  border-color: #91d0ba;
+  padding: 12px;
+}
+.studio-teacher-drawer .teacher-message.user {
+  background: #252d41;
+  border-color: #b7a7d7;
+}
+.studio-teacher-drawer .teacher-message p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.studio-teacher-drawer .teacher-prose :is(p, ul) {
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.studio-teacher-drawer .teacher-prose ul {
+  padding-left: 20px;
+}
+.studio-teacher-drawer .teacher-context {
+  background: #182132;
+  padding: 12px;
+  border-color: #657089;
+}
+.studio-teacher-drawer .teacher-context strong {
+  color: #ffcd86;
+}
+.studio-teacher-drawer :is(a, .text-button) {
+  color: #b5e6d9;
+}
+.studio-teacher-drawer .teacher-recall {
+  background: #29344a;
+  color: #f1f1ed;
+}
+.studio-teacher-drawer > button {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+}
+.studio-teacher-drawer .teacher-conversation {
+  max-height: min(45dvh, 420px);
+}
+.evidence-walkthrough {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid #65708a;
+}
+.evidence-walkthrough summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 0;
+}
+.evidence-walkthrough video {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  background: #151c2b;
+}

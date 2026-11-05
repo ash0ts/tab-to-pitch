@@ -1,5 +1,6 @@
 import { ArrowRight, Flag, Headphones, Play, Repeat2, Check, Guitar } from 'lucide-react';
 import { HOMEWORK_PHASES, homeworkGuide } from '../homework/presentation';
+import { homeworkConnections, homeworkPositions } from '../homework/stimulus';
 import { positionExposureKey } from '../engine/exposure';
 import { useEffect, useRef, useState } from 'react';
 import type { HomeworkSession } from '../hooks/useHomeworkSession';
@@ -7,7 +8,8 @@ import type { PlayingHomeworkSession } from '../hooks/usePlayingHomework';
 import type { LiveGuitarSession } from '../hooks/useLiveGuitar';
 import type { ProgressionSession } from '../hooks/useProgressionSession';
 import type { HomeworkPlayback } from '../shared/homework-playing';
-import { locations, noteAt } from '../engine/caged';
+import { noteAt } from '../engine/caged';
+import type { FretPosition } from '../engine/types';
 import { formatPitch } from '../engine/exploration';
 import { parseChordSymbol } from '../engine/harmony';
 import { DEGREE_LABELS } from '../engine/harmony-exercises';
@@ -42,6 +44,7 @@ export function GuitarHomeworkPanel(props: {
   audioPlaying: boolean;
   currentTick: number;
   onPlayback(study: HomeworkPlayback): void;
+  onAudition(pitches: number[]): void;
   onStop(): void;
   onWrapUp(): void;
   onCoordinates(): void;
@@ -55,12 +58,14 @@ export function GuitarHomeworkPanel(props: {
     [notice, setNotice] = useState('');
   const [reflection, setReflection] = useState(h.state?.reflection ?? '');
   const [chordIndex, setChordIndex] = useState(0);
+  const [inspected, setInspected] = useState<FretPosition | null>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
   const feedbackRequested = useRef(false);
   useEffect(() => {
     setFinishing(false);
     setNotice('');
     setChordIndex(0);
+    setInspected(null);
   }, [step?.id]);
   function stop() {
     props.onStop();
@@ -159,18 +164,29 @@ export function GuitarHomeworkPanel(props: {
       ? parseChordSymbol(currentChord?.symbol ?? step!.title.split(' major')[0]!)
       : null;
   const shown =
-    currentChord?.positions ??
-    (step?.fragment.length
-      ? step.fragment
-      : step
-        ? locations(step.pitches[0]!, props.tuning, props.capo, step.region, step.exact)
-        : []);
+    currentChord?.positions ?? (step ? homeworkPositions(step, props.tuning, props.capo) : []);
+  const connections = step ? homeworkConnections(step, props.tuning, props.capo) : [];
+  function inspect(position: FretPosition) {
+    if (!h.fresh || !props.audioReady || !s || !step) return;
+    // Auditioning a possible answer is support, even when its marker was already visible.
+    if (!p.help('example')) return;
+    const midi = noteAt(position, props.tuning, props.capo);
+    if (midi === undefined || midi === null) return;
+    p.expose([positionExposureKey(props.tuning, props.capo, position)]);
+    setInspected(position);
+    props.onAudition([midi]);
+  }
+  const inspectedMidi = inspected && s?.labels ? noteAt(inspected, props.tuning, props.capo) : null;
+  const inspectedTone =
+    inspectedMidi == null ? null : chord?.tones.find((t) => t.pitchClass === inspectedMidi % 12);
   const markers: FretboardMarker[] =
     s?.labels && step
       ? shown.map((position) => {
           const midi = noteAt(position, props.tuning, props.capo)!;
           const tone = chord?.tones.find((t) => t.pitchClass === midi % 12);
-          const role = tone ? toneRole(tone.degree) : undefined;
+          const connectionRole =
+            step.objective === 'connection' ? (midi % 12 === 5 ? 'seventh' : 'third') : undefined;
+          const role = tone ? toneRole(tone.degree) : connectionRole;
           return {
             position,
             label: `${formatPitch(midi, false)}${tone ? ` · ${tone.degree}` : ''}`,
@@ -477,8 +493,58 @@ export function GuitarHomeworkPanel(props: {
                   maxFret={step.region.maxFret}
                   markers={markers}
                   hideLabels={!s.labels}
+                  selectableAll
+                  onChoose={s.labels && !p.active && props.audioReady ? inspect : undefined}
+                  selectedPositions={s.labels && inspected ? [inspected] : []}
                   label="Suggested guitar locations"
                 />
+                {s.labels && (
+                  <div className="homework-note-inspector" aria-live="polite">
+                    {inspectedMidi != null && inspected ? (
+                      <>
+                        <strong>{formatPitch(inspectedMidi, false)}</strong>
+                        <span>
+                          String {inspected.string} · fret {inspected.fret}
+                        </span>
+                        <span>
+                          {inspectedTone
+                            ? `${DEGREE_LABELS[inspectedTone.degree]} of ${chord!.symbol}`
+                            : step.objective === 'connection' && [4, 5].includes(inspectedMidi % 12)
+                              ? inspectedMidi % 12 === 5
+                                ? 'Seventh of G7'
+                                : 'Third of Cmaj7'
+                              : chord
+                                ? `Outside ${chord.symbol}`
+                                : 'Listen, then find it on your guitar.'}
+                        </span>
+                      </>
+                    ) : (
+                      <span>
+                        Select any position to hear its note. Then play it on your guitar.
+                      </span>
+                    )}
+                  </div>
+                )}
+                {s.labels && connections.length > 0 && (
+                  <div className="homework-connection" aria-label="Seventh to third connection">
+                    <div>
+                      <strong>G7 · F</strong>
+                      <span>seventh</span>
+                    </div>
+                    <span aria-label="descends one semitone">
+                      →<small>1 semitone down</small>
+                    </span>
+                    <div>
+                      <strong>Cmaj7 · E</strong>
+                      <span>third</span>
+                    </div>
+                    <p>
+                      Try string {connections[0]!.from.string}, fret {connections[0]!.from.fret} →
+                      string {connections[0]!.to.string}, fret {connections[0]!.to.fret}. Both notes
+                      belong to the change; pick each, then hear them with the chords.
+                    </p>
+                  </div>
+                )}
                 {s.labels && chord && (
                   <div className="homework-role-key" aria-label="Chord tone colors">
                     {chord.tones
@@ -547,6 +613,45 @@ export function GuitarHomeworkPanel(props: {
                     'Your self-report is saved. It describes how playing felt, not verified correctness.'}
                 </p>
                 <p className="next-cue">{guide?.check}</p>
+                {(last.selfReport === 'needs-another-pass' ||
+                  last.selfReport === 'not-sure' ||
+                  performance?.outcome === 'discrepancy') && (
+                  <div className="homework-retry-options" aria-label="Choose what to investigate">
+                    <span>What would help this pass?</span>
+                    <button
+                      className="secondary-button"
+                      disabled={!props.audioReady || !h.fresh}
+                      onClick={() => audition(true)}
+                    >
+                      Hear the example again
+                    </button>
+                    <button
+                      className="secondary-button"
+                      disabled={!h.fresh}
+                      onClick={() => {
+                        p.help('labels');
+                        p.change({ labels: true });
+                        setNotice(
+                          'Select a note on the map to hear it, then find it on your guitar.',
+                        );
+                      }}
+                    >
+                      Find the notes first
+                    </button>
+                    <button
+                      className="secondary-button"
+                      disabled={!h.fresh}
+                      onClick={() => {
+                        p.apply({ type: 'playing-homework', operation: 'retry', stepId: step.id });
+                        setNotice(
+                          'Try again at your own pace. Your first response stays in the record.',
+                        );
+                      }}
+                    >
+                      Try again on guitar
+                    </button>
+                  </div>
+                )}
                 {performance?.outcome === 'unassessed' && (
                   <p>
                     Pick the notes individually or choose a fragment task, then return to the
