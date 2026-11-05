@@ -1012,6 +1012,7 @@ export default function App() {
     setRevealed(false);
     setRecap(false);
     setMobilePanel(false);
+    if (stageActive && activeActivity === 'homework' && score?.hash === 'tabtopitch-original-study-v1') controller.current?.loadHomeworkDemo();
     if (stageActive && activeActivity === 'listening' && score && !passageForSource(score.hash)) {
       const original = PASSAGES.find((p) => p.id === 'original-c');
       if (original) controller.current?.loadCatalogPassage(original);
@@ -1032,6 +1033,7 @@ export default function App() {
     }
   }, [stageActive, stageSurface, activeActivity]);
   useEffect(() => {
+    if (stageActive && activeActivity === 'homework' && score?.hash === 'tabtopitch-original-study-v1') controller.current?.loadHomeworkDemo();
     if (stageActive && activeActivity === 'listening' && score && !passageForSource(score.hash)) {
       const p = PASSAGES.find((p) => p.id === 'original-c');
       if (p) controller.current?.loadCatalogPassage(p);
@@ -1538,6 +1540,7 @@ export default function App() {
             supportRecorder={recordSupport}
             onReplay={replayCatalog}
             audioReady={player.ready}
+            onHomeworkPlayback={(study) => { stopAudition(); setCountIn(study.countIn); controller.current?.previewHomeworkStudy(study); }}
             onStudy={(study) => {
               stopAudition();
               controller.current?.previewPracticeStudy(study);

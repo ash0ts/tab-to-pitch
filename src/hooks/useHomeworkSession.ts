@@ -1,3 +1,5 @@
+import { playingPlan } from '../homework/planner';
+import { PLAYING_VERSION, type PlayingState, type PlayingEvent } from '../shared/homework-playing';
 import { useEffect, useRef, useState } from 'react';
 import type { useLessonSession } from './useLessonSession';
 import {
@@ -161,7 +163,9 @@ export function useHomeworkSession(
       setFamilyState(first.family);
       setViewState('recall');
       setFeedback('');
+      return true;
     }
+    return false;
   }
   function help(kind: HomeworkSupport) {
     const s = current.current;
@@ -236,8 +240,10 @@ export function useHomeworkSession(
   function resume() {
     const s = current.current;
     if (!s) return;
-    if (s.tasks.some(t => t.variant === null)) {
-      setFeedback('This earlier assignment is preserved as history. Start a new assignment to use the current grading contract.');
+    if (s.tasks.some((t) => t.variant === null)) {
+      setFeedback(
+        'This earlier assignment is preserved as history. Start a new assignment to use the current grading contract.',
+      );
       return;
     }
     if (!fresh) {
@@ -288,6 +294,48 @@ export function useHomeworkSession(
     const s = current.current;
     if (s) commit({ ...s, reflection: text.slice(0, 1000), updatedAt: Date.now() });
   }
+  function updatePlaying(next: PlayingState, observation?: PlayingEvent) {
+    const s = current.current;
+    if (
+      !s ||
+      (s.contextVersion !== context && observation?.kind !== 'interrupted') ||
+      learning.externalRevision
+    )
+      return false;
+    const updated = { ...s, playing: next, updatedAt: Date.now() };
+    const saved = learning.record(
+      { homework: updated },
+      [],
+      observation ? [{ kind: 'homework-playing', exposureKeys: [], playing: observation }] : [],
+    );
+    if (saved) current.current = updated;
+    return !!saved;
+  }
+  function startPlaying(
+    workload: 5 | 15 | 30,
+    harmony: { symbol: string; ticks: number; startTick?: number }[],
+  ) {
+    const steps = playingPlan(context, tuning, capo, setup.region, harmony, workload);
+    if (!steps.length) return;
+    if (!begin(workload, setup.region, setup.symbol, family) || !current.current) return;
+    setViewState('explore');
+    updatePlaying({
+      version: PLAYING_VERSION,
+      steps,
+      index: 0,
+      method: 'self-report',
+      labels: true,
+      countIn: true,
+      responseMeasures: 1,
+      restMeasures: 1,
+      status: 'ready',
+      episodeId: crypto.randomUUID(),
+      responseIndex: 0,
+      startedAt: null,
+      support: [],
+      attemptIds: [],
+    });
+  }
   function playing() {
     const s = current.current;
     if (s)
@@ -310,6 +358,8 @@ export function useHomeworkSession(
   }
   return {
     setup,
+    updatePlaying,
+    startPlaying,
     minutes,
     setMinutes,
     state,

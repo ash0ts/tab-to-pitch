@@ -4,6 +4,7 @@ async function open(page: Page) {
   await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
     timeout: 30000,
   });
+  await page.getByRole('button', {name:'Explore or check the fretboard',exact:true}).click();
   const hw = page.getByRole('region', { name: 'Fretboard homework', exact: true });
   await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByRole('button', { name: 'Open C–F–G–C study' }).click();
@@ -61,6 +62,7 @@ test('homework masks all cells, records assistance before reveal, keeps first an
   await expect(hw.locator('.selected-cell')).toHaveCount(0);
   await expect(hw.locator('.practice-feedback')).toHaveCount(0);
   await page.reload();
+  await page.getByRole('button', {name:'Explore or check the fretboard',exact:true}).click();
   await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByRole('button', { name: 'Open C–F–G–C study' }).click();
   await expect
@@ -143,7 +145,7 @@ test('the teacher starts homework from exploration with the selected workload an
   page,
 }) => {
   const hw = await open(page);
-  await hw.getByText('Workload, neck region & source', { exact: true }).click();
+  if (!(await hw.getByLabel('Suggested workload').isVisible())) await hw.getByText('Workload, neck region & source', { exact: true }).click();
   await hw.getByLabel('Suggested workload').selectOption('5');
   await hw.getByLabel('Homework neck region').selectOption('5');
   const trigger = page.getByRole('button', { name: 'Open music teacher', exact: true });

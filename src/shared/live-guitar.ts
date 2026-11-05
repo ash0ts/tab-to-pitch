@@ -72,6 +72,7 @@ export const liveContractSchema = z
     pitches: z.array(midi).max(32),
     chords: z.array(chordHypothesisSchema.omit({ score: true })).max(8),
     exactOctave: z.boolean(),
+    order: z.enum(['ordered', 'any']).optional(),
     semitoneSteps: z.array(z.number().int().min(-24).max(24)).max(31).optional(),
     positionVerified: z.literal(false),
     timingGraded: z.literal(false),
@@ -80,7 +81,7 @@ export const liveContractSchema = z
   .refine(
     (t) =>
       !t.semitoneSteps ||
-      (t.kind === 'sequence' && t.semitoneSteps.length === t.pitches.length - 1),
+      (t.kind === 'sequence' && t.order !== 'any' && t.semitoneSteps.length === t.pitches.length - 1),
   )
   .refine((t) =>
     t.kind === 'chords'

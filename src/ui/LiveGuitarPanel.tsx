@@ -28,7 +28,9 @@ export function LiveGuitarPanel({
   onReplay,
   listOutputs,
   selectOutput,
+  setupOnly = false,
 }: {
+  setupOnly?: boolean;
   session: LiveGuitarSession;
   blocked: boolean;
   onReplay(): void;
@@ -105,7 +107,7 @@ export function LiveGuitarPanel({
       : 'Could not assess yet';
   const showResult = !masked && view === 'explore';
   return (
-    <section className="live-guitar-panel" aria-label="Play with my guitar">
+    <section className="live-guitar-panel" aria-label={setupOnly ? "Optional guitar input" : "Play with my guitar"}>
       <header className="live-heading">
         <div>
           <span className="eyebrow">Your instrument, in this lesson</span>
@@ -270,6 +272,7 @@ export function LiveGuitarPanel({
           {s.error || notice}
         </p>
       )}
+      {!setupOnly && <>
       <nav className="live-controls" aria-label="Live feedback mode">
         <button
           className="secondary-button"
@@ -436,6 +439,7 @@ export function LiveGuitarPanel({
           unassessed or interrupted. These do not count as verified fretboard fluency.
         </p>
       </details>
+      </>}
     </section>
   );
 }

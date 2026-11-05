@@ -1,0 +1,1253 @@
+{
+  "protocol": "guitar-homework-v1",
+  "caseHash": "53ecb292af90b993766b5bda602a48d78272764107c37f381aed63d54f8e3325",
+  "rows": [
+    {
+      "id": "stop-quizzing",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "7c00ccfb-eec8-43e9-aa0c-3f8acca8883e",
+        "lessonId": "373bb3dc-d161-48d7-b72e-69e84f265ab8",
+        "turnId": "269319c3-f45d-424a-9e69-5fc86e8a002d",
+        "contextVersion": "evaluation:0:1",
+        "request": "Stop quizzing me. I just want to play the change.",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:0",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 0,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [],
+          "history": [],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "373bb3dc-d161-48d7-b72e-69e84f265ab8",
+        "turnId": "269319c3-f45d-424a-9e69-5fc86e8a002d",
+        "contextVersion": "evaluation:0:1",
+        "source": "local",
+        "message": "Pick up the guitar and try one small musical idea. You can use the controls without plugging in. We can stop quizzing. Repeat the passage or explore freely, and save what you want to revisit.",
+        "actions": [],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "changed-goal",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "cb0a95d8-9b61-479b-a99a-069b526705c9",
+        "lessonId": "cbc58ca0-0eab-4c23-a339-62ea50fdd877",
+        "turnId": "0a1e61a8-0092-4879-ab93-ca2418df1362",
+        "contextVersion": "evaluation:0:1",
+        "request": "I want to hear the seventh now. Let us change the goal.",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:0",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 0,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [
+            {
+              "id": "answer-1",
+              "kind": "chord-tone",
+              "outcome": "incorrect",
+              "assisted": false,
+              "response": "root",
+              "mode": "recall",
+              "elapsedDays": 1
+            }
+          ],
+          "history": [
+            {
+              "role": "user",
+              "text": "I want to notice one change and decide how to practice it."
+            },
+            {
+              "role": "assistant",
+              "text": "We can compare, construct, or answer a question. You can change approach."
+            }
+          ],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "cbc58ca0-0eab-4c23-a339-62ea50fdd877",
+        "turnId": "0a1e61a8-0092-4879-ab93-ca2418df1362",
+        "contextVersion": "evaluation:0:1",
+        "source": "local",
+        "message": "Change the goal in the stage header, then choose a matching playing step. The active response will be interrupted and its first response preserved. We can focus on hearing a seventh before returning to the progression.",
+        "actions": [],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "identity-role",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "43271db3-5dc6-4a11-b866-63234ac2cc8c",
+        "lessonId": "c564ca47-1c71-487d-9fd3-185a28ad5c3a",
+        "turnId": "387a00d2-df01-4ed1-84fd-dec217a98f61",
+        "contextVersion": "evaluation:1:1",
+        "request": "I found C but called it the root of F major. Is that role right?",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:1",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              38
+            ],
+            "capo": 0,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [],
+          "history": [],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "c564ca47-1c71-487d-9fd3-185a28ad5c3a",
+        "turnId": "387a00d2-df01-4ed1-84fd-dec217a98f61",
+        "contextVersion": "evaluation:1:1",
+        "source": "local",
+        "message": "Pick up the guitar and try one small musical idea. You can use the controls without plugging in. Try one change slowly, then return it to the progression. A coordinate check is available separately if you want to check the location.",
+        "actions": [
+          {
+            "type": "playing-homework",
+            "operation": "retry",
+            "stepId": "authored-c-f"
+          }
+        ],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "unsupported-fingering",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "72b726d4-aede-4f0a-b0bb-fb14dc90e50c",
+        "lessonId": "9531e6a8-7066-4698-8e30-7e25e220294f",
+        "turnId": "ff330fc5-8fe8-48a8-9d70-0b0442aa3c57",
+        "contextVersion": "evaluation:1:1",
+        "request": "I played a C. Did I use the right string and CAGED family?",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:1",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              38
+            ],
+            "capo": 0,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [
+            {
+              "id": "answer-1",
+              "kind": "chord-tone",
+              "outcome": "incorrect",
+              "assisted": false,
+              "response": "root",
+              "mode": "recall",
+              "elapsedDays": 1
+            }
+          ],
+          "history": [
+            {
+              "role": "user",
+              "text": "I want to notice one change and decide how to practice it."
+            },
+            {
+              "role": "assistant",
+              "text": "We can compare, construct, or answer a question. You can change approach."
+            }
+          ],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "9531e6a8-7066-4698-8e30-7e25e220294f",
+        "turnId": "ff330fc5-8fe8-48a8-9d70-0b0442aa3c57",
+        "contextVersion": "evaluation:1:1",
+        "source": "local",
+        "message": "A sounding C does not establish its string, fret, CAGED family, clean technique or timing. Select a coordinate separately if location is the goal. You can still play and report how the pass felt.",
+        "actions": [
+          {
+            "type": "playing-homework",
+            "operation": "retry",
+            "stepId": "authored-c-f"
+          }
+        ],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "uncertain-input",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "5c107a47-811a-40cc-8ba7-1ec6ed847afa",
+        "lessonId": "29558aba-5624-4bef-b72b-c1279f951d44",
+        "turnId": "a7f421ef-8e43-4f42-9e90-050040f1bb17",
+        "contextVersion": "evaluation:2:1",
+        "request": "The input could not assess my chord. Should I isolate the notes?",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:2",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 2,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [],
+          "history": [],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "29558aba-5624-4bef-b72b-c1279f951d44",
+        "turnId": "a7f421ef-8e43-4f42-9e90-050040f1bb17",
+        "contextVersion": "evaluation:2:1",
+        "source": "local",
+        "message": "That result is unassessed, not incorrect. Pick the intended notes individually, check the input level, then return to the chord change. I cannot conclude which note was missing from uncertain audio.",
+        "actions": [
+          {
+            "type": "playing-homework",
+            "operation": "isolate",
+            "stepId": "authored-c-f"
+          }
+        ],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "after-playing",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "67e208c5-4701-433c-a02c-6d9a5a38f2f8",
+        "lessonId": "14b973ee-2fb1-45e6-849d-559ecfef8b7e",
+        "turnId": "d67c3a21-4cbe-43b4-ae2d-fa42420b4883",
+        "contextVersion": "evaluation:2:1",
+        "request": "I reported needs another pass. Help me isolate the chord change.",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:2",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": [
+              {
+                "stepId": "authored-c-f",
+                "episodeId": "00000000-0000-4000-8000-000000000005",
+                "responseIndex": 0,
+                "sourceRevision": "original-v1",
+                "method": "self-report",
+                "kind": "self-report",
+                "selfReport": "needs-another-pass",
+                "assisted": false
+              }
+            ]
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 2,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [
+            {
+              "id": "answer-1",
+              "kind": "chord-tone",
+              "outcome": "incorrect",
+              "assisted": false,
+              "response": "root",
+              "mode": "recall",
+              "elapsedDays": 1
+            }
+          ],
+          "history": [
+            {
+              "role": "user",
+              "text": "I want to notice one change and decide how to practice it."
+            },
+            {
+              "role": "assistant",
+              "text": "We can compare, construct, or answer a question. You can change approach."
+            }
+          ],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "14b973ee-2fb1-45e6-849d-559ecfef8b7e",
+        "turnId": "d67c3a21-4cbe-43b4-ae2d-fa42420b4883",
+        "contextVersion": "evaluation:2:1",
+        "source": "local",
+        "message": "You reported “needs another pass”. That tells us how the pass felt; it does not verify the notes or position. Try one change slowly, then return it to the progression. A coordinate check is available separately if you want to check the location.",
+        "actions": [
+          {
+            "type": "playing-homework",
+            "operation": "isolate",
+            "stepId": "authored-c-f"
+          }
+        ],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "help-active",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "4c6a6f39-e882-4f3a-ad7b-3a3523a074a9",
+        "lessonId": "ce603471-1ca8-41b1-bc9a-9fa69225115e",
+        "turnId": "b72634b7-a122-43a2-aa6f-ef7ad471497e",
+        "contextVersion": "evaluation:0:1",
+        "request": "Explain the target while I am making an attempt without labels.",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:0",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": true,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 0,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [],
+          "history": [],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "ce603471-1ca8-41b1-bc9a-9fa69225115e",
+        "turnId": "b72634b7-a122-43a2-aa6f-ef7ad471497e",
+        "contextVersion": "evaluation:0:1",
+        "source": "local",
+        "message": "A question is active. Use “Ask for help” first; help is recorded before an explanation appears.",
+        "actions": [],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "stale-step",
+      "request": {
+        "schemaVersion": "teacher-v5",
+        "capabilities": [
+          "teaching-practice-v1",
+          "homework-playing-v1"
+        ],
+        "requestId": "274675d8-52ca-4dbb-b657-ecad68be5242",
+        "lessonId": "52b675c9-253d-4c6b-9827-db13b300b99e",
+        "turnId": "933a16f5-daae-4ec9-b4e4-9feb59b93bc9",
+        "contextVersion": "evaluation:0:1",
+        "request": "Switch to a task that is no longer in my assignment.",
+        "context": {
+          "objective": "connections",
+          "practice": {
+            "capability": "teaching-practice-v1",
+            "goal": {
+              "wording": "Notice the chord change",
+              "target": "Identify one audible difference",
+              "context": "evaluation:0",
+              "chosenAt": 1
+            },
+            "strategy": null,
+            "reflection": null,
+            "active": null,
+            "evidence": [],
+            "reserved": [
+              "musicianship-v1:rhythm:0",
+              "musicianship-v1:phrase:0",
+              "musicianship-v1:expression:0"
+            ]
+          },
+          "playingHomework": {
+            "capability": "homework-playing-v1",
+            "revision": 1,
+            "active": false,
+            "assisted": false,
+            "stepId": "authored-c-f",
+            "objective": "progression",
+            "method": "self-report",
+            "eligible": [
+              {
+                "id": "authored-c-f",
+                "title": "Play C–F"
+              }
+            ],
+            "evidence": []
+          },
+          "music": {
+            "tuning": [
+              64,
+              59,
+              55,
+              50,
+              45,
+              40
+            ],
+            "capo": 0,
+            "key": {
+              "tonic": "C",
+              "mode": "ionian"
+            },
+            "selectedSpan": 0,
+            "spans": [
+              {
+                "symbol": "G7",
+                "confirmed": true,
+                "startTick": 0,
+                "endTick": 3840,
+                "melody": []
+              },
+              {
+                "symbol": "Cmaj7",
+                "confirmed": true,
+                "startTick": 3840,
+                "endTick": 7680,
+                "melody": []
+              }
+            ]
+          },
+          "constraints": {
+            "minFret": 0,
+            "maxFret": 12,
+            "strings": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "voiceCount": 4,
+            "maxSpan": 4,
+            "allowOpenStrings": true,
+            "omitFifth": false,
+            "rootless": false,
+            "bass": "any",
+            "preserveMelody": false
+          },
+          "bass": [],
+          "evidence": [
+            {
+              "id": "answer-1",
+              "kind": "chord-tone",
+              "outcome": "incorrect",
+              "assisted": false,
+              "response": "root",
+              "mode": "recall",
+              "elapsedDays": 1
+            }
+          ],
+          "history": [
+            {
+              "role": "user",
+              "text": "I want to notice one change and decide how to practice it."
+            },
+            {
+              "role": "assistant",
+              "text": "We can compare, construct, or answer a question. You can change approach."
+            }
+          ],
+          "exposures": [],
+          "activeQuestion": null
+        }
+      },
+      "output": {
+        "schemaVersion": "teacher-v5",
+        "lessonId": "52b675c9-253d-4c6b-9827-db13b300b99e",
+        "turnId": "933a16f5-daae-4ec9-b4e4-9feb59b93bc9",
+        "contextVersion": "evaluation:0:1",
+        "source": "local",
+        "message": "Pick up the guitar and try one small musical idea. You can use the controls without plugging in. Try one change slowly, then return it to the progression. A coordinate check is available separately if you want to check the location.",
+        "actions": [
+          {
+            "type": "playing-homework",
+            "operation": "retry",
+            "stepId": "authored-c-f"
+          }
+        ],
+        "factRefs": [
+          "harmony:0",
+          "harmony:1",
+          "playing-boundary"
+        ],
+        "referenceIds": [
+          "gordon-context"
+        ],
+        "claims": [],
+        "versions": {
+          "policy": "teacher-v1",
+          "prompt": "teacher-tools-v8-integrated",
+          "model": "authored-adaptive-v1",
+          "curriculum": "teacher-curriculum-v1"
+        },
+        "review": {
+          "status": "local",
+          "reasons": []
+        },
+        "fallbackReason": "offline"
+      },
+      "validationError": null,
+      "arm": "authored-policy",
+      "status": "executed",
+      "inferenceCalls": 0
+    }
+  ],
+  "cloud": {
+    "actor": "unexecuted",
+    "critic": "unexecuted",
+    "qualification": "not-assessed"
+  },
+  "costDollars": 0,
+  "limitations": "Local action/reference checks only. No claim of conversational quality, detector qualification or improved learning."
+}

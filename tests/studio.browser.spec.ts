@@ -31,6 +31,7 @@ test('studio opens a focused CAGED task, records assistance and resumes a bookma
   await open(page);
   await expect(page.getByRole('heading', { name: 'A little practice. More music.' })).toBeVisible();
   await page.getByRole('button', { name: 'Continue practicing' }).click();
+  await page.getByRole('button', {name:'Explore or check the fretboard',exact:true}).click();
   await expect(page.getByRole('button', { name: 'Start homework', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Start homework', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Check answer', exact: true })).toBeVisible();

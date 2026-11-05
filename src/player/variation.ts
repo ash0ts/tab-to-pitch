@@ -6,7 +6,7 @@ function gcd(a: number, b: number): number {
 }
 
 /** Exact tick duration. Ordinary values engrave normally; other ratios retain their tuplet timing. */
-function timedBeat(ticks: number): model.Beat {
+export function timedBeat(ticks: number): model.Beat {
   if (!Number.isInteger(ticks) || ticks <= 0)
     throw new Error('The variation has an invalid duration.');
   const beat = new model.Beat();

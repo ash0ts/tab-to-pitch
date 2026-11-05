@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { playingStateSchema } from './homework-playing.js';
 export const HOMEWORK_VERSION = 'homework-caged-v1';
 const text = z.string().min(1).max(500);
 const time = z.number().finite().nonnegative();
@@ -72,6 +73,7 @@ export type HomeworkObservation = z.infer<typeof homeworkObservationSchema>;
 export const homeworkAssignmentSchema = z
   .object({
     version: z.literal(HOMEWORK_VERSION),
+    playing: playingStateSchema.optional(),
     id: text,
     lessonId: z.string().uuid(),
     goal: text,

@@ -1,3 +1,5 @@
+import { buildHomeworkStudy, homeworkVariation } from './homework-study';
+import type { HomeworkPlayback } from '../shared/homework-playing';
 import { earScore } from './ear-score';
 import type { EarStudy } from '../ear/model';
 import { PlaybackClockBridge } from '../live/clock';
@@ -466,8 +468,24 @@ export class PlayerController {
 
   previewPracticeStudy(study: TimedStudy): void {
     if (!this.sourceScore || this.disposed || this.pendingReplay) return;
-    const score = buildPracticeScore(study);
-    this.studyIdentity = study.id;
+    this.previewDerivedStudy(buildPracticeScore(study), study.id);
+  }
+
+  previewHomeworkStudy(study: HomeworkPlayback): void {
+    if (!this.sourceScore || this.disposed) return;
+    this.setCountIn(study.countIn);
+    const variation = homeworkVariation(study);
+    if (variation) {
+      this.previewVariation(variation, study.trackIndex ?? this.state.activeTrack);
+      this.setLoop(variation.events[0]!.startTick, variation.events.at(-1)!.endTick);
+      this.pendingSeek = variation.events[0]!.startTick;
+      this.pendingReplay = true;
+      this.playWhenReady();
+    } else this.previewDerivedStudy(buildHomeworkStudy(study), study.step.stimulusId);
+  }
+
+  private previewDerivedStudy(score: alphaTab.model.Score, identity: string): void {
+    this.studyIdentity = identity;
     playback.stopAll();
     this.api.pause();
     this.api.playbackRange = null;

@@ -1,0 +1,136 @@
+import { test, expect, type Page } from '@playwright/test';
+import { syntheticInput, play } from './guitar-input-fixture';
+async function open(page: Page) {
+  await page.goto('/#/stage/homework');
+  const hw = page.getByRole('region', { name: 'Guitar homework', exact: true });
+  await expect(page.getByRole('button', { name: 'Play score', exact: true })).toBeEnabled({
+    timeout: 30000,
+  });
+  await hw.getByRole('button', { name: 'Start guitar homework', exact: true }).click();
+  await expect(hw.getByRole('heading', { name: 'Find C', exact: true })).toBeVisible();
+  return hw;
+}
+async function data(page: Page) {
+  return page.evaluate(async () => {
+    const path = '/src/storage.ts';
+    return (await import(path)).getLessonData();
+  });
+}
+test('unplugged playing preserves reports, help, first response and resume', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  const hw = await open(page);
+  await hw.getByRole('button', { name: 'Try without labels' }).click();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await expect(hw).toContainText('Play at your own pace');
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await hw.getByRole('button', { name: 'Needs another pass', exact: true }).click();
+  await expect(hw).toContainText('You reported: Needs another pass');
+  await hw.getByRole('button', { name: 'Hear example', exact: true }).click();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await hw.getByRole('button', { name: 'Felt secure', exact: true }).click();
+  const saved = await data(page),
+    answers = saved.lessonEvents.filter((e: any) => e.playing?.kind === 'self-report');
+  expect(
+    answers.map((e: any) => [e.playing.responseIndex, e.playing.selfReport, e.playing.assisted]),
+  ).toEqual([
+    [0, 'needs-another-pass', false],
+    [1, 'felt-secure', true],
+  ]);
+  expect(new Set(answers.map((e: any) => e.playing.episodeId)).size).toBe(1);
+  expect(saved.lessonEvents.filter((e: any) => e.live?.attempt)).toHaveLength(0);
+  await hw.getByRole('button', { name: 'Next musical step' }).click();
+  await expect(hw.getByRole('heading', { name: 'Find F', exact: true })).toBeVisible();
+  await expect(hw.getByText('Homework saved on this device', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(hw.getByRole('heading', { name: 'Find F', exact: true })).toBeVisible({
+    timeout: 30000,
+  });
+  await hw.scrollIntoViewIfNeeded();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+    await page.evaluate(() => document.documentElement.clientWidth),
+  );
+  await page.screenshot({ path: `../guitar-homework-${info.project.name}.png` });
+  expect(errors).toEqual([]);
+});
+test('optional input stays in the assignment and uncertainty remains unassessed', async ({
+  page,
+}) => {
+  await syntheticInput(page);
+  const hw = await open(page);
+  await hw.getByLabel('Response method').selectOption('live');
+  await hw.getByRole('button', { name: 'Connect guitar', exact: true }).click();
+  await expect(hw.getByText('● Listening locally', { exact: true })).toBeVisible();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await play(page, [60]);
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await expect(hw.getByText('Supported match', { exact: true })).toBeVisible();
+  await play(page, [], 0.2);
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await expect(hw.getByText('Could not assess', { exact: true })).toBeVisible();
+  const saved = await data(page);
+  const refs = saved.lessonEvents.filter((e: any) => e.playing?.performanceAttemptId);
+  const attempts = saved.lessonEvents.flatMap((e: any) =>
+    e.live?.attempt ? [e.live.attempt] : [],
+  );
+  expect(refs).toHaveLength(2);
+  expect(attempts.map((a: any) => a.outcome)).toEqual(['match', 'unassessed']);
+  expect(refs.map((e: any) => e.playing.performanceAttemptId)).toEqual(
+    attempts.map((a: any) => a.id),
+  );
+  expect(attempts.every((a: any) => !a.positionVerified && !a.timingGraded)).toBe(true);
+  await hw.getByLabel('Response method').selectOption('self-report');
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await hw.getByRole('button', { name: 'Not sure', exact: true }).click();
+  const reports = (await data(page)).lessonEvents.filter(
+    (e: any) => e.playing?.kind === 'self-report',
+  );
+  expect(reports[0].playing.responseIndex).toBe(2);
+  expect(reports[0].playing.episodeId).toBe(attempts[0].episodeId);
+});
+test('teacher help precedes exposure and uses the v5 homework context', async ({ page }) => {
+  const hw = await open(page);
+  await hw.getByRole('button', { name: 'Try without labels' }).click();
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await page.getByRole('button', { name: 'Open music teacher', exact: true }).click();
+  const teacher = page.getByRole('region', { name: 'Music teacher', exact: true });
+  await expect(teacher.getByRole('textbox', { name: 'Your question', exact: true })).toHaveCount(0);
+  await teacher.getByRole('button', { name: 'Ask for help and show the conversation' }).click();
+  expect((await data(page)).lessonEvents.some((e: any) => e.playing?.support === 'teacher')).toBe(
+    true,
+  );
+  await teacher
+    .getByRole('textbox', { name: 'Your question', exact: true })
+    .fill('Stop quizzing me. I just want to play.');
+  await teacher.getByRole('button', { name: 'Ask on-device guide', exact: true }).click();
+  await expect(teacher.getByRole('log')).toContainText(/play|explor/i);
+  await expect(teacher.getByText('The teacher request is invalid', { exact: false })).toHaveCount(
+    0,
+  );
+});
+test('source changes and reload interrupt an attempt without replacing its first response', async ({
+  page,
+}) => {
+  const hw = await open(page);
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await expect(hw.getByText('Homework saved on this device', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(hw.getByText('Attempt interrupted', { exact: true })).toBeVisible({
+    timeout: 30000,
+  });
+  await hw.getByRole('button', { name: 'Play along', exact: true }).click();
+  await hw.getByRole('button', { name: 'Finish attempt', exact: true }).click();
+  await hw.getByRole('button', { name: 'Felt secure', exact: true }).click();
+  const events = (await data(page)).lessonEvents.filter(
+    (e: any) => e.playing && ['interrupted', 'self-report'].includes(e.playing.kind),
+  );
+  expect(events.map((e: any) => [e.playing.kind, e.playing.responseIndex])).toEqual([
+    ['interrupted', 0],
+    ['self-report', 1],
+  ]);
+});
