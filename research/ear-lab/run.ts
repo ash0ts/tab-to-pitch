@@ -201,12 +201,12 @@ async function prepare() {
     [
       resolve(
         arg('--history-root') ??
-          '/Users/ashah/conductor/workspaces/core/lima/.context/tabtopitch-real-data',
+          process.env.TABTOPITCH_HISTORY_ROOT ?? join(root, '.local/tabtopitch-real-data'),
       ),
       join(root, '.local/research'),
     ],
     resolve(
-      '/Users/ashah/conductor/workspaces/core/lima/.context/tabtopitch-forge-demo/live-coach.json',
+      process.env.TABTOPITCH_PRIOR_COACH_JSON ?? join(root, '.local/tabtopitch-forge-demo/live-coach.json'),
     ),
   );
   const budget = createBudgetLedger(prior);
